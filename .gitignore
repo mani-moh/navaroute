@@ -1,0 +1,22 @@
+# Private BPB sources and local private subscriptions (NEVER COMMIT)
+sources.private.json
+private_subs/
+.env
+
+# SDD scratch workspace
+.superpowers/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Local binaries & temp
+xray*
+*.exe
+*.zip
+*.db.bak*
