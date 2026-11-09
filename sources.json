@@ -1,0 +1,604 @@
+{
+  "sources": [
+    {
+      "id": "patterniha-free",
+      "name": "Patterniha Free",
+      "url": "https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["patterniha", "verified", "pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "0xradikal-verified",
+      "name": "0xRadikal Verified",
+      "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["verified"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "itsyebekhe-psg-mix",
+      "name": "ItsYebekhe PSG Mix",
+      "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/mix",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "delta-kronecker-all",
+      "name": "Delta Kronecker All",
+      "url": "https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/all_configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "mahsanet-mtn",
+      "name": "MahsaNet MTN",
+      "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mtn/sub_1.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "mtn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "whitedns-base64",
+      "name": "WhiteDNS Base64",
+      "url": "https://raw.githubusercontent.com/iampedii/whitedns-sub/refs/heads/main/base64.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "whitedns"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "openproxylist-raw",
+      "name": "OpenProxyList Raw",
+      "url": "https://openproxylist.com/v2ray/rawlist/text",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "4n0nymou3-tested",
+      "name": "4n0nymou3 Tested",
+      "url": "https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs_tested.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["verified"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "roosterkid-openproxylist",
+      "name": "RoosterKid OpenProxyList",
+      "url": "https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_RAW.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "whitedns-cf",
+      "name": "WhiteDNS CF",
+      "url": "https://raw.githubusercontent.com/iampedii/whitedns-sub/refs/heads/main/cloudflare-base64.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "whitedns", "cdn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "arshiacomplus-extractor",
+      "name": "ArshiaComPlus Extractor",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/refs/heads/main/mix/sub.html",
+      "verified_upstream": false,
+      "format": "html",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "shadowexception-vpn",
+      "name": "ShadowException VPN",
+      "url": "https://raw.githubusercontent.com/ShadowException/VPN/refs/heads/main/configs/VPN-cat",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "zieng2-wl",
+      "name": "Zieng2 Whitelist",
+      "url": "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["vless", "whitelist"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "v2freehub-sub",
+      "name": "V2FreeHub Sub",
+      "url": "https://raw.githubusercontent.com/v2FreeHub/v2hub-configs/refs/heads/main/Sub-AutoUpdate",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "prominbro-212",
+      "name": "ProminBro 212",
+      "url": "https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "mahdi0024-proxycollector",
+      "name": "Mahdi0024 ProxyCollector",
+      "url": "https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["verified", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "luxxuria-speed-tested",
+      "name": "Luxxuria Speed Tested",
+      "url": "https://raw.githubusercontent.com/luxxuria/harvester/refs/heads/main/speed_tested.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["verified"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "barry-far-all",
+      "name": "Barry Far All",
+      "url": "https://raw.githubusercontent.com/barry-far/V2ray-config/main/All_Configs_Sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "epodonios-all",
+      "name": "Epodonios All",
+      "url": "https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "ebrasha-all",
+      "name": "EbraSha All",
+      "url": "https://raw.githubusercontent.com/ebrasha/free-v2ray-public-list/refs/heads/main/V2Ray-Config-By-EbraSha-All-Type.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "matinghanbari-all",
+      "name": "MatinGhanbari All",
+      "url": "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/all_sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "solispirit-all",
+      "name": "SoliSpirit All",
+      "url": "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/all_configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "ripaojiedian-freenode",
+      "name": "Ripaojiedian Freenode",
+      "url": "https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "pawdroid-free-servers",
+      "name": "Pawdroid Free Servers",
+      "url": "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "leon406-subcrawler-vless",
+      "name": "Leon406 SubCrawler Vless",
+      "url": "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/vless",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["vless"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "ermaozi-get-subscribe",
+      "name": "Ermaozi Get Subscribe",
+      "url": "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "peasoft-nomorewalls",
+      "name": "Peasoft NoMoreWalls",
+      "url": "https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "hncgs-homayoun",
+      "name": "HnCgs Homayoun",
+      "url": "https://raw.githubusercontent.com/HnCgs/HomayounConfigs/refs/heads/main/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "patterniha-serverless",
+      "name": "Patterniha Serverless",
+      "url": "https://raw.githubusercontent.com/patterniha/Serverless-for-Iran/refs/heads/main/Subscription/Serverless-for-Iran.json",
+      "verified_upstream": true,
+      "format": "xray_json",
+      "tags": ["patterniha", "verified", "iran", "serverless", "json"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "kahrobas-bot",
+      "name": "Kahrobas Bot",
+      "url": "https://bot.kahrobas.shop/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "shima800-alwaysconnected",
+      "name": "Shima800 AlwaysConnected",
+      "url": "https://gist.githubusercontent.com/shima800/26d85acb40c118a1cb72e1ad297ebe31/raw/5d5d49a125e9d34760fb8a8fa869f98711d2564d/AlwaysConnected.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "farid-karimi-mixed-iran",
+      "name": "Farid Karimi Mixed Iran",
+      "url": "https://raw.githubusercontent.com/Farid-Karimi/Config-Collector/main/mixed_iran.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "farid-karimi-vless-iran",
+      "name": "Farid Karimi Vless Iran",
+      "url": "https://raw.githubusercontent.com/Farid-Karimi/Config-Collector/main/vless_iran.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "vless", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "theconfigs-hcaptcha",
+      "name": "TheConfigs Hcaptcha",
+      "url": "https://raw.githubusercontent.com/TheConfigs/hcaptcha-configs/main/hcaptchaCONFIGS.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "masir-sefid",
+      "name": "Masir Sefid",
+      "url": "https://raw.githubusercontent.com/masir-sefid/Sub/main/Telegram-Channel-@Masir_Sefid.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "whitelist", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "mahankenway-freedom",
+      "name": "MahanKenway Freedom",
+      "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/mix_sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "miladtahanian-mixed-iran",
+      "name": "MiladTahanian Mixed Iran",
+      "url": "https://raw.githubusercontent.com/miladtahanian/Config-Collector/main/mixed_iran.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "igareck-vless-rus",
+      "name": "Igareck Vless Rus",
+      "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS_mobile.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["whitelist", "vless", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "free1zona-keyfreetee",
+      "name": "Free1Zona Keyfreetee",
+      "url": "https://raw.githubusercontent.com/free1zona/Keyfreetee/refs/heads/main/razlo4ka7",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["whitelist", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "ewecrow78-whitelist1",
+      "name": "Ewecrow78 Whitelist1",
+      "url": "https://raw.githubusercontent.com/ewecrow78-gif/whitelist1/main/list.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["whitelist", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "peweza-publicsub",
+      "name": "Peweza PublicSub",
+      "url": "https://raw.githubusercontent.com/peweza/PUBLICSUB/refs/heads/main/PewezaVPNPubSUB",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "4n0nymou3-all",
+      "name": "4n0nymou3 All",
+      "url": "https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "blueknight-sub",
+      "name": "BlueKnight Sub",
+      "url": "https://raw.githubusercontent.com/BlueKnightNet/blueknight_net-sub-link/refs/heads/blue-knight-net/BlueKnight.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "0xradikal-all",
+      "name": "0xRadikal All",
+      "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "itsyebekhe-psg-cdn",
+      "name": "ItsYebekhe PSG CDN",
+      "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/cdn",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "cdn", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "delta-kronecker-patt",
+      "name": "Delta Kronecker Patt",
+      "url": "https://raw.githubusercontent.com/Delta-Kronecker/V2ray-Config/refs/heads/main/config/patt/all.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["patterniha", "verified", "pattn", "iran", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "delta-kronecker-frag-json",
+      "name": "Delta Kronecker Frag JSON",
+      "url": "https://raw.githubusercontent.com/Delta-Kronecker/V2ray-Config/refs/heads/main/config/farg/all_configs.json",
+      "verified_upstream": false,
+      "format": "xray_json",
+      "tags": ["iran", "json", "fragment", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "mahsanet-frag-json",
+      "name": "MahsaNet Frag JSON",
+      "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/fragment/fakehost_ws80.json",
+      "verified_upstream": false,
+      "format": "xray_json",
+      "tags": ["iran", "json", "fragment", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "mahsanet-mci",
+      "name": "MahsaNet MCI",
+      "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mci/sub_1.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["iran", "mci", "local_pattn"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-configshub-main",
+      "name": "Telegram ConfigsHUB Main",
+      "url": "https://t.me/s/ConfigsHUB",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": ["confighub", "telegram", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-configshub-2",
+      "name": "Telegram ConfigsHUB 2",
+      "url": "https://t.me/s/ConfigsHUB2",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": ["confighub", "telegram", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-configshub-plus",
+      "name": "Telegram ConfigsHub Plus",
+      "url": "https://t.me/s/ConfigsHubPlus",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": ["confighub", "telegram", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-proxyshub",
+      "name": "Telegram ProxysHUB",
+      "url": "https://t.me/s/ProxysHUB",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": ["confighub", "telegram", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "alirzza9-configshub-iran",
+      "name": "Alirzza9 ConfigsHUB Iran",
+      "url": "https://raw.githubusercontent.com/alirzza9/ConfigsHUB-VLESS/main/sub/vless-for-iran-plain.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["confighub", "verified", "iran", "vless"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "alirzza9-configshub-all",
+      "name": "Alirzza9 ConfigsHUB All",
+      "url": "https://raw.githubusercontent.com/alirzza9/ConfigsHUB-VLESS/main/sub/vless-all-plain.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["confighub", "verified", "vless"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "heliataromi-confighub-mixed",
+      "name": "HeliaTaromi ConfigHub Mixed",
+      "url": "https://raw.githubusercontent.com/heliataromi/ConfigHub/subscription/mixed.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["confighub", "iran"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "elf2017spring-configshub",
+      "name": "Elf2017Spring ConfigsHub",
+      "url": "https://raw.githubusercontent.com/elf2017spring/ConfigsHub/main/All_Configs_Sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["confighub"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "nirevil-vless",
+      "name": "NiREvil Vless",
+      "url": "https://raw.githubusercontent.com/NiREvil/vless/main/sub/sub.txt",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["verified", "iran", "vless"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "lalatinahub-mineral",
+      "name": "LalatinaHub Mineral",
+      "url": "https://raw.githubusercontent.com/LalatinaHub/Mineral/master/result/nodes",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "freefq-free",
+      "name": "FreeFQ Free",
+      "url": "https://raw.githubusercontent.com/freefq/free/master/v2",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": ["global"],
+      "enabled": true,
+      "is_private": false
+    }
+  ]
+}

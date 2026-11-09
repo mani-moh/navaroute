@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "id": "bpb-normal",
+      "name": "BPB Normal",
+      "url": "https://example-worker.pages.dev/YOUR_SECRET_UUID/sub/normal?app=xray#%F0%9F%92%A6%20BPB%20Normal",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb"],
+      "enabled": true,
+      "is_private": true
+    },
+    {
+      "id": "bpb-fragment",
+      "name": "BPB Fragment",
+      "url": "https://example-worker.pages.dev/YOUR_SECRET_UUID/sub/fragment?app=xray#%F0%9F%92%A6%20BPB%20Fragment",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb", "fragment"],
+      "enabled": true,
+      "is_private": true
+    },
+    {
+      "id": "bpb-raw",
+      "name": "BPB Raw",
+      "url": "https://example-worker.pages.dev/YOUR_SECRET_UUID/sub/raw?app=xray#%F0%9F%92%A6%20BPB%20Raw",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb"],
+      "enabled": true,
+      "is_private": true
+    },
+    {
+      "id": "bpb-warp",
+      "name": "BPB Warp",
+      "url": "https://example-worker.pages.dev/YOUR_SECRET_UUID/sub/warp?app=xray#%F0%9F%92%A6%20BPB%20Warp",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb", "warp"],
+      "enabled": true,
+      "is_private": true
+    },
+    {
+      "id": "bpb-warp-pro",
+      "name": "BPB Warp Pro",
+      "url": "https://example-worker.pages.dev/YOUR_SECRET_UUID/sub/warp-pro?app=xray#%F0%9F%92%A6%20BPB%20Warp%20Pro",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb", "warp"],
+      "enabled": true,
+      "is_private": true
+    },
+    {
+      "id": "bpb-oldraw",
+      "name": "BPB Old Raw",
+      "url": "https://example-worker.workers.dev/YOUR_SECRET_UUID/sub/raw?app=xray#%F0%9F%92%A6%20BPB%20Raw",
+      "verified_upstream": true,
+      "format": "auto",
+      "tags": ["private", "bpb"],
+      "enabled": true,
+      "is_private": true
+    }
+  ]
+}
