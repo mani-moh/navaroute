@@ -1,0 +1,159 @@
+name: Update PattN Subscriptions
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      run_healthcheck:
+        description: "Run live healthcheck on candidate nodes"
+        type: boolean
+        default: true
+      generate_pattn_variants:
+        description: "Generate PattN F&F, IPv6-OOB, and SNI-Spoof variants"
+        type: boolean
+        default: true
+      max_test_nodes:
+        description: "Maximum number of nodes to health-check"
+        type: string
+        default: "1000"
+      sync_private_gist:
+        description: "Publish private BPB + verified configs to Secret Gist (requires PRIVATE_SOURCES & GIST_TOKEN secrets)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  aggregate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download Xray Core (patterniha/Xray-core)
+        shell: bash
+        run: |
+          mkdir -p xray-bin
+          python -c '
+          import urllib.request, json, zipfile, io, os
+          try:
+              req = urllib.request.Request(
+                  "https://api.github.com/repos/patterniha/Xray-core/releases/latest",
+                  headers={"User-Agent": "PattN-CI-Fetcher"}
+              )
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  rel_data = json.loads(r.read())
+              asset = next(
+                  (a for a in rel_data.get("assets", []) if "linux-64" in a["name"].lower() and a["name"].endswith(".zip")),
+                  None
+              )
+              if asset:
+                  download_url = asset["browser_download_url"]
+                  with urllib.request.urlopen(download_url, timeout=30) as z_resp:
+                      with zipfile.ZipFile(io.BytesIO(z_resp.read())) as zf:
+                          zf.extract("xray", "xray-bin")
+                  os.chmod("xray-bin/xray", 0o755)
+                  print("patterniha/Xray-core binary downloaded and extracted successfully")
+              else:
+                  print("No matching Linux x64 asset found, using pure Python healthcheck fallback")
+          except Exception as exc:
+              print(f"Xray binary download skipped ({exc}), proceeding with socket healthcheck")
+          '
+          if [ -f "xray-bin/xray" ]; then
+            echo "$PWD/xray-bin" >> "$GITHUB_PATH"
+          fi
+
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -s tests -v
+
+      - name: Run public aggregation pipeline
+        shell: bash
+        run: |
+          HC_FLAG="--healthcheck"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.run_healthcheck }}" = "false" ]; then
+            HC_FLAG="--no-healthcheck"
+          fi
+
+          PV_FLAG="--pattn-variants"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.generate_pattn_variants }}" = "false" ]; then
+            PV_FLAG="--no-pattn-variants"
+          fi
+
+          MAX_NODES="1000"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.max_test_nodes }}" ]; then
+            MAX_NODES="${{ inputs.max_test_nodes }}"
+          fi
+
+          python -m src.main $HC_FLAG $PV_FLAG --max-test-nodes "$MAX_NODES"
+
+      - name: Privacy and security audit
+        shell: bash
+        env:
+          PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
+        run: |
+          # 1. Ensure private artifacts are never tracked or staged
+          if git status --porcelain | grep -E "(sources\.private\.json|private_subs/)"; then
+            echo "ERROR: Private files detected in git working tree!"
+            exit 1
+          fi
+
+          # 2. Dynamic privacy audit: ensure no private endpoints leak into public tracked files
+          if [ -n "$PRIVATE_SOURCES" ]; then
+            python -c '
+            import os, sys, subprocess, re
+            priv = os.environ.get("PRIVATE_SOURCES", "")
+            urls = re.findall(r"https?://[^\s\",]+", priv)
+            domains = set()
+            for u in urls:
+                m = re.search(r"https?://([^/:]+)", u)
+                if m:
+                    domains.add(m.group(1).lower())
+            print(f"Auditing repository against {len(domains)} private domains...")
+            for d in domains:
+                if len(d) > 4:
+                    res = subprocess.run(["git", "grep", "-I", "-i", d], capture_output=True, text=True)
+                    if res.returncode == 0 and res.stdout.strip():
+                        print(f"CRITICAL PRIVACY VIOLATION: Private domain detected in tracked files: {d}")
+                        sys.exit(1)
+            print("Dynamic privacy audit passed: 0 leaks found.")
+            '
+          fi
+
+      - name: Commit and push public updates
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add subs/ README.md STATUS.md
+          if git diff --staged --quiet; then
+            echo "No subscription updates to commit"
+          else
+            git commit -m "chore(auto): update subscriptions & health status [skip ci]"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin main || true
+              git push && break || sleep 3
+            done
+          fi
+
+      - name: Publish private subscriptions to Secret Gist
+        if: ${{ env.PRIVATE_SOURCES != '' && env.GIST_TOKEN != '' && (github.event_name != 'workflow_dispatch' || inputs.sync_private_gist == true) }}
+        shell: bash
+        env:
+          PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: |
+          echo "Syncing private subscriptions to Secret Gist..."
+          python -m src.main --include-private --no-healthcheck --no-docs
+          rm -rf private_subs/
+          echo "Secret Gist sync completed and private artifacts cleaned up."

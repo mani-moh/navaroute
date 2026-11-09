@@ -1,0 +1,10 @@
+#profile-title: base64:UGF0dE4gVVk=
+#profile-update-interval: 6
+#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+
+vless://f745e508-9ec3-489c-a81d-8cd345006be5@172.65.90.42:2053?&security=tls&fp=chrome&sni=loc.wzs.gv.uy&type=ws&headerType=none&host=loc.wzs.gv.uy&path=%2Fvideo%2FHRVATBVQEgIPTRARXQ8YGlEMXhVWUAlIGllGCwYbAQUETFQDVxkGBVQXHBpdVhcXERcHDA5bUA%3D%3D#[🇺🇾 UY] VLESS-ws | src:leon406-subcrawler-vless
+vless://f745e508-9ec3-489c-a81d-8cd345006be5@172.65.90.12:2053?&security=tls&fp=chrome&sni=loc.wzs.gv.uy&type=ws&headerType=none&host=loc.wzs.gv.uy&path=%2Fvideo%2FHRVATBVQEgIPTRARXQ8YGlEMXhVWUAlIGllGAgINHgEFWksHVg4aBFcMEhQPSQoRRw8OCw1UFRw%3D#[🇺🇾 UY] VLESS-ws | src:leon406-subcrawler-vless
+vless://f745e508-9ec3-489c-a81d-8cd345006be5@172.65.90.41:2053?&security=tls&fp=chrome&sni=loc.wzs.gv.uy&type=ws&headerType=none&host=loc.wzs.gv.uy&path=%2Fvideo%2FHRVATBVQEgIPTRARXQ8YGlEMXhVWUAlIGllGUkBQXlRfDwBbElgaVhdaQ0tMSw4CXUdbFloMQE9aQ0YBGhMLQUAXCgMCVV1I#[🇺🇾 UY] VLESS-ws | src:leon406-subcrawler-vless
+vless://f745e508-9ec3-489c-a81d-8cd345006be5@172.65.90.35:2053?&security=tls&fp=chrome&sni=loc.wzs.gv.uy&type=ws&headerType=none&host=loc.wzs.gv.uy&path=%2Fvideo%2FHRVATBVQEgIPTRARXQ8YGlEMXhVWUAlIGllGAgwGHgEHU0sEUAAaDVYXHBpdVhcXERcHDA5bUA%3D%3D#[🇺🇾 UY] VLESS-ws | src:leon406-subcrawler-vless
+vless://f0050c31-06b1-4ebd-a10c-fe1e73632067@v05.vxlimir.com:1370?security=reality&encryption=none&pbk=_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=refersion.com&sid=e1afb93bfe75a34b#[🇺🇾 UY] VLESS-Reality | src:elf2017spring-configshub
+vless://Parsashonam-287@185.146.173.39:8880?path=%2FParsashonam-Parsashonam-Parsashonam%2F%3Fed%3D2056&security=none&encryption=none&host=De.Parsashonam.CfD.&type=httpupgrade#[🇺🇾 UY] VLESS-httpupgrade | src:elf2017spring-configshub

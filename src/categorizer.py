@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -205,12 +206,17 @@ def publish_subscriptions(
         counts,
     )
 
-    # Serverless Fragment JSON
+    # Serverless Fragment JSON (filtered to public-only)
+    public_json_configs = [
+        {k: v for k, v in j.items() if k != "_is_private"}
+        for j in json_configs
+        if not j.get("_is_private")
+    ]
     serverless_path = categories_dir / "serverless-fragment.json"
     serverless_path.write_text(
-        json.dumps(json_configs, indent=2, ensure_ascii=False), encoding="utf-8"
+        json.dumps(public_json_configs, indent=2, ensure_ascii=False), encoding="utf-8"
     )
-    counts[str(serverless_path).replace("\\", "/")] = len(json_configs)
+    counts[str(serverless_path).replace("\\", "/")] = len(public_json_configs)
 
     # -------------------------------------------------------------
     # 3. PROTOCOLS
@@ -260,7 +266,8 @@ def publish_subscriptions(
     # -------------------------------------------------------------
     if update_docs:
         base_dir = out_dir.resolve().parent
-        _update_status_doc(base_dir / "STATUS.md", stats, public_nodes)
+        public_stats = [s for s in stats if not getattr(s, "is_private", False)]
+        _update_status_doc(base_dir / "STATUS.md", public_stats, public_nodes)
         _update_readme_doc(base_dir / "README.md", counts, public_nodes)
 
     return counts
@@ -326,7 +333,9 @@ def _update_readme_doc(
     healthy_nodes = sum(1 for n in public_nodes if n.passed_healthcheck)
     pattn_special = sum(1 for n in public_nodes if n.is_pattn_special())
 
-    repo_url = "https://raw.githubusercontent.com/almasi/pattn/master"
+    repo_slug = os.environ.get("GITHUB_REPOSITORY", "almasi/pattn")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    repo_url = f"https://raw.githubusercontent.com/{repo_slug}/{branch}"
 
     lines = [
         "# 🌐 PattN - High-Speed Proxy Aggregator & Bypass Subscription Pipeline",

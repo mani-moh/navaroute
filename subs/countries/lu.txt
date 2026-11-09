@@ -1,0 +1,16 @@
+#profile-title: base64:UGF0dE4gTFU=
+#profile-update-interval: 6
+#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+
+ss://YWVzLTI1Ni1nY206eDIzWjRMR2tHRGtUaFo5S2F6NERVUlFw@185.153.151.164:40093#[🇱🇺 LU] SS | src:farid-karimi-mixed-iran
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@92.38.163.53:989#[🇱🇺 LU] SS | src:farid-karimi-mixed-iran
+ss://YWVzLTI1Ni1jZmI6OTM0NDY2NTA3Nw@92.223.105.40:50006#[🇱🇺 LU] SS | src:farid-karimi-mixed-iran
+vmess://eyJhZGQiOiAiMjAyLjc4LjE2Mi41IiwgImFpZCI6IDAsICJob3N0IjogInBlbmRhci5vbnRoZXdpZmkuY29tIiwgImlkIjogIjcxNmVkZWQ2LTIyMDEtNGRiZC05ZDYzLTE2MzhjOWU4ZTY3NyIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInBvcnQiOiA0NDMsICJwcyI6ICJb8J+HsfCfh7ogTFVdIFZNZXNzLXdzIHwgc3JjOm1hdGluZ2hhbmJhcmktYWxsIiwgInRscyI6ICJ0bHMiLCAidHlwZSI6ICJhdXRvIiwgInNlY3VyaXR5IjogImF1dG8iLCAic2tpcC1jZXJ0LXZlcmlmeSI6IHRydWUsICJzbmkiOiAiIn0=
+vmess://eyJhZGQiOiAiMTA3LjE4OS4zMS40MSIsICJhaWQiOiAwLCAiaG9zdCI6ICIiLCAiaWQiOiAiOWUzMTJlZjUtNmQ0MC00ZmNiLWNlYjMtNGM3YTY5YmJlMGIzIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi9AQmFja2Rvcl9GaWx0ZXIiLCAicG9ydCI6IDEyMzc4LCAicHMiOiAiW/Cfh7Hwn4e6IExVXSBWTWVzcy13cyB8IHNyYzptYXRpbmdoYW5iYXJpLWFsbCIsICJ0bHMiOiAiIiwgInR5cGUiOiAiYXV0byIsICJzZWN1cml0eSI6ICJhdXRvIiwgInNraXAtY2VydC12ZXJpZnkiOiB0cnVlLCAic25pIjogIiJ9
+vmess://eyJhZGQiOiAiMjMuMTA5LjEzNi43NCIsICJhaWQiOiA2NCwgImhvc3QiOiAid3d3LjgyNzEwODk3Lnh5eiIsICJpZCI6ICI0MTgwNDhhZi1hMjkzLTRiOTktOWIwYy05OGNhMzU4MGRkMjQiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3BhdGgvMTkxMDE5MDcyOTI3IiwgInBvcnQiOiA0NDMsICJwcyI6ICJb8J+HsfCfh7ogTFVdIFZNZXNzLXdzIHwgc3JjOm1haGFua2Vud2F5LWZyZWVkb20iLCAidGxzIjogInRscyIsICJ0eXBlIjogImF1dG8iLCAic2VjdXJpdHkiOiAiYXV0byIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInNuaSI6ICIifQ==
+trojan://Puj01Rc8UcA9IzcFcYOs8KMOhCz6aX2Q@188.114.97.3:443?path=/tjwsLhx0SFASG4l9FERJ1g&security=tls&insecure=0&fp=chrome&type=ws&allowInsecure=0&sni=mfyousheng.nl.eu.org#[🇱🇺 LU] Trojan-ws | src:0xradikal-all
+trojan://humanity@188.42.145.180:443?path=/assignment&security=tls&alpn=http/1.1&insecure=0&host=www.volumeroot.com&fp=chrome&type=ws&allowInsecure=0&sni=www.volumeroot.com#[🇱🇺 LU] Trojan-ws | src:0xradikal-all
+trojan://humanity@188.42.145.180:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&insecure=0&host=www.volumerOot.coM.&fp=android&type=ws&allowInsecure=0&sni=wWw.Volumeroot.cOm.#[🇱🇺 LU] Trojan-ws | src:heliataromi-confighub-mixed
+trojan://humanity@188.42.145.180:443?path=%2Fassignment&security=tls&insecure=0&fp=safari&type=ws&allowInsecure=0&sni=www.volumeroot.com#[🇱🇺 LU] Trojan-ws | src:heliataromi-confighub-mixed
+trojan://humanity@188.42.145.180:443?path=%2Fassignment%3Fed%23Telegram---PLANB_NET---PLANB_NET---PLANB_NET---PLANB_NET&security=tls&insecure=0&host=www.volumeroot.com&type=ws&allowInsecure=0&sni=www.volumeroot.com#[🇱🇺 LU] Trojan-ws | src:heliataromi-confighub-mixed
+trojan://f42d1b0d-c398-43cb-be37-d739b1477a5d@107.189.3.96:443/?type=tcp&security=tls&sni=joss.gpj4.web.id#[🇱🇺 LU] Trojan-tcp | src:lalatinahub-mineral

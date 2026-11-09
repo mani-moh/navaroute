@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import sys
 import time
+from typing import Any
 
 from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
@@ -10,6 +11,25 @@ from src.fetcher import fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
 from src.private_gist import publish_private_subs
 from src.transform_pattn import generate_pattn_variants
+
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+
+def safe_print(*args: Any, **kwargs: Any) -> None:
+    sep = kwargs.get("sep", " ")
+    end = kwargs.get("end", "\n")
+    file = kwargs.get("file", sys.stdout)
+    text = sep.join(str(a) for a in args) + end
+    try:
+        file.write(text)
+    except UnicodeEncodeError:
+        encoding = getattr(file, "encoding", "ascii") or "ascii"
+        file.write(text.encode(encoding, errors="replace").decode(encoding))
+    file.flush()
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
@@ -92,63 +112,63 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     start_total = time.perf_counter()
-    print("=" * 65)
-    print("🌐 PattN High-Speed Proxy Aggregator & Bypass Pipeline")
-    print("=" * 65)
+    safe_print("=" * 65)
+    safe_print("🌐 PattN High-Speed Proxy Aggregator & Bypass Pipeline")
+    safe_print("=" * 65)
 
     # 1. Load Sources
     sources = load_sources(
         sources_path=args.sources,
         include_private=args.include_private,
     )
-    print(
+    safe_print(
         f"[1/6] Loaded {len(sources)} enabled sources "
         f"(include_private={args.include_private})"
     )
 
     # 2. Fetch Sources Concurrently
-    print(f"[2/6] Concurrently fetching feeds (workers={args.max_workers}, timeout={args.timeout}s)...")
+    safe_print(f"[2/6] Concurrently fetching feeds (workers={args.max_workers}, timeout={args.timeout}s)...")
     raw_nodes, json_configs, stats = fetch_all_sources(
         sources=sources,
         max_workers=args.max_workers,
         timeout=args.timeout,
     )
     successful_sources = sum(1 for s in stats if s.success)
-    print(
+    safe_print(
         f"      Fetched {len(raw_nodes)} raw nodes & {len(json_configs)} JSON configs "
         f"across {successful_sources}/{len(sources)} sources"
     )
 
     # 3. Deduplication
-    print("[3/6] Running semantic deduplication...")
+    safe_print("[3/6] Running semantic deduplication...")
     deduped_nodes = deduplicate_nodes(raw_nodes)
-    print(f"      Condensed {len(raw_nodes)} raw nodes -> {len(deduped_nodes)} unique nodes")
+    safe_print(f"      Condensed {len(raw_nodes)} raw nodes -> {len(deduped_nodes)} unique nodes")
 
     # 4. PattN Bypass Variant Transformation
     if args.pattn_variants:
-        print("[4/6] Synthesizing PattN bypass variants (F&F, IPv6-OOB, SNI-Spoof)...")
+        safe_print("[4/6] Synthesizing PattN bypass variants (F&F, IPv6-OOB, SNI-Spoof)...")
         variants = generate_pattn_variants(deduped_nodes, max_source_nodes=250)
-        print(f"      Generated {len(variants)} specialized bypass variants")
+        safe_print(f"      Generated {len(variants)} specialized bypass variants")
         all_nodes = deduplicate_nodes(deduped_nodes + variants)
-        print(f"      Total unique nodes with variants: {len(all_nodes)}")
+        safe_print(f"      Total unique nodes with variants: {len(all_nodes)}")
     else:
-        print("[4/6] PattN variants disabled, skipping.")
+        safe_print("[4/6] PattN variants disabled, skipping.")
         all_nodes = deduped_nodes
 
     # 5. Live Multi-Stage Healthcheck
     if args.healthcheck:
-        print(
+        safe_print(
             f"[5/6] Probing socket reachability on up to {args.max_test_nodes} "
             f"prioritized nodes..."
         )
         check_nodes_health(all_nodes, max_nodes=args.max_test_nodes, concurrency=64, timeout=3.5)
         passed_count = sum(1 for n in all_nodes if n.passed_healthcheck)
-        print(f"      Healthcheck finished: {passed_count} nodes responsive")
+        safe_print(f"      Healthcheck finished: {passed_count} nodes responsive")
     else:
-        print("[5/6] Healthcheck disabled, skipping.")
+        safe_print("[5/6] Healthcheck disabled, skipping.")
 
     # 6. Publishing Subscriptions
-    print(f"[6/6] Publishing public subscriptions to '{args.output_dir}/'...")
+    safe_print(f"[6/6] Publishing public subscriptions to '{args.output_dir}/'...")
     pub_counts = publish_subscriptions(
         nodes=all_nodes,
         json_configs=json_configs,
@@ -156,28 +176,28 @@ def main(argv: list[str] | None = None) -> int:
         output_dir=args.output_dir,
         update_docs=not args.no_docs,
     )
-    print(f"      Successfully generated {len(pub_counts)} subscription files")
+    safe_print(f"      Successfully generated {len(pub_counts)} subscription files")
 
     # Optional: Private Subscriptions & Secret Gist
     if args.include_private:
-        print(f"[*] Publishing private BPB subscriptions to '{args.private_dir}/'...")
+        safe_print(f"[*] Publishing private BPB subscriptions to '{args.private_dir}/'...")
         priv_results = publish_private_subs(
             all_nodes=all_nodes,
             private_dir=args.private_dir,
             gist_token=args.gist_token,
             gist_id=args.gist_id,
         )
-        print(
+        safe_print(
             f"    Private subs generated: "
             f"{priv_results.get('bpb_only')} | {priv_results.get('private_verified')}"
         )
         if gist_id := priv_results.get("gist_id"):
-            print(f"    Secret Gist updated: {priv_results.get('gist_url', gist_id)}")
+            safe_print(f"    Secret Gist updated: {priv_results.get('gist_url', gist_id)}")
 
     elapsed = time.perf_counter() - start_total
-    print("-" * 65)
-    print(f"✅ Pipeline completed in {elapsed:.1f}s")
-    print("=" * 65)
+    safe_print("-" * 65)
+    safe_print(f"✅ Pipeline completed in {elapsed:.1f}s")
+    safe_print("=" * 65)
     return 0
 
 

@@ -158,7 +158,33 @@ def _fetch_url(url: str, timeout: float = 20.0) -> tuple[int, str]:
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as response:
+    has_explicit_proxy = bool(
+        os.environ.get("HTTP_PROXY")
+        or os.environ.get("HTTPS_PROXY")
+        or os.environ.get("ALL_PROXY")
+    )
+
+    if not has_explicit_proxy:
+        # Prefer direct connection so dead local proxies (e.g. stopped local clients on 127.0.0.1:10808) don't block fetching
+        opener_direct = urllib.request.build_opener(
+            urllib.request.ProxyHandler({}),
+            urllib.request.HTTPSHandler(context=ctx),
+            urllib.request.HTTPHandler(),
+        )
+        try:
+            with opener_direct.open(req, timeout=timeout) as response:
+                status = response.status if hasattr(response, "status") else 200
+                content = response.read().decode("utf-8", errors="replace")
+                return status, content
+        except Exception:
+            # Fall back to default opener in case proxy was actually required
+            pass
+
+    opener_default = urllib.request.build_opener(
+        urllib.request.HTTPSHandler(context=ctx),
+        urllib.request.HTTPHandler(),
+    )
+    with opener_default.open(req, timeout=timeout) as response:
         status = response.status if hasattr(response, "status") else 200
         content = response.read().decode("utf-8", errors="replace")
         return status, content
@@ -192,11 +218,14 @@ def fetch_source(
                 except Exception:
                     pass
 
-        # Tag nodes with private status if source is private
-        if source.is_private or "private" in source.tags:
+        # Tag nodes and json configs with private status if source is private
+        is_priv = source.is_private or "private" in source.tags
+        if is_priv:
             for n in nodes:
                 n.is_private = True
                 n.tags.add("private")
+            for j in json_configs:
+                j["_is_private"] = True
 
         elapsed_ms = (time.perf_counter() - start_t) * 1000.0
         unique_count = len({n.semantic_fingerprint() for n in nodes})
@@ -212,11 +241,13 @@ def fetch_source(
             raw_count=len(nodes),
             unique_count=unique_count,
             verified_count=verified_count,
+            is_private=is_priv,
         )
         return nodes, json_configs, stats
 
     except Exception as exc:
         elapsed_ms = (time.perf_counter() - start_t) * 1000.0
+        is_priv = source.is_private or "private" in source.tags
         stats = SourceStats(
             source_id=source.id,
             name=source.name,
@@ -228,6 +259,7 @@ def fetch_source(
             unique_count=0,
             verified_count=0,
             error=str(exc),
+            is_private=is_priv,
         )
         return [], [], stats
 
@@ -266,6 +298,7 @@ def fetch_all_sources(
                         url=src.url,
                         success=False,
                         error=str(exc),
+                        is_private=src.is_private or "private" in src.tags,
                     )
                 )
 

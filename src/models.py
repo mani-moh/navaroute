@@ -78,6 +78,7 @@ class SourceStats:
     unique_count: int = 0
     verified_count: int = 0
     error: Optional[str] = None
+    is_private: bool = False
 
 
 @dataclass
