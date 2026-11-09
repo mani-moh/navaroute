@@ -68,6 +68,8 @@ class TestSourcesRegistry(unittest.TestCase):
             cwd=str(BASE_DIR),
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
         )
         assert res.returncode == 0, "sources.private.json MUST be ignored by git!"
         assert "sources.private.json" in res.stdout

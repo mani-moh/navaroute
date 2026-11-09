@@ -4,6 +4,7 @@ import base64
 import json
 import os
 import re
+import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -14,6 +15,18 @@ from src.fetcher import fetch_all_sources, load_sources
 from src.models import ProxyNode
 from src.parsers import parse_proxy_uri
 from src.transform_pattn import generate_pattn_variants
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+
+def safe_print(*args: Any, **kwargs: Any) -> None:
+    try:
+        print(*args, **kwargs)
+    except UnicodeEncodeError:
+        text = " ".join(str(a) for a in args)
+        clean = text.encode("ascii", errors="backslashreplace").decode("ascii")
+        print(clean, **kwargs)
 
 
 def _format_private_file(title: str, nodes: list[ProxyNode]) -> tuple[str, str]:
@@ -233,18 +246,29 @@ def load_public_subs_from_disk(subs_dir: str | Path = "subs") -> list[ProxyNode]
 
 
 def log_gist_result(
-    priv_results: dict[str, str],
-    safe_print_fn: Any = print,
+    priv_results: dict[str, str] | None,
+    safe_print_fn: Any = safe_print,
 ) -> None:
     """Logs the result of private Gist publishing, masking IDs and URLs in CI."""
-    gid = priv_results.get("gist_id")
-    gurl = priv_results.get("gist_url")
+    if not priv_results or not isinstance(priv_results, dict):
+        return
+
+    gid = (priv_results.get("gist_id") or "").strip()
+    gurl = (priv_results.get("gist_url") or "").strip()
     if gid or gurl:
-        if os.environ.get("GITHUB_ACTIONS") == "true":
+        if os.environ.get("GITHUB_ACTIONS", "").lower() == "true":
             if gid:
                 safe_print_fn(f"::add-mask::{gid}")
             if gurl and gurl != gid:
                 safe_print_fn(f"::add-mask::{gurl}")
+            for k in (
+                "gist_raw_bpb_only",
+                "gist_raw_private_verified",
+                "gist_raw_private_verified_base64",
+            ):
+                raw_u = (priv_results.get(k) or "").strip()
+                if raw_u and raw_u != gid and raw_u != gurl:
+                    safe_print_fn(f"::add-mask::{raw_u}")
             safe_print_fn("    Secret Gist updated successfully (URL masked in public CI logs)")
         else:
             safe_print_fn(f"    Secret Gist updated: {gurl or gid}")
@@ -260,7 +284,7 @@ def run_private_sync(
     max_workers: int = 16,
     timeout: int = 20,
     pattn_variants: bool = True,
-    safe_print_fn: Any = print,
+    safe_print_fn: Any = safe_print,
 ) -> dict[str, str]:
     """Lightweight sync flow: loads ONLY private sources, reads already-generated
     subs/ from disk, and publishes to private_subs/ and Secret Gist.

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import sqlite3
@@ -564,6 +565,120 @@ class TestCiAndPrivacyHardening(unittest.TestCase):
             )
             for line in captured:
                 self.assertNotIn("Secret Gist updated: https://", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_main_private_only_masks_in_github_actions(self) -> None:
+        """Verify src.main with --private-only (the exact command run in update-subs.yml)
+        masks Secret Gist URL in CI."""
+        from src.main import main
+
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        captured_lines: list[str] = []
+
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            with patch("src.main.safe_print", side_effect=captured_lines.append):
+                with patch("src.private_gist.load_sources", return_value=[]):
+                    with patch("src.private_gist.fetch_all_sources", return_value=([], [], [])):
+                        with patch("src.private_gist.deduplicate_nodes", return_value=[]):
+                            with patch("src.private_gist.load_public_subs_from_disk", return_value=[]):
+                                with patch(
+                                    "src.private_gist.publish_private_subs",
+                                    return_value={
+                                        "gist_id": "priv_only_gist_333",
+                                        "gist_url": "https://gist.github.com/priv_only_gist_333",
+                                        "bpb_only": "p1",
+                                        "private_verified": "p2",
+                                    },
+                                ):
+                                    rc = main(["--private-only", "--no-pattn-variants"])
+                                    self.assertEqual(rc, 0)
+
+            self.assertIn("::add-mask::priv_only_gist_333", captured_lines)
+            self.assertIn("::add-mask::https://gist.github.com/priv_only_gist_333", captured_lines)
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                captured_lines,
+            )
+            for line in captured_lines:
+                self.assertNotIn("Secret Gist updated: https://", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_secret_gist_masks_raw_urls_in_github_actions(self) -> None:
+        """Verify that raw Gist file URLs in priv_results are also masked in CI."""
+        from src.private_gist import log_gist_result
+
+        priv_results = {
+            "gist_id": "raw_gist_444",
+            "gist_url": "https://gist.github.com/raw_gist_444",
+            "gist_raw_bpb_only": "https://gist.githubusercontent.com/raw/bpb_only.txt",
+            "gist_raw_private_verified": "https://gist.githubusercontent.com/raw/pv.txt",
+        }
+        captured: list[str] = []
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            log_gist_result(priv_results, safe_print_fn=captured.append)
+
+            self.assertIn("::add-mask::raw_gist_444", captured)
+            self.assertIn("::add-mask::https://gist.github.com/raw_gist_444", captured)
+            self.assertIn(
+                "::add-mask::https://gist.githubusercontent.com/raw/bpb_only.txt",
+                captured,
+            )
+            self.assertIn(
+                "::add-mask::https://gist.githubusercontent.com/raw/pv.txt",
+                captured,
+            )
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                captured,
+            )
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_secret_gist_masking_none_or_empty(self) -> None:
+        """Verify log_gist_result handles None or empty results gracefully."""
+        from src.private_gist import log_gist_result
+
+        captured: list[str] = []
+        log_gist_result(None, safe_print_fn=captured.append)
+        self.assertEqual(len(captured), 0)
+
+        log_gist_result({}, safe_print_fn=captured.append)
+        self.assertEqual(len(captured), 0)
+
+        log_gist_result({"gist_id": "", "gist_url": ""}, safe_print_fn=captured.append)
+        self.assertEqual(len(captured), 0)
+
+    def test_secret_gist_masking_edge_case_only_url(self) -> None:
+        """Verify masking works when only gist_url is provided without gist_id."""
+        from src.private_gist import log_gist_result
+
+        priv_results = {"gist_url": "https://gist.github.com/user/only_url_8888"}
+        captured: list[str] = []
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            log_gist_result(priv_results, safe_print_fn=captured.append)
+
+            self.assertIn("::add-mask::https://gist.github.com/user/only_url_8888", captured)
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                captured,
+            )
+            self.assertEqual(len(captured), 2)
         finally:
             if old_env is not None:
                 os.environ["GITHUB_ACTIONS"] = old_env
