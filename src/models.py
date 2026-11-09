@@ -252,6 +252,9 @@ class ProxyNode:
                 "alpn": self.params.get("alpn", ""),
                 "fp": self.params.get("fp", ""),
             }
+            for k, val in self.params.items():
+                if k not in v_dict and val:
+                    v_dict[k] = val
             b64 = base64.b64encode(json.dumps(v_dict, ensure_ascii=False).encode("utf-8")).decode("utf-8")
             return f"vmess://{b64}"
 
