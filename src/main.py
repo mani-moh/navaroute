@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import time
 from typing import Any
@@ -9,7 +10,7 @@ from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
 from src.fetcher import fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
-from src.private_gist import publish_private_subs
+from src.private_gist import log_gist_result, publish_private_subs
 from src.transform_pattn import generate_pattn_variants
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -237,8 +238,8 @@ def main(argv: list[str] | None = None) -> int:
             f"    Private subs generated: "
             f"{priv_results.get('bpb_only')} | {priv_results.get('private_verified')}"
         )
-        if gist_id := priv_results.get("gist_id"):
-            safe_print(f"    Secret Gist updated: {priv_results.get('gist_url', gist_id)}")
+        # Mask and log Secret Gist in CI (os.environ.get("GITHUB_ACTIONS") == "true")
+        log_gist_result(priv_results, safe_print_fn=safe_print)
 
     elapsed = time.perf_counter() - start_total
     safe_print("-" * 65)

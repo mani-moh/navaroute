@@ -375,5 +375,201 @@ class TestRepoSlugAndPrivateOnly(unittest.TestCase):
             self.assertNotIn(ident.encode("utf-8"), res_log.stdout, f"Private token '{ident[:4]}***' leaked in git commit log!")
 
 
+class TestCiAndPrivacyHardening(unittest.TestCase):
+    def test_sources_private_json_exists_and_ignored_passes_when_file_absent(self) -> None:
+        """Verify test_sources_private_json_exists_and_ignored passes in clean CI checkout without sources.private.json."""
+        from tests.test_core import TestSourcesRegistry
+
+        test_case = TestSourcesRegistry()
+        with patch.object(Path, "exists", return_value=False):
+            # Must pass without raising AssertionError even when file does not exist
+            test_case.test_sources_private_json_exists_and_ignored()
+
+    def test_sources_private_json_validates_sources_when_present(self) -> None:
+        """Verify test_sources_private_json_exists_and_ignored still enforces 6 sources if file exists."""
+        from tests.test_core import TestSourcesRegistry
+
+        test_case = TestSourcesRegistry()
+        bad_json = json.dumps({"sources": [{"id": "s1"}]})
+
+        with patch.object(Path, "exists", return_value=True):
+            with patch.object(Path, "read_text", return_value=bad_json):
+                with self.assertRaises(AssertionError):
+                    test_case.test_sources_private_json_exists_and_ignored()
+
+    def test_secret_gist_masked_in_github_actions_ci(self) -> None:
+        """Verify Secret Gist ID & URL are masked and not printed in cleartext when GITHUB_ACTIONS=true."""
+        import os
+        from src.private_gist import log_gist_result
+
+        priv_results = {
+            "gist_id": "secret_gist_id_12345",
+            "gist_url": "https://gist.github.com/secret_gist_id_12345",
+        }
+
+        printed_lines: list[str] = []
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
+
+            # Verification of masking commands and masked log
+            self.assertIn("::add-mask::secret_gist_id_12345", printed_lines)
+            self.assertIn("::add-mask::https://gist.github.com/secret_gist_id_12345", printed_lines)
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                printed_lines,
+            )
+            # Must NOT print the unmasked "Secret Gist updated: ..." log
+            for line in printed_lines:
+                self.assertNotIn("Secret Gist updated: https://", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_secret_gist_unmasked_outside_github_actions(self) -> None:
+        """Verify Secret Gist URL is logged normally when GITHUB_ACTIONS is not set."""
+        import os
+        from src.private_gist import log_gist_result
+
+        priv_results = {
+            "gist_id": "secret_gist_id_12345",
+            "gist_url": "https://gist.github.com/secret_gist_id_12345",
+        }
+
+        printed_lines: list[str] = []
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        try:
+            os.environ.pop("GITHUB_ACTIONS", None)
+            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
+
+            self.assertIn(
+                "    Secret Gist updated: https://gist.github.com/secret_gist_id_12345",
+                printed_lines,
+            )
+            # Must NOT emit CI add-mask commands
+            for line in printed_lines:
+                self.assertNotIn("::add-mask::", line)
+                self.assertNotIn("URL masked in public CI logs", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+
+    def test_secret_gist_masking_edge_case_only_id(self) -> None:
+        """Verify masking works when gist_url is missing or equal to gist_id."""
+        import os
+        from src.private_gist import log_gist_result
+
+        priv_results = {"gist_id": "only_id_9999"}
+        printed_lines: list[str] = []
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
+
+            self.assertEqual(printed_lines[0], "::add-mask::only_id_9999")
+            self.assertEqual(
+                printed_lines[1],
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+            )
+            self.assertEqual(len(printed_lines), 2)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_main_include_private_masks_in_github_actions(self) -> None:
+        """Verify src.main with --include-private masks Secret Gist URL in CI."""
+        import os
+        from src.main import main
+
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        captured_lines: list[str] = []
+
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            with patch("src.main.safe_print", side_effect=captured_lines.append):
+                with patch("src.main.load_sources", return_value=[]):
+                    with patch("src.main.fetch_all_sources", return_value=([], [], [])):
+                        with patch("src.main.deduplicate_nodes", return_value=[]):
+                            with patch("src.main.publish_subscriptions", return_value={}):
+                                with patch(
+                                    "src.main.publish_private_subs",
+                                    return_value={
+                                        "gist_id": "main_gist_ci_111",
+                                        "gist_url": "https://gist.github.com/main_gist_ci_111",
+                                        "bpb_only": "p1",
+                                        "private_verified": "p2",
+                                    },
+                                ):
+                                    rc = main([
+                                        "--include-private",
+                                        "--no-healthcheck",
+                                        "--no-pattn-variants",
+                                        "--no-docs",
+                                    ])
+                                    self.assertEqual(rc, 0)
+
+            self.assertIn("::add-mask::main_gist_ci_111", captured_lines)
+            self.assertIn("::add-mask::https://gist.github.com/main_gist_ci_111", captured_lines)
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                captured_lines,
+            )
+            for line in captured_lines:
+                self.assertNotIn("Secret Gist updated: https://", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+    def test_run_private_sync_masks_in_github_actions(self) -> None:
+        """Verify run_private_sync and --private-only mask Secret Gist URL in CI."""
+        import os
+        from src.private_gist import run_private_sync
+
+        old_env = os.environ.get("GITHUB_ACTIONS")
+        captured: list[str] = []
+
+        try:
+            os.environ["GITHUB_ACTIONS"] = "true"
+            with patch("src.private_gist.load_sources", return_value=[]):
+                with patch("src.private_gist.fetch_all_sources", return_value=([], [], [])):
+                    with patch("src.private_gist.deduplicate_nodes", return_value=[]):
+                        with patch("src.private_gist.load_public_subs_from_disk", return_value=[]):
+                            with patch(
+                                "src.private_gist.publish_private_subs",
+                                return_value={
+                                    "gist_id": "sync_gist_ci_222",
+                                    "gist_url": "https://gist.github.com/sync_gist_ci_222",
+                                    "bpb_only": "p1",
+                                    "private_verified": "p2",
+                                },
+                            ):
+                                results = run_private_sync(
+                                    safe_print_fn=captured.append,
+                                    pattn_variants=False,
+                                )
+                                self.assertEqual(results["gist_id"], "sync_gist_ci_222")
+
+            self.assertIn("::add-mask::sync_gist_ci_222", captured)
+            self.assertIn("::add-mask::https://gist.github.com/sync_gist_ci_222", captured)
+            self.assertIn(
+                "    Secret Gist updated successfully (URL masked in public CI logs)",
+                captured,
+            )
+            for line in captured:
+                self.assertNotIn("Secret Gist updated: https://", line)
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_ACTIONS"] = old_env
+            else:
+                os.environ.pop("GITHUB_ACTIONS", None)
+
+
 if __name__ == "__main__":
     unittest.main()

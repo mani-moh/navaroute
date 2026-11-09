@@ -232,6 +232,24 @@ def load_public_subs_from_disk(subs_dir: str | Path = "subs") -> list[ProxyNode]
     return merged
 
 
+def log_gist_result(
+    priv_results: dict[str, str],
+    safe_print_fn: Any = print,
+) -> None:
+    """Logs the result of private Gist publishing, masking IDs and URLs in CI."""
+    gid = priv_results.get("gist_id")
+    gurl = priv_results.get("gist_url")
+    if gid or gurl:
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            if gid:
+                safe_print_fn(f"::add-mask::{gid}")
+            if gurl and gurl != gid:
+                safe_print_fn(f"::add-mask::{gurl}")
+            safe_print_fn("    Secret Gist updated successfully (URL masked in public CI logs)")
+        else:
+            safe_print_fn(f"    Secret Gist updated: {gurl or gid}")
+
+
 def run_private_sync(
     sources_path: str = "sources.json",
     private_sources_path: str = "sources.private.json",
@@ -310,8 +328,7 @@ def run_private_sync(
         f"    Private subs generated: "
         f"{priv_results.get('bpb_only')} | {priv_results.get('private_verified')}"
     )
-    if gid := priv_results.get("gist_id"):
-        safe_print_fn(f"    Secret Gist updated: {priv_results.get('gist_url', gid)}")
+    log_gist_result(priv_results, safe_print_fn=safe_print_fn)
 
     return priv_results
 

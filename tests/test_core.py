@@ -61,15 +61,8 @@ class TestSourcesRegistry(unittest.TestCase):
             assert not config.is_private, f"Public source {config.id} marked as is_private"
 
     def test_sources_private_json_exists_and_ignored(self):
-        """Verify sources.private.json exists, contains 6 BPB sources, and is git ignored."""
-        private_path = BASE_DIR / "sources.private.json"
-        assert private_path.exists(), "sources.private.json must exist locally"
-
-        data = json.loads(private_path.read_text(encoding="utf-8"))
-        assert "sources" in data
-        assert len(data["sources"]) == 6, f"Expected 6 private BPB sources, got {len(data['sources'])}"
-
-        # Check git ignore status
+        """Verify sources.private.json is git-ignored and contains 6 BPB sources if present."""
+        # Check git ignore status (always runs, even if file does not exist on disk in CI)
         res = subprocess.run(
             ["git", "check-ignore", "sources.private.json"],
             cwd=str(BASE_DIR),
@@ -78,6 +71,13 @@ class TestSourcesRegistry(unittest.TestCase):
         )
         assert res.returncode == 0, "sources.private.json MUST be ignored by git!"
         assert "sources.private.json" in res.stdout
+
+        private_path = BASE_DIR / "sources.private.json"
+        if private_path.exists():
+            data = json.loads(private_path.read_text(encoding="utf-8"))
+            assert "sources" in data
+            assert len(data["sources"]) == 6, f"Expected 6 private BPB sources, got {len(data['sources'])}"
+
 
     def test_sources_private_example_safe(self):
         """Verify sources.private.json.example is a safe committed template."""
