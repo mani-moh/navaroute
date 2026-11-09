@@ -42,7 +42,8 @@ param (
     [int]$MaxTestNodes = 1000,
     [switch]$SyncPattnDb,
     [switch]$DisableRedundant,
-    [switch]$SkipPrivateGist
+    [switch]$SkipPrivateGist,
+    [switch]$PrivateOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -62,12 +63,17 @@ if ($Local) {
         exit 1
     }
 
-    $MainArgs = @("-m", "src.main", "--include-private", "--max-test-nodes", "$MaxTestNodes")
-    if ($NoHealthcheck) {
-        $MainArgs += "--no-healthcheck"
+    if ($PrivateOnly) {
+        $MainArgs = @("-m", "src.main", "--private-only")
     }
-    if ($NoPattnVariants) {
-        $MainArgs += "--no-pattn-variants"
+    else {
+        $MainArgs = @("-m", "src.main", "--include-private", "--max-test-nodes", "$MaxTestNodes")
+        if ($NoHealthcheck) {
+            $MainArgs += "--no-healthcheck"
+        }
+        if ($NoPattnVariants) {
+            $MainArgs += "--no-pattn-variants"
+        }
     }
 
     Write-Host "Executing: python $($MainArgs -join ' ')" -ForegroundColor Yellow

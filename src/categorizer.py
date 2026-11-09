@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -341,6 +342,42 @@ def _detect_current_branch() -> str:
     return "master"
 
 
+def _parse_repo_slug_from_url(url: str) -> Optional[str]:
+    url = url.strip()
+    m = re.search(r"github\.com[:/]([^/]+)/([^/\s]+?)(?:\.git)?$", url, re.IGNORECASE)
+    if m:
+        return f"{m.group(1)}/{m.group(2)}"
+    return None
+
+
+def detect_repo_slug(default: str = "mani-moh/pattn") -> str:
+    """Detect repository owner/name slug in order:
+    1. GITHUB_REPOSITORY environment variable
+    2. Parsing `git remote get-url origin` if configured
+    3. Defaulting to default ('mani-moh/pattn')
+    """
+    env_slug = (os.environ.get("GITHUB_REPOSITORY") or "").strip()
+    if env_slug:
+        return env_slug
+
+    try:
+        import subprocess
+        res = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            parsed = _parse_repo_slug_from_url(res.stdout.strip())
+            if parsed:
+                return parsed
+    except Exception:
+        pass
+
+    return default
+
+
 def _update_readme_doc(
     readme_path: Path,
     counts: dict[str, int],
@@ -351,7 +388,7 @@ def _update_readme_doc(
     healthy_nodes = sum(1 for n in public_nodes if n.passed_healthcheck)
     pattn_special = sum(1 for n in public_nodes if n.is_pattn_special())
 
-    repo_slug = os.environ.get("GITHUB_REPOSITORY", "almasi/pattn")
+    repo_slug = detect_repo_slug()
     branch = _detect_current_branch()
     repo_url = f"https://raw.githubusercontent.com/{repo_slug}/{branch}"
 
@@ -430,6 +467,9 @@ def _update_readme_doc(
         "",
         "# Fast run without healthcheck",
         "python -m src.main --no-healthcheck",
+        "",
+        "# Fast private sync to Secret Gist (uses existing subs/ without re-fetching or re-probing)",
+        "python -m src.main --private-only",
         "",
         "# Include private BPB sources and publish to private Gist",
         "python -m src.main --include-private --gist-token $GIST_TOKEN --gist-id $GIST_ID",

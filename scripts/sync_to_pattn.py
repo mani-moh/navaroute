@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import os
 import random
+import re
 import shutil
 import sqlite3
 import sys
@@ -62,10 +63,46 @@ def _detect_current_branch() -> str:
     return "master"
 
 
+def _parse_repo_slug_from_url(url: str) -> Optional[str]:
+    url = url.strip()
+    m = re.search(r"github\.com[:/]([^/]+)/([^/\s]+?)(?:\.git)?$", url, re.IGNORECASE)
+    if m:
+        return f"{m.group(1)}/{m.group(2)}"
+    return None
+
+
+def detect_repo_slug(default: str = "mani-moh/pattn") -> str:
+    """Detect repository owner/name slug in order:
+    1. GITHUB_REPOSITORY environment variable
+    2. Parsing `git remote get-url origin` if configured
+    3. Defaulting to default ('mani-moh/pattn')
+    """
+    env_slug = (os.environ.get("GITHUB_REPOSITORY") or "").strip()
+    if env_slug:
+        return env_slug
+
+    try:
+        import subprocess
+        res = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            parsed = _parse_repo_slug_from_url(res.stdout.strip())
+            if parsed:
+                return parsed
+    except Exception:
+        pass
+
+    return default
+
+
 DEFAULT_DB_PATH = Path(
     r"D:\PattN-windows-64-desktop\PattN-windows-64\guiConfigs\guiNDB.db"
 )
-DEFAULT_REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "almasi/pattn")
+DEFAULT_REPO_SLUG = detect_repo_slug()
 DEFAULT_BRANCH = _detect_current_branch()
 
 # User's private BPB entries that must NEVER be modified or deleted

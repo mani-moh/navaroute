@@ -13,9 +13,13 @@ from scripts.sync_to_pattn import (
     DEFAULT_REPO_SLUG,
     PROTECTED_BPB_REMARKS,
     SUBSCRIPTION_DEFINITIONS,
+    detect_repo_slug,
     generate_sub_id,
     sync_subscriptions,
 )
+from src.categorizer import detect_repo_slug as cat_detect_repo_slug
+from src.main import build_arg_parser
+from src.private_gist import load_public_subs_from_disk
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -61,6 +65,11 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("[switch]$NoPattnVariants", content)
         self.assertIn("[switch]$SyncPattnDb", content)
         self.assertIn('"workflow", "run", "update-subs.yml"', content)
+
+    def test_workflow_uses_private_only_for_gist(self) -> None:
+        """Verify that Secret Gist step uses --private-only without re-fetching public feeds."""
+        self.assertIn("python -m src.main --private-only", self.workflow_content)
+        self.assertNotIn("python -m src.main --include-private --no-healthcheck --no-docs", self.workflow_content)
 
 
 class TestSyncToPattn(unittest.TestCase):
@@ -230,6 +239,87 @@ class TestSyncToPattn(unittest.TestCase):
         # Check raw URLs used the custom branch
         ver_url, _ = remarks_map["⭐ PattN Hub - Verified"]
         self.assertTrue(ver_url.startswith("https://raw.githubusercontent.com/test/repo/feature-branch/subs/"))
+
+
+class TestRepoSlugAndPrivateOnly(unittest.TestCase):
+    def test_default_repo_slug(self) -> None:
+        """Verify default repo slug is 'mani-moh/pattn' when no env var or remote exists."""
+        self.assertEqual(detect_repo_slug(), "mani-moh/pattn")
+        self.assertEqual(DEFAULT_REPO_SLUG, "mani-moh/pattn")
+        self.assertEqual(cat_detect_repo_slug(), "mani-moh/pattn")
+
+    def test_detect_repo_slug_with_env(self) -> None:
+        """Verify GITHUB_REPOSITORY environment variable takes precedence."""
+        import os
+        old_env = os.environ.get("GITHUB_REPOSITORY")
+        try:
+            os.environ["GITHUB_REPOSITORY"] = "custom-owner/custom-repo"
+            self.assertEqual(detect_repo_slug(), "custom-owner/custom-repo")
+            self.assertEqual(cat_detect_repo_slug(), "custom-owner/custom-repo")
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_REPOSITORY"] = old_env
+            else:
+                os.environ.pop("GITHUB_REPOSITORY", None)
+
+    def test_parse_repo_slug_from_url(self) -> None:
+        from scripts.sync_to_pattn import _parse_repo_slug_from_url
+        self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project.git"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("git@github.com:user/project.git"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project"), "user/project")
+        self.assertIsNone(_parse_repo_slug_from_url("https://gitlab.com/user/project.git"))
+
+    def test_arg_parser_has_private_only(self) -> None:
+        parser = build_arg_parser()
+        args = parser.parse_args(["--private-only"])
+        self.assertTrue(args.private_only)
+
+    def test_load_public_subs_from_disk(self) -> None:
+        """Verify loading existing subs/ retains verified health status."""
+        nodes = load_public_subs_from_disk(subs_dir=BASE_DIR / "subs")
+        self.assertGreater(len(nodes), 100)
+        verified = [n for n in nodes if n.passed_healthcheck]
+        self.assertEqual(len(verified), 237)
+        for n in verified:
+            self.assertFalse(n.is_private)
+            self.assertTrue(n.passed_healthcheck)
+
+    def test_dynamic_privacy_audit_zero_leaks(self) -> None:
+        """Dynamic privacy audit: ensures private tokens from sources.private.json
+        never leak into git tracked files or git history."""
+        priv_path = BASE_DIR / "sources.private.json"
+        if not priv_path.exists():
+            return
+        import subprocess
+        import urllib.parse
+        data = json.loads(priv_path.read_text(encoding="utf-8"))
+        private_identifiers = set()
+        for s in data.get("sources", []):
+            u = s.get("url", "")
+            p = urllib.parse.urlparse(u)
+            if p.netloc:
+                host = p.netloc.split(":")[0]
+                private_identifiers.add(host)
+                prefix = host.split(".")[0]
+                if prefix not in ("workers", "dev", "api", "sub"):
+                    private_identifiers.add(prefix)
+            if p.path:
+                for seg in p.path.strip("/").split("/"):
+                    if len(seg) >= 8 and seg not in ("sub", "subscription", "fragment", "warp-pro", "normal"):
+                        private_identifiers.add(seg)
+
+        # Check git ls-files
+        res = subprocess.run(["git", "ls-files"], cwd=str(BASE_DIR), capture_output=True, text=True, check=True)
+        tracked = [f.strip() for f in res.stdout.splitlines() if f.strip()]
+        for f in tracked:
+            txt = (BASE_DIR / f).read_text(encoding="utf-8", errors="ignore")
+            for ident in private_identifiers:
+                self.assertNotIn(ident, txt, f"Private token '{ident[:4]}***' leaked in tracked file '{f}'!")
+
+        # Check git log
+        res_log = subprocess.run(["git", "log", "-p"], cwd=str(BASE_DIR), capture_output=True, check=True)
+        for ident in private_identifiers:
+            self.assertNotIn(ident.encode("utf-8"), res_log.stdout, f"Private token '{ident[:4]}***' leaked in git commit log!")
 
 
 if __name__ == "__main__":

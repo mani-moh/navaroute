@@ -564,3 +564,65 @@ class TestMainPipeline(unittest.TestCase):
         self.assertTrue((out_path / "categories" / "pattn-special.txt").exists())
 
         temp_dir.cleanup()
+
+    @patch("src.private_gist.fetch_all_sources")
+    def test_main_cli_private_only(self, mock_fetch):
+        temp_dir = tempfile.TemporaryDirectory()
+        base = Path(temp_dir.name)
+        subs_path = base / "subs"
+        subs_path.mkdir()
+        priv_path = base / "private_subs"
+
+        # Seed mock verified.txt and all.txt
+        verified_uri = "vless://pub-uuid@8.8.8.8:443?security=reality&sni=test.com#[✅] [🇺🇸 US] VLESS-Reality | src:test-src | 45ms"
+        all_uri_1 = verified_uri
+        all_uri_2 = "trojan://pass@9.9.9.9:443?security=tls#Unverified Trojan"
+
+        (subs_path / "verified.txt").write_text(f"# header\n{verified_uri}\n", encoding="utf-8")
+        (subs_path / "all.txt").write_text(f"# header\n{all_uri_1}\n{all_uri_2}\n", encoding="utf-8")
+
+        # Mock private node returned from private fetch
+        priv_node = ProxyNode(
+            scheme="vless",
+            address="private.host.net",
+            port=443,
+            credential="priv-secret-uuid",
+            params={"type": "ws", "security": "tls"},
+            remark="Private BPB",
+            country_code="DE",
+            is_private=True,
+        )
+        mock_fetch.return_value = ([priv_node], [], [])
+
+        orig_mtime = (subs_path / "verified.txt").stat().st_mtime
+
+        exit_code = main([
+            "--private-only",
+            "--output-dir", str(subs_path),
+            "--private-dir", str(priv_path),
+            "--no-pattn-variants",
+        ])
+
+        self.assertEqual(exit_code, 0)
+
+        # Public subs/ was NEVER modified
+        self.assertEqual((subs_path / "verified.txt").stat().st_mtime, orig_mtime)
+
+        # Private files generated
+        pv_file = priv_path / "private_verified.txt"
+        self.assertTrue(pv_file.exists())
+        pv_content = pv_file.read_text(encoding="utf-8")
+
+        # Both private node and verified public node are present
+        self.assertIn("priv-secret-uuid", pv_content)
+        self.assertIn("pub-uuid", pv_content)
+        self.assertIn("45ms", pv_content)
+        # Unverified node is NOT in private_verified.txt
+        self.assertNotIn("pass@9.9.9.9:443", pv_content)
+
+        # But unverified node IS in private_all.txt
+        pa_content = (priv_path / "private_all.txt").read_text(encoding="utf-8")
+        self.assertIn("pass@9.9.9.9:443", pa_content)
+
+        temp_dir.cleanup()
+

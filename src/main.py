@@ -78,6 +78,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Load private BPB sources and generate private_subs/ without leaking to subs/ (default: false)",
     )
     parser.add_argument(
+        "--private-only",
+        action="store_true",
+        default=False,
+        help="Fast mode: load ONLY private sources, read existing subs/ from disk, and publish to private_subs/ and Secret Gist without touching subs/ or docs",
+    )
+    parser.add_argument(
         "--max-workers",
         type=int,
         default=16,
@@ -116,6 +122,27 @@ def build_arg_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_arg_parser()
     args = parser.parse_args(argv)
+
+    if args.private_only:
+        from src.private_gist import run_private_sync
+
+        start_total = time.perf_counter()
+        run_private_sync(
+            sources_path=args.sources,
+            subs_dir=args.output_dir,
+            private_dir=args.private_dir,
+            gist_token=args.gist_token,
+            gist_id=args.gist_id,
+            max_workers=args.max_workers,
+            timeout=args.timeout,
+            pattn_variants=args.pattn_variants,
+            safe_print_fn=safe_print,
+        )
+        elapsed = time.perf_counter() - start_total
+        safe_print("-" * 65)
+        safe_print(f"✅ Private sync completed in {elapsed:.1f}s")
+        safe_print("=" * 65)
+        return 0
 
     start_total = time.perf_counter()
     safe_print("=" * 65)

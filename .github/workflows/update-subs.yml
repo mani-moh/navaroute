@@ -160,6 +160,6 @@ jobs:
             exit 0
           fi
           echo "Syncing private subscriptions to Secret Gist..."
-          python -m src.main --include-private --no-healthcheck --no-docs
+          python -m src.main --private-only
           rm -rf private_subs/
           echo "Secret Gist sync completed and private artifacts cleaned up."
