@@ -65,6 +65,9 @@ if ($Local) {
 
     if ($PrivateOnly) {
         $MainArgs = @("-m", "src.main", "--private-only")
+        if ($NoPattnVariants) {
+            $MainArgs += "--no-pattn-variants"
+        }
     }
     else {
         $MainArgs = @("-m", "src.main", "--include-private", "--max-test-nodes", "$MaxTestNodes")

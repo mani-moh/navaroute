@@ -6,6 +6,7 @@ import shutil
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import MagicMock, patch
 from pathlib import Path
 
 from scripts.sync_to_pattn import (
@@ -267,12 +268,35 @@ class TestRepoSlugAndPrivateOnly(unittest.TestCase):
         self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project.git"), "user/project")
         self.assertEqual(_parse_repo_slug_from_url("git@github.com:user/project.git"), "user/project")
         self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project/"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("https://github.com/user/project.git/"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("git@github.com:user/project.git/"), "user/project")
+        self.assertEqual(_parse_repo_slug_from_url("ssh://git@github.com/user/project.git"), "user/project")
         self.assertIsNone(_parse_repo_slug_from_url("https://gitlab.com/user/project.git"))
 
-    def test_arg_parser_has_private_only(self) -> None:
+    @patch("subprocess.run")
+    def test_detect_repo_slug_from_git_remote(self, mock_run) -> None:
+        """Verify detect_repo_slug extracts owner/repo from 'git remote get-url origin'."""
+        import subprocess
+        mock_proc = MagicMock()
+        mock_proc.returncode = 0
+        mock_proc.stdout = "git@github.com:ci-owner/ci-repo.git\n"
+        mock_run.return_value = mock_proc
+
+        import os
+        old_env = os.environ.pop("GITHUB_REPOSITORY", None)
+        try:
+            self.assertEqual(detect_repo_slug(), "ci-owner/ci-repo")
+            self.assertEqual(cat_detect_repo_slug(), "ci-owner/ci-repo")
+        finally:
+            if old_env is not None:
+                os.environ["GITHUB_REPOSITORY"] = old_env
+
+    def test_arg_parser_has_private_only_and_sources(self) -> None:
         parser = build_arg_parser()
-        args = parser.parse_args(["--private-only"])
+        args = parser.parse_args(["--private-only", "--private-sources", "custom.json"])
         self.assertTrue(args.private_only)
+        self.assertEqual(args.private_sources, "custom.json")
 
     def test_load_public_subs_from_disk(self) -> None:
         """Verify loading existing subs/ retains verified health status."""
@@ -283,6 +307,35 @@ class TestRepoSlugAndPrivateOnly(unittest.TestCase):
         for n in verified:
             self.assertFalse(n.is_private)
             self.assertTrue(n.passed_healthcheck)
+
+    def test_load_public_subs_preserves_distinct_sni_paths(self) -> None:
+        """Verify load_public_subs_from_disk does not drop distinct endpoints on same IP:port:cred."""
+        import tempfile
+        temp_dir = tempfile.TemporaryDirectory()
+        td = Path(temp_dir.name)
+        ver_file = td / "verified.txt"
+        all_file = td / "all.txt"
+
+        ver_file.write_text(
+            "# header\n"
+            "vless://uuid-1@1.2.3.4:443?sni=sni1.com&type=tcp#[✅] [🇩🇪 DE] VLESS-Reality | 50ms\n",
+            encoding="utf-8",
+        )
+        all_file.write_text(
+            "# header\n"
+            "vless://uuid-1@1.2.3.4:443?sni=sni1.com&type=tcp#Unverified 1\n"
+            "vless://uuid-1@1.2.3.4:443?sni=sni2.com&type=tcp#Unverified 2\n",
+            encoding="utf-8",
+        )
+
+        merged = load_public_subs_from_disk(subs_dir=td)
+        # Should contain verified node (sni1) + unverified node (sni2), NOT collapsed into 1 node!
+        self.assertEqual(len(merged), 2)
+        v1 = [n for n in merged if n.params.get("sni") == "sni1.com"][0]
+        v2 = [n for n in merged if n.params.get("sni") == "sni2.com"][0]
+        self.assertTrue(v1.passed_healthcheck)
+        self.assertFalse(v2.passed_healthcheck)
+        temp_dir.cleanup()
 
     def test_dynamic_privacy_audit_zero_leaks(self) -> None:
         """Dynamic privacy audit: ensures private tokens from sources.private.json

@@ -157,7 +157,7 @@ class ProxyNode:
     def format_remark(self) -> str:
         """Generate formatted remark like: [✅] [🇩🇪 DE] VLESS-Reality | src:alirzza9 | 65ms"""
         parts = []
-        if self.is_verified_source:
+        if self.is_verified_source or self.passed_healthcheck:
             parts.append("[✅]")
 
         country = self.country_code.upper() if self.country_code else "XX"

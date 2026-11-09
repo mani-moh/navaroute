@@ -63,40 +63,51 @@ def _detect_current_branch() -> str:
     return "master"
 
 
-def _parse_repo_slug_from_url(url: str) -> Optional[str]:
-    url = url.strip()
-    m = re.search(r"github\.com[:/]([^/]+)/([^/\s]+?)(?:\.git)?$", url, re.IGNORECASE)
-    if m:
-        return f"{m.group(1)}/{m.group(2)}"
-    return None
+try:
+    from src.categorizer import (
+        DEFAULT_REPO_SLUG,
+        _parse_repo_slug_from_url,
+        detect_repo_slug,
+    )
+except ImportError:
+    DEFAULT_REPO_SLUG = "mani-moh/pattn"
 
+    def _parse_repo_slug_from_url(url: str) -> Optional[str]:
+        url = url.strip().rstrip("/")
+        if url.endswith(".git"):
+            url = url[:-4]
+        m = re.search(r"github\.com[:/]([^/]+)/([^/\s]+)$", url, re.IGNORECASE)
+        if m:
+            return f"{m.group(1)}/{m.group(2)}"
+        return None
 
-def detect_repo_slug(default: str = "mani-moh/pattn") -> str:
-    """Detect repository owner/name slug in order:
-    1. GITHUB_REPOSITORY environment variable
-    2. Parsing `git remote get-url origin` if configured
-    3. Defaulting to default ('mani-moh/pattn')
-    """
-    env_slug = (os.environ.get("GITHUB_REPOSITORY") or "").strip()
-    if env_slug:
-        return env_slug
+    def detect_repo_slug(default: str = DEFAULT_REPO_SLUG) -> str:
+        """Detect repository owner/name slug in order:
+        1. GITHUB_REPOSITORY environment variable
+        2. Parsing `git remote get-url origin` if configured
+        3. Defaulting to default ('mani-moh/pattn')
+        """
+        env_slug = (os.environ.get("GITHUB_REPOSITORY") or "").strip()
+        if env_slug:
+            return env_slug
 
-    try:
-        import subprocess
-        res = subprocess.run(
-            ["git", "remote", "get-url", "origin"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        if res.returncode == 0 and res.stdout.strip():
-            parsed = _parse_repo_slug_from_url(res.stdout.strip())
-            if parsed:
-                return parsed
-    except Exception:
-        pass
+        try:
+            import subprocess
+            res = subprocess.run(
+                ["git", "remote", "get-url", "origin"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                parsed = _parse_repo_slug_from_url(res.stdout.strip())
+                if parsed:
+                    return parsed
+        except Exception:
+            pass
 
-    return default
+        return default
+
 
 
 DEFAULT_DB_PATH = Path(

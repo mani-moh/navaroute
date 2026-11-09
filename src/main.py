@@ -78,6 +78,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Load private BPB sources and generate private_subs/ without leaking to subs/ (default: false)",
     )
     parser.add_argument(
+        "--private-sources",
+        default="sources.private.json",
+        help="Path to private sources JSON (default: sources.private.json)",
+    )
+    parser.add_argument(
         "--private-only",
         action="store_true",
         default=False,
@@ -129,6 +134,7 @@ def main(argv: list[str] | None = None) -> int:
         start_total = time.perf_counter()
         run_private_sync(
             sources_path=args.sources,
+            private_sources_path=args.private_sources,
             subs_dir=args.output_dir,
             private_dir=args.private_dir,
             gist_token=args.gist_token,
@@ -153,6 +159,7 @@ def main(argv: list[str] | None = None) -> int:
     sources = load_sources(
         sources_path=args.sources,
         include_private=args.include_private,
+        private_sources_path=args.private_sources,
     )
     safe_print(
         f"[1/6] Loaded {len(sources)} enabled sources "

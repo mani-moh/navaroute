@@ -194,9 +194,10 @@ def load_subscription_file(
                 node.latency_ms = float(lat_match.group(1))
             except ValueError:
                 pass
-        cc_match = re.search(r"\[([A-Z]{2})\]", node.remark or line)
-        if cc_match:
-            node.country_code = cc_match.group(1)
+        if not node.country_code or node.country_code == "XX":
+            cc_match = re.search(r"\[(?:[^\w\]]*\s*)?([A-Z]{2})\]", node.remark or line)
+            if cc_match:
+                node.country_code = cc_match.group(1)
         nodes.append(node)
     return nodes
 
@@ -221,20 +222,19 @@ def load_public_subs_from_disk(subs_dir: str | Path = "subs") -> list[ProxyNode]
     if not verified_nodes:
         return all_nodes
 
-    seen_keys = {
-        (n.scheme, n.address, n.port, n.credential) for n in verified_nodes
-    }
+    seen_fps = {n.semantic_fingerprint() for n in verified_nodes}
     merged = list(verified_nodes)
     for n in all_nodes:
-        key = (n.scheme, n.address, n.port, n.credential)
-        if key not in seen_keys:
-            seen_keys.add(key)
+        fp = n.semantic_fingerprint()
+        if fp not in seen_fps:
+            seen_fps.add(fp)
             merged.append(n)
     return merged
 
 
 def run_private_sync(
     sources_path: str = "sources.json",
+    private_sources_path: str = "sources.private.json",
     subs_dir: str = "subs",
     private_dir: str = "private_subs",
     gist_token: Optional[str] = None,
@@ -245,7 +245,6 @@ def run_private_sync(
     safe_print_fn: Any = print,
 ) -> dict[str, str]:
     """Lightweight sync flow: loads ONLY private sources, reads already-generated
-
     subs/ from disk, and publishes to private_subs/ and Secret Gist.
     Does NOT touch public subs/, README.md, or STATUS.md.
     """
@@ -255,7 +254,12 @@ def run_private_sync(
 
     # 1. Load ONLY private sources
     sources = [
-        s for s in load_sources(sources_path=sources_path, include_private=True)
+        s
+        for s in load_sources(
+            sources_path=sources_path,
+            include_private=True,
+            private_sources_path=private_sources_path,
+        )
         if s.is_private
     ]
     safe_print_fn(f"[1/3] Loaded {len(sources)} private sources")
@@ -326,6 +330,11 @@ def main(argv: list[str] | None = None) -> int:
         help="Path to sources JSON (default: sources.json)",
     )
     parser.add_argument(
+        "--private-sources",
+        default="sources.private.json",
+        help="Path to private sources JSON (default: sources.private.json)",
+    )
+    parser.add_argument(
         "--subs-dir",
         default="subs",
         help="Directory with already generated public subs (default: subs)",
@@ -367,6 +376,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     run_private_sync(
         sources_path=args.sources,
+        private_sources_path=args.private_sources,
         subs_dir=args.subs_dir,
         private_dir=args.private_dir,
         gist_token=args.gist_token,
