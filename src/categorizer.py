@@ -323,6 +323,24 @@ def _update_status_doc(
     status_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def _detect_current_branch() -> str:
+    if env_branch := os.environ.get("GITHUB_REF_NAME"):
+        return env_branch
+    try:
+        import subprocess
+        res = subprocess.run(
+            ["git", "branch", "--show-current"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
+    except Exception:
+        pass
+    return "master"
+
+
 def _update_readme_doc(
     readme_path: Path,
     counts: dict[str, int],
@@ -334,7 +352,7 @@ def _update_readme_doc(
     pattn_special = sum(1 for n in public_nodes if n.is_pattn_special())
 
     repo_slug = os.environ.get("GITHUB_REPOSITORY", "almasi/pattn")
-    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    branch = _detect_current_branch()
     repo_url = f"https://raw.githubusercontent.com/{repo_slug}/{branch}"
 
     lines = [

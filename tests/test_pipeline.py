@@ -16,7 +16,12 @@ from unittest.mock import MagicMock, patch
 from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
 from src.fetcher import fetch_all_sources, fetch_source, load_sources
-from src.healthcheck import check_nodes_health, probe_node_socket
+from src.healthcheck import (
+    build_xray_outbound,
+    check_nodes_health,
+    probe_node_socket,
+    probe_node_xray,
+)
 from src.main import main
 from src.models import ProxyNode, SourceConfig, SourceStats
 from src.private_gist import publish_private_subs
@@ -92,6 +97,7 @@ class TestPattnVariants(unittest.TestCase):
         self.assertIn("fp=unsafe", uri_fnf)
         self.assertIn("cs=", uri_fnf)
         self.assertIn("fm=", uri_fnf)
+        self.assertIn("[PattN F&F]", uri_fnf)
 
         # 2. IPv6-OOB Variant
         self.assertIn("2a06:98c1:3120::7", v_oob.address)
@@ -104,6 +110,7 @@ class TestPattnVariants(unittest.TestCase):
         uri_oob = v_oob.to_uri(include_formatted_remark=True)
         self.assertIn("[2a06:98c1:3120::7]:443", uri_oob)
         self.assertIn("dialMode=oob.0", uri_oob)
+        self.assertIn("[PattN IPv6-OOB]", uri_oob)
 
         # 3. SNI-Spoof Variant
         self.assertEqual(v_spoof.address, "127.0.0.1")
@@ -115,6 +122,7 @@ class TestPattnVariants(unittest.TestCase):
         uri_spoof = v_spoof.to_uri(include_formatted_remark=True)
         self.assertIn("127.0.0.1:40443", uri_spoof)
         self.assertIn("fp=chrome", uri_spoof)
+        self.assertIn("[PattN SNI-Spoof]", uri_spoof)
 
     def test_pattn_variants_skip_existing_variants_and_ineligible_nodes(self):
         # A node already marked as variant should not spawn more variants
@@ -201,6 +209,41 @@ class TestHealthcheck(unittest.TestCase):
         check_nodes_health([n1, n2], max_nodes=10, timeout=0.2)
         self.assertFalse(n1.passed_healthcheck)
         self.assertFalse(n2.passed_healthcheck)
+
+    def test_build_xray_outbound_and_fallback(self):
+        vless_node = ProxyNode(
+            scheme="vless",
+            address="1.2.3.4",
+            port=443,
+            credential="uuid-vless",
+            params={"type": "ws", "security": "tls", "sni": "test.com", "path": "/ws"},
+        )
+        ob_vless = build_xray_outbound(vless_node)
+        self.assertIsNotNone(ob_vless)
+        self.assertEqual(ob_vless["protocol"], "vless")
+        self.assertEqual(ob_vless["streamSettings"]["network"], "ws")
+        self.assertEqual(ob_vless["streamSettings"]["security"], "tls")
+
+        trojan_node = ProxyNode(
+            scheme="trojan",
+            address="5.6.7.8",
+            port=443,
+            credential="secret-trojan",
+            params={"type": "grpc", "serviceName": "tr-grpc", "security": "reality", "pbk": "test-pbk"},
+        )
+        ob_trojan = build_xray_outbound(trojan_node)
+        self.assertIsNotNone(ob_trojan)
+        self.assertEqual(ob_trojan["protocol"], "trojan")
+        self.assertEqual(ob_trojan["streamSettings"]["security"], "reality")
+
+        # Invalid node
+        invalid_node = ProxyNode(scheme="unknown", address="1.1.1.1", port=0, credential="c")
+        self.assertIsNone(build_xray_outbound(invalid_node))
+
+        # probe_node_xray with non-existent binary gracefully falls back to socket probe
+        passed, latency = probe_node_xray(vless_node, xray_bin="non_existent_xray_bin", timeout=0.2)
+        self.assertFalse(passed)
+        self.assertIsNone(latency)
 
 
 class TestCategorizer(unittest.TestCase):

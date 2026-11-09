@@ -3,6 +3,7 @@
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@172.67.156.99:443?encryption=none&security=tls&sni=PPAL03.wopaJO6948.WorKErs.dEv&type=ws&host=PPAL03.wopaJO6948.WorKErs.dEv&path=%2F2h9pwob102xqfyhg%3Fed%3D2560#[🇼🇸 WS] VLESS-ws | src:lalatinahub-mineral
+vless://90d7db9b-972b-4073-8738-12cf42124260@104.19.247.78:443?type=ws&encryption=none&flow=&host=kawaiifreevpn.pages.dev&path=%2F%3Fed%3D2560&security=tls&sni=kawaiifreevpn.pages.dev#[🇼🇸 WS] VLESS-ws | src:elf2017spring-configshub
 vless://f86586c2-3a4c-49c9-83ec-5ae43786d4f7@104.16.182.65:80?type=ws&encryption=none&flow=&host=dark-bonus-0f2f-ppal03.yapeyef825.workers.dev&path=%2FTelegram#[🇼🇸 WS] VLESS-ws | src:lalatinahub-mineral
 vless://26bc13af-e442-4956-afd4-b8f85744d26f@172.66.139.99:80?type=ws&encryption=none&flow=&host=fggerlad.gerald81.dpdns.org&path=%2F%3Fed%3D2560#[🇼🇸 WS] VLESS-ws | src:lalatinahub-mineral
 vless://1f431db3-1918-4e7b-a855-c93485e11694@104.16.103.250:80?type=ws&encryption=none&flow=&host=pari.parinazz.dpdns.org&path=%2F%3Fed%3D2560#[🇼🇸 WS] VLESS-ws | src:lalatinahub-mineral

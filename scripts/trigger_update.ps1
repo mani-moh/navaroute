@@ -41,6 +41,7 @@ param (
     [switch]$NoPattnVariants,
     [int]$MaxTestNodes = 1000,
     [switch]$SyncPattnDb,
+    [switch]$DisableRedundant,
     [switch]$SkipPrivateGist
 )
 
@@ -79,7 +80,11 @@ if ($Local) {
 
     if ($SyncPattnDb) {
         Write-Host "`nSyncing subscriptions to local PattN database..." -ForegroundColor Cyan
-        & python scripts/sync_to_pattn.py --use-local-private
+        $SyncArgs = @("scripts/sync_to_pattn.py", "--use-local-private")
+        if ($DisableRedundant) {
+            $SyncArgs += "--disable-redundant"
+        }
+        & python $SyncArgs
     }
 
     Write-Host "`n[PattN] Local run completed successfully." -ForegroundColor Green

@@ -192,6 +192,14 @@ class ProxyNode:
                 proto_label = scheme_label
         parts.append(proto_label)
 
+        # Preserve PattN bypass variant labels in formatted remark
+        if "[PattN F&F]" in self.remark or (self.address == "188.114.98.0" and "pattn_variant" in self.tags):
+            parts.append("[PattN F&F]")
+        elif "[PattN IPv6-OOB]" in self.remark or ("oob.0" in self.params.get("dialMode", "") and "pattn_variant" in self.tags):
+            parts.append("[PattN IPv6-OOB]")
+        elif "[PattN SNI-Spoof]" in self.remark or (self.address == "127.0.0.1" and "pattn_variant" in self.tags):
+            parts.append("[PattN SNI-Spoof]")
+
         src_part = ""
         if self.source_ids:
             first_src = sorted(self.source_ids)[0]

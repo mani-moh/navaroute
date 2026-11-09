@@ -60,6 +60,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Maximum prioritized nodes to probe during healthcheck (default: 800)",
     )
     parser.add_argument(
+        "--use-xray",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Use local Xray binary for deep SOCKS proxy health probing when available (default: disabled, uses fast socket handshake)",
+    )
+    parser.add_argument(
         "--pattn-variants",
         action=argparse.BooleanOptionalAction,
         default=True,
@@ -161,7 +167,13 @@ def main(argv: list[str] | None = None) -> int:
             f"[5/6] Probing socket reachability on up to {args.max_test_nodes} "
             f"prioritized nodes..."
         )
-        check_nodes_health(all_nodes, max_nodes=args.max_test_nodes, concurrency=64, timeout=3.5)
+        check_nodes_health(
+            all_nodes,
+            max_nodes=args.max_test_nodes,
+            concurrency=64,
+            timeout=3.5,
+            use_xray=args.use_xray,
+        )
         passed_count = sum(1 for n in all_nodes if n.passed_healthcheck)
         safe_print(f"      Healthcheck finished: {passed_count} nodes responsive")
     else:

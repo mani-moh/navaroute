@@ -2,10 +2,9 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://7592ca5c-b352-4562-8856-a9c936a3331b@g50ur7wpf.apruxdomain.online:443?flow=xtls-rprx-vision&type=raw&security=reality&sni=eg1.hat.onl&pbk=tt35z7OjUx1kFP0ymroVmbVMiflTzKCkAKbqkhlv7AE&sid=91570bdd8b38b7d9&fp=qq#[✅] [🇪🇬 EG] VLESS-Reality | src:luxxuria-speed-tested
+vless://3a90bf69-1ffe-4ebb-b9a7-ad9ba8e9f66f@185.147.27.164:8443?allowInsecure=1&encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ekb.eg&type=tcp#[🇪🇬 EG] VLESS-tcp | src:farid-karimi-vless-iran
 trojan://af4b064a9c39472fb34ad8b113acdc6b@38.54.59.90:443?allowInsecure=1&sni=38.54.59.90#[🇪🇬 EG] Trojan | src:0xradikal-all
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.152.155.131:443?allowInsecure=1&fp=chrome&sni=ekb.eg#[🇪🇬 EG] Trojan | src:0xradikal-all
-vless://3a90bf69-1ffe-4ebb-b9a7-ad9ba8e9f66f@185.147.27.164:8443?allowInsecure=1&encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ekb.eg&type=tcp#[🇪🇬 EG] VLESS-tcp | src:farid-karimi-vless-iran
 vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@50.7.36.29:443?&security=tls&flow=xtls-rprx-vision&fp=firefox&sni=ekb.eg&type=tcp&headerType=none&path=%2F#[🇪🇬 EG] VLESS-tcp | src:leon406-subcrawler-vless
 vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@50.7.5.166:443?sni=ekb.eg&flow=xtls-rprx-vision&fp=firefox&security=tls#[🇪🇬 EG] VLESS | src:leon406-subcrawler-vless
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2ZmYxNDIzZjYxZmZlNjcz@38.54.59.16:11201#[🇪🇬 EG] SS | src:lalatinahub-mineral

@@ -2,9 +2,10 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://d9eb02da-a469-44a7-a393-ba1c5fbbc8c4@177.1.187.139:1984?security=reality&encryption=none&pbk=ikKnBJfcuPy1U0O3Cb71zv_G1liM5QcAYhR10A0Ech0&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=ruori.ai&sid=0f00666a#[🇦🇮 AI] VLESS-Reality | src:heliataromi-confighub-mixed
 vless://7c59a119-d02e-4944-8344-b7b138446cc4@portal_s.aitseller.ir:443?security=reality&encryption=mlkem768x25519plus.native.0rtt.OuI4wgW7Aaz9w1LOR8URh_AzR3IvnR1y7DmkBayGJCs&pbk=7EKv-3zTkqhIQLFJ7GfjiKfSC2aYoKd_RG2JGx9gznc&headerType=none&fp=qq&type=tcp&sni=oecd.ai&sid=e6b05cc8816673e3#[🇦🇮 AI] VLESS-Reality | src:farid-karimi-vless-iran
 vless://7c59a119-d02e-4944-8344-b7b138446cc4@gef.pexfima.ir:443?security=reality&encryption=mlkem768x25519plus.native.0rtt.OuI4wgW7Aaz9w1LOR8URh_AzR3IvnR1y7DmkBayGJCs&pbk=7EKv-3zTkqhIQLFJ7GfjiKfSC2aYoKd_RG2JGx9gznc&headerType=none&fp=chrome&type=tcp&sni=oecd.ai&sid=e6b05cc8816673e3#[🇦🇮 AI] VLESS-Reality | src:farid-karimi-vless-iran
+vless://342675b7-e036-43f0-bf1a-fa341c91202c@87.120.106.95:443?encryption=none&type=xhttp&path=/&host=melious.ai&mode=auto&security=reality&sni=melious.ai&fp=chrome&pbk=iQCvXMQZR-eT2MVmXP7c99cvcle22mVWuKem_345BWM#[🇦🇮 AI] VLESS-Reality | src:solispirit-all
+vless://342675b7-e036-43f0-bf1a-fa341c91202c@homestead-walloping.sports-streams.org:443?encryption=none&type=xhttp&path=/&host=melious.ai&mode=auto&security=reality&sni=melious.ai&fp=chrome&pbk=iQCvXMQZR-eT2MVmXP7c99cvcle22mVWuKem_345BWM#[🇦🇮 AI] VLESS-Reality | src:solispirit-all
 vless://d9eb02da-a469-44a7-a393-ba1c5fbbc8c4@177.1.187.139:1984?sni=ruori.ai&flow=xtls-rprx-vision&fp=chrome&security=tls#[🇦🇮 AI] VLESS | src:leon406-subcrawler-vless
 vless://3df643c6-9f15-4400-a55d-5828998bfd40@De.berqovo.ir:6300?security=reality&type=tcp&headerType=&path=&host=&sni=green.ai&fp=chrome&pbk=lQbgwNDYw6Zbjdim0JtXUarzb-3GSjDvtX6FJYZD9Qo&sid=#[🇦🇮 AI] VLESS-Reality | src:leon406-subcrawler-vless
 vless://48fc160b-4472-4811-a271-b4b7002a7963@199.232.3.80:443?type=ws&encryption=none&flow=&host=Join-Bede-elena-eliv2ray.ai&security=tls&sni=Join-Bede-elena-eLiV2raY.ai&fp=qq#[🇦🇮 AI] VLESS-ws | src:lalatinahub-mineral

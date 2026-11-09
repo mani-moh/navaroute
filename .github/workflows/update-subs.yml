@@ -139,20 +139,26 @@ jobs:
             echo "No subscription updates to commit"
           else
             git commit -m "chore(auto): update subscriptions & health status [skip ci]"
+            CURRENT_BRANCH="${GITHUB_REF_NAME:-$(git branch --show-current)}"
+            CURRENT_BRANCH="${CURRENT_BRANCH:-master}"
             for i in 1 2 3 4 5; do
-              git pull --rebase origin main || true
-              git push && break || sleep 3
+              git pull --rebase origin "$CURRENT_BRANCH" || true
+              git push origin "HEAD:$CURRENT_BRANCH" && break || sleep 3
             done
           fi
 
       - name: Publish private subscriptions to Secret Gist
-        if: ${{ env.PRIVATE_SOURCES != '' && env.GIST_TOKEN != '' && (github.event_name != 'workflow_dispatch' || inputs.sync_private_gist == true) }}
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.sync_private_gist == true) }}
         shell: bash
         env:
           PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
           GIST_ID: ${{ secrets.GIST_ID }}
         run: |
+          if [ -z "$PRIVATE_SOURCES" ] || [ -z "$GIST_TOKEN" ]; then
+            echo "Secret Gist upload skipped: PRIVATE_SOURCES or GIST_TOKEN secret is not set."
+            exit 0
+          fi
           echo "Syncing private subscriptions to Secret Gist..."
           python -m src.main --include-private --no-healthcheck --no-docs
           rm -rf private_subs/

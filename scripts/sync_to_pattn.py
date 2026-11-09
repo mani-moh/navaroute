@@ -16,6 +16,7 @@ Features:
 from __future__ import annotations
 
 import argparse
+import os
 import random
 import shutil
 import sqlite3
@@ -43,10 +44,29 @@ def safe_print(*args: Any, **kwargs: Any) -> None:
         file.write(text.encode(encoding, errors="replace").decode(encoding))
     file.flush()
 
+def _detect_current_branch() -> str:
+    if env_branch := os.environ.get("GITHUB_REF_NAME"):
+        return env_branch
+    try:
+        import subprocess
+        res = subprocess.run(
+            ["git", "branch", "--show-current"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
+    except Exception:
+        pass
+    return "master"
+
+
 DEFAULT_DB_PATH = Path(
     r"D:\PattN-windows-64-desktop\PattN-windows-64\guiConfigs\guiNDB.db"
 )
-DEFAULT_REPO_SLUG = "patterniha/pattn-hub"
+DEFAULT_REPO_SLUG = os.environ.get("GITHUB_REPOSITORY", "almasi/pattn")
+DEFAULT_BRANCH = _detect_current_branch()
 
 # User's private BPB entries that must NEVER be modified or deleted
 PROTECTED_BPB_REMARKS = {
@@ -135,6 +155,7 @@ def backup_database(db_path: Path) -> Path:
 def sync_subscriptions(
     db_path: Path = DEFAULT_DB_PATH,
     repo_slug: str = DEFAULT_REPO_SLUG,
+    branch: Optional[str] = None,
     use_local_private: bool = False,
     local_repo_root: Optional[Path] = None,
     disable_redundant: bool = False,
@@ -146,10 +167,11 @@ def sync_subscriptions(
 
     repo_dir = local_repo_root or Path(__file__).resolve().parent.parent
     now_ts = int(time.time())
+    target_branch = branch or DEFAULT_BRANCH
 
     # Build target subscriptions list
     subs_to_sync: list[dict] = []
-    base_raw_url = f"https://raw.githubusercontent.com/{repo_slug}/main"
+    base_raw_url = f"https://raw.githubusercontent.com/{repo_slug}/{target_branch}"
 
     for sub_def in SUBSCRIPTION_DEFINITIONS:
         subs_to_sync.append(
@@ -248,7 +270,7 @@ def sync_subscriptions(
         for row in rows:
             rem = row["Remarks"] or ""
             # Never disable protected BPB entries or PattN Hub groups!
-            if rem.lower() in PROTECTED_BPB_REMARKS or rem in hub_remarks:
+            if rem.strip().lower() in PROTECTED_BPB_REMARKS or rem in hub_remarks:
                 continue
 
             # If enabled, disable redundant upstream source
@@ -294,6 +316,11 @@ def main() -> int:
         help=f"GitHub repository slug (owner/repo) for subscription raw URLs (default: {DEFAULT_REPO_SLUG})",
     )
     parser.add_argument(
+        "--branch",
+        default=None,
+        help=f"Git branch for subscription raw URLs (default: auto-detected or {DEFAULT_BRANCH})",
+    )
+    parser.add_argument(
         "--use-local-private",
         action="store_true",
         help="Include local private BPB + Verified subscription pointing to local private_subs/",
@@ -315,6 +342,7 @@ def main() -> int:
         sync_subscriptions(
             db_path=args.db_path,
             repo_slug=args.repo_slug,
+            branch=args.branch,
             use_local_private=args.use_local_private,
             disable_redundant=args.disable_redundant,
             dry_run=args.dry_run,

@@ -2,8 +2,8 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=none#[🇻🇳 VN] VLESS-tcp | src:0xradikal-all
-vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?#[🇻🇳 VN] VLESS | src:delta-kronecker-all
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=none#[🇻🇳 VN] VLESS-tcp | src:delta-kronecker-frag-json
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#[✅] [🇻🇳 VN] VLESS | src:0xradikal-all
 vless://57beeeb0-03fc-4fc9-94da-7604488a7134@154.21.203.106:51279?sni=www.tesla.com&flow=xtls-rprx-vision&fp=random&security=tls#[🇻🇳 VN] VLESS | src:ermaozi-get-subscribe
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@103.238.213.96:989#[🇻🇳 VN] SS | src:farid-karimi-mixed-iran
 vless://5d02517f-63d5-3e9f-b467-1bcf4d4e25d3@103.173.155.212:443?security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&insecure=0&host=b67c99c6s591.csgfw.top&headerType=none&fp=firefox&type=tcp&allowInsecure=0&flow=xtls-rprx-vision&sni=u695099ub67c99c6s591.csgfw.top#[🇻🇳 VN] VLESS-tcp | src:free1zona-keyfreetee
@@ -19,15 +19,9 @@ vmess://eyJhZGQiOiAiMTAzLjc1LjE4Ni4xNTMiLCAiYWlkIjogMCwgImhvc3QiOiAiIiwgImlkIjog
 trojan://c95357eb-2869-4511-8940-f0dc5e1ec9b1@103.72.96.55:443/?type=tcp&security=tls&sni=hanoiidc2.5gsieutocdo.com&alpn=http%2F1.1&allowInsecure=1&fp=chrome#[🇻🇳 VN] Trojan-tcp | src:0xradikal-all
 trojan://5a92d674-308c-4d95-b283-28383e63a59b@103.9.77.6:443?sni=103.9.77.6&type=tcp#[🇻🇳 VN] Trojan-tcp | src:0xradikal-all
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=raw#[🇻🇳 VN] VLESS-raw | src:heliataromi-confighub-mixed
-ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.28:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
-ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.26:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
-ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.20:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
-ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.22:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
-vmess://eyJhZGQiOiAiMTYwLjE5Ljc4LjIzNyIsICJhaWQiOiAwLCAiaG9zdCI6ICIiLCAiaWQiOiAiZjUyN2M3YjItYWIzYS00YWVjLWEzZDEtOTQzNTEwMjBkZmY0IiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi9hcmtpP2VkPTIwNDgiLCAicG9ydCI6IDI2MDM3LCAicHMiOiAiW/Cfh7vwn4ezIFZOXSBWTWVzcy13cyB8IHNyYzplbGYyMDE3c3ByaW5nLWNvbmZpZ3NodWIiLCAidGxzIjogIiIsICJ0eXBlIjogImF1dG8iLCAic2VjdXJpdHkiOiAiYXV0byIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInNuaSI6ICIifQ==
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@103.163.218.2:990#[🇻🇳 VN] SS | src:elf2017spring-configshub
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@103.163.218.2:989#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYTVhNWVmYWUwMGE4MzJi@112.197.26.106:45310#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYTVhNWVmYWUwMGE4MzJi@112.197.26.106:45311#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@103.163.218.2:990#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.11:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.12:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.139:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
@@ -157,6 +151,7 @@ ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFN
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.253:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.254:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.25:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.26:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.27:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.28:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.154.29:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
@@ -281,6 +276,7 @@ ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFN
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.206:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.207:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.209:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.20:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.211:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.213:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.214:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
@@ -296,6 +292,7 @@ ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFN
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.226:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.227:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.228:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.22:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.230:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.232:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.233:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
@@ -311,6 +308,7 @@ ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFN
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.25:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.26:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.27:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.28:38388#[🇻🇳 VN] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.29:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.2:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.30:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
@@ -372,9 +370,11 @@ ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFN
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.8:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@103.186.155.9:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6WG44aktkbURNMDBJZU8lIyQjZkpBTXRzRUFFVU9wSC9ZV1l0WXFERm5UMFNW@221.132.29.208:38388#[🇻🇳 VN] SS | src:lalatinahub-mineral
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@103.163.218.2:989#[🇻🇳 VN] SS | src:elf2017spring-configshub
 trojan://5623be5f-c9da-4511-81a9-b4b39b16edae@103.195.236.24:443/?type=tcp&security=tls#[🇻🇳 VN] Trojan-tcp | src:lalatinahub-mineral
 vless://17334470-6de9-49bc-abae-deba0443668a@195.26.26.56:443?security=reality&encryption=none&pbk=ebu4fMRt44lcyq5jaBuHTyay54XscBWrNyyzCXjOTF4&headerType=none&fp=chrome&spx=%2F8bc6e543573d79f&type=tcp&sni=www.sony.com.vn&sid=b1#[🇻🇳 VN] VLESS-Reality | src:lalatinahub-mineral
 vless://ca5e03e1-6805-4531-a7e5-a775c94b6771@103.153.254.178:26211/?type=tcp&encryption=none#[🇻🇳 VN] VLESS-tcp | src:lalatinahub-mineral
 vless://cca053d5-7123-4a87-83d6-babe4e9c8115@103.245.237.124:58202/?type=ws&encryption=none&path=%2F#[🇻🇳 VN] VLESS-ws | src:lalatinahub-mineral
 vmess://eyJhZGQiOiAiMTAzLjE2Ni4xODMuMjI2IiwgImFpZCI6ICIwIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJob3N0IjogIiIsICJpZCI6ICJlZjkxOWM2Ny02NjM4LTQ0MTYtOTFhZi05YTEzZmZlNWI5Y2EiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3RhbmR1bmcyODguY2xpY2siLCAicG9ydCI6ICI4MCIsICJwcyI6ICJb8J+Hu/Cfh7MgVk5dIFZNZXNzLXdzIHwgc3JjOmxhbGF0aW5haHViLW1pbmVyYWwiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiIiwgInYiOiAiMiJ9
 vmess://eyJhZGQiOiAidm40LnZpZWZhc3QubmV0IiwgImFpZCI6ICIwIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJob3N0IjogInd3dy5saW5lbW8uanAiLCAiaWQiOiAiOWU3Njc2N2QtNGJmYS00ZjA0LWE4MDAtNDJlMmY2M2FmZWQyIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92aWVmYXN0IiwgInBvcnQiOiAiODAiLCAicHMiOiAiW/Cfh7vwn4ezIFZOXSBWTWVzcy13cyB8IHNyYzpsYWxhdGluYWh1Yi1taW5lcmFsIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIiIsICJ2IjogIjIifQ==
+vmess://eyJhZGQiOiAiMTYwLjE5Ljc4LjIzNyIsICJhaWQiOiAwLCAiaG9zdCI6ICIiLCAiaWQiOiAiZjUyN2M3YjItYWIzYS00YWVjLWEzZDEtOTQzNTEwMjBkZmY0IiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi9hcmtpP2VkPTIwNDgiLCAicG9ydCI6IDI2MDM3LCAicHMiOiAiW/Cfh7vwn4ezIFZOXSBWTWVzcy13cyB8IHNyYzplbGYyMDE3c3ByaW5nLWNvbmZpZ3NodWIiLCAidGxzIjogIiIsICJ0eXBlIjogImF1dG8iLCAic2VjdXJpdHkiOiAiYXV0byIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInNuaSI6ICIifQ==

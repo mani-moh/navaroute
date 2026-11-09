@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 from scripts.sync_to_pattn import (
+    DEFAULT_BRANCH,
     DEFAULT_REPO_SLUG,
     PROTECTED_BPB_REMARKS,
     SUBSCRIPTION_DEFINITIONS,
@@ -169,7 +170,7 @@ class TestSyncToPattn(unittest.TestCase):
         for sub_def in SUBSCRIPTION_DEFINITIONS:
             self.assertIn(sub_def["remarks"], remarks_map)
             url, enabled = remarks_map[sub_def["remarks"]]
-            self.assertTrue(url.startswith("https://raw.githubusercontent.com/test/repo/main/subs/"))
+            self.assertTrue(url.startswith(f"https://raw.githubusercontent.com/test/repo/{DEFAULT_BRANCH}/subs/"))
             self.assertEqual(enabled, 1)
 
     def test_sync_idempotence(self) -> None:
@@ -203,6 +204,32 @@ class TestSyncToPattn(unittest.TestCase):
         # Superseded feeds MUST be disabled
         self.assertEqual(remarks_enabled["public_feed_1"], 0)
         self.assertEqual(remarks_enabled["public_feed_2"], 0)
+
+    def test_sync_with_use_local_private_and_custom_branch(self) -> None:
+        """--use-local-private adds 10 items and respects custom branch."""
+        summary = sync_subscriptions(
+            db_path=self.db_path,
+            repo_slug="test/repo",
+            branch="feature-branch",
+            use_local_private=True,
+            dry_run=False,
+        )
+        self.assertEqual(summary["added"], 10)
+
+        conn = sqlite3.connect(str(self.db_path))
+        cur = conn.cursor()
+        rows = cur.execute("SELECT Remarks, Url, Enabled FROM SubItem").fetchall()
+        remarks_map = {r[0]: (r[1], r[2]) for r in rows}
+        conn.close()
+
+        # Check private BPB group exists
+        priv_remark = "🔒 PattN Hub - Private BPB + Verified"
+        self.assertIn(priv_remark, remarks_map)
+        self.assertEqual(remarks_map[priv_remark][1], 1)
+
+        # Check raw URLs used the custom branch
+        ver_url, _ = remarks_map["⭐ PattN Hub - Verified"]
+        self.assertTrue(ver_url.startswith("https://raw.githubusercontent.com/test/repo/feature-branch/subs/"))
 
 
 if __name__ == "__main__":
