@@ -8,7 +8,6 @@ on:
       - "scripts/**"
       - "tests/**"
       - "sources.json"
-      - "sources.private.json.example"
       - ".github/workflows/**"
   pull_request:
     branches: [master, main]
@@ -41,11 +40,11 @@ jobs:
       - name: Run unit and integration tests
         run: python -m unittest discover -s tests -v
 
-      - name: Static privacy & secret scan
+      - name: Static secret scan
         shell: bash
         run: |
-          if git status --porcelain | grep -E "(sources\.private\.json|private_subs/|\.env$)"; then
-            echo "ERROR: Private files detected in tracked state!"
+          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
+            echo "ERROR: Local/sensitive files detected in tracked state!"
             exit 1
           fi
           if git grep -I -E "(nvapi-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16})"; then

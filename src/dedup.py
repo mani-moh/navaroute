@@ -7,7 +7,7 @@ def deduplicate_nodes(nodes: list[ProxyNode]) -> list[ProxyNode]:
     """Deduplicate a list of ProxyNodes by their semantic fingerprint.
 
     Merges source_ids, tags, is_verified_source, passed_healthcheck,
-    is_private, minimum latency_ms, and selects the best country_code.
+    minimum latency_ms, and selects the best country_code.
     """
     groups: dict[str, list[ProxyNode]] = {}
     for node in nodes:
@@ -24,7 +24,6 @@ def deduplicate_nodes(nodes: list[ProxyNode]) -> list[ProxyNode]:
         merged_tags: set[str] = set()
         is_verified = False
         passed_health = False
-        is_priv = False
         latencies: list[float] = []
         country_codes: list[str] = []
 
@@ -38,8 +37,6 @@ def deduplicate_nodes(nodes: list[ProxyNode]) -> list[ProxyNode]:
                 is_verified = True
             if n.passed_healthcheck:
                 passed_health = True
-            if n.is_private:
-                is_priv = True
             if n.latency_ms is not None:
                 latencies.append(n.latency_ms)
             if n.country_code and n.country_code != "XX":
@@ -72,7 +69,6 @@ def deduplicate_nodes(nodes: list[ProxyNode]) -> list[ProxyNode]:
             is_verified_source=is_verified,
             passed_healthcheck=passed_health,
             latency_ms=min_latency,
-            is_private=is_priv,
         )
         deduped.append(merged_node)
 

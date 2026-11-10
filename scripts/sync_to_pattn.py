@@ -6,9 +6,8 @@ D:\PattN-windows-64-desktop\PattN-windows-64\guiConfigs\guiNDB.db
 
 Features:
 - Automatic timestamped backup before any modifications (guiNDB.db.bak.<timestamp>).
-- Upserts the 9 standardized PattN Hub subscription groups.
-- Optionally adds local private BPB + Verified subscription (--use-local-private).
-- Never deletes or disables existing private BPB subscriptions (normal, fragment, raw, warp, warp pro, oldraw).
+- Upserts the standardized PattN Hub subscription groups.
+- Optionally adds local Iran-live verified subscription (--use-local-iran).
 - Optional --disable-redundant to disable individual public feeds superseded by PattN Hub.
 - Supports --dry-run for safe preview.
 """
@@ -116,16 +115,6 @@ DEFAULT_DB_PATH = Path(
 DEFAULT_REPO_SLUG = detect_repo_slug()
 DEFAULT_BRANCH = _detect_current_branch()
 
-# User's private BPB entries that must NEVER be modified or deleted
-PROTECTED_BPB_REMARKS = {
-    "normal",
-    "fragment",
-    "raw",
-    "warp",
-    "warp pro",
-    "oldraw",
-}
-
 SUBSCRIPTION_DEFINITIONS = [
     {
         "remarks": "⭐ PattN Hub - Verified",
@@ -204,7 +193,6 @@ def sync_subscriptions(
     db_path: Path = DEFAULT_DB_PATH,
     repo_slug: str = DEFAULT_REPO_SLUG,
     branch: Optional[str] = None,
-    use_local_private: bool = False,
     use_local_iran: bool = False,
     local_repo_root: Optional[Path] = None,
     disable_redundant: bool = False,
@@ -233,7 +221,7 @@ def sync_subscriptions(
         )
 
     if use_local_iran:
-        iran_sub_path = repo_dir / "private_subs" / "iran_verified.txt"
+        iran_sub_path = repo_dir / "local_subs" / "iran_verified.txt"
         iran_url = f"file:///{iran_sub_path.as_posix().lstrip('/')}"
         subs_to_sync.insert(
             0,
@@ -242,24 +230,6 @@ def sync_subscriptions(
                 "url": iran_url,
                 "memo": "End-to-end Xray verified directly from Iranian ISP",
                 "sort": 98,
-            },
-        )
-
-    # Optional private BPB + Verified subscription
-    if use_local_private:
-        priv_sub_path = repo_dir / "private_subs" / "private_verified.txt"
-        priv_url = (
-            f"file:///{priv_sub_path.as_posix().lstrip('/')}"
-            if priv_sub_path.exists()
-            else f"{base_raw_url}/subs/verified.txt"
-        )
-        subs_to_sync.insert(
-            0,
-            {
-                "remarks": "🔒 PattN Hub - Private BPB + Verified",
-                "url": priv_url,
-                "memo": "User private Cloudflare BPB configs at top + verified public configs",
-                "sort": 99,
             },
         )
 
@@ -331,8 +301,9 @@ def sync_subscriptions(
         hub_remarks = {item["remarks"] for item in subs_to_sync}
         for row in rows:
             rem = row["Remarks"] or ""
-            # Never disable protected BPB entries or PattN Hub groups!
-            if rem.strip().lower() in PROTECTED_BPB_REMARKS or rem in hub_remarks:
+            row_url = (row["Url"] or "").strip().lower()
+            # Keep PattN Hub groups and local file:// subscriptions enabled
+            if rem in hub_remarks or row_url.startswith("file://"):
                 continue
 
             # If enabled, disable redundant upstream source
@@ -383,19 +354,14 @@ def main() -> int:
         help=f"Git branch for subscription raw URLs (default: auto-detected or {DEFAULT_BRANCH})",
     )
     parser.add_argument(
-        "--use-local-private",
-        action="store_true",
-        help="Include local private BPB + Verified subscription pointing to local private_subs/",
-    )
-    parser.add_argument(
         "--use-local-iran",
         action="store_true",
-        help="Include local Iran-live verified subscription pointing to private_subs/iran_verified.txt",
+        help="Include local Iran-live verified subscription pointing to local_subs/iran_verified.txt",
     )
     parser.add_argument(
         "--disable-redundant",
         action="store_true",
-        help="Disable redundant public feeds superseded by PattN Hub while preserving BPB configs",
+        help="Disable redundant HTTP/HTTPS public feeds superseded by PattN Hub",
     )
     parser.add_argument(
         "--dry-run",
@@ -410,7 +376,6 @@ def main() -> int:
             db_path=args.db_path,
             repo_slug=args.repo_slug,
             branch=args.branch,
-            use_local_private=args.use_local_private,
             use_local_iran=args.use_local_iran,
             disable_redundant=args.disable_redundant,
             dry_run=args.dry_run,

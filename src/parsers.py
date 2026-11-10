@@ -239,7 +239,6 @@ def _parse_vmess_json(raw_uri: str, rest: str, source: Optional[SourceConfig]) -
         source_ids=source_ids,
         tags=tags,
         is_verified_source=source.verified_upstream if source else False,
-        is_private=source.is_private if source else False,
     )
 
 
@@ -317,7 +316,6 @@ def _parse_shadowsocks(raw_uri: str, rest: str, source: Optional[SourceConfig]) 
         source_ids=source_ids,
         tags=tags,
         is_verified_source=source.verified_upstream if source else False,
-        is_private=source.is_private if source else False,
     )
 
 
@@ -413,7 +411,6 @@ def _parse_standard_uri(
         source_ids=source_ids,
         tags=tags,
         is_verified_source=source.verified_upstream if source else False,
-        is_private=source.is_private if source else False,
     )
 
 
@@ -559,7 +556,6 @@ def _extract_nodes_from_xray_json(
                             source_ids={source.id},
                             tags=set(source.tags),
                             is_verified_source=source.verified_upstream,
-                            is_private=source.is_private,
                         )
                         extracted.append(node)
 
@@ -589,7 +585,6 @@ def _extract_nodes_from_xray_json(
                             source_ids={source.id},
                             tags=set(source.tags),
                             is_verified_source=source.verified_upstream,
-                            is_private=source.is_private,
                         )
                         extracted.append(node)
             except Exception:

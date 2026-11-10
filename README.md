@@ -1,6 +1,6 @@
 # 🌐 PattN - High-Speed Proxy Aggregator & Bypass Subscription Pipeline
 
-[![CI Tests](https://github.com/mani-moh/pattn/actions/workflows/ci.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/ci.yml) [![Update Subs](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml) [![Daily Discovery](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml) ![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) ![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI Tests](https://github.com/mani-moh/pattn/actions/workflows/ci.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/ci.yml) [![Update Subs](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml) [![Daily Discovery](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml) ![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. PattN aggregates 60+ verified upstream sources, performs deep semantic deduplication, synthesizes specialized PattN fragment and out-of-band bypass variants, runs live TCP/TLS health checks, and categorizes subscriptions for seamless multi-platform import.
 
@@ -50,15 +50,6 @@ Optimized for restrictive network environments, DPI evasion, and censorship circ
 
 ---
 
-## 🔒 Private BPB Subscriptions (Zero-Leak Architecture)
-
-PattN features strict privacy isolation for private Cloudflare Workers / BPB endpoints:
-1. Store private subscription URLs locally in `sources.private.json` (git-ignored) or as a GitHub Actions secret `PRIVATE_SOURCES`.
-2. Private nodes are marked with `is_private=True` and **never written to any public subscription file**.
-3. Optional Secret Gist upload publishes private combined feeds (`bpb_only.txt`, `private_verified.txt`) directly to your private GitHub Gist, providing raw URLs accessible on all your devices.
-
----
-
 ## 🛰️ Autonomous Discovery Agent (NVIDIA NIM Frontier AI)
 
 Before every 6-hour refresh (plus a daily 500-request extended deep scan), PattN runs an autonomous discovery agent powered by `moonshotai/kimi-k2.6` (with automatic failover to `mistralai/mistral-large-4-1t-a52b`, `nvidia/nemotron-3-ultra-550b-a55b`, and `nvidia/nemotron-3.5-super-vl-120b-a12b`):
@@ -85,11 +76,6 @@ python -m src.main
 # Fast run without healthcheck
 python -m src.main --no-healthcheck
 
-# Fast private sync to Secret Gist (uses existing subs/ without re-fetching or re-probing)
-python -m src.main --private-only
-
-# Include private BPB sources and publish to private Gist
-python -m src.main --include-private --gist-token $GIST_TOKEN --gist-id $GIST_ID
 ```
 
 See [STATUS.md](STATUS.md) for upstream source diagnostics, [DISCOVERY.md](DISCOVERY.md) for live autonomous discovery stats, [ARCHITECTURE.md](docs/ARCHITECTURE.md) for system design, and [CONTRIBUTING.md](CONTRIBUTING.md) for contributor guidelines.

@@ -155,7 +155,6 @@ class DiscoveryAgent:
                         "format": "auto",
                         "tags": ["auto-discovered", "web-mined"],
                         "enabled": True,
-                        "is_private": False,
                     }
                     self.state_manager.record_external_source(sub_id, f"web:{su[:32]}", nodes_cnt, su)
 
@@ -266,7 +265,6 @@ class DiscoveryAgent:
                             "format": "auto",
                             "tags": ["auto-discovered", "web"],
                             "enabled": True,
-                            "is_private": False,
                         }
                         self.state_manager.record_external_source(sub_id, disp_name, nodes_cnt, u)
                 elif extended_mode:
@@ -301,7 +299,6 @@ class DiscoveryAgent:
                         "format": "auto",
                         "tags": ["auto-discovered", "github"],
                         "enabled": True,
-                        "is_private": False,
                     }
                     self.state_manager.record_external_source(sub_id, f"gh:{repo_name}", nodes_cnt, raw_u)
 
@@ -351,7 +348,6 @@ class DiscoveryAgent:
                 "format": "auto",
                 "tags": ["auto-discovered", "vision-ocr", "nemotron"],
                 "enabled": True,
-                "is_private": False,
             }
 
         active_list = list(discovered_sources.values())
@@ -595,7 +591,6 @@ class DiscoveryAgent:
                                 "format": "auto",
                                 "tags": ["auto-discovered", "subscription"],
                                 "enabled": True,
-                                "is_private": False,
                             }
                         valid_nodes += sub_nodes
 
@@ -619,7 +614,6 @@ class DiscoveryAgent:
                         "format": "telegram_web",
                         "tags": ["auto-discovered", "telegram", "iran"],
                         "enabled": True,
-                        "is_private": False,
                     }
 
                 # Periodic expansion & checkpoint every 15 channels in extended mode

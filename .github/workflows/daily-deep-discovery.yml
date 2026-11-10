@@ -101,39 +101,24 @@ jobs:
         run: |
           python -m src.main --healthcheck --pattn-variants --max-test-nodes 1000
 
-      - name: Privacy and security audit
+      - name: Security audit
         shell: bash
         env:
-          PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
-          if git status --porcelain | grep -E "(sources\.private\.json|private_subs/)"; then
-            echo "ERROR: Private files detected in git working tree!"
+          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
+            echo "ERROR: Local/sensitive files detected in git working tree!"
             exit 1
           fi
           python -c '
-          import os, sys, subprocess, re
-          priv = os.environ.get("PRIVATE_SOURCES", "")
+          import os, sys, subprocess
           nvapi = os.environ.get("NVIDIA_API_KEY", "").strip()
           if nvapi and len(nvapi) > 8:
               res = subprocess.run(["git", "grep", "-I", "-F", nvapi], capture_output=True, text=True)
               if res.returncode == 0 and res.stdout.strip():
                   print("CRITICAL SECURITY VIOLATION: NVIDIA_API_KEY detected in tracked files!")
                   sys.exit(1)
-          if priv:
-              urls = re.findall(r"https?://[^\s\",]+", priv)
-              domains = set()
-              for u in urls:
-                  m = re.search(r"https?://([^/:]+)", u)
-                  if m:
-                      domains.add(m.group(1).lower())
-              for d in domains:
-                  if len(d) > 4:
-                      res = subprocess.run(["git", "grep", "-I", "-i", d], capture_output=True, text=True)
-                      if res.returncode == 0 and res.stdout.strip():
-                          print(f"CRITICAL PRIVACY VIOLATION: Private domain detected: {d}")
-                          sys.exit(1)
-          print("Dynamic privacy & security audit passed: 0 leaks found.")
+          print("Security audit passed: 0 leaks found.")
           '
 
       - name: Commit and push extended discovery results

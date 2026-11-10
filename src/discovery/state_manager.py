@@ -18,7 +18,7 @@ DEFAULT_LEADERBOARD_FILE = "DISCOVERY.md"
 PROXY_HANDLE_KEYWORDS = (
     "v2ray", "vless", "vmess", "trojan", "vpn", "proxy", "proxys", "sub",
     "config", "reality", "shadow", "hy2", "hysteria", "outline", "iran",
-    "free", "freedom", "mtproto", "warp", "bpb", "net", "bypass", "xray",
+    "free", "freedom", "mtproto", "warp", "net", "bypass", "xray",
     "sing", "clash", "nekobox", "node", "server", "tunnel",
 )
 

@@ -25,26 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class TestSourcesRegistry(unittest.TestCase):
     def test_sources_json_valid_and_clean(self):
-        """Verify sources.json has 60 public sources and zero private leaks."""
+        """Verify sources.json has 60 valid public sources."""
         sources_path = BASE_DIR / "sources.json"
         assert sources_path.exists(), "sources.json must exist"
 
         content = sources_path.read_text(encoding="utf-8")
-
-        # Dynamically verify none of the private endpoints appear in sources.json
-        private_path = BASE_DIR / "sources.private.json"
-        if private_path.exists():
-            private_data = json.loads(private_path.read_text(encoding="utf-8"))
-            for s in private_data.get("sources", []):
-                u = s.get("url", "")
-                parsed = urllib.parse.urlparse(u)
-                if parsed.netloc:
-                    host = parsed.netloc.split(":")[0]
-                    assert host not in content, f"Private host {host} leaked in sources.json!"
-                    for lbl in host.split("."):
-                        if len(lbl) > 8:
-                            assert lbl not in content, f"Private label {lbl} leaked in sources.json!"
-
         data = json.loads(content)
         assert "sources" in data
         sources_list = data["sources"]
@@ -58,48 +43,6 @@ class TestSourcesRegistry(unittest.TestCase):
             ids.add(config.id)
             assert config.url.startswith("http"), f"Source {config.id} has invalid URL: {config.url}"
             assert isinstance(config.tags, list)
-            assert not config.is_private, f"Public source {config.id} marked as is_private"
-
-    def test_sources_private_json_exists_and_ignored(self):
-        """Verify sources.private.json is git-ignored and contains 6 BPB sources if present."""
-        # Check git ignore status (always runs, even if file does not exist on disk in CI)
-        res = subprocess.run(
-            ["git", "check-ignore", "sources.private.json"],
-            cwd=str(BASE_DIR),
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
-        assert res.returncode == 0, "sources.private.json MUST be ignored by git!"
-        assert "sources.private.json" in res.stdout
-
-        private_path = BASE_DIR / "sources.private.json"
-        if private_path.exists():
-            data = json.loads(private_path.read_text(encoding="utf-8"))
-            assert "sources" in data
-            assert len(data["sources"]) == 6, f"Expected 6 private BPB sources, got {len(data['sources'])}"
-
-
-    def test_sources_private_example_safe(self):
-        """Verify sources.private.json.example is a safe committed template."""
-        example_path = BASE_DIR / "sources.private.json.example"
-        assert example_path.exists(), "sources.private.json.example must exist"
-        content = example_path.read_text(encoding="utf-8")
-
-        # Dynamically verify none of the private endpoints appear in example
-        private_path = BASE_DIR / "sources.private.json"
-        if private_path.exists():
-            private_data = json.loads(private_path.read_text(encoding="utf-8"))
-            for s in private_data.get("sources", []):
-                u = s.get("url", "")
-                parsed = urllib.parse.urlparse(u)
-                if parsed.netloc:
-                    host = parsed.netloc.split(":")[0]
-                    assert host not in content, f"Private host {host} leaked in example!"
-                    for lbl in host.split("."):
-                        if len(lbl) > 8:
-                            assert lbl not in content, f"Private label {lbl} leaked in example!"
 
 
 class TestParsers(unittest.TestCase):

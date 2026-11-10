@@ -4,8 +4,7 @@
 
 .DESCRIPTION
     Triggers the GitHub Actions 'update-subs.yml' workflow using the GitHub CLI (`gh`),
-    or executes the aggregation pipeline locally with optional private BPB integration
-    and local PattN GUI database sync.
+    or executes the aggregation pipeline locally with optional local PattN GUI database sync.
 
 .PARAMETER Local
     Run the aggregation pipeline locally instead of triggering GitHub Actions.
@@ -22,16 +21,13 @@
 .PARAMETER SyncPattnDb
     When -Local is specified, also sync subscription URLs into PattN guiNDB.db.
 
-.PARAMETER SkipPrivateGist
-    Skip publishing private BPB subscriptions to GitHub Secret Gist.
-
 .EXAMPLE
     .\scripts\trigger_update.ps1
     Triggers GitHub Actions update-subs.yml workflow with default parameters.
 
 .EXAMPLE
     .\scripts\trigger_update.ps1 -Local -SyncPattnDb
-    Runs the pipeline locally including private sources, and updates PattN GUI database.
+    Runs the pipeline locally and updates PattN GUI database.
 #>
 
 [CmdletBinding()]
@@ -41,9 +37,7 @@ param (
     [switch]$NoPattnVariants,
     [int]$MaxTestNodes = 1000,
     [switch]$SyncPattnDb,
-    [switch]$DisableRedundant,
-    [switch]$SkipPrivateGist,
-    [switch]$PrivateOnly
+    [switch]$DisableRedundant
 )
 
 $ErrorActionPreference = "Stop"
@@ -63,20 +57,12 @@ if ($Local) {
         exit 1
     }
 
-    if ($PrivateOnly) {
-        $MainArgs = @("-m", "src.main", "--private-only")
-        if ($NoPattnVariants) {
-            $MainArgs += "--no-pattn-variants"
-        }
+    $MainArgs = @("-m", "src.main", "--max-test-nodes", "$MaxTestNodes")
+    if ($NoHealthcheck) {
+        $MainArgs += "--no-healthcheck"
     }
-    else {
-        $MainArgs = @("-m", "src.main", "--include-private", "--max-test-nodes", "$MaxTestNodes")
-        if ($NoHealthcheck) {
-            $MainArgs += "--no-healthcheck"
-        }
-        if ($NoPattnVariants) {
-            $MainArgs += "--no-pattn-variants"
-        }
+    if ($NoPattnVariants) {
+        $MainArgs += "--no-pattn-variants"
     }
 
     Write-Host "Executing: python $($MainArgs -join ' ')" -ForegroundColor Yellow
@@ -89,7 +75,7 @@ if ($Local) {
 
     if ($SyncPattnDb) {
         Write-Host "`nSyncing subscriptions to local PattN database..." -ForegroundColor Cyan
-        $SyncArgs = @("scripts/sync_to_pattn.py", "--use-local-private")
+        $SyncArgs = @("scripts/sync_to_pattn.py")
         if ($DisableRedundant) {
             $SyncArgs += "--disable-redundant"
         }
@@ -112,14 +98,12 @@ else {
 
     $RunHealthcheck = if ($NoHealthcheck) { "false" } else { "true" }
     $GenVariants = if ($NoPattnVariants) { "false" } else { "true" }
-    $SyncGist = if ($SkipPrivateGist) { "false" } else { "true" }
 
     $GhArgs = @(
         "workflow", "run", "update-subs.yml",
         "-f", "run_healthcheck=$RunHealthcheck",
         "-f", "generate_pattn_variants=$GenVariants",
-        "-f", "max_test_nodes=$MaxTestNodes",
-        "-f", "sync_private_gist=$SyncGist"
+        "-f", "max_test_nodes=$MaxTestNodes"
     )
 
     Write-Host "Dispatching workflow: gh $($GhArgs -join ' ')" -ForegroundColor Yellow

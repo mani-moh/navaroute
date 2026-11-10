@@ -6,7 +6,7 @@
     Disconnect your personal VPN (including TUN mode) before running this script.
     It loads candidate feeds (locally or from GitHub), runs batched real-traffic
     Xray verification via D:\PattN-windows-64-desktop\...\xray.exe, saves live
-    survivors to private_subs/iran_verified.txt, and optionally syncs them into
+    survivors to local_subs/iran_verified.txt, and optionally syncs them into
     your PattN database.
 
 .EXAMPLE
@@ -14,7 +14,7 @@
     Runs 2-round Xray verification on up to 500 prioritized nodes and syncs to PattN DB.
 
 .EXAMPLE
-    .\scripts\check_from_iran.ps1 -FromGitHub -IncludePrivate -MaxNodes 800
+    .\scripts\check_from_iran.ps1 -FromGitHub -MaxNodes 800
 #>
 
 [CmdletBinding()]
@@ -24,7 +24,6 @@ param (
     [int]$BatchSize = 48,
     [double]$Timeout = 5.0,
     [switch]$FromGitHub,
-    [switch]$IncludePrivate,
     [switch]$NoDbSync,
     [switch]$Force,
     [string]$XrayBin = ""
@@ -45,7 +44,6 @@ $ArgsList = @(
 )
 
 if ($FromGitHub) { $ArgsList += "--from-github" }
-if ($IncludePrivate) { $ArgsList += "--include-private" }
 if (-not $NoDbSync) { $ArgsList += "--sync-pattn-db" }
 if ($Force) { $ArgsList += "--force" }
 if ($XrayBin) { $ArgsList += @("--xray-bin", $XrayBin) }

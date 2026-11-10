@@ -38,7 +38,6 @@ class SourceConfig:
     format: str = "auto"
     tags: list[str] = field(default_factory=list)
     enabled: bool = True
-    is_private: bool = False
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SourceConfig":
@@ -50,7 +49,6 @@ class SourceConfig:
             format=data.get("format", "auto"),
             tags=list(data.get("tags", [])),
             enabled=data.get("enabled", True),
-            is_private=data.get("is_private", False),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -62,7 +60,6 @@ class SourceConfig:
             "format": self.format,
             "tags": self.tags,
             "enabled": self.enabled,
-            "is_private": self.is_private,
         }
 
 
@@ -78,7 +75,6 @@ class SourceStats:
     unique_count: int = 0
     verified_count: int = 0
     error: Optional[str] = None
-    is_private: bool = False
 
 
 @dataclass
@@ -96,7 +92,6 @@ class ProxyNode:
     is_verified_source: bool = False
     passed_healthcheck: bool = False
     latency_ms: Optional[float] = None
-    is_private: bool = False
 
     def semantic_fingerprint(self) -> str:
         """SHA-256 hex digest of canonical tuple:

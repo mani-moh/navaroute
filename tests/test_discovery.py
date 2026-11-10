@@ -275,8 +275,7 @@ class TestDiscoveryAgent(unittest.TestCase):
                     "url": "https://t.me/s/autodiscovered",
                     "format": "telegram_web",
                     "tags": ["auto-discovered", "telegram"],
-                    "enabled": True,
-                    "is_private": False
+                    "enabled": True
                 }
             ]
         }, indent=2), encoding="utf-8")

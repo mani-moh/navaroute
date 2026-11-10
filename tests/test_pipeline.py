@@ -24,7 +24,6 @@ from src.healthcheck import (
 )
 from src.main import main
 from src.models import ProxyNode, SourceConfig, SourceStats
-from src.private_gist import publish_private_subs
 from src.transform_pattn import (
     FAST_AND_FURIOUS_CIPHERS,
     FRAGMENT_FM_JSON,
@@ -286,8 +285,7 @@ class TestCategorizer(unittest.TestCase):
     def tearDown(self):
         self.temp_dir.cleanup()
 
-    def test_publish_subscriptions_and_privacy_isolation(self):
-        # Prepare mixed dataset with public and private nodes
+    def test_publish_subscriptions(self):
         public_verified = ProxyNode(
             scheme="vless",
             address="1.1.1.1",
@@ -299,7 +297,6 @@ class TestCategorizer(unittest.TestCase):
             is_verified_source=True,
             passed_healthcheck=True,
             latency_ms=30.0,
-            is_private=False,
         )
 
         public_iran = ProxyNode(
@@ -314,7 +311,6 @@ class TestCategorizer(unittest.TestCase):
             is_verified_source=False,
             passed_healthcheck=True,
             latency_ms=60.0,
-            is_private=False,
         )
 
         pattn_variant = ProxyNode(
@@ -326,18 +322,6 @@ class TestCategorizer(unittest.TestCase):
             tags={"pattn", "pattn_variant"},
             remark="PattN F&F",
             country_code="DE",
-            is_private=False,
-        )
-
-        private_node = ProxyNode(
-            scheme="vless",
-            address="confidential-bpb.example.internal",
-            port=443,
-            credential="SECRET-PRIVATE-UUID-9999",
-            params={"type": "ws", "security": "tls"},
-            tags={"private", "bpb"},
-            remark="My Private BPB",
-            is_private=True,
         )
 
         # Generate country nodes to trigger country files (>= 5 for DE)
@@ -349,12 +333,11 @@ class TestCategorizer(unittest.TestCase):
                 credential=f"uuid-{i}",
                 remark=f"DE Node {i}",
                 country_code="DE",
-                is_private=False,
             )
             for i in range(5)
         ]
 
-        all_nodes = [public_verified, public_iran, pattn_variant, private_node] + de_nodes
+        all_nodes = [public_verified, public_iran, pattn_variant] + de_nodes
         json_cfgs = [{"outbounds": [{"protocol": "vless", "tag": "test-json"}]}]
         stats = [
             SourceStats(
@@ -405,135 +388,15 @@ class TestCategorizer(unittest.TestCase):
         self.assertIn("#profile-update-interval: 6", ver_text)
         self.assertIn("#subscription-userinfo:", ver_text)
 
-        # STRICT PRIVACY AUDIT: Ensure NO private credentials or domains leaked into ANY file!
-        for sub_file in self.output_dir.rglob("*"):
-            if sub_file.is_file():
-                content = sub_file.read_text(encoding="utf-8")
-                self.assertNotIn("SECRET-PRIVATE-UUID-9999", content)
-                self.assertNotIn("confidential-bpb.example.internal", content)
-
-                # If base64 file, also test decoded content
-                if sub_file.name.endswith("_base64.txt") and content.strip():
-                    decoded = base64.b64decode(content + "==").decode("utf-8", errors="replace")
-                    self.assertNotIn("SECRET-PRIVATE-UUID-9999", decoded)
-                    self.assertNotIn("confidential-bpb.example.internal", decoded)
-
-
-class TestPrivateSubs(unittest.TestCase):
-    def setUp(self):
-        self.temp_dir = tempfile.TemporaryDirectory()
-        self.priv_dir = Path(self.temp_dir.name) / "private_subs"
-
-    def tearDown(self):
-        self.temp_dir.cleanup()
-
-    def test_publish_private_subs_ordering_and_output(self):
-        priv_node1 = ProxyNode(
-            scheme="vless",
-            address="my-bpb.workers.dev",
-            port=443,
-            credential="secret-bpb-uuid-1",
-            remark="BPB Private 1",
-            is_private=True,
-        )
-        priv_node2 = ProxyNode(
-            scheme="vless",
-            address="my-bpb.pages.dev",
-            port=443,
-            credential="secret-bpb-uuid-2",
-            remark="BPB Private 2",
-            is_private=True,
-        )
-        pub_node = ProxyNode(
-            scheme="trojan",
-            address="public.server.com",
-            port=443,
-            credential="public-pass",
-            remark="Public Verified",
-            is_verified_source=True,
-            passed_healthcheck=True,
-            latency_ms=50.0,
-            is_private=False,
-        )
-
-        all_nodes = [pub_node, priv_node1, priv_node2]
-        res = publish_private_subs(all_nodes, private_dir=str(self.priv_dir))
-
-        self.assertTrue((self.priv_dir / "bpb_only.txt").exists())
-        self.assertTrue((self.priv_dir / "private_verified.txt").exists())
-        self.assertTrue((self.priv_dir / "private_all.txt").exists())
-
-        # bpb_only.txt must ONLY contain the 2 private nodes
-        bpb_content = (self.priv_dir / "bpb_only.txt").read_text(encoding="utf-8")
-        self.assertIn("secret-bpb-uuid-1", bpb_content)
-        self.assertIn("secret-bpb-uuid-2", bpb_content)
-        self.assertNotIn("public-pass", bpb_content)
-
-        # private_verified.txt must place private nodes at the very TOP
-        pv_content = (self.priv_dir / "private_verified.txt").read_text(encoding="utf-8")
-        lines = [l for l in pv_content.splitlines() if "://" in l]
-        self.assertEqual(len(lines), 3)
-        self.assertIn("secret-bpb-uuid-1", lines[0])
-        self.assertIn("secret-bpb-uuid-2", lines[1])
-        self.assertIn("public-pass", lines[2])
-
-    @patch("urllib.request.urlopen")
-    def test_publish_private_subs_gist_upload(self, mock_urlopen):
-        # Mock GitHub API response
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = json.dumps({
-            "id": "mock_gist_id_123",
-            "html_url": "https://gist.github.com/mock_gist_id_123",
-            "files": {
-                "bpb_only.txt": {"raw_url": "https://gist.githubusercontent.com/raw/bpb_only.txt"},
-                "private_verified.txt": {"raw_url": "https://gist.githubusercontent.com/raw/pv.txt"},
-            },
-        }).encode("utf-8")
-        mock_urlopen.return_value.__enter__.return_value = mock_resp
-
-        priv_node = ProxyNode(
-            scheme="vless",
-            address="private.test",
-            port=443,
-            credential="uuid",
-            is_private=True,
-        )
-        res = publish_private_subs(
-            [priv_node],
-            private_dir=str(self.priv_dir),
-            gist_token="mock-token-xyz",
-        )
-
-        self.assertEqual(res.get("gist_id"), "mock_gist_id_123")
-        self.assertEqual(res.get("gist_url"), "https://gist.github.com/mock_gist_id_123")
-        self.assertIn("gist_raw_bpb_only", res)
-
 
 class TestFetcherAndLoader(unittest.TestCase):
-    def test_load_sources_public_and_private_env(self):
+    def test_load_sources_public(self):
         # Test loading sources.json in isolation from dynamic discovered sources
         sources = load_sources(
             sources_path=str(BASE_DIR / "sources.json"),
-            include_private=False,
             discovered_sources_path="non_existent_discovered.json",
         )
         self.assertEqual(len(sources), 60)
-        self.assertTrue(all(not s.is_private for s in sources))
-
-        # Test including private sources via PRIVATE_SOURCES env var (synthetic data)
-        synthetic_env = (
-            "https://test-worker.pages.dev/synthetic-uuid/sub/normal\n"
-            "https://test-worker.pages.dev/synthetic-uuid/sub/fragment"
-        )
-        with patch.dict(os.environ, {"PRIVATE_SOURCES": synthetic_env}):
-            sources_with_priv = load_sources(
-                sources_path=str(BASE_DIR / "sources.json"),
-                include_private=True,
-                private_sources_path="non_existent_file.json",
-            )
-            priv_items = [s for s in sources_with_priv if s.is_private]
-            self.assertEqual(len(priv_items), 2)
-            self.assertIn("private", priv_items[0].tags)
 
     @patch("src.fetcher._fetch_url")
     def test_fetch_source_success_and_error(self, mock_fetch):
@@ -598,67 +461,6 @@ class TestMainPipeline(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertTrue((out_path / "all.txt").exists())
         self.assertTrue((out_path / "categories" / "pattn-special.txt").exists())
-
-        temp_dir.cleanup()
-
-    @patch("src.private_gist.fetch_all_sources")
-    def test_main_cli_private_only(self, mock_fetch):
-        temp_dir = tempfile.TemporaryDirectory()
-        base = Path(temp_dir.name)
-        subs_path = base / "subs"
-        subs_path.mkdir()
-        priv_path = base / "private_subs"
-
-        # Seed mock verified.txt and all.txt
-        verified_uri = "vless://pub-uuid@8.8.8.8:443?security=reality&sni=test.com#[✅] [🇺🇸 US] VLESS-Reality | src:test-src | 45ms"
-        all_uri_1 = verified_uri
-        all_uri_2 = "trojan://pass@9.9.9.9:443?security=tls#Unverified Trojan"
-
-        (subs_path / "verified.txt").write_text(f"# header\n{verified_uri}\n", encoding="utf-8")
-        (subs_path / "all.txt").write_text(f"# header\n{all_uri_1}\n{all_uri_2}\n", encoding="utf-8")
-
-        # Mock private node returned from private fetch
-        priv_node = ProxyNode(
-            scheme="vless",
-            address="private.host.net",
-            port=443,
-            credential="priv-secret-uuid",
-            params={"type": "ws", "security": "tls"},
-            remark="Private BPB",
-            country_code="DE",
-            is_private=True,
-        )
-        mock_fetch.return_value = ([priv_node], [], [])
-
-        orig_mtime = (subs_path / "verified.txt").stat().st_mtime
-
-        exit_code = main([
-            "--private-only",
-            "--output-dir", str(subs_path),
-            "--private-dir", str(priv_path),
-            "--no-pattn-variants",
-        ])
-
-        self.assertEqual(exit_code, 0)
-
-        # Public subs/ was NEVER modified
-        self.assertEqual((subs_path / "verified.txt").stat().st_mtime, orig_mtime)
-
-        # Private files generated
-        pv_file = priv_path / "private_verified.txt"
-        self.assertTrue(pv_file.exists())
-        pv_content = pv_file.read_text(encoding="utf-8")
-
-        # Both private node and verified public node are present
-        self.assertIn("priv-secret-uuid", pv_content)
-        self.assertIn("pub-uuid", pv_content)
-        self.assertIn("45ms", pv_content)
-        # Unverified node is NOT in private_verified.txt
-        self.assertNotIn("pass@9.9.9.9:443", pv_content)
-
-        # But unverified node IS in private_all.txt
-        pa_content = (priv_path / "private_all.txt").read_text(encoding="utf-8")
-        self.assertIn("pass@9.9.9.9:443", pa_content)
 
         temp_dir.cleanup()
 

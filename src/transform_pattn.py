@@ -133,7 +133,6 @@ def generate_pattn_variants(
             source_ids=set(base.source_ids),
             tags=common_tags,
             is_verified_source=base.is_verified_source,
-            is_private=base.is_private,
         )
         fnf_node.raw_uri = fnf_node.to_uri(include_formatted_remark=False)
         variants.append(fnf_node)
@@ -161,7 +160,6 @@ def generate_pattn_variants(
             source_ids=set(base.source_ids),
             tags=common_tags,
             is_verified_source=base.is_verified_source,
-            is_private=base.is_private,
         )
         ipv6_node.raw_uri = ipv6_node.to_uri(include_formatted_remark=False)
         variants.append(ipv6_node)
@@ -188,7 +186,6 @@ def generate_pattn_variants(
             source_ids=set(base.source_ids),
             tags=common_tags,
             is_verified_source=base.is_verified_source,
-            is_private=base.is_private,
         )
         spoof_node.raw_uri = spoof_node.to_uri(include_formatted_remark=False)
         variants.append(spoof_node)

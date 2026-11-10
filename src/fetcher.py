@@ -29,14 +29,9 @@ DEFAULT_HEADERS = {
 
 def load_sources(
     sources_path: str = "sources.json",
-    include_private: bool = False,
-    private_sources_path: str = "sources.private.json",
     discovered_sources_path: str = "sources.discovered.json",
 ) -> list[SourceConfig]:
-    """Loads enabled sources from sources.json, sources.discovered.json, and optionally
-
-    private sources from private_sources_path and/or the PRIVATE_SOURCES environment variable.
-    """
+    """Loads enabled sources from sources.json and sources.discovered.json."""
     sources: list[SourceConfig] = []
     seen_ids: set[str] = set()
 
@@ -67,88 +62,6 @@ def load_sources(
                     seen_ids.add(cfg.id)
         except Exception:
             pass
-
-    # 3. Optionally load private sources
-    if include_private:
-        # Load from private_sources_path if it exists
-        priv_p = Path(private_sources_path)
-        if priv_p.exists():
-            try:
-                priv_data = json.loads(priv_p.read_text(encoding="utf-8"))
-                for item in priv_data.get("sources", []):
-                    cfg = SourceConfig.from_dict(item)
-                    cfg.is_private = True
-                    if "private" not in cfg.tags:
-                        cfg.tags.append("private")
-                    if cfg.enabled and cfg.id not in seen_ids:
-                        sources.append(cfg)
-                        seen_ids.add(cfg.id)
-            except Exception:
-                pass
-
-        # Load from PRIVATE_SOURCES environment variable
-        env_priv = os.environ.get("PRIVATE_SOURCES", "").strip()
-        if env_priv:
-            # Try parsing as JSON first
-            parsed_json = None
-            try:
-                parsed_json = json.loads(env_priv)
-            except Exception:
-                pass
-
-            if parsed_json is not None:
-                items: list[Any] = []
-                if isinstance(parsed_json, dict) and "sources" in parsed_json:
-                    items = parsed_json["sources"]
-                elif isinstance(parsed_json, list):
-                    items = parsed_json
-
-                for idx, entry in enumerate(items, start=1):
-                    if isinstance(entry, dict):
-                        cfg = SourceConfig.from_dict(entry)
-                        cfg.is_private = True
-                        if "private" not in cfg.tags:
-                            cfg.tags.append("private")
-                        if cfg.enabled and cfg.id not in seen_ids:
-                            sources.append(cfg)
-                            seen_ids.add(cfg.id)
-                    elif isinstance(entry, str) and entry.strip().startswith("http"):
-                        url = entry.strip()
-                        cfg_id = f"private-env-{idx}"
-                        if cfg_id not in seen_ids:
-                            sources.append(
-                                SourceConfig(
-                                    id=cfg_id,
-                                    name=f"Private Env {idx}",
-                                    url=url,
-                                    verified_upstream=True,
-                                    format="auto",
-                                    tags=["private", "bpb"],
-                                    enabled=True,
-                                    is_private=True,
-                                )
-                            )
-                            seen_ids.add(cfg_id)
-            else:
-                # Comma or newline separated URLs
-                lines = [line.strip() for line in re.split(r"[\r\n,]+", env_priv) if line.strip()]
-                for idx, line in enumerate(lines, start=1):
-                    if line.startswith("http"):
-                        cfg_id = f"private-env-{idx}"
-                        if cfg_id not in seen_ids:
-                            sources.append(
-                                SourceConfig(
-                                    id=cfg_id,
-                                    name=f"Private Env {idx}",
-                                    url=line,
-                                    verified_upstream=True,
-                                    format="auto",
-                                    tags=["private", "bpb"],
-                                    enabled=True,
-                                    is_private=True,
-                                )
-                            )
-                            seen_ids.add(cfg_id)
 
     return sources
 
@@ -243,15 +156,6 @@ def fetch_source(
                 except Exception:
                     pass
 
-        # Tag nodes and json configs with private status if source is private
-        is_priv = source.is_private or "private" in source.tags
-        if is_priv:
-            for n in nodes:
-                n.is_private = True
-                n.tags.add("private")
-            for j in json_configs:
-                j["_is_private"] = True
-
         elapsed_ms = (time.perf_counter() - start_t) * 1000.0
         unique_count = len({n.semantic_fingerprint() for n in nodes})
         verified_count = len(nodes) if source.verified_upstream else 0
@@ -266,13 +170,11 @@ def fetch_source(
             raw_count=len(nodes),
             unique_count=unique_count,
             verified_count=verified_count,
-            is_private=is_priv,
         )
         return nodes, json_configs, stats
 
     except Exception as exc:
         elapsed_ms = (time.perf_counter() - start_t) * 1000.0
-        is_priv = source.is_private or "private" in source.tags
         stats = SourceStats(
             source_id=source.id,
             name=source.name,
@@ -284,7 +186,6 @@ def fetch_source(
             unique_count=0,
             verified_count=0,
             error=str(exc),
-            is_private=is_priv,
         )
         return [], [], stats
 
@@ -323,7 +224,6 @@ def fetch_all_sources(
                         url=src.url,
                         success=False,
                         error=str(exc),
-                        is_private=src.is_private or "private" in src.tags,
                     )
                 )
 

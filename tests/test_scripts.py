@@ -13,7 +13,6 @@ from pathlib import Path
 from scripts.sync_to_pattn import (
     DEFAULT_BRANCH,
     DEFAULT_REPO_SLUG,
-    PROTECTED_BPB_REMARKS,
     SUBSCRIPTION_DEFINITIONS,
     detect_repo_slug,
     generate_sub_id,
@@ -21,7 +20,6 @@ from scripts.sync_to_pattn import (
 )
 from src.categorizer import detect_repo_slug as cat_detect_repo_slug
 from src.main import build_arg_parser
-from src.private_gist import load_public_subs_from_disk
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,7 +37,6 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("run_healthcheck:", self.workflow_content)
         self.assertIn("generate_pattn_variants:", self.workflow_content)
         self.assertIn("max_test_nodes:", self.workflow_content)
-        self.assertIn("sync_private_gist:", self.workflow_content)
         self.assertIn("run_discovery:", self.workflow_content)
 
     def test_workflow_includes_discovery_step_and_masking(self) -> None:
@@ -50,22 +47,6 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("--discover-only", self.workflow_content)
         self.assertIn("sources.discovered.json", self.workflow_content)
         self.assertIn("DISCOVERY.md", self.workflow_content)
-
-    def test_workflow_privacy_isolation(self) -> None:
-        """Verify that zero private domains, tokens, or URLs appear in update-subs.yml."""
-        priv_path = BASE_DIR / "sources.private.json"
-        if priv_path.exists():
-            priv_data = json.loads(priv_path.read_text(encoding="utf-8"))
-            for src in priv_data.get("sources", []):
-                url = src.get("url", "")
-                m = re.search(r"https?://([^/:]+)", url)
-                if m:
-                    domain = m.group(1).lower()
-                    self.assertNotIn(
-                        domain,
-                        self.workflow_content.lower(),
-                        f"Private domain '{domain}' must never appear in update-subs.yml!",
-                    )
 
     def test_trigger_script_exists_and_valid(self) -> None:
         """Verify trigger_update.ps1 exists and defines expected parameters."""
@@ -78,11 +59,6 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("[switch]$SyncPattnDb", content)
         self.assertIn('"workflow", "run", "update-subs.yml"', content)
 
-    def test_workflow_uses_private_only_for_gist(self) -> None:
-        """Verify that Secret Gist step uses --private-only without re-fetching public feeds."""
-        self.assertIn("python -m src.main --private-only", self.workflow_content)
-        self.assertNotIn("python -m src.main --include-private --no-healthcheck --no-docs", self.workflow_content)
-
     def test_daily_extended_discovery_workflow(self) -> None:
         """Verify daily-deep-discovery.yml is scheduled daily, runs 500 API requests, and masks secrets."""
         daily_path = BASE_DIR / ".github" / "workflows" / "daily-deep-discovery.yml"
@@ -92,7 +68,7 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn('default: "500"', content)
         self.assertIn("--discovery-api-requests", content)
         self.assertIn("::add-mask::$NVIDIA_API_KEY", content)
-        self.assertIn("Dynamic privacy & security audit passed", content)
+        self.assertIn("Security audit passed", content)
 
     def test_professional_repo_files_and_ci_workflow(self) -> None:
         """Verify LICENSE, .gitattributes, .env.example, docs, and ci.yml exist cleanly."""
@@ -143,14 +119,9 @@ class TestSyncToPattn(unittest.TestCase):
             """
         )
 
-        # Seed test data: 6 protected BPB entries + 2 public feeds
+        # Seed test data: 1 local file subscription + 2 public HTTP feeds
         seed_entries = [
-            ("1001", "normal", "https://priv1.example/sub/mock-normal", 1),
-            ("1002", "fragment", "https://priv1.example/sub/mock-fragment", 1),
-            ("1003", "raw", "https://priv1.example/sub/mock-raw", 1),
-            ("1004", "warp", "https://priv1.example/sub/mock-warp", 1),
-            ("1005", "warp pro", "https://priv1.example/sub/mock-wp", 1),
-            ("1006", "oldraw", "https://priv2.example/sub/mock-oldraw", 1),
+            ("1001", "custom_local", "file:///local/sub.txt", 1),
             ("2001", "public_feed_1", "https://pub.example/sub1.txt", 1),
             ("2002", "public_feed_2", "https://pub.example/sub2.txt", 1),
         ]
@@ -186,10 +157,10 @@ class TestSyncToPattn(unittest.TestCase):
         cur = conn.cursor()
         total_rows = cur.execute("SELECT COUNT(*) FROM SubItem").fetchone()[0]
         conn.close()
-        self.assertEqual(total_rows, 8)
+        self.assertEqual(total_rows, 3)
 
-    def test_sync_upserts_and_protects_bpb(self) -> None:
-        """Verify sync adds 9 PattN Hub items and preserves all 6 BPB rows."""
+    def test_sync_upserts_and_preserves_local_feeds(self) -> None:
+        """Verify sync adds 9 PattN Hub items and preserves existing rows."""
         summary = sync_subscriptions(
             db_path=self.db_path,
             repo_slug="test/repo",
@@ -197,7 +168,6 @@ class TestSyncToPattn(unittest.TestCase):
         )
         self.assertEqual(summary["added"], 9)
 
-        # Confirm backup file created
         bak_files = list(self.db_path.parent.glob("*.bak.*"))
         self.assertEqual(len(bak_files), 1)
 
@@ -207,12 +177,9 @@ class TestSyncToPattn(unittest.TestCase):
         remarks_map = {r[0]: (r[1], r[2]) for r in rows}
         conn.close()
 
-        # All 6 protected BPB entries still enabled and unmodified
-        for bpb in PROTECTED_BPB_REMARKS:
-            self.assertIn(bpb, remarks_map)
-            self.assertEqual(remarks_map[bpb][1], 1)
+        self.assertIn("custom_local", remarks_map)
+        self.assertEqual(remarks_map["custom_local"][1], 1)
 
-        # All 9 PattN Hub groups present
         for sub_def in SUBSCRIPTION_DEFINITIONS:
             self.assertIn(sub_def["remarks"], remarks_map)
             url, enabled = remarks_map[sub_def["remarks"]]
@@ -227,15 +194,15 @@ class TestSyncToPattn(unittest.TestCase):
         self.assertEqual(summary2["added"], 0)
         self.assertEqual(summary2["updated"], 9)
 
-    def test_disable_redundant_preserves_bpb(self) -> None:
-        """--disable-redundant disables other public feeds but never disables BPB entries."""
+    def test_disable_redundant_preserves_file_urls(self) -> None:
+        """--disable-redundant disables public HTTP feeds while keeping local file:// feeds enabled."""
         summary = sync_subscriptions(
             db_path=self.db_path,
             repo_slug="test/repo",
             disable_redundant=True,
             dry_run=False,
         )
-        self.assertEqual(summary["disabled"], 2)  # public_feed_1 and public_feed_2
+        self.assertEqual(summary["disabled"], 2)
 
         conn = sqlite3.connect(str(self.db_path))
         cur = conn.cursor()
@@ -243,21 +210,17 @@ class TestSyncToPattn(unittest.TestCase):
         remarks_enabled = {r[0]: r[1] for r in rows}
         conn.close()
 
-        # BPB entries MUST still be enabled
-        for bpb in PROTECTED_BPB_REMARKS:
-            self.assertEqual(remarks_enabled[bpb], 1, f"BPB entry '{bpb}' must remain enabled!")
-
-        # Superseded feeds MUST be disabled
+        self.assertEqual(remarks_enabled["custom_local"], 1)
         self.assertEqual(remarks_enabled["public_feed_1"], 0)
         self.assertEqual(remarks_enabled["public_feed_2"], 0)
 
-    def test_sync_with_use_local_private_and_custom_branch(self) -> None:
-        """--use-local-private adds 10 items and respects custom branch."""
+    def test_sync_with_use_local_iran_and_custom_branch(self) -> None:
+        """--use-local-iran adds 10 items, points to local_subs/, and respects custom branch."""
         summary = sync_subscriptions(
             db_path=self.db_path,
             repo_slug="test/repo",
             branch="feature-branch",
-            use_local_private=True,
+            use_local_iran=True,
             dry_run=False,
         )
         self.assertEqual(summary["added"], 10)
@@ -265,20 +228,19 @@ class TestSyncToPattn(unittest.TestCase):
         conn = sqlite3.connect(str(self.db_path))
         cur = conn.cursor()
         rows = cur.execute("SELECT Remarks, Url, Enabled FROM SubItem").fetchall()
-        remarks_map = {r[0]: (r[1], r[2]) for r in rows}
         conn.close()
 
-        # Check private BPB group exists
-        priv_remark = "🔒 PattN Hub - Private BPB + Verified"
-        self.assertIn(priv_remark, remarks_map)
-        self.assertEqual(remarks_map[priv_remark][1], 1)
+        iran_rows = [r for r in rows if "Iran Live Verified" in r[0]]
+        self.assertEqual(len(iran_rows), 1)
+        self.assertIn("local_subs/iran_verified.txt", iran_rows[0][1])
+        self.assertEqual(iran_rows[0][2], 1)
 
-        # Check raw URLs used the custom branch
-        ver_url, _ = remarks_map["⭐ PattN Hub - Verified"]
-        self.assertTrue(ver_url.startswith("https://raw.githubusercontent.com/test/repo/feature-branch/subs/"))
+        ver_rows = [r for r in rows if "PattN Hub - Verified" in r[0]]
+        self.assertEqual(len(ver_rows), 1)
+        self.assertTrue(ver_rows[0][1].startswith("https://raw.githubusercontent.com/test/repo/feature-branch/subs/"))
 
 
-class TestRepoSlugAndPrivateOnly(unittest.TestCase):
+class TestRepoSlugAndCli(unittest.TestCase):
     def test_default_repo_slug(self) -> None:
         """Verify default repo slug is 'mani-moh/pattn' when no env var or remote exists."""
         self.assertEqual(detect_repo_slug(), "mani-moh/pattn")
@@ -328,402 +290,12 @@ class TestRepoSlugAndPrivateOnly(unittest.TestCase):
             if old_env is not None:
                 os.environ["GITHUB_REPOSITORY"] = old_env
 
-    def test_arg_parser_has_private_only_and_sources(self) -> None:
+    def test_arg_parser_flags(self) -> None:
         parser = build_arg_parser()
-        args = parser.parse_args(["--private-only", "--private-sources", "custom.json"])
-        self.assertTrue(args.private_only)
-        self.assertEqual(args.private_sources, "custom.json")
-
-    def test_load_public_subs_from_disk(self) -> None:
-        """Verify loading existing subs/ retains verified health status."""
-        nodes = load_public_subs_from_disk(subs_dir=BASE_DIR / "subs")
-        self.assertGreater(len(nodes), 100)
-        verified = [n for n in nodes if n.passed_healthcheck]
-        ver_lines = [
-            l for l in (BASE_DIR / "subs" / "verified.txt").read_text(encoding="utf-8").splitlines()
-            if l.strip() and not l.strip().startswith("#") and "://" in l
-        ]
-        self.assertGreater(len(verified), 50)
-        self.assertEqual(len(verified), len(ver_lines))
-        for n in verified:
-            self.assertFalse(n.is_private)
-            self.assertTrue(n.passed_healthcheck)
-
-    def test_load_public_subs_preserves_distinct_sni_paths(self) -> None:
-        """Verify load_public_subs_from_disk does not drop distinct endpoints on same IP:port:cred."""
-        import tempfile
-        temp_dir = tempfile.TemporaryDirectory()
-        td = Path(temp_dir.name)
-        ver_file = td / "verified.txt"
-        all_file = td / "all.txt"
-
-        ver_file.write_text(
-            "# header\n"
-            "vless://uuid-1@1.2.3.4:443?sni=sni1.com&type=tcp#[✅] [🇩🇪 DE] VLESS-Reality | 50ms\n",
-            encoding="utf-8",
-        )
-        all_file.write_text(
-            "# header\n"
-            "vless://uuid-1@1.2.3.4:443?sni=sni1.com&type=tcp#Unverified 1\n"
-            "vless://uuid-1@1.2.3.4:443?sni=sni2.com&type=tcp#Unverified 2\n",
-            encoding="utf-8",
-        )
-
-        merged = load_public_subs_from_disk(subs_dir=td)
-        # Should contain verified node (sni1) + unverified node (sni2), NOT collapsed into 1 node!
-        self.assertEqual(len(merged), 2)
-        v1 = [n for n in merged if n.params.get("sni") == "sni1.com"][0]
-        v2 = [n for n in merged if n.params.get("sni") == "sni2.com"][0]
-        self.assertTrue(v1.passed_healthcheck)
-        self.assertFalse(v2.passed_healthcheck)
-        temp_dir.cleanup()
-
-    def test_dynamic_privacy_audit_zero_leaks(self) -> None:
-        """Dynamic privacy audit: ensures private tokens from sources.private.json
-        never leak into git tracked files or git history."""
-        priv_path = BASE_DIR / "sources.private.json"
-        if not priv_path.exists():
-            return
-        import subprocess
-        import urllib.parse
-        data = json.loads(priv_path.read_text(encoding="utf-8"))
-        private_identifiers = set()
-        for s in data.get("sources", []):
-            u = s.get("url", "")
-            p = urllib.parse.urlparse(u)
-            if p.netloc:
-                host = p.netloc.split(":")[0]
-                private_identifiers.add(host)
-                prefix = host.split(".")[0]
-                if prefix not in ("workers", "dev", "api", "sub"):
-                    private_identifiers.add(prefix)
-            if p.path:
-                for seg in p.path.strip("/").split("/"):
-                    if len(seg) >= 8 and seg not in ("sub", "subscription", "fragment", "warp-pro", "normal"):
-                        private_identifiers.add(seg)
-
-        # Check git ls-files
-        res = subprocess.run(["git", "ls-files"], cwd=str(BASE_DIR), capture_output=True, text=True, check=True)
-        tracked = [f.strip() for f in res.stdout.splitlines() if f.strip()]
-        for f in tracked:
-            txt = (BASE_DIR / f).read_text(encoding="utf-8", errors="ignore")
-            for ident in private_identifiers:
-                self.assertNotIn(ident, txt, f"Private token '{ident[:4]}***' leaked in tracked file '{f}'!")
-
-        # Check git log
-        res_log = subprocess.run(["git", "log", "-p"], cwd=str(BASE_DIR), capture_output=True, check=True)
-        for ident in private_identifiers:
-            self.assertNotIn(ident.encode("utf-8"), res_log.stdout, f"Private token '{ident[:4]}***' leaked in git commit log!")
-
-
-class TestCiAndPrivacyHardening(unittest.TestCase):
-    def test_sources_private_json_exists_and_ignored_passes_when_file_absent(self) -> None:
-        """Verify test_sources_private_json_exists_and_ignored passes in clean CI checkout without sources.private.json."""
-        from tests.test_core import TestSourcesRegistry
-
-        test_case = TestSourcesRegistry()
-        with patch.object(Path, "exists", return_value=False):
-            # Must pass without raising AssertionError even when file does not exist
-            test_case.test_sources_private_json_exists_and_ignored()
-
-    def test_sources_private_json_validates_sources_when_present(self) -> None:
-        """Verify test_sources_private_json_exists_and_ignored still enforces 6 sources if file exists."""
-        from tests.test_core import TestSourcesRegistry
-
-        test_case = TestSourcesRegistry()
-        bad_json = json.dumps({"sources": [{"id": "s1"}]})
-
-        with patch.object(Path, "exists", return_value=True):
-            with patch.object(Path, "read_text", return_value=bad_json):
-                with self.assertRaises(AssertionError):
-                    test_case.test_sources_private_json_exists_and_ignored()
-
-    def test_secret_gist_masked_in_github_actions_ci(self) -> None:
-        """Verify Secret Gist ID & URL are masked and not printed in cleartext when GITHUB_ACTIONS=true."""
-        import os
-        from src.private_gist import log_gist_result
-
-        priv_results = {
-            "gist_id": "secret_gist_id_12345",
-            "gist_url": "https://gist.github.com/secret_gist_id_12345",
-        }
-
-        printed_lines: list[str] = []
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
-
-            # Verification of masking commands and masked log
-            self.assertIn("::add-mask::secret_gist_id_12345", printed_lines)
-            self.assertIn("::add-mask::https://gist.github.com/secret_gist_id_12345", printed_lines)
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                printed_lines,
-            )
-            # Must NOT print the unmasked "Secret Gist updated: ..." log
-            for line in printed_lines:
-                self.assertNotIn("Secret Gist updated: https://", line)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_secret_gist_unmasked_outside_github_actions(self) -> None:
-        """Verify Secret Gist URL is logged normally when GITHUB_ACTIONS is not set."""
-        import os
-        from src.private_gist import log_gist_result
-
-        priv_results = {
-            "gist_id": "secret_gist_id_12345",
-            "gist_url": "https://gist.github.com/secret_gist_id_12345",
-        }
-
-        printed_lines: list[str] = []
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        try:
-            os.environ.pop("GITHUB_ACTIONS", None)
-            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
-
-            self.assertIn(
-                "    Secret Gist updated: https://gist.github.com/secret_gist_id_12345",
-                printed_lines,
-            )
-            # Must NOT emit CI add-mask commands
-            for line in printed_lines:
-                self.assertNotIn("::add-mask::", line)
-                self.assertNotIn("URL masked in public CI logs", line)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-
-    def test_secret_gist_masking_edge_case_only_id(self) -> None:
-        """Verify masking works when gist_url is missing or equal to gist_id."""
-        import os
-        from src.private_gist import log_gist_result
-
-        priv_results = {"gist_id": "only_id_9999"}
-        printed_lines: list[str] = []
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            log_gist_result(priv_results, safe_print_fn=printed_lines.append)
-
-            self.assertEqual(printed_lines[0], "::add-mask::only_id_9999")
-            self.assertEqual(
-                printed_lines[1],
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-            )
-            self.assertEqual(len(printed_lines), 2)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_main_include_private_masks_in_github_actions(self) -> None:
-        """Verify src.main with --include-private masks Secret Gist URL in CI."""
-        import os
-        from src.main import main
-
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        captured_lines: list[str] = []
-
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            with patch("src.main.safe_print", side_effect=captured_lines.append):
-                with patch("src.main.load_sources", return_value=[]):
-                    with patch("src.main.fetch_all_sources", return_value=([], [], [])):
-                        with patch("src.main.deduplicate_nodes", return_value=[]):
-                            with patch("src.main.publish_subscriptions", return_value={}):
-                                with patch(
-                                    "src.main.publish_private_subs",
-                                    return_value={
-                                        "gist_id": "main_gist_ci_111",
-                                        "gist_url": "https://gist.github.com/main_gist_ci_111",
-                                        "bpb_only": "p1",
-                                        "private_verified": "p2",
-                                    },
-                                ):
-                                    rc = main([
-                                        "--include-private",
-                                        "--no-healthcheck",
-                                        "--no-pattn-variants",
-                                        "--no-docs",
-                                    ])
-                                    self.assertEqual(rc, 0)
-
-            self.assertIn("::add-mask::main_gist_ci_111", captured_lines)
-            self.assertIn("::add-mask::https://gist.github.com/main_gist_ci_111", captured_lines)
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                captured_lines,
-            )
-            for line in captured_lines:
-                self.assertNotIn("Secret Gist updated: https://", line)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_run_private_sync_masks_in_github_actions(self) -> None:
-        """Verify run_private_sync and --private-only mask Secret Gist URL in CI."""
-        import os
-        from src.private_gist import run_private_sync
-
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        captured: list[str] = []
-
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            with patch("src.private_gist.load_sources", return_value=[]):
-                with patch("src.private_gist.fetch_all_sources", return_value=([], [], [])):
-                    with patch("src.private_gist.deduplicate_nodes", return_value=[]):
-                        with patch("src.private_gist.load_public_subs_from_disk", return_value=[]):
-                            with patch(
-                                "src.private_gist.publish_private_subs",
-                                return_value={
-                                    "gist_id": "sync_gist_ci_222",
-                                    "gist_url": "https://gist.github.com/sync_gist_ci_222",
-                                    "bpb_only": "p1",
-                                    "private_verified": "p2",
-                                },
-                            ):
-                                results = run_private_sync(
-                                    safe_print_fn=captured.append,
-                                    pattn_variants=False,
-                                )
-                                self.assertEqual(results["gist_id"], "sync_gist_ci_222")
-
-            self.assertIn("::add-mask::sync_gist_ci_222", captured)
-            self.assertIn("::add-mask::https://gist.github.com/sync_gist_ci_222", captured)
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                captured,
-            )
-            for line in captured:
-                self.assertNotIn("Secret Gist updated: https://", line)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_main_private_only_masks_in_github_actions(self) -> None:
-        """Verify src.main with --private-only (the exact command run in update-subs.yml)
-        masks Secret Gist URL in CI."""
-        from src.main import main
-
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        captured_lines: list[str] = []
-
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            with patch("src.main.safe_print", side_effect=captured_lines.append):
-                with patch("src.private_gist.load_sources", return_value=[]):
-                    with patch("src.private_gist.fetch_all_sources", return_value=([], [], [])):
-                        with patch("src.private_gist.deduplicate_nodes", return_value=[]):
-                            with patch("src.private_gist.load_public_subs_from_disk", return_value=[]):
-                                with patch(
-                                    "src.private_gist.publish_private_subs",
-                                    return_value={
-                                        "gist_id": "priv_only_gist_333",
-                                        "gist_url": "https://gist.github.com/priv_only_gist_333",
-                                        "bpb_only": "p1",
-                                        "private_verified": "p2",
-                                    },
-                                ):
-                                    rc = main(["--private-only", "--no-pattn-variants"])
-                                    self.assertEqual(rc, 0)
-
-            self.assertIn("::add-mask::priv_only_gist_333", captured_lines)
-            self.assertIn("::add-mask::https://gist.github.com/priv_only_gist_333", captured_lines)
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                captured_lines,
-            )
-            for line in captured_lines:
-                self.assertNotIn("Secret Gist updated: https://", line)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_secret_gist_masks_raw_urls_in_github_actions(self) -> None:
-        """Verify that raw Gist file URLs in priv_results are also masked in CI."""
-        from src.private_gist import log_gist_result
-
-        priv_results = {
-            "gist_id": "raw_gist_444",
-            "gist_url": "https://gist.github.com/raw_gist_444",
-            "gist_raw_bpb_only": "https://gist.githubusercontent.com/raw/bpb_only.txt",
-            "gist_raw_private_verified": "https://gist.githubusercontent.com/raw/pv.txt",
-        }
-        captured: list[str] = []
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            log_gist_result(priv_results, safe_print_fn=captured.append)
-
-            self.assertIn("::add-mask::raw_gist_444", captured)
-            self.assertIn("::add-mask::https://gist.github.com/raw_gist_444", captured)
-            self.assertIn(
-                "::add-mask::https://gist.githubusercontent.com/raw/bpb_only.txt",
-                captured,
-            )
-            self.assertIn(
-                "::add-mask::https://gist.githubusercontent.com/raw/pv.txt",
-                captured,
-            )
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                captured,
-            )
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
-
-    def test_secret_gist_masking_none_or_empty(self) -> None:
-        """Verify log_gist_result handles None or empty results gracefully."""
-        from src.private_gist import log_gist_result
-
-        captured: list[str] = []
-        log_gist_result(None, safe_print_fn=captured.append)
-        self.assertEqual(len(captured), 0)
-
-        log_gist_result({}, safe_print_fn=captured.append)
-        self.assertEqual(len(captured), 0)
-
-        log_gist_result({"gist_id": "", "gist_url": ""}, safe_print_fn=captured.append)
-        self.assertEqual(len(captured), 0)
-
-    def test_secret_gist_masking_edge_case_only_url(self) -> None:
-        """Verify masking works when only gist_url is provided without gist_id."""
-        from src.private_gist import log_gist_result
-
-        priv_results = {"gist_url": "https://gist.github.com/user/only_url_8888"}
-        captured: list[str] = []
-        old_env = os.environ.get("GITHUB_ACTIONS")
-        try:
-            os.environ["GITHUB_ACTIONS"] = "true"
-            log_gist_result(priv_results, safe_print_fn=captured.append)
-
-            self.assertIn("::add-mask::https://gist.github.com/user/only_url_8888", captured)
-            self.assertIn(
-                "    Secret Gist updated successfully (URL masked in public CI logs)",
-                captured,
-            )
-            self.assertEqual(len(captured), 2)
-        finally:
-            if old_env is not None:
-                os.environ["GITHUB_ACTIONS"] = old_env
-            else:
-                os.environ.pop("GITHUB_ACTIONS", None)
+        args = parser.parse_args(["--max-test-nodes", "500", "--discover", "--no-healthcheck"])
+        self.assertEqual(args.max_test_nodes, 500)
+        self.assertTrue(args.discover)
+        self.assertFalse(args.healthcheck)
 
 
 class TestIranReachabilityChecker(unittest.TestCase):
@@ -778,8 +350,8 @@ class TestIranReachabilityChecker(unittest.TestCase):
             rc = run_iran_check(max_nodes=50, rounds=2, sync_pattn_db=False, repo_root=root)
             self.assertEqual(rc, 0)
 
-            out_plain = root / "private_subs" / "iran_verified.txt"
-            out_b64 = root / "private_subs" / "iran_verified_base64.txt"
+            out_plain = root / "local_subs" / "iran_verified.txt"
+            out_b64 = root / "local_subs" / "iran_verified_base64.txt"
             self.assertTrue(out_plain.is_file())
             self.assertTrue(out_b64.is_file())
             txt = out_plain.read_text(encoding="utf-8")

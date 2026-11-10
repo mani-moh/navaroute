@@ -10,8 +10,7 @@
         "auto-discovered",
         "github"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "gh-c964add1d0",
@@ -23,8 +22,7 @@
         "auto-discovered",
         "github"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-configshub",
@@ -37,8 +35,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-freev2rays",
@@ -51,8 +48,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2rayngvpn",
@@ -65,8 +61,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2ray_outlineir",
@@ -79,8 +74,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2rayng_config",
@@ -93,8 +87,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-07d2577deb",
@@ -106,8 +99,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-4e6407a342",
@@ -119,8 +111,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-27c82f8d87",
@@ -132,8 +123,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-shadowsocksm",
@@ -146,8 +136,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-vlessconfig",
@@ -160,8 +149,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2ray_collector",
@@ -174,8 +162,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-88996eae66",
@@ -187,8 +174,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-660b258b53",
@@ -200,8 +186,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-f9f6bdd1a3",
@@ -213,8 +198,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-af4fdd5607",
@@ -226,8 +210,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-0dc7c33c7e",
@@ -239,8 +222,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-bd860a1115",
@@ -252,8 +234,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-4c90398a42",
@@ -265,8 +246,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-44b9f6e67e",
@@ -278,8 +258,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-fefad9d43b",
@@ -291,8 +270,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-7d81eb5a60",
@@ -304,8 +282,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-f2dad2649c",
@@ -317,8 +294,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-b89814e6b1",
@@ -330,8 +306,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-35e01e956f",
@@ -343,8 +318,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-42814a7c1e",
@@ -356,8 +330,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-58a1baede7",
@@ -369,8 +342,7 @@
         "auto-discovered",
         "web-mined"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-a6e4299a7f",
@@ -382,8 +354,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-56dfd72e36",
@@ -395,8 +366,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-proxyarc",
@@ -409,8 +379,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-2d73dec8b5",
@@ -422,8 +391,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-blueknight_net",
@@ -436,8 +404,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-757c8dc370",
@@ -449,8 +416,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-42245810b7",
@@ -462,8 +428,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-shadowproxy66",
@@ -476,8 +441,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-xsfilterrnet",
@@ -490,8 +454,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-hamedvpns",
@@ -504,8 +467,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2rayng_fast",
@@ -518,8 +480,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-configwireguard",
@@ -532,8 +493,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-persianvpnhub",
@@ -546,8 +506,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-698e7b993b",
@@ -559,8 +518,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-c5924ffe90",
@@ -572,8 +530,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-free2config",
@@ -586,8 +543,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-mamad1vpn",
@@ -600,8 +556,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-mtproxy22_v2ray",
@@ -614,8 +569,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-free1_vpn",
@@ -628,8 +582,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-flyv2ray",
@@ -642,8 +595,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2cnf",
@@ -656,8 +608,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-farazv2ray",
@@ -670,8 +621,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2ray1_ng",
@@ -684,8 +634,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-server01012",
@@ -698,8 +647,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-sparrk_vpn",
@@ -712,8 +660,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-arsalanvpn",
@@ -726,8 +673,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-4cb8b7a891",
@@ -739,8 +685,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-v2lessir",
@@ -753,8 +698,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-5383469830",
@@ -766,8 +710,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-break_the_barriers",
@@ -780,8 +723,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-outlinereleasedkey",
@@ -794,8 +736,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "sub-21971ef1c8",
@@ -807,8 +748,7 @@
         "auto-discovered",
         "subscription"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-yebekhe",
@@ -821,8 +761,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     },
     {
       "id": "tg-homayounconfigs",
@@ -835,8 +774,7 @@
         "telegram",
         "iran"
       ],
-      "enabled": true,
-      "is_private": false
+      "enabled": true
     }
   ]
 }

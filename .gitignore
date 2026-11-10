@@ -1,7 +1,6 @@
-# Private BPB sources and local private subscriptions (NEVER COMMIT)
-sources.private.json
-private_subs/
+# Local environment secrets and local Iran-verified outputs (NEVER COMMIT)
 .env
+local_subs/
 
 # SDD scratch workspace
 .superpowers/

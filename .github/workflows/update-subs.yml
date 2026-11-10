@@ -17,10 +17,6 @@ on:
         description: "Maximum number of nodes to health-check"
         type: string
         default: "1000"
-      sync_private_gist:
-        description: "Publish private BPB + verified configs to Secret Gist (requires PRIVATE_SOURCES & GIST_TOKEN secrets)"
-        type: boolean
-        default: true
       run_discovery:
         description: "Run Autonomous Discovery Agent (NVIDIA Nemotron 3.5 Super VL) before aggregation"
         type: boolean
@@ -118,43 +114,27 @@ jobs:
 
           python -m src.main $HC_FLAG $PV_FLAG --max-test-nodes "$MAX_NODES"
 
-      - name: Privacy and security audit
+      - name: Security audit
         shell: bash
         env:
-          PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
-          # 1. Ensure private artifacts are never tracked or staged
-          if git status --porcelain | grep -E "(sources\.private\.json|private_subs/)"; then
-            echo "ERROR: Private files detected in git working tree!"
+          # 1. Ensure local/secret artifacts are never tracked or staged
+          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
+            echo "ERROR: Local/sensitive files detected in git working tree!"
             exit 1
           fi
 
-          # 2. Dynamic privacy audit: ensure no private endpoints or API keys leak into public tracked files
+          # 2. Ensure API keys never leak into public tracked files
           python -c '
-          import os, sys, subprocess, re
-          priv = os.environ.get("PRIVATE_SOURCES", "")
+          import os, sys, subprocess
           nvapi = os.environ.get("NVIDIA_API_KEY", "").strip()
           if nvapi and len(nvapi) > 8:
               res = subprocess.run(["git", "grep", "-I", "-F", nvapi], capture_output=True, text=True)
               if res.returncode == 0 and res.stdout.strip():
                   print("CRITICAL SECURITY VIOLATION: NVIDIA_API_KEY detected in tracked files!")
                   sys.exit(1)
-          if priv:
-              urls = re.findall(r"https?://[^\s\",]+", priv)
-              domains = set()
-              for u in urls:
-                  m = re.search(r"https?://([^/:]+)", u)
-                  if m:
-                      domains.add(m.group(1).lower())
-              print(f"Auditing repository against {len(domains)} private domains...")
-              for d in domains:
-                  if len(d) > 4:
-                      res = subprocess.run(["git", "grep", "-I", "-i", d], capture_output=True, text=True)
-                      if res.returncode == 0 and res.stdout.strip():
-                          print(f"CRITICAL PRIVACY VIOLATION: Private domain detected in tracked files: {d}")
-                          sys.exit(1)
-          print("Dynamic privacy & security audit passed: 0 leaks found.")
+          print("Security audit passed: 0 leaks found.")
           '
 
       - name: Commit and push public updates
@@ -177,20 +157,3 @@ jobs:
               git push origin "HEAD:$CURRENT_BRANCH" && break || sleep 3
             done
           fi
-
-      - name: Publish private subscriptions to Secret Gist
-        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.sync_private_gist == true) }}
-        shell: bash
-        env:
-          PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
-          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
-          GIST_ID: ${{ secrets.GIST_ID }}
-        run: |
-          if [ -z "$PRIVATE_SOURCES" ] || [ -z "$GIST_TOKEN" ]; then
-            echo "Secret Gist upload skipped: PRIVATE_SOURCES or GIST_TOKEN secret is not set."
-            exit 0
-          fi
-          echo "Syncing private subscriptions to Secret Gist..."
-          python -m src.main --private-only
-          rm -rf private_subs/
-          echo "Secret Gist sync completed and private artifacts cleaned up."

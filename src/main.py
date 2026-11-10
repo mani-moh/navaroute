@@ -10,7 +10,6 @@ from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
 from src.fetcher import fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
-from src.private_gist import log_gist_result, publish_private_subs
 from src.transform_pattn import generate_pattn_variants
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -73,23 +72,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Generate specialized PattN bypass variants (F&F, IPv6-OOB, SNI-Spoof) (default: enabled)",
     )
     parser.add_argument(
-        "--include-private",
-        action="store_true",
-        default=False,
-        help="Load private BPB sources and generate private_subs/ without leaking to subs/ (default: false)",
-    )
-    parser.add_argument(
-        "--private-sources",
-        default="sources.private.json",
-        help="Path to private sources JSON (default: sources.private.json)",
-    )
-    parser.add_argument(
-        "--private-only",
-        action="store_true",
-        default=False,
-        help="Fast mode: load ONLY private sources, read existing subs/ from disk, and publish to private_subs/ and Secret Gist without touching subs/ or docs",
-    )
-    parser.add_argument(
         "--max-workers",
         type=int,
         default=16,
@@ -100,21 +82,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
         type=int,
         default=20,
         help="HTTP request timeout in seconds (default: 20)",
-    )
-    parser.add_argument(
-        "--gist-token",
-        default=None,
-        help="GitHub PAT token for Secret Gist upload (optional, falls back to GIST_TOKEN env var)",
-    )
-    parser.add_argument(
-        "--gist-id",
-        default=None,
-        help="Existing GitHub Secret Gist ID to update (optional, falls back to GIST_ID env var)",
-    )
-    parser.add_argument(
-        "--private-dir",
-        default="private_subs",
-        help="Output directory for git-ignored private subscriptions (default: private_subs)",
     )
     parser.add_argument(
         "--no-docs",
@@ -183,43 +150,14 @@ def main(argv: list[str] | None = None) -> int:
         if args.discover_only:
             return 0
 
-    if args.private_only:
-        from src.private_gist import run_private_sync
-
-        start_total = time.perf_counter()
-        run_private_sync(
-            sources_path=args.sources,
-            private_sources_path=args.private_sources,
-            subs_dir=args.output_dir,
-            private_dir=args.private_dir,
-            gist_token=args.gist_token,
-            gist_id=args.gist_id,
-            max_workers=args.max_workers,
-            timeout=args.timeout,
-            pattn_variants=args.pattn_variants,
-            safe_print_fn=safe_print,
-        )
-        elapsed = time.perf_counter() - start_total
-        safe_print("-" * 65)
-        safe_print(f"✅ Private sync completed in {elapsed:.1f}s")
-        safe_print("=" * 65)
-        return 0
-
     start_total = time.perf_counter()
     safe_print("=" * 65)
     safe_print("🌐 PattN High-Speed Proxy Aggregator & Bypass Pipeline")
     safe_print("=" * 65)
 
     # 1. Load Sources
-    sources = load_sources(
-        sources_path=args.sources,
-        include_private=args.include_private,
-        private_sources_path=args.private_sources,
-    )
-    safe_print(
-        f"[1/6] Loaded {len(sources)} enabled sources "
-        f"(include_private={args.include_private})"
-    )
+    sources = load_sources(sources_path=args.sources)
+    safe_print(f"[1/6] Loaded {len(sources)} enabled sources")
 
     # 2. Fetch Sources Concurrently
     safe_print(f"[2/6] Concurrently fetching feeds (workers={args.max_workers}, timeout={args.timeout}s)...")
@@ -278,22 +216,6 @@ def main(argv: list[str] | None = None) -> int:
         update_docs=not args.no_docs,
     )
     safe_print(f"      Successfully generated {len(pub_counts)} subscription files")
-
-    # Optional: Private Subscriptions & Secret Gist
-    if args.include_private:
-        safe_print(f"[*] Publishing private BPB subscriptions to '{args.private_dir}/'...")
-        priv_results = publish_private_subs(
-            all_nodes=all_nodes,
-            private_dir=args.private_dir,
-            gist_token=args.gist_token,
-            gist_id=args.gist_id,
-        )
-        safe_print(
-            f"    Private subs generated: "
-            f"{priv_results.get('bpb_only')} | {priv_results.get('private_verified')}"
-        )
-        # Mask and log Secret Gist in CI (os.environ.get("GITHUB_ACTIONS") == "true")
-        log_gist_result(priv_results, safe_print_fn=safe_print)
 
     elapsed = time.perf_counter() - start_total
     safe_print("-" * 65)

@@ -6,8 +6,8 @@ Run this directly on your Windows machine inside Iran AFTER turning off your per
 to filter GitHub-aggregated configs down to nodes that genuinely pass your Iranian ISP & DPI.
 
 Outputs (git-ignored):
-- private_subs/iran_verified.txt
-- private_subs/iran_verified_base64.txt
+- local_subs/iran_verified.txt
+- local_subs/iran_verified_base64.txt
 """
 
 from __future__ import annotations
@@ -133,7 +133,6 @@ def _fetch_raw_text(url: str, timeout: float = 15.0) -> str:
 def load_candidate_nodes(
     repo_root: Path = REPO_ROOT,
     from_github: bool = False,
-    include_private: bool = False,
     repo_slug: Optional[str] = None,
     branch: Optional[str] = None,
 ) -> list[ProxyNode]:
@@ -174,35 +173,21 @@ def load_candidate_nodes(
                     node.is_verified_source = True
                 parsed_nodes.append(node)
 
-    if include_private:
-        bpb_file = repo_root / "private_subs" / "bpb_only.txt"
-        if bpb_file.is_file():
-            priv_src = SourceConfig(id="private:bpb", name="Private BPB", url="private", is_private=True, tags=["private", "bpb"])
-            for line in bpb_file.read_text(encoding="utf-8", errors="replace").splitlines():
-                line = line.strip()
-                if not line or line.startswith("#") or "://" not in line:
-                    continue
-                node = parse_proxy_uri(line, source=priv_src)
-                if node:
-                    node.is_private = True
-                    node.is_verified_source = True
-                    parsed_nodes.append(node)
-
     return deduplicate_nodes(parsed_nodes)
 
 
 def write_iran_verified_outputs(
     survivors: list[ProxyNode],
-    output_dir: Path = REPO_ROOT / "private_subs",
+    output_dir: Path = REPO_ROOT / "local_subs",
 ) -> tuple[Path, Path]:
-    """Writes Iran-verified configs (plain + base64) to git-ignored private_subs/."""
+    """Writes Iran-verified configs (plain + base64) to git-ignored local_subs/."""
     output_dir.mkdir(parents=True, exist_ok=True)
     plain_path = output_dir / "iran_verified.txt"
     b64_path = output_dir / "iran_verified_base64.txt"
 
     ordered = sorted(
         survivors,
-        key=lambda n: (0 if n.is_private else 1, n.latency_ms if n.latency_ms is not None else 99999.0),
+        key=lambda n: n.latency_ms if n.latency_ms is not None else 99999.0,
     )
 
     lines = [
@@ -230,7 +215,6 @@ def run_iran_check(
     concurrency: int = 24,
     xray_bin: Optional[str] = None,
     from_github: bool = False,
-    include_private: bool = False,
     sync_pattn_db: bool = False,
     force: bool = False,
     repo_root: Path = REPO_ROOT,
@@ -267,7 +251,6 @@ def run_iran_check(
     candidates = load_candidate_nodes(
         repo_root=repo_root,
         from_github=from_github,
-        include_private=include_private,
     )
     safe_print(f"[2/4] Loaded {len(candidates)} unique candidate configs (testing up to {max_nodes}, rounds={rounds})...")
     if not candidates:
@@ -290,7 +273,7 @@ def run_iran_check(
     safe_print(f"[3/4] In-Iran Xray verification completed: {len(survivors)} live configs passed {rounds}/{rounds} rounds")
 
     # 5. Save outputs
-    plain_path, b64_path = write_iran_verified_outputs(survivors, output_dir=repo_root / "private_subs")
+    plain_path, b64_path = write_iran_verified_outputs(survivors, output_dir=repo_root / "local_subs")
     safe_print(f"[4/4] Saved Iran-verified feeds:")
     safe_print(f"      - {plain_path}")
     safe_print(f"      - {b64_path}")
@@ -299,7 +282,6 @@ def run_iran_check(
         from scripts.sync_to_pattn import sync_subscriptions
         safe_print("\nSyncing 'Iran Live Verified' into local PattN database...")
         sync_subscriptions(
-            use_local_private=include_private,
             use_local_iran=True,
             local_repo_root=repo_root,
         )
@@ -319,7 +301,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--concurrency", type=int, default=24, help="Concurrent probes per batch (default: 24)")
     parser.add_argument("--xray-bin", default=None, help="Explicit path to xray.exe or p-xray-p.exe")
     parser.add_argument("--from-github", action="store_true", help="Fetch latest subs/ from GitHub before testing")
-    parser.add_argument("--include-private", action="store_true", help="Also test private_subs/bpb_only.txt")
     parser.add_argument("--sync-pattn-db", action="store_true", help="Upsert Iran-verified feed into PattN guiNDB.db")
     parser.add_argument("--force", action="store_true", help="Bypass active local proxy/VPN safety guard")
     return parser
@@ -335,7 +316,6 @@ def main(argv: Optional[list[str]] = None) -> int:
         concurrency=args.concurrency,
         xray_bin=args.xray_bin,
         from_github=args.from_github,
-        include_private=args.include_private,
         sync_pattn_db=args.sync_pattn_db,
         force=args.force,
     )

@@ -54,16 +54,13 @@ def publish_subscriptions(
     update_docs: bool = True,
 ) -> dict[str, int]:
     """Publishes public subscription files, categorized channels, protocol lists,
-
     country groupings, and optionally updates STATUS.md and README.md.
-    Strictly excludes any node where is_private == True.
     """
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     counts: dict[str, int] = {}
 
-    # SAFETY GUARD: strictly filter out all private nodes from public output!
-    public_nodes = [n for n in nodes if not n.is_private]
+    public_nodes = list(nodes)
 
     # Determine if healthcheck was run
     healthcheck_ran = any(n.passed_healthcheck for n in public_nodes)
@@ -207,12 +204,8 @@ def publish_subscriptions(
         counts,
     )
 
-    # Serverless Fragment JSON (filtered to public-only)
-    public_json_configs = [
-        {k: v for k, v in j.items() if k != "_is_private"}
-        for j in json_configs
-        if not j.get("_is_private")
-    ]
+    # Serverless Fragment JSON
+    public_json_configs = [dict(j) for j in json_configs]
     serverless_path = categories_dir / "serverless-fragment.json"
     serverless_path.write_text(
         json.dumps(public_json_configs, indent=2, ensure_ascii=False), encoding="utf-8"
@@ -267,8 +260,7 @@ def publish_subscriptions(
     # -------------------------------------------------------------
     if update_docs:
         base_dir = out_dir.resolve().parent
-        public_stats = [s for s in stats if not getattr(s, "is_private", False)]
-        _update_status_doc(base_dir / "STATUS.md", public_stats, public_nodes)
+        _update_status_doc(base_dir / "STATUS.md", stats, public_nodes)
         _update_readme_doc(base_dir / "README.md", counts, public_nodes)
 
     return counts
@@ -405,7 +397,6 @@ def _update_readme_doc(
         f"[![Update Subs](https://github.com/{repo_slug}/actions/workflows/update-subs.yml/badge.svg)](https://github.com/{repo_slug}/actions/workflows/update-subs.yml) "
         f"[![Daily Discovery](https://github.com/{repo_slug}/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/{repo_slug}/actions/workflows/daily-deep-discovery.yml) "
         "![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) "
-        "![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg) "
         "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)",
         "",
         "> Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. "
@@ -459,15 +450,6 @@ def _update_readme_doc(
         "",
         "---",
         "",
-        "## 🔒 Private BPB Subscriptions (Zero-Leak Architecture)",
-        "",
-        "PattN features strict privacy isolation for private Cloudflare Workers / BPB endpoints:",
-        "1. Store private subscription URLs locally in `sources.private.json` (git-ignored) or as a GitHub Actions secret `PRIVATE_SOURCES`.",
-        "2. Private nodes are marked with `is_private=True` and **never written to any public subscription file**.",
-        "3. Optional Secret Gist upload publishes private combined feeds (`bpb_only.txt`, `private_verified.txt`) directly to your private GitHub Gist, providing raw URLs accessible on all your devices.",
-        "",
-        "---",
-        "",
         "## 🛰️ Autonomous Discovery Agent (NVIDIA NIM Frontier AI)",
         "",
         "Before every 6-hour refresh (plus a daily 500-request extended deep scan), PattN runs an autonomous discovery agent powered by `moonshotai/kimi-k2.6` (with automatic failover to `mistralai/mistral-large-4-1t-a52b`, `nvidia/nemotron-3-ultra-550b-a55b`, and `nvidia/nemotron-3.5-super-vl-120b-a12b`):",
@@ -496,12 +478,6 @@ def _update_readme_doc(
         "",
         "# Fast run without healthcheck",
         "python -m src.main --no-healthcheck",
-        "",
-        "# Fast private sync to Secret Gist (uses existing subs/ without re-fetching or re-probing)",
-        "python -m src.main --private-only",
-        "",
-        "# Include private BPB sources and publish to private Gist",
-        "python -m src.main --include-private --gist-token $GIST_TOKEN --gist-id $GIST_ID",
         "",
         "# Test reachability directly from Iran (disconnect personal VPN first)",
         ".\\scripts\\check_from_iran.ps1",

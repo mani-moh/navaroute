@@ -23,11 +23,10 @@ python -m unittest discover -s tests -v
 
 To add a curated public proxy source, edit `sources.json`:
 1. Provide a unique `id`, descriptive `name`, and public `url`.
-2. Ensure `is_private` is `false` and the URL contains no personal tokens, private Cloudflare Worker endpoints, or credentials.
-3. Run `python -m unittest tests.test_core -v` to validate schema and privacy checks.
+2. Ensure the URL contains no personal tokens, credentials, or non-public endpoints.
+3. Run `python -m unittest tests.test_core -v` to validate source loading and schema checks.
 
-## Privacy & Security Rules
+## Security Rules
 
-- **Never commit** `.env`, `sources.private.json`, `private_subs/`, API keys (`NVIDIA_API_KEY`), or Gist tokens.
-- Any private node must carry `is_private=True` and be emitted strictly inside `private_subs/` or private Secret Gists.
+- **Never commit** `.env`, `local_subs/`, or API keys (`NVIDIA_API_KEY`).
 - All PRs must pass `.github/workflows/ci.yml` (`compileall`, full `unittest` suite, and static secret scan).
