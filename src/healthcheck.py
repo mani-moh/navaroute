@@ -1,15 +1,18 @@
 from __future__ import annotations
 
 import concurrent.futures
+import http.client
 import json
 import os
 import re
 import shutil
 import socket
 import ssl
+import statistics
 import subprocess
 import tempfile
 import time
+import urllib.parse
 import urllib.request
 from typing import Optional
 
@@ -144,6 +147,16 @@ def build_xray_outbound(node: ProxyNode) -> Optional[dict]:
     elif net == "grpc":
         service = node.params.get("serviceName", node.params.get("service_name", ""))
         stream_settings["grpcSettings"] = {"serviceName": service}
+    elif net == "httpupgrade":
+        stream_settings["httpupgradeSettings"] = {
+            "path": node.params.get("path", "/"),
+            "host": host or "",
+        }
+    elif net in ("xhttp", "splithttp"):
+        stream_settings["xhttpSettings"] = {
+            "path": node.params.get("path", "/"),
+            "host": host or "",
+        }
 
     outbound["streamSettings"] = stream_settings
 
@@ -271,6 +284,230 @@ def probe_node_xray(
             pass
 
 
+def _reserve_ports(count: int) -> list[int]:
+    """Allocates `count` available ephemeral loopback ports."""
+    sockets: list[socket.socket] = []
+    ports: list[int] = []
+    try:
+        for _ in range(count):
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind(("127.0.0.1", 0))
+            sockets.append(s)
+            ports.append(s.getsockname()[1])
+    finally:
+        for s in sockets:
+            try:
+                s.close()
+            except Exception:
+                pass
+    return ports
+
+
+def _build_xray_batch_config(
+    outbounds: list[tuple[int, dict]],
+    ports: list[int],
+) -> dict:
+    """Builds one Xray config mapping each loopback HTTP inbound to its node outbound.
+
+    Places a blackhole outbound first so unmatched routing can never fall through direct.
+    """
+    inbounds = []
+    xray_outbounds = [{"protocol": "blackhole", "tag": "block"}]
+    rules = []
+
+    for slot, (_, ob) in enumerate(outbounds):
+        in_tag = f"in_{slot}"
+        out_tag = f"out_{slot}"
+        inbounds.append({
+            "tag": in_tag,
+            "port": ports[slot],
+            "listen": "127.0.0.1",
+            "protocol": "http",
+            "settings": {},
+        })
+        ob_copy = dict(ob)
+        ob_copy["tag"] = out_tag
+        xray_outbounds.append(ob_copy)
+        rules.append({
+            "type": "field",
+            "inboundTag": [in_tag],
+            "outboundTag": out_tag,
+        })
+
+    return {
+        "log": {"loglevel": "none"},
+        "inbounds": inbounds,
+        "outbounds": xray_outbounds,
+        "routing": {
+            "domainStrategy": "AsIs",
+            "rules": rules,
+        },
+    }
+
+
+def _wait_ports_listening(
+    ports: list[int],
+    proc: subprocess.Popen,
+    timeout: float = 4.0,
+) -> bool:
+    """Waits until first and last batch inbound ports accept connections or process exits."""
+    if not ports:
+        return True
+    check_ports = [ports[0]] if len(ports) == 1 else [ports[0], ports[-1]]
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        if proc.poll() is not None:
+            return False
+        ready = True
+        for p in check_ports:
+            try:
+                with socket.create_connection(("127.0.0.1", p), timeout=0.2):
+                    pass
+            except OSError:
+                ready = False
+                break
+        if ready:
+            return True
+        time.sleep(0.05)
+    return False
+
+
+def _probe_http_via_local_proxy(
+    port: int,
+    test_url: str = "http://cp.cloudflare.com/generate_204",
+    timeout: float = 5.0,
+) -> tuple[bool, Optional[float]]:
+    """Sends a real HTTP request through a local Xray HTTP proxy inbound."""
+    parsed = urllib.parse.urlsplit(test_url)
+    host = parsed.netloc
+    conn: Optional[http.client.HTTPConnection] = None
+    try:
+        conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+        t0 = time.perf_counter()
+        conn.request(
+            "GET",
+            test_url,
+            headers={
+                "Host": host,
+                "User-Agent": "Mozilla/5.0 Chrome/133.0.0.0",
+                "Connection": "close",
+            },
+        )
+        resp = conn.getresponse()
+        resp.read()
+        elapsed_ms = (time.perf_counter() - t0) * 1000.0
+        if resp.status in (200, 204):
+            return True, round(elapsed_ms, 1)
+        return False, None
+    except Exception:
+        return False, None
+    finally:
+        if conn is not None:
+            try:
+                conn.close()
+            except Exception:
+                pass
+
+
+def probe_batch_xray(
+    nodes: list[ProxyNode],
+    xray_bin: str,
+    timeout: float = 5.0,
+    test_url: str = "http://cp.cloudflare.com/generate_204",
+    workers: int = 24,
+) -> dict[int, float]:
+    """Tests a batch of nodes end-to-end inside a single Xray process.
+
+    Returns a mapping `{node_index: latency_ms}` strictly for nodes whose proxied
+    HTTP request returned 200/204 (no fallback to TCP connect). Automatically bisects
+    if a malformed node causes Xray startup to reject the batch.
+    """
+    valid_items: list[tuple[int, dict]] = []
+    for idx, node in enumerate(nodes):
+        ob = build_xray_outbound(node)
+        if ob is not None:
+            valid_items.append((idx, ob))
+
+    if not valid_items:
+        return {}
+
+    return _run_xray_items(valid_items, xray_bin=xray_bin, timeout=timeout, test_url=test_url, workers=workers)
+
+
+def _run_xray_items(
+    items: list[tuple[int, dict]],
+    xray_bin: str,
+    timeout: float,
+    test_url: str,
+    workers: int,
+) -> dict[int, float]:
+    ports = _reserve_ports(len(items))
+    config = _build_xray_batch_config(items, ports)
+
+    tmp_config = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+    try:
+        json.dump(config, tmp_config)
+        tmp_config.close()
+
+        try:
+            proc = subprocess.Popen(
+                [xray_bin, "run", "-c", tmp_config.name],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except Exception:
+            return {}
+
+        started = False
+        try:
+            started = _wait_ports_listening(ports, proc, timeout=4.0)
+            if not started:
+                # Terminate failed batch and bisect so 1 malformed config never drops valid peers
+                if len(items) > 1:
+                    proc.kill()
+                    proc.wait()
+                    mid = len(items) // 2
+                    left = _run_xray_items(items[:mid], xray_bin, timeout, test_url, workers)
+                    right = _run_xray_items(items[mid:], xray_bin, timeout, test_url, workers)
+                    left.update(right)
+                    return left
+                return {}
+
+            results: dict[int, float] = {}
+            max_w = min(workers, len(items))
+            with concurrent.futures.ThreadPoolExecutor(max_workers=max_w) as pool:
+                future_map = {
+                    pool.submit(_probe_http_via_local_proxy, ports[slot], test_url, timeout): orig_idx
+                    for slot, (orig_idx, _) in enumerate(items)
+                }
+                for fut in concurrent.futures.as_completed(future_map):
+                    orig_idx = future_map[fut]
+                    try:
+                        ok, latency = fut.result()
+                        if ok and latency is not None:
+                            results[orig_idx] = latency
+                    except Exception:
+                        pass
+            return results
+        finally:
+            try:
+                if proc.poll() is None:
+                    proc.terminate()
+                    proc.wait(timeout=1.5)
+            except Exception:
+                try:
+                    proc.kill()
+                    proc.wait(timeout=1.0)
+                except Exception:
+                    pass
+    finally:
+        try:
+            os.remove(tmp_config.name)
+        except Exception:
+            pass
+
+
 def check_nodes_health(
     nodes: list[ProxyNode],
     max_nodes: int = 1500,
@@ -278,37 +515,71 @@ def check_nodes_health(
     timeout: float = 3.5,
     xray_bin: Optional[str] = None,
     use_xray: bool = False,
+    batch_size: int = 48,
+    rounds: int = 1,
+    test_urls: Optional[list[str]] = None,
 ) -> None:
     """Prioritizes and concurrently tests the reachability and latency of nodes.
 
-    Supports optional deep Xray SOCKS probing when use_xray=True and xray binary exists,
-    with seamless fallback to high-speed concurrent TCP+TLS/SNI socket verification.
+    When use_xray=True and an Xray binary is available, runs batched end-to-end
+    HTTP-proxied probes across `rounds` rounds (intersection of all rounds survives).
+    Otherwise runs fast concurrent TCP+TLS/SNI socket verification.
     Sets passed_healthcheck and latency_ms in-place.
     """
     if not nodes:
         return
 
-    # Prioritization:
-    # 1. Verified upstream first
-    # 2. Iran / Reality / ConfigsHUB nodes next
-    # 3. Other nodes
+    # Reset status before probing
     def sort_key(n: ProxyNode) -> tuple[int, int]:
         p1 = 0 if n.is_verified_source else 1
         p2 = 0 if (n.is_iran_optimized() or n.is_reality() or "confighub" in n.tags) else 1
         return (p1, p2)
 
-    # Sort nodes by priority and select target slice
     nodes_with_priority = sorted(nodes, key=sort_key)
     target_nodes = nodes_with_priority[:max_nodes]
 
-    # Optional Xray binary probing check
     resolved_xray = (xray_bin or shutil.which("xray")) if use_xray else None
 
+    if resolved_xray:
+        endpoints = test_urls or HEALTHCHECK_TEST_URLS
+        latencies: dict[int, list[float]] = {i: [] for i in range(len(target_nodes))}
+        survivor_indices = set(range(len(target_nodes)))
+
+        for r_idx in range(max(1, rounds)):
+            if not survivor_indices:
+                break
+            cur_url = endpoints[r_idx % len(endpoints)]
+            active_list = sorted(survivor_indices)
+            round_passed: set[int] = set()
+
+            for start in range(0, len(active_list), max(1, batch_size)):
+                chunk_indices = active_list[start : start + batch_size]
+                chunk_nodes = [target_nodes[i] for i in chunk_indices]
+                batch_res = probe_batch_xray(
+                    chunk_nodes,
+                    xray_bin=resolved_xray,
+                    timeout=max(timeout, 4.5),
+                    test_url=cur_url,
+                    workers=min(concurrency, len(chunk_nodes), 32),
+                )
+                for local_idx, lat in batch_res.items():
+                    orig_i = chunk_indices[local_idx]
+                    round_passed.add(orig_i)
+                    latencies[orig_i].append(lat)
+
+            survivor_indices &= round_passed
+
+        for idx, n in enumerate(target_nodes):
+            if idx in survivor_indices and latencies[idx]:
+                n.passed_healthcheck = True
+                n.latency_ms = round(statistics.median(latencies[idx]), 1)
+            else:
+                n.passed_healthcheck = False
+                n.latency_ms = None
+        return
+
     def _worker(n: ProxyNode) -> None:
-        if resolved_xray:
-            passed, latency = probe_node_xray(n, resolved_xray, timeout=timeout)
-        else:
-            passed, latency = probe_node_socket(n, timeout=timeout)
+        passed, latency = probe_node_socket(n, timeout=timeout)
         n.passed_healthcheck = passed
         n.latency_ms = latency
 

@@ -245,6 +245,38 @@ class TestHealthcheck(unittest.TestCase):
         self.assertFalse(passed)
         self.assertIsNone(latency)
 
+    @patch("src.healthcheck.probe_batch_xray")
+    def test_batched_xray_config_and_multiround_intersection(self, mock_probe_batch):
+        from src.healthcheck import _build_xray_batch_config
+
+        n1 = ProxyNode(scheme="vless", address="1.1.1.1", port=443, credential="u1")
+        n2 = ProxyNode(scheme="vmess", address="2.2.2.2", port=443, credential="u2")
+        n3 = ProxyNode(scheme="trojan", address="3.3.3.3", port=443, credential="u3")
+
+        cfg = _build_xray_batch_config([(0, build_xray_outbound(n1))], [25000])
+        self.assertEqual(cfg["outbounds"][0]["protocol"], "blackhole")
+        self.assertEqual(cfg["inbounds"][0]["protocol"], "http")
+        self.assertEqual(cfg["inbounds"][0]["port"], 25000)
+        self.assertEqual(cfg["routing"]["rules"][0]["inboundTag"], ["in_0"])
+
+        # Round 1 passes n1 and n2; Round 2 ([n1, n2]) only passes index 1 (n2) -> strictly n2 survives
+        mock_probe_batch.side_effect = [
+            {0: 120.0, 1: 80.0},
+            {1: 90.0},
+        ]
+        check_nodes_health(
+            [n1, n2, n3],
+            max_nodes=10,
+            xray_bin="fake_xray",
+            use_xray=True,
+            rounds=2,
+            batch_size=10,
+        )
+        self.assertFalse(n1.passed_healthcheck)
+        self.assertTrue(n2.passed_healthcheck)
+        self.assertEqual(n2.latency_ms, 85.0)
+        self.assertFalse(n3.passed_healthcheck)
+
 
 class TestCategorizer(unittest.TestCase):
     def setUp(self):

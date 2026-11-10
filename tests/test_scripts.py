@@ -712,5 +712,98 @@ class TestCiAndPrivacyHardening(unittest.TestCase):
                 os.environ.pop("GITHUB_ACTIONS", None)
 
 
+class TestIranReachabilityChecker(unittest.TestCase):
+    def test_check_from_iran_ps1_exists(self) -> None:
+        ps1 = BASE_DIR / "scripts" / "check_from_iran.ps1"
+        self.assertTrue(ps1.is_file())
+        txt = ps1.read_text(encoding="utf-8")
+        self.assertIn("scripts/test_iran_reachability.py", txt)
+        self.assertIn("--sync-pattn-db", txt)
+        self.assertIn("--from-github", txt)
+
+    def test_vpn_safety_guard_blocks_when_proxy_active(self) -> None:
+        from scripts.test_iran_reachability import detect_active_local_vpn, run_iran_check
+
+        with patch.dict(os.environ, {"HTTP_PROXY": "http://127.0.0.1:10809"}):
+            signals = detect_active_local_vpn(ports_to_check=())
+            self.assertTrue(any("HTTP_PROXY" in s for s in signals))
+
+        with patch("scripts.test_iran_reachability.detect_active_local_vpn", return_value=["Mock VPN active"]):
+            rc = run_iran_check(force=False)
+            self.assertEqual(rc, 2)
+
+    @patch("scripts.test_iran_reachability.check_nodes_health")
+    @patch("scripts.test_iran_reachability.find_local_xray_binary", return_value="mock_xray.exe")
+    @patch("scripts.test_iran_reachability.detect_active_local_vpn", return_value=[])
+    def test_run_iran_check_writes_verified_outputs_offline(
+        self, _mock_vpn, _mock_xray, mock_hc
+    ) -> None:
+        from scripts.test_iran_reachability import run_iran_check
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            subs_dir = root / "subs"
+            subs_dir.mkdir(parents=True)
+            (subs_dir / "verified.txt").write_text(
+                "vless://11111111-2222-3333-4444-555555555555@1.2.3.4:443?security=tls#IranOK\n"
+                "trojan://deadpass@5.6.7.8:443?security=tls#BlockedNode\n",
+                encoding="utf-8",
+            )
+
+            def fake_hc(nodes, **kwargs):
+                self.assertTrue(kwargs.get("use_xray"))
+                self.assertEqual(kwargs.get("rounds"), 2)
+                for n in nodes:
+                    if n.address == "1.2.3.4":
+                        n.passed_healthcheck = True
+                        n.latency_ms = 142.5
+                    else:
+                        n.passed_healthcheck = False
+
+            mock_hc.side_effect = fake_hc
+            rc = run_iran_check(max_nodes=50, rounds=2, sync_pattn_db=False, repo_root=root)
+            self.assertEqual(rc, 0)
+
+            out_plain = root / "private_subs" / "iran_verified.txt"
+            out_b64 = root / "private_subs" / "iran_verified_base64.txt"
+            self.assertTrue(out_plain.is_file())
+            self.assertTrue(out_b64.is_file())
+            txt = out_plain.read_text(encoding="utf-8")
+            self.assertIn("1.2.3.4:443", txt)
+            self.assertNotIn("5.6.7.8:443", txt)
+
+    def test_sync_subscriptions_with_use_local_iran(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            db = root / "guiNDB.db"
+            conn = sqlite3.connect(str(db))
+            conn.execute(
+                """
+                CREATE TABLE SubItem (
+                    Id TEXT PRIMARY KEY, Remarks TEXT, Url TEXT, MoreUrl TEXT,
+                    Enabled INTEGER, UserAgent TEXT, RequestHeaders TEXT, Sort INTEGER,
+                    Filter TEXT, AutoUpdateInterval INTEGER, UpdateTime INTEGER,
+                    ConvertTarget TEXT, PrevProfile TEXT, NextProfile TEXT,
+                    PreSocksPort INTEGER, Memo TEXT, CustomCoreType TEXT,
+                    OverrideAddress TEXT, OverridePort INTEGER
+                )
+                """
+            )
+            conn.commit()
+            conn.close()
+
+            summary = sync_subscriptions(
+                db_path=db,
+                repo_slug="test/repo",
+                use_local_iran=True,
+                local_repo_root=root,
+            )
+            self.assertEqual(summary["added"], 10)
+            conn = sqlite3.connect(str(db))
+            remarks = [r[0] for r in conn.execute("SELECT Remarks FROM SubItem").fetchall()]
+            conn.close()
+            self.assertIn("🇮🇷 PattN Hub - Iran Live Verified", remarks)
+
+
 if __name__ == "__main__":
     unittest.main()

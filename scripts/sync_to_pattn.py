@@ -205,6 +205,7 @@ def sync_subscriptions(
     repo_slug: str = DEFAULT_REPO_SLUG,
     branch: Optional[str] = None,
     use_local_private: bool = False,
+    use_local_iran: bool = False,
     local_repo_root: Optional[Path] = None,
     disable_redundant: bool = False,
     dry_run: bool = False,
@@ -229,6 +230,19 @@ def sync_subscriptions(
                 "memo": sub_def["memo"],
                 "sort": sub_def["sort"],
             }
+        )
+
+    if use_local_iran:
+        iran_sub_path = repo_dir / "private_subs" / "iran_verified.txt"
+        iran_url = f"file:///{str(iran_sub_path).replace('\\', '/')}"
+        subs_to_sync.insert(
+            0,
+            {
+                "remarks": "🇮🇷 PattN Hub - Iran Live Verified",
+                "url": iran_url,
+                "memo": "End-to-end Xray verified directly from Iranian ISP",
+                "sort": 98,
+            },
         )
 
     # Optional private BPB + Verified subscription
@@ -374,6 +388,11 @@ def main() -> int:
         help="Include local private BPB + Verified subscription pointing to local private_subs/",
     )
     parser.add_argument(
+        "--use-local-iran",
+        action="store_true",
+        help="Include local Iran-live verified subscription pointing to private_subs/iran_verified.txt",
+    )
+    parser.add_argument(
         "--disable-redundant",
         action="store_true",
         help="Disable redundant public feeds superseded by PattN Hub while preserving BPB configs",
@@ -392,6 +411,7 @@ def main() -> int:
             repo_slug=args.repo_slug,
             branch=args.branch,
             use_local_private=args.use_local_private,
+            use_local_iran=args.use_local_iran,
             disable_redundant=args.disable_redundant,
             dry_run=args.dry_run,
         )
