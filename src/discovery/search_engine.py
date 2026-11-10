@@ -85,7 +85,11 @@ class TelegramChannelScraper:
                     result.discovered_channels.append(handle)
             elif parsed.hostname not in ("cdn.telegram.org",) and (parsed.hostname in ("raw.githubusercontent.com", "gist.githubusercontent.com") or re.search(r"\.(?:txt|json|html)$|/(?:sub|subscription|mix|proxies|vless|vmess)(?:[/._-]|$)", parsed.path, re.I)):
                 result.sub_urls.append(url)
-        result.discovered_channels.extend(normalize_channel_handle(h) for h in MENTION_REGEX.findall(text))
+        # Rejected URL credentials are still URL data, never free-standing mentions.
+        mention_text = html.unescape(URL_REGEX.sub(" ", html_content))
+        mention_text = re.sub(r"<[^>]+>", " ", mention_text)
+        mention_text = URL_REGEX.sub(" ", mention_text)
+        result.discovered_channels.extend(normalize_channel_handle(h) for h in MENTION_REGEX.findall(mention_text))
         result.discovered_channels = list(dict.fromkeys(h for h in result.discovered_channels if h and h != normalize_channel_handle(current_channel) and h not in IGNORE_CHANNEL_HANDLES))
         for raw in TG_PHOTO_PATTERN.findall(html_content):
             try:

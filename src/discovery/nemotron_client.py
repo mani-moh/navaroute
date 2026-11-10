@@ -10,7 +10,7 @@ import re
 import time
 from typing import Any, Optional
 
-from src.discovery.state_manager import approved_public_url
+from src.discovery.state_manager import approved_public_url, bounded_image_results
 from src.network import NetworkError, fetch_bytes
 from src.models import SourceConfig
 from src.parsers import extract_nodes_from_content
@@ -317,6 +317,5 @@ class NemotronClient:
             nodes, _ = extract_nodes_from_content(text, SourceConfig("ocr", "Public OCR", image_url))
             # Persist only canonical public configs, not raw model output.
             self.image_results[image_hash] = "\n".join(n.to_uri(include_formatted_remark=False) for n in nodes[:400])
-            while len(self.image_results) > 400:
-                self.image_results.pop(next(iter(self.image_results)))
+            self.image_results = bounded_image_results(self.image_results)
         return text

@@ -14,6 +14,46 @@ from src.storage import atomic_write_text
 DEFAULT_STATE_FILE = "data/discovery_state.json"
 DEFAULT_DISCOVERY_SOURCES_FILE = "sources.discovered.json"
 DEFAULT_LEADERBOARD_FILE = "DISCOVERY.md"
+STATE_MAX_BYTES = 8 * 1024 * 1024
+IMAGE_CACHE_MAX_BYTES = 2 * 1024 * 1024
+IMAGE_RECORD_MAX_BYTES = 65536
+
+
+def bounded_image_results(results: dict[str, str], max_bytes: int = IMAGE_CACHE_MAX_BYTES) -> dict[str, str]:
+    """Evict whole canonical configs/old records, never truncate a connection."""
+    if not isinstance(results, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in results.items()):
+        raise ValueError("Invalid image results")
+    bounded = {}
+    sizes = {}
+    total = 0
+    for key, text in results.items():
+        lines = text.splitlines()
+        while len("\n".join(lines).encode("utf-8")) > IMAGE_RECORD_MAX_BYTES:
+            lines.pop(0)
+        value = "\n".join(lines)
+        size = len(json.dumps({key: value}, ensure_ascii=False, indent=2).encode("utf-8"))
+        bounded[key], sizes[key] = value, size
+        total += size
+        while bounded and (len(bounded) > 400 or total > max_bytes):
+            oldest = next(iter(bounded))
+            bounded.pop(oldest)
+            total -= sizes.pop(oldest)
+    return bounded
+
+
+def serialize_state(state: dict[str, Any]) -> str:
+    """Check the exact serialized generation before any projection is replaced."""
+    state["last_updated"] = int(time.time())
+    base = dict(state, image_results={})
+    base_bytes = len(json.dumps(base, ensure_ascii=False, indent=2).encode("utf-8"))
+    if base_bytes > STATE_MAX_BYTES:
+        raise ValueError("Discovery state exceeds byte limit")
+    state["image_results"] = bounded_image_results(state.get("image_results", {}), min(IMAGE_CACHE_MAX_BYTES, STATE_MAX_BYTES - base_bytes))
+    validate_state(state)
+    content = json.dumps(state, ensure_ascii=False, indent=2)
+    if len(content.encode("utf-8")) > STATE_MAX_BYTES:
+        raise ValueError("Discovery state exceeds byte limit")
+    return content
 
 
 PROXY_HANDLE_KEYWORDS = (
@@ -113,25 +153,31 @@ def validate_state(data: Any) -> None:
         raise ValueError("Invalid discovery state")
     allowed = {"version", "last_updated", "queries_executed", "candidate_queue", "candidate_scores",
                "visited_channels", "rejected_channels", "visited_urls", "sources_metadata",
-               "last_run_api_requests", "total_api_requests", "image_results"}
+               "last_run_api_requests", "total_api_requests", "image_results", "external_attempt_order", "pending_queries", "pending_pages"}
     if set(data) - allowed:
         raise ValueError("Unknown discovery state fields")
     for key in ("candidate_queue", "visited_channels", "rejected_channels"):
         values = data.get(key, [])
         if not isinstance(values, list) or len(values) > 10000 or any(not normalize_channel_handle(v) or v != normalize_channel_handle(v) for v in values):
             raise ValueError("Invalid discovery handles")
-    for key in ("queries_executed", "visited_urls"):
+    for key in ("queries_executed", "pending_queries", "visited_urls", "pending_pages"):
         values = data.get(key, [])
         if not isinstance(values, list) or len(values) > 5000 or any(not isinstance(v, str) or len(v) > 16384 for v in values):
             raise ValueError("Invalid discovery history")
         for value in values:
-            if key == "visited_urls":
+            if key in ("visited_urls", "pending_pages"):
                 approved_public_url(value)
+                if key == "pending_pages" and not value.startswith(("http://", "https://")):
+                    raise ValueError("Invalid pending discovery page")
             elif not value or len(value) > 500 or re.search(r"[\x00-\x1f\x7f]|https?://", value):
                 raise ValueError("Invalid discovery query")
     scores = data.get("candidate_scores", {})
     if not isinstance(scores, dict) or len(scores) > 10000 or any(not normalize_channel_handle(h) or h != normalize_channel_handle(h) or not _counter(n) for h, n in scores.items()):
         raise ValueError("Invalid discovery scores")
+    attempts = data.get("external_attempt_order", {})
+    if (not isinstance(attempts, dict) or len(attempts) > 10000
+            or any(not isinstance(key, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,100}", key) or not _counter(order) for key, order in attempts.items())):
+        raise ValueError("Invalid external discovery attempt order")
     for key in ("last_updated", "last_run_api_requests", "total_api_requests"):
         if not _counter(data.get(key, 0)):
             raise ValueError("Invalid discovery counter")
@@ -198,12 +244,8 @@ class DiscoveryStateManager:
 
     def save(self) -> None:
         """Persists state to disk atomically."""
-        self.state["last_updated"] = int(time.time())
-        validate_state(self.state)
+        content = serialize_state(self.state)
         self.state_file.parent.mkdir(parents=True, exist_ok=True)
-        content = json.dumps(self.state, indent=2, ensure_ascii=False)
-        if len(content.encode("utf-8")) > 8 * 1024 * 1024:
-            raise ValueError("Discovery state exceeds byte limit")
         atomic_write_text(self.state_file, content)
 
     def get_state(self) -> dict[str, Any]:
@@ -251,6 +293,8 @@ class DiscoveryStateManager:
     def record_visited_url(self, url: str) -> None:
         """Records an external URL so future runs build incrementally without repeating checks."""
         url = approved_public_url(url)
+        if url in self.state.get("pending_pages", []):
+            self.state["pending_pages"].remove(url)
         urls = self.state.setdefault("visited_urls", [])
         if url not in urls:
             urls.append(url)
@@ -351,6 +395,8 @@ class DiscoveryStateManager:
         if q_clean and len(q_clean) <= 500 and not re.search(r"[\x00-\x1f\x7f]|https?://", q_clean) and q_clean not in queries:
             queries.append(q_clean)
             self.state["queries_executed"] = queries[-5000:]
+        if q_clean in self.state.get("pending_queries", []):
+            self.state["pending_queries"].remove(q_clean)
 
     def record_external_source(
         self,
@@ -382,11 +428,12 @@ class DiscoveryStateManager:
         self.state["last_run_api_requests"] = requests_made
         self.state["total_api_requests"] = self.state.get("total_api_requests", 0) + requests_made
 
-    def generate_leaderboard_markdown(self) -> str:
+    def generate_leaderboard_markdown(self, state: Optional[dict[str, Any]] = None) -> str:
         """Generates an aesthetic markdown report of discovered sources."""
-        meta = self.state.get("sources_metadata", {})
-        visited_count = len(self.state.get("visited_channels", []))
-        queued_count = len(self.state.get("candidate_queue", []))
+        state = self.state if state is None else state
+        meta = state.get("sources_metadata", {})
+        visited_count = len(state.get("visited_channels", []))
+        queued_count = len(state.get("candidate_queue", []))
 
         # Filter active channels with nodes
         active_sources = [
@@ -432,8 +479,8 @@ class DiscoveryStateManager:
             "## 🧭 Discovery Queue & Exploration Horizon",
             "",
             f"- Channels waiting for deep-inspection in next cycle: **{queued_count}**",
-            f"- Unique query patterns synthesized: **{len(self.state.get('queries_executed', []))}**",
-            f"- NVIDIA Nemotron API calls (last run / cumulative): **{self.state.get('last_run_api_requests', 0)}** / **{self.state.get('total_api_requests', 0)}**",
+            f"- Unique query patterns synthesized: **{len(state.get('queries_executed', []))}**",
+            f"- NVIDIA Nemotron API calls (last run / cumulative): **{state.get('last_run_api_requests', 0)}** / **{state.get('total_api_requests', 0)}**",
             "",
             "---",
             "*Automated intelligence powered by PattN Pipeline*",

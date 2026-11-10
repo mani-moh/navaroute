@@ -1,6 +1,8 @@
 import base64
 import json
 import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from contextlib import contextmanager
@@ -14,6 +16,7 @@ from src.discovery.state_manager import DiscoveryStateManager, normalize_channel
 from src.fetcher import fetch_source, load_sources
 from src.network import NetworkError
 from src.parsers import parse_proxy_uri
+from src.storage import atomic_write_text
 
 URI = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=tls&type=ws&path=%2Ffirst&path=%2Fsecond#Public"
 PAGE = '<div data-post="mockchan/1">' + URI + ' sister @NewChan</div>'
@@ -209,6 +212,24 @@ class TestNemotronClient(OfflineDiscoveryTestCase):
         with self.assertRaises(DiscoveryBudgetExceeded):
             client.complete("over cap")
         self.assertEqual(transport.call_count, 1)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_review6_unicode_canonical_image_record_fits_and_keeps_whole_uris(self, transport, _clock):
+        text = "\n".join(URI.split("?")[0].replace("example.com", f"public{i}.example.com") + "?path=" + "界" * 1600 for i in range(5))
+        self.assertLess(len(text.encode()), 65536)
+        canonical = [parse_proxy_uri(line).to_uri(include_formatted_remark=False) for line in text.splitlines()]
+        self.assertGreater(len("\n".join(canonical).encode()), 65536)
+        transport.side_effect = [(200, IMAGE), completion(text)]
+        client = self.client()
+        client.analyze_image("https://cdn.telegram.org/public.png")
+        cached = next(iter(client.image_results.values()))
+        self.assertLessEqual(len(cached.encode()), 65536)
+        self.assertTrue(cached)
+        self.assertTrue(all(line in canonical for line in cached.splitlines()))
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.state["image_results"] = client.image_results
+        manager.save()
 
 
 class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
@@ -482,7 +503,11 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
 
     def test_checkpoint_state_failure_never_returns_success(self):
         agent = self.agent(["proxychan"])
-        with self.crawl(agent), patch.object(agent.state_manager, "save", side_effect=OSError("synthetic failure")), self.assertRaises(OSError):
+        def write(path, text):
+            if path.name == "state.json":
+                raise OSError("synthetic state projection failure")
+            atomic_write_text(path, text)
+        with self.crawl(agent), patch("src.discovery.agent.atomic_write_text", side_effect=write), self.assertRaises(OSError):
             agent.run_cycle(max_channels=1)
 
     @patch("src.discovery.agent.time.monotonic", return_value=0)
@@ -632,6 +657,288 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
         self.assertIn("retained", sources[0]["name"].lower())
         self.write_public([{"id": "public-cache", "url": "data/discovered_ocr_configs.txt"}])
         self.assertEqual(self.agent().run_cycle(max_channels=0), [])
+
+    def test_review1_rejected_url_spans_cannot_become_mentions(self):
+        agent = self.agent(["proxychan"])
+        page = PAGE + ' https://example.com/sub.txt?token=@SecretToken https://user:@OtherToken@example.com/sub.txt https://t.me/s/ApprovedProxy @StandaloneProxy'
+        with self.crawl(agent, page):
+            agent.run_cycle(max_channels=1)
+        queue = agent.state_manager.state["candidate_queue"]
+        self.assertIn("approvedproxy", queue)
+        self.assertIn("standaloneproxy", queue)
+        for path in (self.root / "data/state.json", self.root / "sources.discovered.json", self.root / "DISCOVERY.md"):
+            self.assertNotIn("secrettoken", path.read_text(encoding="utf-8").lower())
+            self.assertNotIn("othertoken", path.read_text(encoding="utf-8").lower())
+
+    def test_review1_rejected_url_html_delimiters_do_not_expose_tokens(self):
+        page = '<a href="https://example.com/sub.txt?token= @SpacedToken">x</a> https://example.com/sub.txt?token=&quot;@EncodedToken&quot; https&#58;//example.com/sub.txt?token=@SchemeToken @StandaloneProxy'
+        result = TelegramChannelScraper().parse_channel_page(page)
+        self.assertEqual(result.discovered_channels, ["standaloneproxy"])
+
+    def full_old_generation(self):
+        self.write_public()
+        agent = self.agent()
+        old_text = "\n".join(URI.replace("example.com", f"old{i}.example.com") for i in range(400))
+        refs = agent._retain(old_text, "https://t.me/s/oldproxy")
+        agent.state_manager.record_visited("oldproxy", 400, True, oldest_post_id=90)
+        agent.state_manager.state["sources_metadata"]["oldproxy"]["retained_fingerprints"] = sorted(refs)
+        agent.state_manager.add_candidates(["newproxy"])
+        sources = {"tg-oldproxy": {"id": "tg-oldproxy", "url": "https://t.me/s/oldproxy", "format": "telegram_web"}}
+        agent._save_checkpoint(sources, [])
+        paths = [self.root / path for path in ("data/discovered_ocr_configs.txt", "sources.discovered.json", "data/state.json", "DISCOVERY.md")]
+        return agent, sources, {path: path.read_bytes() for path in paths}
+
+    def test_review2_late_write_failure_preserves_full_acknowledged_generation(self):
+        agent, _, old = self.full_old_generation()
+        page = '<div data-post="newproxy/1">' + "\n".join(URI.replace("example.com", f"new{i}.example.com") for i in range(400)) + '</div>'
+        cache_replaced = False
+        failed = False
+        def write(path, text):
+            nonlocal cache_replaced, failed
+            if path.name == "sources.discovered.json" and not failed:
+                self.assertTrue(cache_replaced)
+                failed = True
+                raise OSError("synthetic failure after cache replacement")
+            atomic_write_text(path, text)
+            if path.name == "discovered_ocr_configs.txt":
+                cache_replaced = True
+        with self.crawl(agent, page), patch("src.discovery.agent.atomic_write_text", side_effect=write), self.assertRaises(OSError):
+            agent.run_cycle(max_channels=1)
+        self.assertTrue(failed)
+        for path, content in old.items():
+            self.assertEqual(path.read_bytes(), content)
+
+    def exit_checkpoint_and_recover(self, after_state=False):
+        _, _, old = self.full_old_generation()
+        repo = str(Path(__file__).resolve().parents[1])
+        script = f'''
+import os, sys
+sys.path.insert(0, {repo!r})
+from unittest.mock import patch
+from src.discovery.agent import DiscoveryAgent
+from src.storage import atomic_write_text
+def forbidden(*args, **kwargs):
+    raise AssertionError("unexpected network")
+def write(path, text):
+    if path.name == "sources.discovered.json" and not {after_state!r}:
+        os._exit(73)
+    atomic_write_text(path, text)
+    if path.name == "state.json" and {after_state!r}:
+        os._exit(73)
+with patch("src.network._resolve", forbidden), patch("src.discovery.agent.fetch_bytes", forbidden), patch("src.discovery.search_engine.fetch_bytes", forbidden), patch("src.discovery.nemotron_client.fetch_bytes", forbidden), patch("src.discovery.agent.atomic_write_text", write):
+    agent = DiscoveryAgent(state_file="data/state.json", initial_seeds=[], nemotron_client=__import__("src.discovery.nemotron_client", fromlist=["NemotronClient"]).NemotronClient(api_key=""))
+    agent._load_retained()
+    agent._retain("\\n".join({URI!r}.replace("example.com", f"new{{i}}.example.com") for i in range(400)), "https://t.me/s/newproxy")
+    agent._save_checkpoint({{"tg-oldproxy": {{"id":"tg-oldproxy", "url":"https://t.me/s/oldproxy"}}}}, [])
+'''
+        result = subprocess.run([sys.executable, "-B", "-W", "error::ResourceWarning", "-c", script], cwd=self.root, env=dict(os.environ), capture_output=True, timeout=30)
+        self.assertEqual(result.returncode, 73, result.stderr.decode())
+        self.assertNotEqual((self.root / "data/discovered_ocr_configs.txt").read_bytes(), old[self.root / "data/discovered_ocr_configs.txt"])
+        if after_state:
+            self.assertNotEqual((self.root / "data/state.json").read_bytes(), old[self.root / "data/state.json"])
+        recovered = self.agent()
+        self.assertEqual(recovered.state_manager.get_channel_oldest_post_id("oldproxy"), 90)
+        for path, content in old.items():
+            self.assertEqual(path.read_bytes(), content)
+        self.assertFalse((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_review2_process_exit_after_cache_replacement_recovers_old_generation(self):
+        self.exit_checkpoint_and_recover()
+
+    def test_review2_process_exit_after_state_replacement_before_commit_recovers_old_generation(self):
+        self.exit_checkpoint_and_recover(after_state=True)
+
+    def test_review3_failed_expansion_child_stays_retryable_when_channel_repeats_it(self):
+        agent = self.agent(["proxychan"])
+        child = "https://example.com/sub.txt"
+        def expand(discovered, existing, **kwargs):
+            agent._consider_url(child, discovered, existing)
+        with patch.object(agent, "_expand_queries_via_nemotron", side_effect=expand), patch.object(agent.tg_scraper, "fetch_channel_page", return_value='<div data-post="proxychan/1">' + child + '</div>'), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")) as transport:
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(transport.call_count, 1)
+        self.assertNotIn("proxychan", agent.state_manager.state["visited_channels"])
+        self.assertIn("proxychan", agent.state_manager.state["candidate_queue"])
+
+    def test_review4_no_key_query_retries_failed_child_across_cycles(self):
+        agent = self.agent()
+        query = 'site:t.me "vless://" reality'
+        child = "https://example.com/sub.txt"
+        def search(url, **kwargs):
+            return (200, ('<a href="' + child + '">public</a>').encode()) if "duckduckgo" in url else (200, b'{"items":[]}')
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")) as probe:
+            agent.run_cycle(max_channels=1)
+            self.assertNotIn(query, agent.state_manager.state["queries_executed"])
+            self.agent().run_cycle(max_channels=1)
+            self.assertEqual(probe.call_count, 2)
+
+    def test_review4_no_key_page_retries_child_and_unfinished_suffix(self):
+        parent = "https://github.com/public/repo"
+        children = [f"https://example.com/sub{i}.txt" for i in range(7)]
+        agent = self.agent()
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, " ".join(children).encode())), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")):
+            agent._analyze_webpage_via_nemotron(parent, {}, set())
+            self.assertFalse(agent.state_manager.is_url_visited(parent))
+        agent._save_checkpoint({}, [])
+        for _ in range(3):
+            agent = self.agent()
+            discovered = {row["id"]: row for row in agent._load_registry(self.root / "sources.discovered.json")}
+            with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, " ".join(children).encode())), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())):
+                agent._analyze_webpage_via_nemotron(parent, discovered, set())
+            agent._save_checkpoint(discovered, [])
+        self.assertTrue(agent.state_manager.is_url_visited(parent))
+        self.assertTrue(all(agent.state_manager.is_url_visited(child) for child in children))
+
+    def test_review5_five_failed_feeds_do_not_starve_sixth_or_clear_last_good(self):
+        rows = [{"id": f"sub-{i}", "url": f"https://example.com/sub{i}.txt"} for i in range(6)]
+        (self.root / "sources.discovered.json").write_text(json.dumps({"sources": rows}))
+        agent = self.agent()
+        for row in rows:
+            agent.state_manager.record_external_source(row["id"], row["id"], 10, row["url"])
+        good = dict(agent.state_manager.state["sources_metadata"]["sub-0"])
+        def fetch(url, **kwargs):
+            if url.endswith("sub5.txt"):
+                return 410, b""
+            raise NetworkError("synthetic")
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", side_effect=fetch):
+            agent.run_cycle(max_channels=1)
+        reloaded = self.agent()
+        with self.crawl(reloaded), patch("src.discovery.agent.fetch_bytes", side_effect=fetch):
+            sources = reloaded.run_cycle(max_channels=1)
+        self.assertNotIn("sub-5", {s["id"] for s in sources})
+        self.assertEqual(reloaded.state_manager.state["sources_metadata"]["sub-0"], good)
+
+    def test_review6_total_image_state_bytes_are_bounded_before_checkpoint(self):
+        agent = self.agent()
+        long_uri = parse_proxy_uri(URI.split("?")[0] + "?path=" + "x" * 10000).to_uri(include_formatted_remark=False)
+        agent.nemotron.image_results = {f"{i:064x}": "\n".join([long_uri] * 3) for i in range(400)}
+        agent._save_checkpoint({}, [])
+        state = json.loads((self.root / "data/state.json").read_text())
+        self.assertLessEqual(len((self.root / "data/state.json").read_bytes()), 8 * 1024 * 1024)
+        self.assertLessEqual(len(json.dumps(state["image_results"]).encode()), 2 * 1024 * 1024)
+        self.assertTrue(all(parse_proxy_uri(uri) for text in state["image_results"].values() for uri in text.splitlines()))
+
+    def test_review7_curated_retained_id_collision_does_not_hide_feed_from_load_sources(self):
+        self.write_public([{"id": "nemotron-vision-ocr", "url": "https://example.com/unrelated.txt"}])
+        agent = self.agent(["proxychan"], key="synthetic")
+        page = '<div data-post="proxychan/1"><img src="https://cdn.telegram.org/public.png"></div>'
+        with self.crawl(agent, page), patch("src.discovery.nemotron_client.fetch_bytes", side_effect=[(200, IMAGE), completion(URI)]):
+            agent.run_cycle(max_channels=1, max_api_requests=3)
+        sources = load_sources("sources.json", "sources.discovered.json")
+        cache = next((s for s in sources if s.url == "data/discovered_ocr_configs.txt"), None)
+        self.assertIsNotNone(cache)
+        nodes, _, stats = fetch_source(cache)
+        self.assertTrue(stats.success)
+        self.assertEqual(len(nodes), 1)
+
+    def test_review7_cross_registry_id_conflict_rejected_before_writes(self):
+        self.write_public([{"id": "same", "url": "https://example.com/curated.txt"}])
+        registry = self.root / "sources.discovered.json"
+        raw = '{"sources":[{"id":"same","url":"https://example.com/discovered.txt"}]}'
+        registry.write_text(raw)
+        with self.assertRaises(ValueError):
+            self.agent().run_cycle(max_channels=0)
+        self.assertEqual(registry.read_text(), raw)
+
+    def test_review4_retained_page_parent_keeps_retry_work_when_search_result_disappears(self):
+        parent, child = "https://github.com/public/repo", "https://example.com/sub.txt"
+        agent = self.agent()
+        phase = 0
+        child_attempts = 0
+        def search(url, **kwargs):
+            if "duckduckgo" in url:
+                return 200, ('<a href="' + parent + '">public</a>').encode() if phase == 0 else b""
+            if url == parent:
+                return 200, (URI + " " + child).encode()
+            return 200, b'{"items":[]}'
+        def probe(url, **kwargs):
+            nonlocal child_attempts
+            if url == child:
+                child_attempts += 1
+                if phase == 0:
+                    raise NetworkError("synthetic")
+            return 200, URI.encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            agent.run_cycle(max_channels=1)
+            self.assertFalse(agent.state_manager.is_url_visited(parent))
+            phase = 1
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(child_attempts, 2)
+        self.assertTrue(agent.state_manager.is_url_visited(parent))
+
+    def test_review2_checkpoint_target_redirection_rejected(self):
+        resolve = Path.resolve
+        def redirected(path, *args, **kwargs):
+            if path.name == "sources.discovered.json":
+                return self.root.resolve() / "other-public.json"
+            return resolve(path, *args, **kwargs)
+        with patch("pathlib.Path.resolve", redirected), self.assertRaises(ValueError):
+            self.agent()
+
+    def test_review2_malformed_journal_never_changes_projections(self):
+        _, _, old = self.full_old_generation()
+        journal = self.root / "data/discovery_checkpoint.json"
+        targets = {"cache": "data/discovered_ocr_configs.txt", "registry": "sources.discovered.json", "state": "data/state.json", "leaderboard": "DISCOVERY.md"}
+        previous = dict(zip(targets, (content.decode("utf-8") for content in old.values())))
+        for data in ({}, {"version": 1, "targets": targets, "previous": dict(previous, cache="invalid retained config")}):
+            raw = json.dumps(data, ensure_ascii=False)
+            journal.write_text(raw, encoding="utf-8")
+            with patch("src.discovery.agent.atomic_write_text") as write, self.assertRaises(ValueError):
+                self.agent()
+            write.assert_not_called()
+            self.assertEqual(journal.read_text(encoding="utf-8"), raw)
+            for path, content in old.items():
+                self.assertEqual(path.read_bytes(), content)
+        journal.unlink()
+
+    def test_review2_interrupted_recovery_keeps_journal_until_all_old_projections_restored(self):
+        _, _, old = self.full_old_generation()
+        targets = {"cache": "data/discovered_ocr_configs.txt", "registry": "sources.discovered.json", "state": "data/state.json", "leaderboard": "DISCOVERY.md"}
+        previous = dict(zip(targets, (content.decode("utf-8") for content in old.values())))
+        journal = self.root / "data/discovery_checkpoint.json"
+        journal.write_text(json.dumps({"version": 1, "targets": targets, "previous": previous}, ensure_ascii=False), encoding="utf-8")
+        (self.root / "data/state.json").write_text('{"version":1}', encoding="utf-8")
+        def write(path, text):
+            if path.name == "state.json":
+                raise OSError("synthetic interrupted recovery")
+            atomic_write_text(path, text)
+        with patch("src.discovery.agent.atomic_write_text", side_effect=write), self.assertRaises(OSError):
+            self.agent()
+        self.assertTrue(journal.exists())
+        self.agent()
+        self.assertFalse(journal.exists())
+        for path, content in old.items():
+            self.assertEqual(path.read_bytes(), content)
+
+    def test_review6_invalid_new_generation_is_rejected_before_any_write(self):
+        for invalid in ("cache", "registry", "state-budget"):
+            with self.subTest(invalid=invalid):
+                agent, sources, old = self.full_old_generation()
+                if invalid == "cache":
+                    agent._retained = {"0" * 64: "not a connection"}
+                elif invalid == "registry":
+                    sources["bad"] = {"id": "bad", "url": "https://user:SECRET@example.com/sub.txt"}
+                else:
+                    agent.state_manager.state["visited_urls"] = ["https://example.com/" + "x" * 10000 + f"/{i}" for i in range(1000)]
+                with patch("src.discovery.agent.atomic_write_text") as write, self.assertRaises(ValueError):
+                    agent._save_checkpoint(sources, [])
+                write.assert_not_called()
+                for path, content in old.items():
+                    self.assertEqual(path.read_bytes(), content)
+                self.assertFalse((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_review7_generated_channel_and_subscription_ids_do_not_overwrite_curated_rows(self):
+        child = "https://example.com/sub.txt"
+        import hashlib
+        preferred = "sub-" + hashlib.sha256(child.encode()).hexdigest()[:10]
+        self.write_public([{"id": "tg-proxychan", "url": "https://example.com/other.txt"}, {"id": preferred, "url": "https://example.com/another.txt"}])
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent, PAGE + " " + child), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())):
+            agent.run_cycle(max_channels=1)
+        sources = load_sources("sources.json", "sources.discovered.json")
+        self.assertEqual(len({source.id for source in sources}), len(sources))
+        self.assertIn(child, {source.url for source in sources})
+        self.assertIn("https://t.me/s/proxychan", {source.url for source in sources})
 
 
 if __name__ == "__main__":
