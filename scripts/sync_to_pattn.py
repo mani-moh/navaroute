@@ -234,7 +234,7 @@ def sync_subscriptions(
 
     if use_local_iran:
         iran_sub_path = repo_dir / "private_subs" / "iran_verified.txt"
-        iran_url = f"file:///{str(iran_sub_path).replace('\\', '/')}"
+        iran_url = f"file:///{iran_sub_path.as_posix().lstrip('/')}"
         subs_to_sync.insert(
             0,
             {
@@ -249,7 +249,7 @@ def sync_subscriptions(
     if use_local_private:
         priv_sub_path = repo_dir / "private_subs" / "private_verified.txt"
         priv_url = (
-            f"file:///{str(priv_sub_path).replace('\\', '/')}"
+            f"file:///{priv_sub_path.as_posix().lstrip('/')}"
             if priv_sub_path.exists()
             else f"{base_raw_url}/subs/verified.txt"
         )

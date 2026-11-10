@@ -106,7 +106,7 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("Static security scan passed", ci_txt)
 
         env_ex = (BASE_DIR / ".env.example").read_text(encoding="utf-8")
-        self.assertIn("NVIDIA_API_KEY=nvapi-your-api-key-here", env_ex)
+        self.assertIn("NVIDIA_API_KEY=<your-nvidia-api-key>", env_ex)
 
 
 class TestSyncToPattn(unittest.TestCase):
