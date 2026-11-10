@@ -176,6 +176,667 @@
       ],
       "enabled": true,
       "is_private": false
+    },
+    {
+      "id": "sub-88996eae66",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-660b258b53",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.b64.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-f9f6bdd1a3",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-af4fdd5607",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/refs/heads/main/lowest.txt#ArashOnline-Lowest",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-0dc7c33c7e",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/refs/heads/main/chains.json#ArashOnline-Chain",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-bd860a1115",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/1",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-4c90398a42",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/2",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-44b9f6e67e",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/3",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-fefad9d43b",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/4",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-7d81eb5a60",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/5",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-f2dad2649c",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrtat/vless-collector/main/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-b89814e6b1",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrtat/vless-collector/main/vless.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-35e01e956f",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/miraali1372/mirsub/main/subscription.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-42814a7c1e",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrdad-tat/vless-collector/main/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-58a1baede7",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrdad-tat/vless-collector/main/vless.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-a6e4299a7f",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/ss.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-56dfd72e36",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/trojan.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-proxyarc",
+      "name": "Telegram @proxyarc",
+      "url": "https://t.me/s/proxyarc",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-2d73dec8b5",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/BlueKnightNet/subtemp/refs/heads/blue-knight-net/s",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-blueknight_net",
+      "name": "Telegram @blueknight_net",
+      "url": "https://t.me/s/blueknight_net",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-757c8dc370",
+      "name": "Discovered Sub (https://sub.shadowproxy66.work...)",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/736218dc-3cdf-4e93-bb5b-1d726418e43e",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-42245810b7",
+      "name": "Discovered Sub (https://sub.shadowproxy66.work...)",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/e298329f-2274-4b24-8d7c-84183c77dba8",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-shadowproxy66",
+      "name": "Telegram @shadowproxy66",
+      "url": "https://t.me/s/shadowproxy66",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-xsfilterrnet",
+      "name": "Telegram @xsfilterrnet",
+      "url": "https://t.me/s/xsfilterrnet",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-hamedvpns",
+      "name": "Telegram @hamedvpns",
+      "url": "https://t.me/s/hamedvpns",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2rayng_fast",
+      "name": "Telegram @v2rayng_fast",
+      "url": "https://t.me/s/v2rayng_fast",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-configwireguard",
+      "name": "Telegram @configwireguard",
+      "url": "https://t.me/s/configwireguard",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-persianvpnhub",
+      "name": "Telegram @persianvpnhub",
+      "url": "https://t.me/s/persianvpnhub",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-698e7b993b",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/FRAGMENT",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-c5924ffe90",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/Movaghat",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-free2config",
+      "name": "Telegram @free2config",
+      "url": "https://t.me/s/free2config",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-mamad1vpn",
+      "name": "Telegram @mamad1vpn",
+      "url": "https://t.me/s/mamad1vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-mtproxy22_v2ray",
+      "name": "Telegram @mtproxy22_v2ray",
+      "url": "https://t.me/s/mtproxy22_v2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-free1_vpn",
+      "name": "Telegram @free1_vpn",
+      "url": "https://t.me/s/free1_vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-flyv2ray",
+      "name": "Telegram @flyv2ray",
+      "url": "https://t.me/s/flyv2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2cnf",
+      "name": "Telegram @v2cnf",
+      "url": "https://t.me/s/v2cnf",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-farazv2ray",
+      "name": "Telegram @farazv2ray",
+      "url": "https://t.me/s/farazv2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2ray1_ng",
+      "name": "Telegram @v2ray1_ng",
+      "url": "https://t.me/s/v2ray1_ng",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-server01012",
+      "name": "Telegram @server01012",
+      "url": "https://t.me/s/server01012",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-sparrk_vpn",
+      "name": "Telegram @sparrk_vpn",
+      "url": "https://t.me/s/sparrk_vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-arsalanvpn",
+      "name": "Telegram @arsalanvpn",
+      "url": "https://t.me/s/arsalanvpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-4cb8b7a891",
+      "name": "Discovered Sub (https://svn.mobiletanaz.com:20...)",
+      "url": "https://svn.mobiletanaz.com:2053/sub/djMsMzI1ODM1LDE3OTQwNjI0ODk.KFIrsGH-rqRfcxrVLgSROwaUmOx36tnDSFskXhLHgT8",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2lessir",
+      "name": "Telegram @v2lessir",
+      "url": "https://t.me/s/v2lessir",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-5383469830",
+      "name": "Discovered Sub (https://www.ermao.net/sub/v2ra...)",
+      "url": "https://www.ermao.net/sub/v2ray/ermao.net",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-break_the_barriers",
+      "name": "Telegram @break_the_barriers",
+      "url": "https://t.me/s/break_the_barriers",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-outlinereleasedkey",
+      "name": "Telegram @outlinereleasedkey",
+      "url": "https://t.me/s/outlinereleasedkey",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-21971ef1c8",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/HnCgs/HomayounConfigs/main/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-yebekhe",
+      "name": "Telegram @yebekhe",
+      "url": "https://t.me/s/yebekhe",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-homayounconfigs",
+      "name": "Telegram @homayounconfigs",
+      "url": "https://t.me/s/homayounconfigs",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
     }
   ]
 }

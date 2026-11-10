@@ -2,15 +2,12 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇲🇰 MK] VLESS-Reality | src:luxxuria-speed-tested | 182ms
-vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@212.41.9.190:2053?type=grpc&security=reality&fp=firefox&pbk=imLsTJWqsJvY4Lu9exzN3lWG788xbeu1ujMO1vOxL3U&sid=d2b34f75&sni=s3.storage.selcloud.ru&serviceName=cas-mk#[✅] [🇲🇰 MK] VLESS-Reality | src:ewecrow78-whitelist1
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?type=raw&security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇲🇰 MK] VLESS-Reality | src:luxxuria-speed-tested | 177ms
 ss://YWVzLTI1Ni1nY206Q1RLOEdYRlFnS1lRRXJyZ2hQSmZaNnRr@185.225.28.85:47121#[🇲🇰 MK] SS | src:farid-karimi-mixed-iran
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@46.183.185.15:989#[🇲🇰 MK] SS | src:farid-karimi-mixed-iran
+vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@212.41.9.190:2053?encryption=none&pbk=imLsTJWqsJvY4Lu9exzN3lWG788xbeu1ujMO1vOxL3U&security=reality&serviceName=cas-mk&sid=d2b34f75&sni=s3.storage.selcloud.ru&type=grpc&fp=edge#[🇲🇰 MK] VLESS-Reality | src:ewecrow78-whitelist1
 vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&type=tcp&encryption=none#[🇲🇰 MK] VLESS-Reality | src:ewecrow78-whitelist1
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@46.183.185.15:989#[🇲🇰 MK] SS | src:sub-07d2577deb
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@46.183.185.37:989#[🇲🇰 MK] SS | src:sub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@46.183.185.15:990#[🇲🇰 MK] SS | src:elf2017spring-configshub
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@46.183.185.37:989#[🇲🇰 MK] SS | src:elf2017spring-configshub
-vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@188.114.98.0:443?type=grpc&security=tls&fp=unsafe&sni=s3.storage.selcloud.ru&serviceName=cas-mk&encryption=none&host=s3.storage.selcloud.ru&cs=TLS_AES_128_GCM_SHA256%3ATLS_AES_256_GCM_SHA384%3ATLS_CHACHA20_POLY1305_SHA256%3AECDHE-ECDSA-AES128-GCM-SHA256%3AECDHE-RSA-AES128-GCM-SHA256&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%22tlshello%22%2C%22length%22%3A%2210-20%22%2C%22delay%22%3A%2210-20%22%7D%7D%2C%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%221-1%22%2C%22length%22%3A%221-3%22%2C%22delay%22%3A%225%22%7D%7D%5D%7D#[✅] [🇲🇰 MK] VLESS-grpc [PattN F&F] | src:ewecrow78-whitelist1
-vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@[2a06:98c1:3120::7]:443?type=grpc&security=tls&fp=hellochrome_120&sni=s3.storage.selcloud.ru&serviceName=cas-mk&encryption=none&host=s3.storage.selcloud.ru&dialMode=oob.0#[✅] [🇲🇰 MK] VLESS-grpc [PattN IPv6-OOB] | src:ewecrow78-whitelist1
-vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@127.0.0.1:40443?type=grpc&security=tls&fp=chrome&sni=s3.storage.selcloud.ru&serviceName=cas-mk&encryption=none&host=s3.storage.selcloud.ru#[✅] [🇲🇰 MK] VLESS-grpc [PattN SNI-Spoof] | src:ewecrow78-whitelist1

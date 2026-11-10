@@ -2,8 +2,8 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-trojan://4f7dc540-d244-4e64-af21-4b5bb300add3@132.226.5.246:443?security=tls&sni=www.tokyo2023.ga#[🇬🇦 GA] Trojan | src:matinghanbari-all
 trojan://f42e1a2e-e650-44f4-8d17-bcb68663da18@150.230.201.192:443?security=tls&sni=www.seetheworldjp.ga#[🇬🇦 GA] Trojan | src:matinghanbari-all
+trojan://4f7dc540-d244-4e64-af21-4b5bb300add3@132.226.5.246:443?security=tls&sni=www.tokyo2023.ga#[🇬🇦 GA] Trojan | src:matinghanbari-all
 vless://c07fef7d-e8d2-42fe-b977-50e368f18293@104.17.36.178:443?flow=xtls-rprx-origin&encryption=none&security=tls&sni=vincent-jackson2021.ga&type=ws&host=vincent-jackson2021.ga&path=%2fThe-Great-Awakening_ws#[🇬🇦 GA] VLESS-ws | src:leon406-subcrawler-vless
 vless://c07fef7d-e8d2-42fe-b977-50e368f18293@104.16.16.255:443?flow=xtls-rprx-direct-udp443&encryption=none&security=tls&sni=vincent-jackson2021.ga&type=ws&host=vincent-jackson2021.ga&path=%2fThe-Great-Awakening_ws#[🇬🇦 GA] VLESS-ws | src:leon406-subcrawler-vless
 vless://c07fef7d-e8d2-42fe-b977-50e368f18293@1.0.0.0:443?flow=xtls-rprx-direct-udp443&encryption=none&security=tls&sni=vincent-jackson2021.ga&type=ws&host=vincent-jackson2021.ga&path=%2fThe-Great-Awakening_ws#[🇬🇦 GA] VLESS-ws | src:leon406-subcrawler-vless

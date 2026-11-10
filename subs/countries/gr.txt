@@ -2,22 +2,22 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#[✅] [🇬🇷 GR] VLESS-Reality | src:0xradikal-all | 164ms
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu31.cdn77.icu:443?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu31.cdn77.icu#[✅] [🇬🇷 GR] VLESS-Reality | src:luxxuria-speed-tested | 192ms
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20031?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇬🇷 GR] VLESS-Reality | src:luxxuria-speed-tested | 213ms
+vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#[✅] [🇬🇷 GR] VLESS-Reality | src:0xradikal-all | 144ms
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20031?type=raw&security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇬🇷 GR] VLESS-Reality | src:luxxuria-speed-tested | 180ms
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.158:443?host=fs.qicai99.com&path=%2Ffp%3Dchrome&security=tls&sni=fs.qicai99.com&type=ws#[✅] [🇬🇷 GR] VLESS-ws | src:0xradikal-all | 311ms
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.159:443?host=fs.qicai99.com&path=%2Ffp%3Dchrome&security=tls&sni=fs.qicai99.com&type=ws#[✅] [🇬🇷 GR] VLESS-ws | src:0xradikal-all | 324ms
 vless://85223e1a-f55d-4d0d-b27d-39e8be49d220@83.147.246.153:4100?path=%2Fv1&security=none&encryption=none&host=live.ok.ru&type=ws#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
 vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?sni=www.cloudflare.com&flow=xtls-rprx-vision&fp=chrome&security=tls#[🇬🇷 GR] VLESS | src:ermaozi-get-subscribe
-vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.159:443?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chrome&security=tls#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
-vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.158:443?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chrome&security=tls#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
-vless://04c808e2-0b59-47b0-a54b-32fc7ef1c902@85.90.197.156:443?&security=tls&fp=chrome&sni=free.cndyw.ggff.net&type=ws&headerType=none&host=free.cndyw.ggff.net&path=pyip=bpb.yousef.isegaro.com#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
-vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.158:443?&security=tls&fp=chrome&sni=fs.qicai99.com&type=ws&headerType=none&host=fs.qicai99.com&path=/#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
-vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.159:443?&security=tls&fp=chrome&sni=fs.qicai99.com&type=ws&headerType=none&host=fs.qicai99.com&path=/#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.159:443?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chromesecurity=tls#[🇬🇷 GR] VLESS-ws | src:peasoft-nomorewalls
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.158:443?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chromesecurity=tls#[🇬🇷 GR] VLESS-ws | src:peasoft-nomorewalls
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.159:443?&security=tls&fp=chrome&sni=fs.qicai99.com&type=ws&headerType=none&host=fs.qicai99.com&path=/#[✅] [🇬🇷 GR] VLESS-ws | src:0xradikal-all
+vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@85.90.197.158:443?&security=tls&fp=chrome&sni=fs.qicai99.com&type=ws&headerType=none&host=fs.qicai99.com&path=/#[✅] [🇬🇷 GR] VLESS-ws | src:0xradikal-all
 ss://YWVzLTI1Ni1nY206TkJWSG9hTmVsV1JlTEh5dQ@45.153.229.146:3030#[🇬🇷 GR] SS | src:farid-karimi-mixed-iran
 ss://YWVzLTI1Ni1nY206Q1RLOEdYRlFnS1lRRXJyZ2hQSmZaNnRr@194.150.167.52:47121#[🇬🇷 GR] SS | src:farid-karimi-mixed-iran
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20031?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&type=tcp&encryption=none#[🇬🇷 GR] VLESS-Reality | src:ewecrow78-whitelist1
 vless://b8cff836-8a21-4b72-a77d-231c8678c711@217.12.194.226:443?encryption=none&type=tcp&security=reality&headerType=none&sni=www.cloudflare.com&fp=firefox&insecure=1&allowInsecure=1&pbk=oOp4xgD1R9MGm17qYp4XIHiq1dAfTaknr39UvhOv8Gc&sid=ab55ed2e71e8f58e&flow=xtls-rprx-vision#[🇬🇷 GR] VLESS-Reality | src:0xradikal-all
 trojan://af4b064a9c39472fb34ad8b113acdc6b@38.54.29.52:443?allowInsecure=1&sni=38.54.29.52#[🇬🇷 GR] Trojan | src:0xradikal-all
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20031?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&type=tcp&encryption=none#[🇬🇷 GR] VLESS-Reality | src:ewecrow78-whitelist1
-vless://d42223ff-aace-4c18-bacf-18d6abb9314f@46.20.111.246:3035?security=&encryption=none&host=Join---PLANB_NET---Join---PLANB_NET---Join---PLANB_NET---Join---PLANB_NET&headerType=none&type=tcp#[🇬🇷 GR] VLESS-tcp | src:sub-07d2577deb
+vless://04c808e2-0b59-47b0-a54b-32fc7ef1c902@85.90.197.156:443?&security=tls&fp=chrome&sni=free.cndyw.ggff.net&type=ws&headerType=none&host=free.cndyw.ggff.net&path=pyip=bpb.yousef.isegaro.com#[🇬🇷 GR] VLESS-ws | src:0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZGYyYmU3YzZlZWYwZWQ2@38.54.29.130:11201#[🇬🇷 GR] SS | src:sub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZGYyYmU3YzZlZWYwZWQ2@38.54.29.130:11202#[🇬🇷 GR] SS | src:sub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZGYyYmU3YzZlZWYwZWQ2@38.54.29.130:11203#[🇬🇷 GR] SS | src:sub-07d2577deb
@@ -27,5 +27,6 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjk1NWM4NTMwMzIwMTIw@38.54.29.57:11201#[�
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzJhNTE5YzgxNDdhOTk4@38.54.29.18:11201#[🇬🇷 GR] SS | src:sub-07d2577deb
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@192.71.166.100:989#[🇬🇷 GR] SS | src:sub-07d2577deb
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@192.71.166.102:989#[🇬🇷 GR] SS | src:sub-07d2577deb
+vless://d42223ff-aace-4c18-bacf-18d6abb9314f@46.20.111.246:3035?security=&encryption=none&host=Join---PLANB_NET---Join---PLANB_NET---Join---PLANB_NET---Join---PLANB_NET&headerType=none&type=tcp#[🇬🇷 GR] VLESS-tcp | src:sub-07d2577deb
 vless://96fcf8cc-535d-46c4-b8f9-76058df48e3b@94.131.8.19:45448/?type=raw&encryption=none&flow=&sni=yahoo.com&fp=chrome&security=reality&pbk=MmEVCRy11fz67vYJQWyA2a_ZPMBzv2le2cus1XSSI0E&sid=958639bf55e679#[🇬🇷 GR] VLESS-Reality | src:lalatinahub-mineral
 vmess://eyJhZGQiOiAiY3UuYXdzbGNuLmluZm8iLCAiYWlkIjogIjAiLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgImhvc3QiOiAiY3UuYXdzbGNuLmluZm8iLCAiaWQiOiAiOTNlYzcyNjEtMWM5Mi00MTQ5LTg0OGEtMjZiNmZiOWZjNGNlIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi8iLCAicG9ydCI6ICIyNTIyOCIsICJwcyI6ICJb8J+HrPCfh7cgR1JdIFZNZXNzLXdzIHwgc3JjOmxhbGF0aW5haHViLW1pbmVyYWwiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiIiwgInYiOiAiMiJ9

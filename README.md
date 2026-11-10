@@ -4,7 +4,7 @@
 
 > Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. PattN aggregates 60+ verified upstream sources, performs deep semantic deduplication, synthesizes specialized PattN fragment and out-of-band bypass variants, runs live TCP/TLS health checks, and categorizes subscriptions for seamless multi-platform import.
 
-**Last Sync**: `2026-11-10 05:48:28 UTC` | **Total Public Nodes**: `61996` | **Verified Healthy**: `862` | **PattN Bypass Variants**: `1540`
+**Last Sync**: `2026-11-10 06:42:07 UTC` | **Total Public Nodes**: `62299` | **Verified Healthy**: `852` | **PattN Bypass Variants**: `1404`
 
 ---
 
@@ -14,10 +14,10 @@ Import these primary subscriptions directly into PattN, v2rayN, v2rayNG, Clash M
 
 | Feed | Description | Plain Subscription URL | Base64 Subscription URL | Nodes |
 |---|---|---|---|:---:|
-| **⭐ Verified** | Tested & low-latency configs | [`verified.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified.txt) | [`verified_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified_base64.txt) | `862` |
+| **⭐ Verified** | Tested & low-latency configs | [`verified.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified.txt) | [`verified_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified_base64.txt) | `852` |
 | **⚡ Top 100** | 100 lowest latency nodes | [`top100.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/top100.txt) | [`top100_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/top100_base64.txt) | `100` |
 | **⚖️ Lite 500** | Balanced mix across protocols | [`lite500.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/lite500.txt) | [`lite500_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/lite500_base64.txt) | `500` |
-| **📦 All Configs** | Complete deduplicated public feed | [`all.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all.txt) | [`all_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all_base64.txt) | `61996` |
+| **📦 All Configs** | Complete deduplicated public feed | [`all.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all.txt) | [`all_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all_base64.txt) | `62299` |
 
 ---
 
@@ -27,13 +27,13 @@ Optimized for restrictive network environments, DPI evasion, and censorship circ
 
 | Category | Features | Plain URL | Base64 URL | Nodes |
 |---|---|---|---|:---:|
-| **🔥 PattN Special** | F&F fragment (`fm`), IPv6 dial (`dialMode=oob.0`), custom ciphers | [`pattn-special.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special.txt) | [`pattn-special_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special_base64.txt) | `1540` |
-| **🇮🇷 Iran Optimized** | Domestic ISP route optimization | [`iran-optimized.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized.txt) | [`iran-optimized_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized_base64.txt) | `21022` |
-| **🕶️ Reality** | VLESS-Reality direct SNI camouflage | [`reality.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality.txt) | [`reality_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality_base64.txt) | `7546` |
-| **☁️ CDN WS/gRPC** | Cloudflare WebSocket & gRPC fronted | [`cdn-ws-grpc.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc.txt) | [`cdn-ws-grpc_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc_base64.txt) | `40006` |
-| **🎯 ConfigsHUB** | Curated daily channel configs | [`confighub.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub.txt) | [`confighub_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub_base64.txt) | `8389` |
-| **⚡ Whitelist** | Clean IP / Whitelist bypass configs | [`whitelist.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist.txt) | [`whitelist_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist_base64.txt) | `663` |
-| **🧩 Serverless JSON** | Xray JSON outbounds array | [`serverless-fragment.json`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/serverless-fragment.json) | - | `3482` |
+| **🔥 PattN Special** | F&F fragment (`fm`), IPv6 dial (`dialMode=oob.0`), custom ciphers | [`pattn-special.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special.txt) | [`pattn-special_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special_base64.txt) | `1404` |
+| **🇮🇷 Iran Optimized** | Domestic ISP route optimization | [`iran-optimized.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized.txt) | [`iran-optimized_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized_base64.txt) | `21114` |
+| **🕶️ Reality** | VLESS-Reality direct SNI camouflage | [`reality.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality.txt) | [`reality_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality_base64.txt) | `7649` |
+| **☁️ CDN WS/gRPC** | Cloudflare WebSocket & gRPC fronted | [`cdn-ws-grpc.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc.txt) | [`cdn-ws-grpc_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc_base64.txt) | `40129` |
+| **🎯 ConfigsHUB** | Curated daily channel configs | [`confighub.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub.txt) | [`confighub_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub_base64.txt) | `8393` |
+| **⚡ Whitelist** | Clean IP / Whitelist bypass configs | [`whitelist.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist.txt) | [`whitelist_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist_base64.txt) | `625` |
+| **🧩 Serverless JSON** | Xray JSON outbounds array | [`serverless-fragment.json`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/serverless-fragment.json) | - | `3497` |
 
 ---
 
@@ -41,12 +41,12 @@ Optimized for restrictive network environments, DPI evasion, and censorship circ
 
 | Protocol | Plain Subscription URL | Base64 Subscription URL | Nodes |
 |---|---|---|:---:|
-| **VLESS** | [`vless.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless.txt) | [`vless_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless_base64.txt) | `41848` |
-| **VMess** | [`vmess.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess.txt) | [`vmess_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess_base64.txt) | `8504` |
-| **Trojan** | [`trojan.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan.txt) | [`trojan_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan_base64.txt) | `6459` |
-| **Shadowsocks** | [`ss.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss.txt) | [`ss_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss_base64.txt) | `4261` |
-| **Hysteria2** | [`hysteria2.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2.txt) | [`hysteria2_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2_base64.txt) | `557` |
-| **TUIC** | [`tuic.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic.txt) | [`tuic_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic_base64.txt) | `9` |
+| **VLESS** | [`vless.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless.txt) | [`vless_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless_base64.txt) | `41939` |
+| **VMess** | [`vmess.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess.txt) | [`vmess_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess_base64.txt) | `8707` |
+| **Trojan** | [`trojan.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan.txt) | [`trojan_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan_base64.txt) | `6445` |
+| **Shadowsocks** | [`ss.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss.txt) | [`ss_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss_base64.txt) | `4273` |
+| **Hysteria2** | [`hysteria2.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2.txt) | [`hysteria2_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2_base64.txt) | `568` |
+| **TUIC** | [`tuic.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic.txt) | [`tuic_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic_base64.txt) | `8` |
 
 ---
 
