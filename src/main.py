@@ -163,11 +163,11 @@ def main(argv: list[str] | None = None) -> int:
         from src.discovery.agent import DiscoveryAgent, load_local_dotenv
 
         load_local_dotenv()
+        agent = DiscoveryAgent()
         safe_print("=" * 65)
-        safe_print("🛰️ Running Autonomous Discovery Agent (Nemotron 3.5 Super VL)...")
+        safe_print(f"🛰️ Running Autonomous Discovery Agent (model={agent.nemotron.model})...")
         safe_print("=" * 65)
         try:
-            agent = DiscoveryAgent()
             discovered = agent.run_cycle(
                 max_channels=args.discovery_channels,
                 max_time_seconds=args.discovery_time,

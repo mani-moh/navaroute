@@ -16,8 +16,23 @@ class TestNemotronClient(unittest.TestCase):
         with patch.dict(os.environ, {"NVIDIA_API_KEY": "test-nvapi-key"}, clear=True):
             client = NemotronClient()
             self.assertEqual(client.api_key, "test-nvapi-key")
-            self.assertEqual(client.model, "nvidia/nemotron-3.5-super-vl-120b-a12b")
+            self.assertEqual(client.model, "moonshotai/kimi-k2.6")
             self.assertEqual(client.base_url, "https://integrate.api.nvidia.com/v1")
+
+    @patch("urllib.request.urlopen")
+    def test_fallback_model_on_http_error(self, mock_urlopen):
+        import urllib.error
+        err = urllib.error.HTTPError("https://integrate.api.nvidia.com/v1/chat/completions", 404, "Not Found", {}, None)
+        ok_resp = MagicMock()
+        ok_resp.read.return_value = json.dumps({
+            "choices": [{"message": {"role": "assistant", "content": "Fallback model succeeded"}}]
+        }).encode("utf-8")
+        mock_urlopen.side_effect = [err, MagicMock(__enter__=lambda s: ok_resp, __exit__=lambda s, *a: None)]
+
+        client = NemotronClient(api_key="fake-key")
+        out = client.complete("hello")
+        self.assertEqual(out, "Fallback model succeeded")
+        self.assertEqual(client.api_requests_count, 2)
 
     def test_client_init_custom_model_and_env(self):
         with patch.dict(os.environ, {"NVIDIA_MODEL": "nvidia/nemotron-custom"}, clear=True):

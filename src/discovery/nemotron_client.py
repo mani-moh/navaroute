@@ -13,7 +13,18 @@ from typing import Any, Optional
 logger = logging.getLogger(__name__)
 
 DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
-DEFAULT_NEMOTRON_MODEL = "nvidia/nemotron-3.5-super-vl-120b-a12b"
+DEFAULT_NEMOTRON_MODEL = "moonshotai/kimi-k2.6"
+VISION_FALLBACK_MODELS = [
+    "moonshotai/kimi-k2.6",
+    "mistralai/mistral-large-4-1t-a52b",
+    "nvidia/nemotron-3.5-super-vl-120b-a12b",
+]
+TEXT_FALLBACK_MODELS = [
+    "moonshotai/kimi-k2.6",
+    "mistralai/mistral-large-4-1t-a52b",
+    "nvidia/nemotron-3-ultra-550b-a55b",
+    "nvidia/nemotron-3.5-super-vl-120b-a12b",
+]
 
 
 def _download_image_as_data_uri(image_url: str, timeout: int = 12) -> str:
@@ -89,8 +100,13 @@ class NemotronClient:
         """Returns True if an API key is configured."""
         return bool(self.api_key and self.api_key.strip())
 
-    def _call_api(self, payload: dict[str, Any], max_retries: int = 3) -> Optional[dict[str, Any]]:
-        """Executes an HTTP POST to the completions endpoint with pacing and exponential backoff."""
+    def _call_api(
+        self,
+        payload: dict[str, Any],
+        max_retries: int = 3,
+        fallback_models: Optional[list[str]] = None,
+    ) -> Optional[dict[str, Any]]:
+        """Executes an HTTP POST with pacing, exponential backoff, and model fallback."""
         if not self.is_available():
             logger.warning("NemotronClient: NVIDIA_API_KEY is not configured.")
             return None
@@ -102,54 +118,64 @@ class NemotronClient:
             "User-Agent": "PattN-Nemotron-Agent/1.0",
         }
 
-        data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+        primary_model = payload.get("model", self.model)
+        models_to_try = [primary_model]
+        for fm in (fallback_models or []):
+            if fm not in models_to_try:
+                models_to_try.append(fm)
 
-        for attempt in range(1, max_retries + 1):
-            if self.min_request_interval > 0 and self._last_request_ts > 0:
-                since_last = time.time() - self._last_request_ts
-                if since_last < self.min_request_interval:
-                    time.sleep(self.min_request_interval - since_last)
+        for cur_model in models_to_try:
+            cur_payload = dict(payload)
+            cur_payload["model"] = cur_model
+            data = json.dumps(cur_payload).encode("utf-8")
+            req = urllib.request.Request(url, data=data, headers=headers, method="POST")
 
-            self._last_request_ts = time.time()
-            self.api_requests_count += 1
+            for attempt in range(1, max_retries + 1):
+                if self.min_request_interval > 0 and self._last_request_ts > 0:
+                    since_last = time.time() - self._last_request_ts
+                    if since_last < self.min_request_interval:
+                        time.sleep(self.min_request_interval - since_last)
 
-            try:
+                self._last_request_ts = time.time()
+                self.api_requests_count += 1
+
                 try:
-                    with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                        resp_body = resp.read().decode("utf-8")
-                        return json.loads(resp_body)
-                except urllib.error.URLError as url_exc:
-                    if isinstance(url_exc, urllib.error.HTTPError):
-                        raise
-                    # Fallback direct connection bypassing dead Windows local system proxy
-                    opener_direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-                    with opener_direct.open(req, timeout=self.timeout) as resp:
-                        resp_body = resp.read().decode("utf-8")
-                        return json.loads(resp_body)
-            except urllib.error.HTTPError as exc:
-                err_detail = ""
-                try:
-                    err_detail = exc.read().decode("utf-8", errors="replace")[:300]
-                except Exception:
-                    pass
-                # 429 Rate Limit or 5xx Server Error -> retry
-                if exc.code in (429, 500, 502, 503, 504) and attempt < max_retries:
-                    wait_time = (attempt * 6) if exc.code == 429 else (attempt * 2)
+                    try:
+                        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                            resp_body = resp.read().decode("utf-8")
+                            return json.loads(resp_body)
+                    except urllib.error.URLError as url_exc:
+                        if isinstance(url_exc, urllib.error.HTTPError):
+                            raise
+                        opener_direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+                        with opener_direct.open(req, timeout=self.timeout) as resp:
+                            resp_body = resp.read().decode("utf-8")
+                            return json.loads(resp_body)
+                except urllib.error.HTTPError as exc:
+                    err_detail = ""
+                    try:
+                        err_detail = exc.read().decode("utf-8", errors="replace")[:300]
+                    except Exception:
+                        pass
+                    if exc.code in (429, 500, 502, 503, 504) and attempt < max_retries:
+                        wait_time = (attempt * 6) if exc.code == 429 else (attempt * 2)
+                        logger.warning(
+                            "NIM API HTTP %d (%s) on attempt %d/%d, retrying in %ds... (%s)",
+                            exc.code, cur_model, attempt, max_retries, wait_time, err_detail,
+                        )
+                        time.sleep(wait_time)
+                        continue
                     logger.warning(
-                        "Nemotron API HTTP %d on attempt %d/%d, retrying in %ds... (%s)",
-                        exc.code, attempt, max_retries, wait_time, err_detail,
+                        "NIM API HTTP error %d (%s) on model %s: %s",
+                        exc.code, exc.reason, cur_model, err_detail,
                     )
-                    time.sleep(wait_time)
-                    continue
-                logger.error("Nemotron API HTTP error %d (%s): %s", exc.code, exc.reason, err_detail)
-                return None
-            except Exception as exc:
-                if attempt < max_retries:
-                    time.sleep(attempt * 2)
-                    continue
-                logger.error("Nemotron API network error: %s", exc)
-                return None
+                    break
+                except Exception as exc:
+                    if attempt < max_retries:
+                        time.sleep(attempt * 2)
+                        continue
+                    logger.error("NIM API network error on model %s: %s", cur_model, exc)
+                    break
 
         return None
 
@@ -174,7 +200,7 @@ class NemotronClient:
             "max_tokens": max_tokens,
         }
 
-        res = self._call_api(payload)
+        res = self._call_api(payload, fallback_models=TEXT_FALLBACK_MODELS)
         if not res or "choices" not in res or not res["choices"]:
             return ""
 
@@ -251,7 +277,7 @@ class NemotronClient:
             "max_tokens": max_tokens,
         }
 
-        res = self._call_api(payload)
+        res = self._call_api(payload, fallback_models=VISION_FALLBACK_MODELS)
         if not res or "choices" not in res or not res["choices"]:
             return ""
 
