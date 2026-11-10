@@ -22,6 +22,7 @@ from src.discovery.state_manager import (
     DEFAULT_DISCOVERY_SOURCES_FILE,
     DEFAULT_LEADERBOARD_FILE,
     DEFAULT_STATE_FILE,
+    IGNORE_CHANNEL_HANDLES,
     PROXY_HANDLE_KEYWORDS,
     DiscoveryStateManager,
     normalize_channel_handle,
@@ -87,10 +88,18 @@ class DiscoveryAgent:
         self.web_scraper = WebSearchScraper(timeout=timeout)
 
     def _ensure_seeds(self) -> None:
-        """Seeds the candidate queue if queue is low or empty."""
+        """Cleans stale ignored handles from queue and seeds if queue is low or empty."""
         state = self.state_manager.get_state()
+        rejected = set(state.get("rejected_channels", []))
         queue = state.get("candidate_queue", [])
-        if len(queue) < 3:
+        cleaned_queue = [
+            h for h in queue
+            if h not in IGNORE_CHANNEL_HANDLES
+            and h not in rejected
+            and not any(bad in h for bad in ("contest", "round2", "r2_2026"))
+        ]
+        state["candidate_queue"] = cleaned_queue
+        if len(cleaned_queue) < 3:
             self.state_manager.add_candidates(self.initial_seeds)
 
     def _analyze_webpage_via_nemotron(
@@ -102,11 +111,12 @@ class DiscoveryAgent:
         start_requests: int = 0,
     ) -> None:
         """Fetches a webpage/README snippet and asks Nemotron to extract sub URLs & TG handles."""
-        if not self.nemotron.is_available():
+        if not self.nemotron.is_available() or self.state_manager.is_url_visited(url):
             return
         if max_api_requests > 0 and (self.nemotron.api_requests_count - start_requests) >= max_api_requests:
             return
 
+        self.state_manager.record_visited_url(url)
         snippet = self.web_scraper.fetch_text_snippet(url, max_chars=4500)
         if not snippet or len(snippet) < 80:
             return
@@ -181,6 +191,9 @@ class DiscoveryAgent:
         res = self.nemotron.complete_json(prompt)
         if isinstance(res, dict) and isinstance(res.get("keep"), list):
             allowed = {normalize_channel_handle(str(x)) for x in res["keep"]}
+            rejected = [h for h in ambiguous if h not in allowed]
+            if rejected:
+                self.state_manager.record_rejected_channels(rejected)
             filtered = obvious_proxy + [h for h in ambiguous if h in allowed]
             return filtered if filtered else obvious_proxy
         return handles
@@ -197,6 +210,7 @@ class DiscoveryAgent:
         """Uses Nemotron reasoning (with static fallback) to synthesize search dorks and expand queue."""
         state = self.state_manager.get_state()
         past_queries = state.get("queries_executed", [])[-25:]
+        top_sources = self.state_manager.get_top_active_handles(limit=8)
         existing_public_urls = existing_public_urls or set()
 
         web_queries: list[str] = []
@@ -207,6 +221,7 @@ class DiscoveryAgent:
                 prompt = (
                     "Generate creative, targeted search queries to discover brand-new public Telegram channels, "
                     "Telegraph pages, and GitHub repositories sharing free v2ray, vless reality, vmess, trojan, and hysteria2 subscriptions. "
+                    f"Build upon top-yielding sources found so far ({top_sources}) to discover sister communities and aggregators. "
                     "Vary keywords across English, Persian/Farsi transliterations, Russian, and Chinese circumvention terms. "
                     f"Avoid repeating these past queries: {past_queries}. "
                     'Respond ONLY with valid JSON: {"web_queries": ["query1", "query2", "query3", "query4"], "github_queries": ["topic1", "topic2", "topic3"]}'
@@ -235,9 +250,10 @@ class DiscoveryAgent:
             if channels:
                 self.state_manager.add_candidates(channels)
             for u in urls[:6]:
-                if u in existing_public_urls:
+                if u in existing_public_urls or self.state_manager.is_url_visited(u):
                     continue
                 if any(ext in u.lower() for ext in (".txt", "/sub", "raw.githubusercontent")):
+                    self.state_manager.record_visited_url(u)
                     nodes_cnt = self.probe_sub_url(u)
                     if nodes_cnt > 0:
                         sub_id = f"sub-{hashlib.sha256(u.encode()).hexdigest()[:10]}"
@@ -269,8 +285,9 @@ class DiscoveryAgent:
             for raw_u in candidate_raw_urls:
                 if probed_gh >= max_github_probes:
                     break
-                if raw_u in existing_public_urls:
+                if raw_u in existing_public_urls or self.state_manager.is_url_visited(raw_u):
                     continue
+                self.state_manager.record_visited_url(raw_u)
                 probed_gh += 1
                 nodes_cnt = self.probe_sub_url(raw_u)
                 if nodes_cnt > 0:
@@ -492,7 +509,12 @@ class DiscoveryAgent:
                     break
 
                 channels_checked += 1
-                page_html = self.tg_scraper.fetch_channel_page(handle)
+                resume_before = (
+                    self.state_manager.get_channel_oldest_post_id(handle)
+                    if handle in refresh_offset_handles
+                    else None
+                )
+                page_html = self.tg_scraper.fetch_channel_page(handle, before_id=resume_before)
                 if not page_html:
                     tg_unreachable_streak += 1
                     if not tg_any_success and tg_unreachable_streak >= 3:
@@ -558,8 +580,9 @@ class DiscoveryAgent:
                 for sub_u in cur_subs[:5]:
                     if not _budget_remaining():
                         break
-                    if sub_u in existing_public_urls:
+                    if sub_u in existing_public_urls or self.state_manager.is_url_visited(sub_u):
                         continue
+                    self.state_manager.record_visited_url(sub_u)
                     sub_nodes = self.probe_sub_url(sub_u)
                     if sub_nodes > 0:
                         sub_id = f"sub-{hashlib.sha256(sub_u.encode()).hexdigest()[:10]}"
@@ -583,6 +606,7 @@ class DiscoveryAgent:
                     nodes_found=valid_nodes,
                     is_active=is_active,
                     sub_url=channel_sub_url,
+                    oldest_post_id=cur_oldest,
                 )
 
                 source_id = f"tg-{handle}"

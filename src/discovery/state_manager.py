@@ -50,6 +50,8 @@ class DiscoveryStateManager:
             "candidate_queue": [],      # List of channel names
             "candidate_scores": {},     # handle -> mention frequency
             "visited_channels": [],     # List of visited channel handles
+            "rejected_channels": [],    # Handles explicitly rejected as off-topic spam
+            "visited_urls": [],         # External web/GitHub URLs already probed or mined
             "sources_metadata": {},     # handle/id -> performance record
         }
         self.load()
@@ -81,13 +83,14 @@ class DiscoveryStateManager:
     def add_candidates(self, candidates: list[str]) -> None:
         """Adds new candidate channels, sanitizing handles and boosting proxy-relevant scores."""
         visited = set(self.state.get("visited_channels", []))
+        rejected = set(self.state.get("rejected_channels", []))
         queue = self.state.setdefault("candidate_queue", [])
         scores = self.state.setdefault("candidate_scores", {})
 
         for raw in candidates:
             handle = normalize_channel_handle(raw)
-            # Skip invalid, contest/sticker spam, or already visited handles
-            if not handle or len(handle) < 3 or handle in visited:
+            # Skip invalid, contest/sticker spam, rejected, or already visited handles
+            if not handle or len(handle) < 3 or handle in visited or handle in rejected:
                 continue
             if handle in IGNORE_CHANNEL_HANDLES or any(bad in handle for bad in ("contest", "round2", "r2_2026")):
                 continue
@@ -100,6 +103,47 @@ class DiscoveryStateManager:
 
         # Sort queue by priority score (descending)
         queue.sort(key=lambda h: scores.get(h, 1), reverse=True)
+
+    def record_rejected_channels(self, handles: list[str]) -> None:
+        """Permanently ignores handles identified as spam/off-topic across future runs."""
+        rejected = self.state.setdefault("rejected_channels", [])
+        queue = self.state.setdefault("candidate_queue", [])
+        for raw in handles:
+            h = normalize_channel_handle(raw)
+            if h and h not in rejected:
+                rejected.append(h)
+            if h in queue:
+                queue.remove(h)
+
+    def is_url_visited(self, url: str) -> bool:
+        """Checks whether an external URL has already been probed or mined."""
+        return url in set(self.state.get("visited_urls", []))
+
+    def record_visited_url(self, url: str) -> None:
+        """Records an external URL so future runs build incrementally without repeating checks."""
+        urls = self.state.setdefault("visited_urls", [])
+        if url not in urls:
+            urls.append(url)
+            # Keep bounded to recent 5000 URLs
+            if len(urls) > 5000:
+                self.state["visited_urls"] = urls[-5000:]
+
+    def get_channel_oldest_post_id(self, raw_handle: str) -> Optional[int]:
+        """Returns the deepest crawled post ID for a channel so re-mining resumes deeper."""
+        handle = normalize_channel_handle(raw_handle)
+        meta = self.state.get("sources_metadata", {}).get(handle, {})
+        val = meta.get("oldest_post_id")
+        return int(val) if isinstance(val, int) and val > 1 else None
+
+    def get_top_active_handles(self, limit: int = 8) -> list[str]:
+        """Returns highest-yielding active source names/handles for LLM context."""
+        meta = self.state.get("sources_metadata", {})
+        active = [
+            info for info in meta.values()
+            if info.get("is_active") and info.get("last_nodes_yield", 0) > 0
+        ]
+        active.sort(key=lambda s: s.get("total_nodes_yield", 0), reverse=True)
+        return [str(s["handle"]) for s in active[:limit] if "handle" in s]
 
     def get_oldest_active_channels(self, limit: int = 5) -> list[str]:
         """Returns previously active Telegram channels sorted by oldest last_checked."""
@@ -127,8 +171,9 @@ class DiscoveryStateManager:
         nodes_found: int,
         is_active: bool,
         sub_url: Optional[str] = None,
+        oldest_post_id: Optional[int] = None,
     ) -> None:
-        """Records channel visit metrics and updates reputation records."""
+        """Records channel visit metrics, reputation, and deepest crawled post ID."""
         handle = normalize_channel_handle(raw_handle)
         if not handle:
             return
@@ -145,8 +190,13 @@ class DiscoveryStateManager:
         meta = self.state.setdefault("sources_metadata", {})
         existing = meta.get(handle, {})
         times_seen = existing.get("checks_count", 0) + 1
+        prev_oldest = existing.get("oldest_post_id")
+        if oldest_post_id and prev_oldest:
+            deepest_id = min(int(oldest_post_id), int(prev_oldest))
+        else:
+            deepest_id = oldest_post_id or prev_oldest
 
-        meta[handle] = {
+        entry: dict[str, Any] = {
             "handle": handle,
             "last_checked": int(time.time()),
             "last_nodes_yield": nodes_found,
@@ -155,6 +205,9 @@ class DiscoveryStateManager:
             "is_active": is_active,
             "sub_url": sub_url or f"https://t.me/s/{handle}",
         }
+        if deepest_id is not None:
+            entry["oldest_post_id"] = deepest_id
+        meta[handle] = entry
 
     def record_query(self, query: str) -> None:
         """Records an executed search query."""

@@ -29,6 +29,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: pattn-git-writer
+  cancel-in-progress: false
+
 jobs:
   aggregate-and-publish:
     runs-on: ubuntu-latest

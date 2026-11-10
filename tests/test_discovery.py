@@ -352,6 +352,22 @@ class TestDiscoveryAgent(unittest.TestCase):
         self.assertLessEqual(client.api_requests_count, 4)
         self.assertEqual(len(discovered), 1)
 
+    def test_incremental_state_persists_across_runs(self):
+        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
+        manager.record_visited("active_tg", nodes_found=50, is_active=True, oldest_post_id=420)
+        manager.record_visited_url("https://example.com/readme.md")
+        manager.record_rejected_channels(["spam_bot"])
+        manager.save()
+
+        # Reload on next run
+        reloaded = DiscoveryStateManager(state_file=str(self.test_state_file))
+        self.assertTrue(reloaded.is_url_visited("https://example.com/readme.md"))
+        self.assertEqual(reloaded.get_channel_oldest_post_id("active_tg"), 420)
+        self.assertEqual(reloaded.get_top_active_handles(limit=1), ["active_tg"])
+        reloaded.add_candidates(["spam_bot", "new_vless_sub"])
+        self.assertNotIn("spam_bot", reloaded.get_state()["candidate_queue"])
+        self.assertIn("new_vless_sub", reloaded.get_state()["candidate_queue"])
+
 
 if __name__ == "__main__":
     unittest.main()
