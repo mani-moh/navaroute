@@ -85,6 +85,7 @@ jobs:
         shell: bash
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -n "$NVIDIA_API_KEY" ]; then
             echo "::add-mask::$NVIDIA_API_KEY"

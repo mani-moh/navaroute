@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import os
@@ -15,6 +16,44 @@ DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 DEFAULT_NEMOTRON_MODEL = "nvidia/nemotron-3.5-super-vl-120b-a12b"
 
 
+def _download_image_as_data_uri(image_url: str, timeout: int = 12) -> str:
+    """Downloads a remote image and encodes it as a base64 data URI for VLM reliability."""
+    if not image_url.startswith(("http://", "https://")):
+        return image_url
+
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/133.0.0.0 Safari/537.36"
+        )
+    }
+    req = urllib.request.Request(image_url, headers=headers)
+    try:
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                raw = resp.read(2 * 1024 * 1024)
+        except urllib.error.URLError:
+            opener_direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+            with opener_direct.open(req, timeout=timeout) as resp:
+                raw = resp.read(2 * 1024 * 1024)
+
+        if raw.startswith(b"\x89PNG\r\n\x1a\n"):
+            mime = "image/png"
+        elif raw.startswith(b"\xff\xd8\xff"):
+            mime = "image/jpeg"
+        elif raw.startswith(b"RIFF") and b"WEBP" in raw[:16]:
+            mime = "image/webp"
+        else:
+            # Not a recognized image payload (or mocked response in unit test)
+            return image_url
+
+        b64 = base64.b64encode(raw).decode("ascii")
+        return f"data:{mime};base64,{b64}"
+    except Exception:
+        return image_url
+
+
 class NemotronClient:
     """Client for NVIDIA NIM Nemotron LLM/VLM API (OpenAI-compatible)."""
 
@@ -24,6 +63,7 @@ class NemotronClient:
         model: Optional[str] = None,
         base_url: Optional[str] = None,
         timeout: int = 45,
+        min_request_interval: float = 0.0,
     ) -> None:
         self.api_key = (
             api_key
@@ -41,13 +81,16 @@ class NemotronClient:
             else os.environ.get("NVIDIA_BASE_URL", DEFAULT_NVIDIA_BASE_URL).rstrip("/")
         )
         self.timeout = timeout
+        self.min_request_interval = min_request_interval
+        self.api_requests_count = 0
+        self._last_request_ts = 0.0
 
     def is_available(self) -> bool:
         """Returns True if an API key is configured."""
         return bool(self.api_key and self.api_key.strip())
 
     def _call_api(self, payload: dict[str, Any], max_retries: int = 3) -> Optional[dict[str, Any]]:
-        """Executes an HTTP POST to the completions endpoint with exponential backoff."""
+        """Executes an HTTP POST to the completions endpoint with pacing and exponential backoff."""
         if not self.is_available():
             logger.warning("NemotronClient: NVIDIA_API_KEY is not configured.")
             return None
@@ -63,6 +106,14 @@ class NemotronClient:
         req = urllib.request.Request(url, data=data, headers=headers, method="POST")
 
         for attempt in range(1, max_retries + 1):
+            if self.min_request_interval > 0 and self._last_request_ts > 0:
+                since_last = time.time() - self._last_request_ts
+                if since_last < self.min_request_interval:
+                    time.sleep(self.min_request_interval - since_last)
+
+            self._last_request_ts = time.time()
+            self.api_requests_count += 1
+
             try:
                 try:
                     with urllib.request.urlopen(req, timeout=self.timeout) as resp:
@@ -77,16 +128,21 @@ class NemotronClient:
                         resp_body = resp.read().decode("utf-8")
                         return json.loads(resp_body)
             except urllib.error.HTTPError as exc:
+                err_detail = ""
+                try:
+                    err_detail = exc.read().decode("utf-8", errors="replace")[:300]
+                except Exception:
+                    pass
                 # 429 Rate Limit or 5xx Server Error -> retry
                 if exc.code in (429, 500, 502, 503, 504) and attempt < max_retries:
-                    wait_time = attempt * 2
+                    wait_time = (attempt * 6) if exc.code == 429 else (attempt * 2)
                     logger.warning(
-                        "Nemotron API HTTP %d on attempt %d/%d, retrying in %ds...",
-                        exc.code, attempt, max_retries, wait_time
+                        "Nemotron API HTTP %d on attempt %d/%d, retrying in %ds... (%s)",
+                        exc.code, attempt, max_retries, wait_time, err_detail,
                     )
                     time.sleep(wait_time)
                     continue
-                logger.error("Nemotron API HTTP error %d: %s", exc.code, exc.reason)
+                logger.error("Nemotron API HTTP error %d (%s): %s", exc.code, exc.reason, err_detail)
                 return None
             except Exception as exc:
                 if attempt < max_retries:
@@ -174,9 +230,11 @@ class NemotronClient:
         system_prompt: str = "You are a high-accuracy vision analysis agent for network configurations and QR codes.",
         max_tokens: int = 1024,
     ) -> str:
-        """Sends an image URL / base64 data to Nemotron 3.5 Super VL for multimodal analysis."""
+        """Sends an image (downloaded to base64 data URI when possible) to Nemotron 3.5 Super VL."""
         if not self.is_available():
             return ""
+
+        prepared_url = _download_image_as_data_uri(image_url)
 
         payload = {
             "model": self.model,
@@ -186,7 +244,7 @@ class NemotronClient:
                     "role": "user",
                     "content": [
                         {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {"url": image_url}},
+                        {"type": "image_url", "image_url": {"url": prepared_url}},
                     ],
                 },
             ],

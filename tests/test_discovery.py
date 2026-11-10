@@ -219,8 +219,10 @@ class TestDiscoveryAgent(unittest.TestCase):
             if f.exists():
                 f.unlink()
 
+    @patch("src.discovery.search_engine.WebSearchScraper.search_github", return_value=[])
+    @patch("src.discovery.search_engine.WebSearchScraper.search_duckduckgo", return_value=([], []))
     @patch("src.discovery.search_engine.TelegramChannelScraper.fetch_channel_page")
-    def test_discovery_agent_run_cycle(self, mock_fetch):
+    def test_discovery_agent_run_cycle(self, mock_fetch, _mock_ddg, _mock_gh):
         # Mock telegram page returning a valid node and a sister channel
         mock_fetch.return_value = """
         <div class="tgme_channel_info_description">Check sister @NewChan</div>
@@ -291,6 +293,64 @@ class TestDiscoveryAgent(unittest.TestCase):
             os.environ.pop("TEST_NVAPI_DUMMY", None)
             if temp_env.exists():
                 temp_env.unlink()
+
+    def test_state_filters_spam_and_tracks_api_usage(self):
+        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
+        manager.add_candidates(["stickers", "cuddlyturtler2_2026", "vless_free_iran", "randomchat"])
+        queue = manager.get_state()["candidate_queue"]
+        self.assertNotIn("stickers", queue)
+        self.assertNotIn("cuddlyturtler2_2026", queue)
+        self.assertEqual(queue[0], "vless_free_iran")
+
+        manager.record_visited("vless_free_iran", nodes_found=25, is_active=True, sub_url="https://t.me/s/vless_free_iran")
+        manager.record_api_usage(500)
+        md = manager.generate_leaderboard_markdown()
+        self.assertIn("**500**", md)
+        self.assertEqual(manager.get_oldest_active_channels(limit=1), ["vless_free_iran"])
+
+    @patch("urllib.request.urlopen")
+    def test_download_image_as_data_uri_base64(self, mock_urlopen):
+        from src.discovery.nemotron_client import _download_image_as_data_uri
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = b"\x89PNG\r\n\x1a\nFAKE_PNG_DATA"
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        uri = _download_image_as_data_uri("https://cdn.telegram.org/file/test.png")
+        self.assertTrue(uri.startswith("data:image/png;base64,"))
+
+    @patch("src.discovery.search_engine.WebSearchScraper.search_github_readmes", return_value=[])
+    @patch("src.discovery.search_engine.WebSearchScraper.search_github", return_value=[])
+    @patch("src.discovery.search_engine.WebSearchScraper.search_duckduckgo", return_value=([], []))
+    @patch("src.discovery.search_engine.TelegramChannelScraper.fetch_channel_page")
+    @patch("src.discovery.nemotron_client.NemotronClient.complete_json")
+    def test_extended_mode_respects_max_api_requests(
+        self, mock_complete_json, mock_tg_fetch, _mock_ddg, _mock_gh, _mock_readmes
+    ):
+        def fake_json(*args, **kwargs):
+            client.api_requests_count += 1
+            return {"web_queries": ["site:t.me vless"], "github_queries": []}
+
+        mock_complete_json.side_effect = fake_json
+        mock_tg_fetch.return_value = """
+        <div class="tgme_widget_message" data-post="mockext/1">
+            <div class="tgme_widget_message_text">
+                vless://11111111-2222-3333-4444-555555555555@1.2.3.4:443?security=reality#ExtNode
+            </div>
+        </div>
+        """
+
+        client = NemotronClient(api_key="fake-nvapi-key")
+        agent = DiscoveryAgent(
+            state_file=str(self.test_state_file),
+            discovered_sources_file=str(self.test_discovered_file),
+            leaderboard_file=str(self.test_leaderboard_file),
+            initial_seeds=["mockext"],
+            nemotron_client=client,
+        )
+        discovered = agent.run_cycle(max_channels=50, max_time_seconds=30, max_api_requests=3)
+        self.assertGreaterEqual(client.api_requests_count, 1)
+        self.assertLessEqual(client.api_requests_count, 4)
+        self.assertEqual(len(discovered), 1)
 
 
 if __name__ == "__main__":

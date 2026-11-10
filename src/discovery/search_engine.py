@@ -241,6 +241,9 @@ class WebSearchScraper:
             "User-Agent": "PattN-Discovery-Agent",
             "Accept": "application/vnd.github.v3+json",
         }
+        gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
+        if gh_token:
+            headers["Authorization"] = f"Bearer {gh_token}"
 
         req = urllib.request.Request(url, headers=headers)
         discovered_subs = []
@@ -261,3 +264,48 @@ class WebSearchScraper:
             logger.debug("GitHub search error: %s", exc)
 
         return discovered_subs
+
+    def fetch_text_snippet(self, url: str, max_chars: int = 4500) -> str:
+        """Fetches readable text from a webpage or README for LLM inspection."""
+        headers = {
+            "User-Agent": DEFAULT_USER_AGENT,
+            "Accept": "text/html,text/plain,text/markdown;q=0.9,*/*;q=0.8",
+        }
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with resilient_urlopen(req, timeout=self.timeout) as resp:
+                raw = resp.read(250_000).decode("utf-8", errors="replace")
+                text = html.unescape(raw)
+                text = re.sub(r"<script[^>]*>.*?</script>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+                text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+                text = re.sub(r"<[^>]+>", " ", text)
+                text = re.sub(r"\s+", " ", text).strip()
+                return text[:max_chars]
+        except Exception:
+            return ""
+
+    def search_github_readmes(self, query: str, max_results: int = 8) -> list[str]:
+        """Returns raw README.md URLs for GitHub repos matching query."""
+        url = f"https://api.github.com/search/repositories?q={urllib.parse.quote_plus(query)}&sort=updated"
+        headers = {
+            "User-Agent": "PattN-Discovery-Agent",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
+        if gh_token:
+            headers["Authorization"] = f"Bearer {gh_token}"
+        req = urllib.request.Request(url, headers=headers)
+        readme_urls: list[str] = []
+        try:
+            with resilient_urlopen(req, timeout=self.timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                for item in data.get("items", [])[:max_results]:
+                    full_name = item.get("full_name")
+                    branch = item.get("default_branch", "main")
+                    if full_name:
+                        readme_urls.append(
+                            f"https://raw.githubusercontent.com/{full_name}/{branch}/README.md"
+                        )
+        except Exception:
+            pass
+        return readme_urls

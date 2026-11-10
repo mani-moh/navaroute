@@ -83,6 +83,17 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("python -m src.main --private-only", self.workflow_content)
         self.assertNotIn("python -m src.main --include-private --no-healthcheck --no-docs", self.workflow_content)
 
+    def test_daily_extended_discovery_workflow(self) -> None:
+        """Verify daily-deep-discovery.yml is scheduled daily, runs 500 API requests, and masks secrets."""
+        daily_path = BASE_DIR / ".github" / "workflows" / "daily-deep-discovery.yml"
+        self.assertTrue(daily_path.exists(), "daily-deep-discovery.yml must exist")
+        content = daily_path.read_text(encoding="utf-8")
+        self.assertIn('cron: "0 2 * * *"', content)
+        self.assertIn('default: "500"', content)
+        self.assertIn("--discovery-api-requests", content)
+        self.assertIn("::add-mask::$NVIDIA_API_KEY", content)
+        self.assertIn("Dynamic privacy & security audit passed", content)
+
 
 class TestSyncToPattn(unittest.TestCase):
     def setUp(self) -> None:

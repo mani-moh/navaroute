@@ -15,6 +15,19 @@ DEFAULT_DISCOVERY_SOURCES_FILE = "sources.discovered.json"
 DEFAULT_LEADERBOARD_FILE = "DISCOVERY.md"
 
 
+PROXY_HANDLE_KEYWORDS = (
+    "v2ray", "vless", "vmess", "trojan", "vpn", "proxy", "proxys", "sub",
+    "config", "reality", "shadow", "hy2", "hysteria", "outline", "iran",
+    "free", "freedom", "mtproto", "warp", "bpb", "net", "bypass", "xray",
+    "sing", "clash", "nekobox", "node", "server", "tunnel",
+)
+
+IGNORE_CHANNEL_HANDLES = {
+    "joinchat", "addstickers", "stickers", "c", "share", "socks", "telegram",
+    "contest", "durov", "tgramdom", "proxy", "channel", "group",
+}
+
+
 def normalize_channel_handle(raw_handle: str) -> str:
     """Extracts a clean telegram channel username from URLs or @mentions."""
     clean = raw_handle.strip()
@@ -66,26 +79,37 @@ class DiscoveryStateManager:
         return self.state
 
     def add_candidates(self, candidates: list[str]) -> None:
-        """Adds new candidate channels, sanitizing handles and boosting mention scores."""
+        """Adds new candidate channels, sanitizing handles and boosting proxy-relevant scores."""
         visited = set(self.state.get("visited_channels", []))
         queue = self.state.setdefault("candidate_queue", [])
         scores = self.state.setdefault("candidate_scores", {})
 
         for raw in candidates:
             handle = normalize_channel_handle(raw)
-            # Skip invalid, system handles, or already visited
+            # Skip invalid, contest/sticker spam, or already visited handles
             if not handle or len(handle) < 3 or handle in visited:
                 continue
-            # Filter out generic telegram paths like 'addstickers', 'joinchat', etc.
-            if handle in {"joinchat", "addstickers", "c", "share", "socks"}:
+            if handle in IGNORE_CHANNEL_HANDLES or any(bad in handle for bad in ("contest", "round2", "r2_2026")):
                 continue
 
-            scores[handle] = scores.get(handle, 0) + 1
+            is_new = handle not in scores
+            bonus = 5 if (is_new and any(kw in handle for kw in PROXY_HANDLE_KEYWORDS)) else 0
+            scores[handle] = scores.get(handle, 0) + 1 + bonus
             if handle not in queue:
                 queue.append(handle)
 
         # Sort queue by priority score (descending)
         queue.sort(key=lambda h: scores.get(h, 1), reverse=True)
+
+    def get_oldest_active_channels(self, limit: int = 5) -> list[str]:
+        """Returns previously active Telegram channels sorted by oldest last_checked."""
+        meta = self.state.get("sources_metadata", {})
+        active_tg = [
+            info for info in meta.values()
+            if info.get("is_active") and info.get("is_telegram", True) and info.get("sub_url", "").startswith("https://t.me/")
+        ]
+        active_tg.sort(key=lambda s: s.get("last_checked", 0))
+        return [s["handle"] for s in active_tg[:limit] if "handle" in s]
 
     def pop_next_candidates(self, limit: int = 5) -> list[str]:
         """Pops up to `limit` candidates with highest mention score."""
@@ -161,6 +185,11 @@ class DiscoveryStateManager:
             "is_telegram": False,
         }
 
+    def record_api_usage(self, requests_made: int) -> None:
+        """Tracks NVIDIA API requests used in the run and cumulatively."""
+        self.state["last_run_api_requests"] = requests_made
+        self.state["total_api_requests"] = self.state.get("total_api_requests", 0) + requests_made
+
     def generate_leaderboard_markdown(self) -> str:
         """Generates an aesthetic markdown report of discovered sources."""
         meta = self.state.get("sources_metadata", {})
@@ -212,6 +241,7 @@ class DiscoveryStateManager:
             "",
             f"- Channels waiting for deep-inspection in next cycle: **{queued_count}**",
             f"- Unique query patterns synthesized: **{len(self.state.get('queries_executed', []))}**",
+            f"- NVIDIA Nemotron API calls (last run / cumulative): **{self.state.get('last_run_api_requests', 0)}** / **{self.state.get('total_api_requests', 0)}**",
             "",
             "---",
             "*Automated intelligence powered by PattN Pipeline*",

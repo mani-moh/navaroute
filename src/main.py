@@ -146,6 +146,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=100,
         help="Max channels to scan per discovery cycle (default: 100)",
     )
+    parser.add_argument(
+        "--discovery-api-requests",
+        type=int,
+        default=0,
+        help="Target NVIDIA API requests for extended discovery runs (e.g. 500)",
+    )
     return parser
 
 
@@ -165,8 +171,12 @@ def main(argv: list[str] | None = None) -> int:
             discovered = agent.run_cycle(
                 max_channels=args.discovery_channels,
                 max_time_seconds=args.discovery_time,
+                max_api_requests=args.discovery_api_requests,
             )
-            safe_print(f"✅ Discovery finished: {len(discovered)} active discovered sources.")
+            safe_print(
+                f"✅ Discovery finished: {len(discovered)} active discovered sources "
+                f"({agent.nemotron.api_requests_count} NVIDIA API requests used)."
+            )
         except Exception as exc:
             safe_print(f"⚠️ Discovery encountered a non-fatal error: {exc}")
 
