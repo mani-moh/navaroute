@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import logging
+import math
 import os
 import re
 import time
-import urllib.error
-import urllib.request
 from typing import Any, Optional
+
+from src.discovery.state_manager import approved_public_url
+from src.network import NetworkError, fetch_bytes
+from src.models import SourceConfig
+from src.parsers import extract_nodes_from_content
 
 logger = logging.getLogger(__name__)
 
@@ -27,28 +32,16 @@ TEXT_FALLBACK_MODELS = [
 ]
 
 
-def _download_image_as_data_uri(image_url: str, timeout: int = 12) -> str:
-    """Downloads a remote image and encodes it as a base64 data URI for VLM reliability."""
-    if not image_url.startswith(("http://", "https://")):
-        return image_url
-
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/133.0.0.0 Safari/537.36"
-        )
-    }
-    req = urllib.request.Request(image_url, headers=headers)
+def _download_image_as_data_uri(image_url: str, timeout: float = 12, deadline: float | None = None) -> str:
+    """Only checked, complete image bytes may be sent to NIM, never a remote fallback."""
     try:
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as resp:
-                raw = resp.read(2 * 1024 * 1024)
-        except urllib.error.URLError:
-            opener_direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-            with opener_direct.open(req, timeout=timeout) as resp:
-                raw = resp.read(2 * 1024 * 1024)
-
+        image_url = approved_public_url(image_url)
+        if not image_url.startswith(("http://", "https://")):
+            return ""
+        status, raw = fetch_bytes(image_url, timeout=timeout, max_bytes=2 * 1024 * 1024,
+                                  deadline=deadline, headers={"User-Agent": "NavaRoute-Discovery"})
+        if not 200 <= status < 300:
+            return ""
         if raw.startswith(b"\x89PNG\r\n\x1a\n"):
             mime = "image/png"
         elif raw.startswith(b"\xff\xd8\xff"):
@@ -56,13 +49,20 @@ def _download_image_as_data_uri(image_url: str, timeout: int = 12) -> str:
         elif raw.startswith(b"RIFF") and b"WEBP" in raw[:16]:
             mime = "image/webp"
         else:
-            # Not a recognized image payload (or mocked response in unit test)
-            return image_url
+            return ""
 
         b64 = base64.b64encode(raw).decode("ascii")
         return f"data:{mime};base64,{b64}"
-    except Exception:
-        return image_url
+    except (NetworkError, ValueError):
+        return ""
+
+
+class DiscoveryBudgetExceeded(RuntimeError):
+    """Normal cycle stop; callers checkpoint unfinished work, not a failed source."""
+
+
+class DiscoveryAPIError(RuntimeError):
+    """All permitted API attempts failed; CLI/workflow callers must report failure."""
 
 
 class NemotronClient:
@@ -93,8 +93,36 @@ class NemotronClient:
         )
         self.timeout = timeout
         self.min_request_interval = min_request_interval
+        if (isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or not math.isfinite(timeout) or timeout <= 0
+                or isinstance(min_request_interval, bool) or not isinstance(min_request_interval, (int, float)) or not math.isfinite(min_request_interval) or min_request_interval < 0):
+            raise ValueError("Invalid NVIDIA request timing")
         self.api_requests_count = 0
-        self._last_request_ts = 0.0
+        self._last_request_ts: float | None = None
+        self._cycle_start_requests = 0
+        self._max_attempts = 500
+        self.deadline: float | None = None
+        self.image_results: dict[str, str] = {}
+        self.last_image_outcome = "retryable"
+
+    def configure_cycle(self, *, max_attempts: int, deadline: float) -> None:
+        if type(max_attempts) is not int or max_attempts <= 0 or not isinstance(deadline, (int, float)) or not math.isfinite(deadline):
+            raise ValueError("Invalid discovery budget")
+        self._max_attempts = max_attempts
+        self._cycle_start_requests = self.api_requests_count
+        self.deadline = deadline
+        self._last_request_ts = None
+
+    def budget_remaining(self) -> bool:
+        return (self.api_requests_count - self._cycle_start_requests < self._max_attempts
+                and (self.deadline is None or time.monotonic() < self.deadline))
+
+    def _wait(self, seconds: float) -> None:
+        if not self.budget_remaining() or (self.deadline is not None and seconds >= self.deadline - time.monotonic()):
+            raise DiscoveryBudgetExceeded("Discovery budget exhausted")
+        if seconds > 0:
+            time.sleep(seconds)
+        if not self.budget_remaining():
+            raise DiscoveryBudgetExceeded("Discovery budget exhausted")
 
     def is_available(self) -> bool:
         """Returns True if an API key is configured."""
@@ -111,11 +139,15 @@ class NemotronClient:
             logger.warning("NemotronClient: NVIDIA_API_KEY is not configured.")
             return None
 
+        if self.base_url != DEFAULT_NVIDIA_BASE_URL:
+            raise ValueError("Unapproved NVIDIA API origin")
+        if self.deadline is None:
+            self.configure_cycle(max_attempts=500, deadline=time.monotonic() + self.timeout)
         url = f"{self.base_url}/chat/completions"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "User-Agent": "PattN-Nemotron-Agent/1.0",
+            "User-Agent": "NavaRoute-Discovery/1.0",
         }
 
         primary_model = payload.get("model", self.model)
@@ -124,60 +156,48 @@ class NemotronClient:
             if fm not in models_to_try:
                 models_to_try.append(fm)
 
+        attempted = False
         for cur_model in models_to_try:
             cur_payload = dict(payload)
             cur_payload["model"] = cur_model
             data = json.dumps(cur_payload).encode("utf-8")
-            req = urllib.request.Request(url, data=data, headers=headers, method="POST")
-
             for attempt in range(1, max_retries + 1):
-                if self.min_request_interval > 0 and self._last_request_ts > 0:
-                    since_last = time.time() - self._last_request_ts
-                    if since_last < self.min_request_interval:
-                        time.sleep(self.min_request_interval - since_last)
-
-                self._last_request_ts = time.time()
-                self.api_requests_count += 1
-
                 try:
+                    self._wait(max(0, self.min_request_interval - (time.monotonic() - self._last_request_ts)) if self._last_request_ts is not None else 0)
+                except DiscoveryBudgetExceeded:
+                    if attempted:
+                        raise DiscoveryAPIError("NVIDIA API attempts failed within budget") from None
+                    raise
+                timeout = min(self.timeout, self.deadline - time.monotonic())
+                if timeout <= 0:
+                    if attempted:
+                        raise DiscoveryAPIError("NVIDIA API attempts failed within budget")
+                    raise DiscoveryBudgetExceeded("Discovery budget exhausted")
+                self._last_request_ts = time.monotonic()
+                self.api_requests_count += 1
+                attempted = True
+                try:
+                    status, body = fetch_bytes(url, timeout=timeout,
+                                               max_bytes=2 * 1024 * 1024, deadline=self.deadline,
+                                               headers=headers, data=data, method="POST", authenticated=True)
+                except NetworkError:
+                    status, body = 503, b""
+                if 200 <= status < 300:
                     try:
-                        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                            resp_body = resp.read().decode("utf-8")
-                            return json.loads(resp_body)
-                    except urllib.error.URLError as url_exc:
-                        if isinstance(url_exc, urllib.error.HTTPError):
-                            raise
-                        opener_direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-                        with opener_direct.open(req, timeout=self.timeout) as resp:
-                            resp_body = resp.read().decode("utf-8")
-                            return json.loads(resp_body)
-                except urllib.error.HTTPError as exc:
-                    err_detail = ""
-                    try:
-                        err_detail = exc.read().decode("utf-8", errors="replace")[:300]
-                    except Exception:
+                        result = json.loads(body)
+                        if isinstance(result, dict):
+                            return result
+                    except (ValueError, UnicodeError, RecursionError):
                         pass
-                    if exc.code in (429, 500, 502, 503, 504) and attempt < max_retries:
-                        wait_time = (attempt * 6) if exc.code == 429 else (attempt * 2)
-                        logger.warning(
-                            "NIM API HTTP %d (%s) on attempt %d/%d, retrying in %ds... (%s)",
-                            exc.code, cur_model, attempt, max_retries, wait_time, err_detail,
-                        )
-                        time.sleep(wait_time)
-                        continue
-                    logger.warning(
-                        "NIM API HTTP error %d (%s) on model %s: %s",
-                        exc.code, exc.reason, cur_model, err_detail,
-                    )
+                    status = 502
+                logger.warning("NVIDIA API attempt failed (HTTP %d)", status)
+                if status not in (429, 500, 502, 503, 504) or attempt == max_retries:
                     break
-                except Exception as exc:
-                    if attempt < max_retries:
-                        time.sleep(attempt * 2)
-                        continue
-                    logger.error("NIM API network error on model %s: %s", cur_model, exc)
-                    break
-
-        return None
+                try:
+                    self._wait(attempt * (6 if status == 429 else 2))
+                except DiscoveryBudgetExceeded:
+                    raise DiscoveryAPIError("NVIDIA API attempts failed within budget") from None
+        raise DiscoveryAPIError("NVIDIA API attempts failed")
 
     def complete(
         self,
@@ -201,12 +221,16 @@ class NemotronClient:
         }
 
         res = self._call_api(payload, fallback_models=TEXT_FALLBACK_MODELS)
-        if not res or "choices" not in res or not res["choices"]:
-            return ""
+        return self._response_text(res)
 
+    @staticmethod
+    def _response_text(res: Any) -> str:
+        if not isinstance(res, dict) or not isinstance(res.get("choices"), list) or not res["choices"]:
+            raise DiscoveryAPIError("Invalid NVIDIA API response")
         choice = res["choices"][0]
-        msg = choice.get("message", {})
-        return msg.get("content", "").strip()
+        if not isinstance(choice, dict) or not isinstance(choice.get("message"), dict) or not isinstance(choice["message"].get("content"), str):
+            raise DiscoveryAPIError("Invalid NVIDIA API response")
+        return choice["message"]["content"].strip()
 
     def complete_json(
         self,
@@ -238,15 +262,15 @@ class NemotronClient:
 
         try:
             return json.loads(clean_text)
-        except Exception:
+        except (ValueError, RecursionError):
             # Fallback: find outer {...} or [...]
             m = re.search(r"(\{|\[).+(\}|\])", clean_text, re.DOTALL)
             if m:
                 try:
                     return json.loads(m.group(0))
-                except Exception:
+                except (ValueError, RecursionError):
                     pass
-            logger.warning("Failed to parse Nemotron JSON output: %s", raw_text[:200])
+            logger.warning("Invalid NVIDIA JSON output")
             return None
 
     def analyze_image(
@@ -257,10 +281,19 @@ class NemotronClient:
         max_tokens: int = 1024,
     ) -> str:
         """Sends an image (downloaded to base64 data URI when possible) to Nemotron 3.5 Super VL."""
+        self.last_image_outcome = "retryable"
         if not self.is_available():
             return ""
 
-        prepared_url = _download_image_as_data_uri(image_url)
+        self._wait(0)
+        prepared_url = _download_image_as_data_uri(image_url, deadline=self.deadline)
+        if not prepared_url:
+            return ""
+        self._wait(0)
+        image_hash = hashlib.sha256(prepared_url.encode("ascii")).hexdigest()
+        if image_hash in self.image_results:
+            self.last_image_outcome = "success"
+            return self.image_results[image_hash]
 
         payload = {
             "model": self.model,
@@ -278,9 +311,12 @@ class NemotronClient:
         }
 
         res = self._call_api(payload, fallback_models=VISION_FALLBACK_MODELS)
-        if not res or "choices" not in res or not res["choices"]:
-            return ""
-
-        choice = res["choices"][0]
-        msg = choice.get("message", {})
-        return msg.get("content", "").strip()
+        text = self._response_text(res)
+        if text and len(text.encode("utf-8")) <= 65536:
+            self.last_image_outcome = "success"
+            nodes, _ = extract_nodes_from_content(text, SourceConfig("ocr", "Public OCR", image_url))
+            # Persist only canonical public configs, not raw model output.
+            self.image_results[image_hash] = "\n".join(n.to_uri(include_formatted_remark=False) for n in nodes[:400])
+            while len(self.image_results) > 400:
+                self.image_results.pop(next(iter(self.image_results)))
+        return text

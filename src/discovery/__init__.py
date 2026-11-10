@@ -1,1 +1,1 @@
-"""PattN Autonomous Discovery Package."""
+"""Bounded NavaRoute public discovery; critical API/checkpoint failures propagate."""

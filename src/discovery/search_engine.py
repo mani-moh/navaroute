@@ -2,70 +2,33 @@ from __future__ import annotations
 
 import html
 import json
-import logging
-import os
 import re
-import ssl
-import urllib.error
-import urllib.parse
-import urllib.request
 from dataclasses import dataclass, field
 from typing import Optional
+from urllib.parse import parse_qs, quote, quote_plus, urlsplit
+
+from src.discovery.state_manager import IGNORE_CHANNEL_HANDLES, approved_public_url, normalize_channel_handle
+from src.network import NetworkError, fetch_bytes
+
+DEFAULT_USER_AGENT = "NavaRoute-Discovery/1.0"
+SOURCE_MAX_BYTES = 32 * 1024 * 1024
+URI_REGEX = re.compile(r"((?:vless|vmess|trojan|ss|hy2|hysteria2|tuic|wg|wireguard)://[^\s<>'\"`]+)", re.I)
+URL_REGEX = re.compile(r"https?://[^\s<>\"'`]+", re.I)
+MENTION_REGEX = re.compile(r"(?<![\w:/])@([A-Za-z][A-Za-z0-9_]{2,31})(?![\w?/:=@%+#-])")
+TG_PHOTO_PATTERN = re.compile(r'''(?:background-image:\s*url\(|src=)['"]?(https?://[^\s'"<>()]+(?:\.jpg|\.png|\.webp)[^\s'"<>)]*)''', re.I)
+DATA_POST_PATTERN = re.compile(r'data-post="[^/]+/([0-9]{1,20})"', re.I)
 
 
-def resilient_urlopen(req: urllib.request.Request, timeout: int = 15):
-    """Opens URL; if default fails (e.g. dead Windows system proxy), retries direct without proxy."""
-    has_explicit_proxy = bool(
-        os.environ.get("HTTP_PROXY")
-        or os.environ.get("HTTPS_PROXY")
-        or os.environ.get("ALL_PROXY")
-    )
-    if not has_explicit_proxy:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        opener_direct = urllib.request.build_opener(
-            urllib.request.ProxyHandler({}),
-            urllib.request.HTTPSHandler(context=ctx),
-            urllib.request.HTTPHandler(),
-        )
+def public_links(text: str) -> list[str]:
+    links = []
+    for raw in URL_REGEX.findall(text):
         try:
-            return opener_direct.open(req, timeout=timeout)
-        except Exception:
-            pass
-    return urllib.request.urlopen(req, timeout=timeout)
-
-from src.discovery.state_manager import normalize_channel_handle
-
-logger = logging.getLogger(__name__)
-
-DEFAULT_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/133.0.0.0 Safari/537.36"
-)
-
-URI_REGEX = re.compile(
-    r"((?:vless|vmess|trojan|ss|hy2|hysteria2|tuic|wg|wireguard)://[^\s<>'\"`]+)",
-    re.IGNORECASE,
-)
-
-SUB_URL_PATTERN = re.compile(
-    r'https?://(?:[a-zA-Z0-9\-._~%!$&\'()*+,;=:@/]+(?:\.(?:txt|json|html)|/(?:sub|subscription|mix|proxies|vless|vmess)[a-zA-Z0-9\-._~%!$&\'()*+,;=:@/]*)|(?:raw\.githubusercontent\.com|gist\.githubusercontent\.com)/[^\s<>"\'`]+)',
-    re.IGNORECASE,
-)
-
-TG_CHANNEL_MENTION_PATTERN = re.compile(
-    r'(?:@|https?://(?:www\.)?t\.me/(?:s/)?)([a-zA-Z0-9_]{4,})',
-    re.IGNORECASE,
-)
-
-TG_PHOTO_PATTERN = re.compile(
-    r'(?:background-image:\s*url\(|src=)[\'"]?(https?://[^\s\'"<>()]+(?:\.jpg|\.png|\.webp)[^\s\'"<>]*)[\'"]?',
-    re.IGNORECASE,
-)
-
-DATA_POST_PATTERN = re.compile(r'data-post="[^/]+/(\d+)"', re.IGNORECASE)
+            url = approved_public_url(raw.rstrip(".,;!"))
+        except ValueError:
+            continue
+        if url not in links:
+            links.append(url)
+    return links
 
 
 @dataclass
@@ -78,234 +41,147 @@ class ScrapedChannelResult:
 
 
 class TelegramChannelScraper:
-    """Scrapes public Telegram channel previews, extracting nodes, sub links, and sister channels."""
+    """Public previews: None plus last_outcome distinguishes retryable from confirmed dead."""
 
     def __init__(self, timeout: int = 15) -> None:
         self.timeout = timeout
+        self.deadline: float | None = None
+        self.last_outcome = "retryable"
 
-    def fetch_channel_page(
-        self,
-        channel_handle: str,
-        before_id: Optional[int] = None,
-    ) -> Optional[str]:
-        """Fetches the Telegram web preview HTML for a channel."""
+    def fetch_channel_page(self, channel_handle: str, before_id: Optional[int] = None) -> Optional[str]:
+        self.last_outcome = "retryable"
         clean = normalize_channel_handle(channel_handle)
-        if not clean:
-            return None
-
+        if not clean or before_id is not None and (type(before_id) is not int or before_id <= 0):
+            raise ValueError("Invalid Telegram channel request")
         url = f"https://t.me/s/{clean}"
         if before_id is not None:
             url += f"?before={before_id}"
-
-        headers = {
-            "User-Agent": DEFAULT_USER_AGENT,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.9,fa;q=0.8",
-        }
-
-        req = urllib.request.Request(url, headers=headers)
         try:
-            with resilient_urlopen(req, timeout=self.timeout) as resp:
-                raw_bytes = resp.read()
-                return raw_bytes.decode("utf-8", errors="replace")
-        except Exception as exc:
-            logger.debug("Failed to fetch Telegram channel preview for %s: %s", clean, exc)
+            status, raw = fetch_bytes(url, timeout=self.timeout, max_bytes=SOURCE_MAX_BYTES,
+                                     deadline=self.deadline, headers={"User-Agent": DEFAULT_USER_AGENT})
+            if status in (404, 410):
+                self.last_outcome = "dead"
+                return None
+            if not 200 <= status < 300:
+                return None
+            text = raw.decode("utf-8")
+            if not text:
+                return None
+            self.last_outcome = "success"
+            return text
+        except (NetworkError, UnicodeError):
             return None
 
-    def parse_channel_page(
-        self,
-        html_content: str,
-        current_channel: str = "",
-    ) -> ScrapedChannelResult:
-        """Parses a Telegram channel preview page."""
+    def parse_channel_page(self, html_content: str, current_channel: str = "") -> ScrapedChannelResult:
         result = ScrapedChannelResult()
-        current_clean = normalize_channel_handle(current_channel)
-
-        # 1. Unescape HTML text
         text = html.unescape(html_content)
-
-        # 2. Extract proxy URIs
-        found_uris = URI_REGEX.findall(text)
-        # Clean trailing html artifacts or punctuation
-        cleaned_uris = []
-        for u in found_uris:
-            cu = u.rstrip(".,;!)\"'>")
-            if cu and cu not in cleaned_uris:
-                cleaned_uris.append(cu)
-        result.proxy_uris = cleaned_uris
-
-        # 3. Extract external subscription URLs
-        raw_sub_matches = SUB_URL_PATTERN.findall(text)
-        cleaned_subs = []
-        for su in raw_sub_matches:
-            # Filter out telegram itself, cdn assets, and common false positives
-            if "t.me" in su.lower() or "cdn.telegram.org" in su.lower():
+        result.proxy_uris = list(dict.fromkeys(u.rstrip(".,;!)\"'>") for u in URI_REGEX.findall(text)))
+        links = public_links(text)
+        for url in links:
+            parsed = urlsplit(url)
+            if parsed.hostname in ("t.me", "www.t.me"):
+                handle = normalize_channel_handle(url)
+                if handle:
+                    result.discovered_channels.append(handle)
+            elif parsed.hostname not in ("cdn.telegram.org",) and (parsed.hostname in ("raw.githubusercontent.com", "gist.githubusercontent.com") or re.search(r"\.(?:txt|json|html)$|/(?:sub|subscription|mix|proxies|vless|vmess)(?:[/._-]|$)", parsed.path, re.I)):
+                result.sub_urls.append(url)
+        result.discovered_channels.extend(normalize_channel_handle(h) for h in MENTION_REGEX.findall(text))
+        result.discovered_channels = list(dict.fromkeys(h for h in result.discovered_channels if h and h != normalize_channel_handle(current_channel) and h not in IGNORE_CHANNEL_HANDLES))
+        for raw in TG_PHOTO_PATTERN.findall(html_content):
+            try:
+                url = approved_public_url(html.unescape(raw))
+            except ValueError:
                 continue
-            csu = su.rstrip(".,;!)\"'>")
-            if csu and csu not in cleaned_subs:
-                cleaned_subs.append(csu)
-        result.sub_urls = cleaned_subs
-
-        # 4. Extract cross-promoted sister channels
-        channel_matches = TG_CHANNEL_MENTION_PATTERN.findall(text)
-        seen_channels: set[str] = set()
-        system_ignores = {"joinchat", "addstickers", "share", "socks", "proxy", "channel", "group"}
-        for ch in channel_matches:
-            clean_ch = ch.lower()
-            if (
-                clean_ch != current_clean
-                and clean_ch not in system_ignores
-                and clean_ch not in seen_channels
-                and len(clean_ch) >= 4
-            ):
-                seen_channels.add(clean_ch)
-                result.discovered_channels.append(clean_ch)
-
-        # 5. Extract image URLs (potential QR codes or config cards)
-        img_matches = TG_PHOTO_PATTERN.findall(html_content)
-        for img_url in img_matches:
-            if img_url not in result.image_urls:
-                result.image_urls.append(img_url)
-
-        # 6. Extract oldest post ID for pagination
+            if url not in result.image_urls:
+                result.image_urls.append(url)
         post_ids = [int(pid) for pid in DATA_POST_PATTERN.findall(html_content)]
         if post_ids:
             result.oldest_post_id = min(post_ids)
-
         return result
 
 
 class WebSearchScraper:
-    """Scrapes web and GitHub search results for subscription feeds and telegram channels."""
+    """Bounded anonymous searches; ambient GitHub credentials are not public-source input."""
 
     def __init__(self, timeout: int = 15) -> None:
         self.timeout = timeout
+        self.deadline: float | None = None
+        self.last_outcome = "retryable"
+        self.last_page_content = ""
 
-    def search_duckduckgo(
-        self,
-        query: str,
-        max_results: int = 15,
-    ) -> tuple[list[str], list[str]]:
-        """Queries DuckDuckGo HTML and extracts discovered telegram channels and subscription URLs."""
-        url = f"https://html.duckduckgo.com/html/?q={urllib.parse.quote_plus(query)}"
-        headers = {
-            "User-Agent": DEFAULT_USER_AGENT,
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        }
-
-        req = urllib.request.Request(url, headers=headers)
+    def _read(self, url: str, max_bytes: int = SOURCE_MAX_BYTES) -> str:
+        self.last_outcome = "retryable"
         try:
-            with resilient_urlopen(req, timeout=self.timeout) as resp:
-                content = resp.read().decode("utf-8", errors="replace")
-                return self.parse_duckduckgo_html(content, max_results=max_results)
-        except Exception as exc:
-            logger.debug("DuckDuckGo search error: %s", exc)
-            return [], []
-
-    def parse_duckduckgo_html(
-        self,
-        html_content: str,
-        max_results: int = 15,
-    ) -> tuple[list[str], list[str]]:
-        """Extracts telegram channels and candidate URLs from DuckDuckGo HTML."""
-        channels: list[str] = []
-        urls: list[str] = []
-
-        # Find URLs inside result__url or href
-        url_matches = re.findall(r'href=[\'"]([^\'"]+)[\'"]', html_content)
-        for u in url_matches:
-            # DuckDuckGo redirect uddg parameter
-            if "uddg=" in u:
-                m = re.search(r'uddg=([^&]+)', u)
-                if m:
-                    u = urllib.parse.unquote(m.group(1))
-
-            if "t.me/" in u:
-                handle = normalize_channel_handle(u)
-                if handle and handle not in channels:
-                    channels.append(handle)
-            elif u.startswith("http") and not any(skip in u.lower() for skip in ("duckduckgo", "yandex", "bing")):
-                if u not in urls:
-                    urls.append(u)
-
-        return channels[:max_results], urls[:max_results]
-
-    def search_github(
-        self,
-        query: str,
-        max_results: int = 10,
-    ) -> list[str]:
-        """Queries GitHub search API for repositories containing v2ray subscriptions."""
-        url = f"https://api.github.com/search/repositories?q={urllib.parse.quote_plus(query)}&sort=updated"
-        headers = {
-            "User-Agent": "PattN-Discovery-Agent",
-            "Accept": "application/vnd.github.v3+json",
-        }
-        gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
-        if gh_token:
-            headers["Authorization"] = f"Bearer {gh_token}"
-
-        req = urllib.request.Request(url, headers=headers)
-        discovered_subs = []
-        try:
-            with resilient_urlopen(req, timeout=self.timeout) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                items = data.get("items", [])
-                for item in items[:max_results]:
-                    default_branch = item.get("default_branch", "main")
-                    full_name = item.get("full_name")
-                    if full_name:
-                        # Construct common raw file paths
-                        for candidate_file in ("sub.txt", "configs.txt", "All_Configs_Sub.txt", "sub"):
-                            discovered_subs.append(
-                                f"https://raw.githubusercontent.com/{full_name}/{default_branch}/{candidate_file}"
-                            )
-        except Exception as exc:
-            logger.debug("GitHub search error: %s", exc)
-
-        return discovered_subs
-
-    def fetch_text_snippet(self, url: str, max_chars: int = 4500) -> str:
-        """Fetches readable text from a webpage or README for LLM inspection."""
-        headers = {
-            "User-Agent": DEFAULT_USER_AGENT,
-            "Accept": "text/html,text/plain,text/markdown;q=0.9,*/*;q=0.8",
-        }
-        req = urllib.request.Request(url, headers=headers)
-        try:
-            with resilient_urlopen(req, timeout=self.timeout) as resp:
-                raw = resp.read(250_000).decode("utf-8", errors="replace")
-                text = html.unescape(raw)
-                text = re.sub(r"<script[^>]*>.*?</script>", " ", text, flags=re.IGNORECASE | re.DOTALL)
-                text = re.sub(r"<style[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL)
-                text = re.sub(r"<[^>]+>", " ", text)
-                text = re.sub(r"\s+", " ", text).strip()
-                return text[:max_chars]
-        except Exception:
+            status, raw = fetch_bytes(url, timeout=self.timeout, max_bytes=max_bytes,
+                                     deadline=self.deadline, headers={"User-Agent": DEFAULT_USER_AGENT})
+            if status in (404, 410):
+                self.last_outcome = "dead"
+                return ""
+            if not 200 <= status < 300:
+                return ""
+            text = raw.decode("utf-8")
+            self.last_outcome = "success"
+            return text
+        except (NetworkError, UnicodeError):
             return ""
 
-    def search_github_readmes(self, query: str, max_results: int = 8) -> list[str]:
-        """Returns raw README.md URLs for GitHub repos matching query."""
-        url = f"https://api.github.com/search/repositories?q={urllib.parse.quote_plus(query)}&sort=updated"
-        headers = {
-            "User-Agent": "PattN-Discovery-Agent",
-            "Accept": "application/vnd.github.v3+json",
-        }
-        gh_token = os.environ.get("GITHUB_TOKEN", "").strip()
-        if gh_token:
-            headers["Authorization"] = f"Bearer {gh_token}"
-        req = urllib.request.Request(url, headers=headers)
-        readme_urls: list[str] = []
+    def search_duckduckgo(self, query: str, max_results: int = 15) -> tuple[list[str], list[str]]:
+        content = self._read(f"https://html.duckduckgo.com/html/?q={quote_plus(query[:500])}")
+        return self.parse_duckduckgo_html(content, max_results)
+
+    def parse_duckduckgo_html(self, html_content: str, max_results: int = 15) -> tuple[list[str], list[str]]:
+        channels, urls = [], []
+        for raw in re.findall(r'''href=['"]([^'"]+)['"]''', html.unescape(html_content)):
+            if "uddg=" in raw:
+                values = parse_qs(urlsplit(raw).query).get("uddg", [])
+                if values:
+                    raw = values[0]
+            try:
+                url = approved_public_url(raw)
+            except ValueError:
+                continue
+            parsed = urlsplit(url)
+            if parsed.hostname in ("t.me", "www.t.me"):
+                handle = normalize_channel_handle(url)
+                if handle and handle not in channels:
+                    channels.append(handle)
+            elif parsed.hostname not in ("duckduckgo.com", "html.duckduckgo.com", "yandex.com", "bing.com") and url not in urls:
+                urls.append(url)
+        return channels[:max_results], urls[:max_results]
+
+    def _github_repositories(self, query: str, max_results: int) -> list[tuple[str, str]]:
+        raw = self._read(f"https://api.github.com/search/repositories?q={quote_plus(query[:500])}&sort=updated", 2 * 1024 * 1024)
         try:
-            with resilient_urlopen(req, timeout=self.timeout) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                for item in data.get("items", [])[:max_results]:
-                    full_name = item.get("full_name")
-                    branch = item.get("default_branch", "main")
-                    if full_name:
-                        readme_urls.append(
-                            f"https://raw.githubusercontent.com/{full_name}/{branch}/README.md"
-                        )
-        except Exception:
-            pass
-        return readme_urls
+            data = json.loads(raw)
+        except (ValueError, RecursionError):
+            return []
+        if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+            return []
+        repos = []
+        for item in data["items"][:max_results]:
+            if not isinstance(item, dict):
+                continue
+            name, branch = item.get("full_name"), item.get("default_branch", "main")
+            if (isinstance(name, str) and re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", name)
+                    and isinstance(branch, str) and re.fullmatch(r"[A-Za-z0-9_./-]{1,200}", branch) and ".." not in branch):
+                repo = (name, quote(branch, safe=""))
+                if repo not in repos:
+                    repos.append(repo)
+        return repos
+
+    def search_github(self, query: str, max_results: int = 10) -> list[str]:
+        return [f"https://raw.githubusercontent.com/{name}/{branch}/{file}" for name, branch in self._github_repositories(query, max_results)
+                for file in ("sub.txt", "configs.txt", "All_Configs_Sub.txt", "sub")]
+
+    def fetch_text_snippet(self, url: str, max_chars: int = 4500) -> str:
+        url = approved_public_url(url)
+        if not url.startswith(("http://", "https://")):
+            raise ValueError("Invalid public webpage")
+        self.last_page_content = self._read(url, 250000)
+        text = html.unescape(self.last_page_content)
+        text = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", text, flags=re.I | re.S)
+        text = re.sub(r"<[^>]+>", " ", text)
+        return re.sub(r"\s+", " ", text).strip()[:max_chars]
+
+    def search_github_readmes(self, query: str, max_results: int = 8) -> list[str]:
+        return [f"https://raw.githubusercontent.com/{name}/{branch}/README.md" for name, branch in self._github_repositories(query, max_results)]

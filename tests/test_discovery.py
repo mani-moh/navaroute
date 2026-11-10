@@ -1,453 +1,637 @@
+import base64
 import json
 import os
 import tempfile
 import unittest
+from contextlib import contextmanager
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
-from src.discovery.agent import DiscoveryAgent
-from src.discovery.nemotron_client import NemotronClient
+from src.discovery.agent import DiscoveryAgent, load_local_dotenv
+from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
-from src.discovery.state_manager import DiscoveryStateManager
-from src.fetcher import load_sources
+from src.discovery.state_manager import DiscoveryStateManager, normalize_channel_handle
+from src.fetcher import fetch_source, load_sources
+from src.network import NetworkError
+from src.parsers import parse_proxy_uri
+
+URI = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=tls&type=ws&path=%2Ffirst&path=%2Fsecond#Public"
+PAGE = '<div data-post="mockchan/1">' + URI + ' sister @NewChan</div>'
+IMAGE = b"\x89PNG\r\n\x1a\nPUBLIC_SYNTHETIC_IMAGE"
+
+
+def completion(text):
+    return 200, json.dumps({"choices": [{"message": {"role": "assistant", "content": text}}]}).encode()
 
 
 class OfflineDiscoveryTestCase(unittest.TestCase):
     def setUp(self):
-        temp_directory = tempfile.gettempdir()
-        environment = patch.dict(os.environ, {"TEMP": temp_directory, "TMP": temp_directory}, clear=True)
+        # Windows TLS needs SystemRoot; never inherit credentials or proxy settings.
+        safe_env = {k: os.environ[k] for k in ("SystemRoot", "WINDIR", "TEMP", "TMP") if k in os.environ}
+        environment = patch.dict(os.environ, safe_env, clear=True)
         environment.start()
         self.addCleanup(environment.stop)
-        for target in ("urllib.request.urlopen", "urllib.request.OpenerDirector.open"):
+        for target in ("urllib.request.urlopen", "urllib.request.OpenerDirector.open", "src.network._resolve"):
             guard = patch(target, side_effect=AssertionError("unexpected external request"))
             transport = guard.start()
             self.addCleanup(guard.stop)
             self.addCleanup(transport.assert_not_called)
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        previous_cwd = Path.cwd()
+        os.chdir(self.root)
+        self.addCleanup(os.chdir, previous_cwd)
+        (self.root / "data").mkdir()
+        # Expected synthetic failure warnings belong in assertions, not suite output.
+        quiet = patch("src.discovery.nemotron_client.logger")
+        quiet.start()
+        self.addCleanup(quiet.stop)
 
 
 class TestNemotronClient(OfflineDiscoveryTestCase):
-    def test_client_init_defaults(self):
-        with patch.dict(os.environ, {"NVIDIA_API_KEY": "test-nvapi-key"}, clear=True):
-            client = NemotronClient()
-            self.assertEqual(client.api_key, "test-nvapi-key")
-            self.assertEqual(client.model, "moonshotai/kimi-k2.6")
-            self.assertEqual(client.base_url, "https://integrate.api.nvidia.com/v1")
+    def client(self, limit=500, seconds=30):
+        client = NemotronClient(api_key="synthetic-key")
+        client.configure_cycle(max_attempts=limit, deadline=seconds)
+        return client
 
-    @patch("urllib.request.urlopen")
-    def test_fallback_model_on_http_error(self, mock_urlopen):
-        import urllib.error
-        err = urllib.error.HTTPError("https://integrate.api.nvidia.com/v1/chat/completions", 404, "Not Found", {}, None)
-        ok_resp = MagicMock()
-        ok_resp.read.return_value = json.dumps({
-            "choices": [{"message": {"role": "assistant", "content": "Fallback model succeeded"}}]
-        }).encode("utf-8")
-        mock_urlopen.side_effect = [err, MagicMock(__enter__=lambda s: ok_resp, __exit__=lambda s, *a: None)]
-
-        client = NemotronClient(api_key="fake-key")
-        out = client.complete("hello")
-        self.assertEqual(out, "Fallback model succeeded")
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_text_json_and_fallback_use_safe_counted_transport(self, transport, _clock):
+        transport.side_effect = [(404, b"secret-response"), completion('```json\n{"channels": ["proxychan"]}\n```')]
+        client = self.client()
+        self.assertEqual(client.complete_json("public query"), {"channels": ["proxychan"]})
         self.assertEqual(client.api_requests_count, 2)
+        for args, kwargs in transport.call_args_list:
+            self.assertEqual(args[0], "https://integrate.api.nvidia.com/v1/chat/completions")
+            self.assertTrue(kwargs["authenticated"])
+            self.assertEqual(kwargs["max_bytes"], 2 * 1024 * 1024)
+            self.assertEqual(kwargs["deadline"], 30)
 
-    def test_client_init_custom_model_and_env(self):
-        with patch.dict(os.environ, {"NVIDIA_MODEL": "nvidia/nemotron-custom"}, clear=True):
-            client = NemotronClient(api_key="custom-key")
-            self.assertEqual(client.api_key, "custom-key")
-            self.assertEqual(client.model, "nvidia/nemotron-custom")
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b"secret"))
+    def test_real_retry_loop_one_remaining_attempt(self, transport, sleep, _clock):
+        client = self.client(limit=1)
+        with self.assertRaises(RuntimeError):
+            client.complete("hello")
+        self.assertEqual(client.api_requests_count, 1)
+        self.assertEqual(transport.call_count, 1)
+        sleep.assert_not_called()
 
-    @patch("urllib.request.urlopen")
-    def test_complete_text_success(self, mock_urlopen):
-        mock_response = MagicMock()
-        mock_response.read.return_value = json.dumps({
-            "choices": [
-                {
-                    "message": {
-                        "role": "assistant",
-                        "content": "Found 3 promising telegram channels: @test1, @test2, @test3"
-                    }
-                }
-            ]
-        }).encode("utf-8")
-        mock_urlopen.return_value.__enter__.return_value = mock_response
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, side_effect=NetworkError("secret-proxy-error"))
+    def test_real_retry_loop_499_stops_at_hard_500(self, transport, sleep, _clock):
+        client = self.client()
+        client.api_requests_count = 499
+        client._cycle_start_requests = 0
+        with self.assertRaises(RuntimeError):
+            client.complete("hello")
+        self.assertEqual(client.api_requests_count, 500)
+        self.assertEqual(transport.call_count, 1)
+        sleep.assert_not_called()
 
-        client = NemotronClient(api_key="fake-key")
-        result = client.complete("Suggest telegram channels for v2ray configs")
-        self.assertIn("@test1", result)
-        self.assertIn("@test2", result)
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(429, b"private-error"))
+    def test_backoff_expiry_stops_before_sleep_or_retry(self, transport, sleep, _clock):
+        client = self.client(seconds=1)
+        with self.assertRaises(RuntimeError):
+            client.complete("public prompt")
+        self.assertEqual(client.api_requests_count, 1)
+        sleep.assert_not_called()
+        self.assertLessEqual(transport.call_args.kwargs["timeout"], 1)
 
-    @patch("urllib.request.urlopen")
-    def test_complete_json_extraction(self, mock_urlopen):
-        mock_response = MagicMock()
-        mock_response.read.return_value = json.dumps({
-            "choices": [
-                {
-                    "message": {
-                        "role": "assistant",
-                        "content": '```json\n{"queries": ["site:t.me vless", "site:t.me vmess"]}\n```'
-                    }
-                }
-            ]
-        }).encode("utf-8")
-        mock_urlopen.return_value.__enter__.return_value = mock_response
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_retry_success_and_fresh_cycle_budget(self, transport, sleep, _clock):
+        transport.side_effect = [(503, b""), completion("worked"), completion("next")]
+        client = self.client(limit=2)
+        self.assertEqual(client.complete("hello"), "worked")
+        client.configure_cycle(max_attempts=1, deadline=30)
+        self.assertEqual(client.complete("next cycle"), "next")
+        self.assertEqual(client.api_requests_count, 3)
+        sleep.assert_called_once_with(2)
 
-        client = NemotronClient(api_key="fake-key")
-        data = client.complete_json("Generate search queries")
-        self.assertIsInstance(data, dict)
-        self.assertIn("queries", data)
-        self.assertEqual(len(data["queries"]), 2)
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, side_effect=NetworkError("SECRET"))
+    def test_errors_and_invalid_json_never_log_response_or_prompt(self, transport, _sleep, _clock):
+        client = self.client(limit=2)
+        import logging
+        with patch("src.discovery.nemotron_client.logger", logging.getLogger("src.discovery.nemotron_client")), self.assertLogs("src.discovery.nemotron_client", level="WARNING") as logs:
+            with self.assertRaises(RuntimeError):
+                client.complete("SECRET prompt")
+        self.assertNotIn("SECRET", "\n".join(logs.output))
+        client.configure_cycle(max_attempts=1, deadline=30)
+        transport.side_effect = None
+        transport.return_value = completion("SECRET invalid JSON")
+        with patch("src.discovery.nemotron_client.logger", logging.getLogger("src.discovery.nemotron_client")), self.assertLogs("src.discovery.nemotron_client", level="WARNING") as logs:
+            self.assertIsNone(client.complete_json("SECRET"))
+        self.assertNotIn("SECRET", "\n".join(logs.output))
 
-    @patch("urllib.request.urlopen")
-    def test_analyze_image_payload(self, mock_urlopen):
-        mock_response = MagicMock()
-        mock_response.read.return_value = json.dumps({
-            "choices": [
-                {
-                    "message": {
-                        "role": "assistant",
-                        "content": "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=reality"
-                    }
-                }
-            ]
-        }).encode("utf-8")
-        mock_urlopen.return_value.__enter__.return_value = mock_response
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_unapproved_api_origin_rejected_before_request(self, transport):
+        for base in ("http://integrate.api.nvidia.com/v1", "https://attacker.example/v1", "https://u:SECRET@integrate.api.nvidia.com/v1"):
+            with self.subTest(base=base), self.assertRaises(ValueError):
+                NemotronClient(api_key="synthetic", base_url=base).complete("public")
+        transport.assert_not_called()
 
-        client = NemotronClient(api_key="fake-key")
-        result = client.analyze_image(
-            image_url="https://example.com/qr.png",
-            prompt="Extract proxy URI from this QR code"
-        )
-        self.assertIn("vless://", result)
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_image_reuse_only_after_success_and_never_send_unchecked_url(self, transport, _clock):
+        client = self.client(limit=4)
+        transport.side_effect = [(200, IMAGE), completion(URI), (200, IMAGE)]
+        self.assertIn("vless://", client.analyze_image("https://cdn.telegram.org/public.png"))
+        self.assertIn("vless://", client.analyze_image("https://cdn.telegram.org/other.png"))
+        self.assertEqual(client.api_requests_count, 1)
+        payload = json.loads(transport.call_args_list[1].kwargs["data"])
+        image = payload["messages"][1]["content"][1]["image_url"]["url"]
+        self.assertEqual(image, "data:image/png;base64," + base64.b64encode(IMAGE).decode())
+        transport.side_effect = NetworkError("download failed")
+        self.assertEqual(client.analyze_image("https://cdn.telegram.org/failure.png"), "")
+        self.assertEqual(client.api_requests_count, 1)
 
-    def test_missing_api_key_raises_or_returns_fallback(self):
-        with patch.dict(os.environ, {}, clear=True):
-            client = NemotronClient(api_key=None)
-            self.assertFalse(client.is_available())
-            self.assertEqual(client.complete("hello"), "")
-            self.assertIsNone(client.complete_json("hello"))
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_image_failed_analysis_is_retryable(self, transport, _clock):
+        client = self.client(limit=2)
+        transport.side_effect = [(200, IMAGE), completion(""), (200, IMAGE), completion(URI)]
+        self.assertEqual(client.analyze_image("https://cdn.telegram.org/public.png"), "")
+        self.assertIn("vless://", client.analyze_image("https://cdn.telegram.org/public.png"))
+        self.assertEqual(client.api_requests_count, 2)
+        self.assertLessEqual(len(client.image_results), 400)
+
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"not an image"))
+    def test_unknown_image_format_is_not_forwarded(self, transport):
+        self.assertEqual(_download_image_as_data_uri("https://cdn.telegram.org/public.png"), "")
+        self.assertEqual(transport.call_args.kwargs["max_bytes"], 2 * 1024 * 1024)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=completion("success"))
+    def test_pacing_expiry_after_success_is_normal_budget_stop(self, transport, sleep, _clock):
+        client = self.client(seconds=1)
+        client.min_request_interval = 2
+        self.assertEqual(client.complete("first"), "success")
+        with self.assertRaises(DiscoveryBudgetExceeded):
+            client.complete("second")
+        self.assertEqual(client.api_requests_count, 1)
+        sleep.assert_not_called()
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_successful_no_configs_image_remembered_without_raw_response(self, transport, _clock):
+        client = self.client(limit=2)
+        transport.side_effect = [(200, IMAGE), completion("No configs in PUBLIC image"), (200, IMAGE)]
+        client.analyze_image("https://cdn.telegram.org/public.png")
+        self.assertEqual(client.analyze_image("https://cdn.telegram.org/public.png"), "")
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.state["image_results"] = client.image_results
+        manager.save()
+        self.assertEqual(client.api_requests_count, 1)
+        self.assertNotIn("No configs", (self.root / "state.json").read_text())
+
+    def test_missing_key_is_offline(self):
+        client = NemotronClient(api_key="")
+        self.assertFalse(client.is_available())
+        self.assertEqual(client.complete("hello"), "")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=completion("last permitted"))
+    def test_explicit_positive_budget_is_exact_not_default_quick_ceiling(self, transport, _clock):
+        client = self.client(limit=501)
+        client.api_requests_count = 500
+        self.assertEqual(client.complete("last permitted"), "last permitted")
+        self.assertEqual(client.api_requests_count, 501)
+        with self.assertRaises(DiscoveryBudgetExceeded):
+            client.complete("over cap")
+        self.assertEqual(transport.call_count, 1)
 
 
 class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
-    def setUp(self):
-        super().setUp()
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.test_state_file = Path(temporary.name) / "state.json"
-
-    def test_load_and_save_state(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        state = manager.get_state()
-        self.assertEqual(state["visited_channels"], [])
-        self.assertEqual(state["candidate_queue"], [])
-
-        # Add visited and candidates
-        manager.add_candidates(["@chan1", "@chan2", "https://t.me/s/chan3"])
-        manager.record_visited("@chan1", nodes_found=15, is_active=True)
+    def test_valid_state_priority_and_roundtrip(self):
+        path = self.root / "state.json"
+        manager = DiscoveryStateManager(str(path))
+        manager.add_candidates(["@chanA", "chanB", "https://t.me/s/chanC"])
+        manager.add_candidates(["chanB"])
+        self.assertEqual(manager.pop_next_candidates(1), ["chanb"])
+        manager.record_visited("chana", 3, True, oldest_post_id=100)
+        manager.record_visited_url("https://example.com/readme.md")
         manager.save()
+        loaded = DiscoveryStateManager(str(path))
+        self.assertEqual(loaded.get_channel_oldest_post_id("chana"), 100)
+        self.assertEqual(loaded.get_top_active_handles(), ["chana"])
+        self.assertTrue(loaded.is_url_visited("https://example.com/readme.md"))
 
-        # Reload from disk
-        manager2 = DiscoveryStateManager(state_file=str(self.test_state_file))
-        state2 = manager2.get_state()
-        self.assertIn("chan1", state2["visited_channels"])
-        self.assertIn("chan2", state2["candidate_queue"])
-        self.assertIn("chan3", state2["candidate_queue"])
-        self.assertNotIn("chan1", state2["candidate_queue"])  # Already visited
+    def test_complete_handle_validation(self):
+        for raw in ("abc?SECRET=1", "abc garbage", "https://evil.example/chan", "https://u:SECRET@t.me/chan", "a" * 33, "https://t.me/chan?token=SECRET"):
+            with self.subTest(raw=raw):
+                self.assertEqual(normalize_channel_handle(raw), "")
+        self.assertEqual(normalize_channel_handle("https://t.me/s/ProxyChan/123"), "proxychan")
 
-    def test_candidate_queue_priority(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        # Adding same candidate multiple times increases cross-reference count / priority
-        manager.add_candidates(["chanA", "chanB"])
-        manager.add_candidates(["chanB", "chanC"])
-        next_batch = manager.pop_next_candidates(limit=2)
-        # chanb has 2 mentions, so it should be prioritized first
-        self.assertEqual(next_batch[0], "chanb")
+    def test_corrupt_state_preserved_and_rejected(self):
+        path = self.root / "state.json"
+        for data in ("{bad", '[]', '{"candidate_queue":"not a list"}', '{"candidate_scores":{"chan":true}}', '{"sources_metadata":{"chan":{"is_active":"yes"}}}', '{"sources_metadata":{"chan":{}}}', '{"visited_urls":["https://u:SECRET@example.com/sub"]}', '{"candidate_queue":["chan?SECRET"]}', '{"raw_response":"SECRET"}'):
+            with self.subTest(data=data):
+                path.write_text(data, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    DiscoveryStateManager(str(path))
+                self.assertEqual(path.read_text(encoding="utf-8"), data)
 
-    def test_generate_markdown_leaderboard(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        manager.record_visited("TopChannel", nodes_found=42, is_active=True, sub_url="https://t.me/s/TopChannel")
-        manager.record_visited("DeadChannel", nodes_found=0, is_active=False)
-        md = manager.generate_leaderboard_markdown()
-        self.assertIn("TopChannel", md)
-        self.assertIn("42", md)
-        self.assertIn("Autonomous Subscription Discovery Leaderboard", md)
+    def test_failed_replace_preserves_old_state_and_propagates(self):
+        path = self.root / "state.json"
+        manager = DiscoveryStateManager(str(path))
+        manager.add_candidates(["proxychan"])
+        manager.save()
+        old = path.read_bytes()
+        with patch("pathlib.Path.replace", side_effect=OSError("synthetic failure")), self.assertRaises(OSError):
+            manager.save()
+        self.assertEqual(path.read_bytes(), old)
+        self.assertEqual(list(self.root.glob("*.tmp")), [])
+
+    def test_pagination_can_wrap(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        for post in (90, 1, 100):
+            manager.record_visited("proxychan", 5, True, oldest_post_id=post)
+        self.assertEqual(manager.get_channel_oldest_post_id("proxychan"), 100)
+
+    def test_loaded_metadata_requires_complete_matching_telegram_handle(self):
+        path = self.root / "state.json"
+        manager = DiscoveryStateManager(str(path))
+        manager.record_visited("proxychan", 1, True)
+        manager.state["sources_metadata"]["proxychan"]["handle"] = "proxychan/extra"
+        raw = json.dumps(manager.state)
+        path.write_text(raw, encoding="utf-8")
+        with self.assertRaises(ValueError):
+            DiscoveryStateManager(str(path))
+        self.assertEqual(path.read_text(), raw)
 
 
-class TestTelegramChannelScraper(OfflineDiscoveryTestCase):
-    def test_parse_channel_page_extracts_uris_and_sister_channels(self):
-        sample_html = """
-        <div class="tgme_channel_info_description">Official proxy configs. Sister channel: @SisterProxy and join https://t.me/AnotherV2ray. Sub: https://raw.githubusercontent.com/user/repo/main/sub.txt</div>
-        <div class="tgme_widget_message" data-post="sample_chan/100">
-            <div class="tgme_widget_message_text">
-                New high-speed nodes:<br>
-                vless://11111111-2222-3333-4444-555555555555@example.com:443?type=tcp&security=reality#US-Fast<br>
-                vmess://eyJhZGQiOiIxLjEuMS4xIiwicG9ydCI6NDQzLCJpZCI6IjExMTExMTExLTIyMjItMzMzMy00NDQ0LTU1NTU1NTU1NTU1NSIsInBzIjoiRGVtb1ZtZXNzIn0=
-                Forwarded from @V2rayBest
-            </div>
-            <a class="tgme_widget_message_photo_wrap" style="background-image:url('https://cdn.telegram.org/file/qr123.jpg')"></a>
-        </div>
-        <div class="tgme_widget_message" data-post="sample_chan/99">
-            <div class="tgme_widget_message_text">
-                Check our second sub: https://sub.v2ray.io/all.txt
-            </div>
-        </div>
-        """
+class TestScrapers(OfflineDiscoveryTestCase):
+    def test_full_links_handles_and_duplicate_readme_links(self):
+        result = TelegramChannelScraper().parse_channel_page('<div data-post="proxychan/100">' + URI + ' https://example.com/sub.txt?token=SECRET https://raw.githubusercontent.com/user/repo/main/sub.txt @' + 'a' * 33 + ' @SisterProxy</div>')
+        self.assertEqual(result.oldest_post_id, 100)
+        self.assertEqual(result.discovered_channels, ["sisterproxy"])
+        self.assertEqual(result.sub_urls, ["https://raw.githubusercontent.com/user/repo/main/sub.txt"])
+        self.assertEqual(result.proxy_uris, [URI])
+        channels, urls = WebSearchScraper().parse_duckduckgo_html('<a href="https://u:SECRET@example.com/sub.txt">x</a><a href="https://127.0.0.1/sub.txt">x</a><a href="https://github.com/public/repo">x</a><a href="https://github.com/public/repo">x</a><a href="https://t.me/s/SisterProxy">x</a>')
+        self.assertEqual(channels, ["sisterproxy"])
+        self.assertEqual(urls, ["https://github.com/public/repo"])
+
+    @patch("src.discovery.search_engine.fetch_bytes", create=True, return_value=(200, b"public"))
+    def test_scraper_deadline_and_cap_reach_transport(self, transport):
         scraper = TelegramChannelScraper()
-        result = scraper.parse_channel_page(sample_html, current_channel="sample_chan")
+        scraper.deadline = 5
+        self.assertEqual(scraper.fetch_channel_page("proxychan"), "public")
+        self.assertEqual(transport.call_args.kwargs["deadline"], 5)
+        self.assertEqual(transport.call_args.kwargs["max_bytes"], 32 * 1024 * 1024)
 
-        # Proxy URIs found
-        self.assertEqual(len(result.proxy_uris), 2)
-        self.assertTrue(any("vless://" in u for u in result.proxy_uris))
-        self.assertTrue(any("vmess://" in u for u in result.proxy_uris))
+    @patch("src.discovery.search_engine.fetch_bytes", create=True)
+    def test_retryable_vs_confirmed_dead(self, transport):
+        scraper = TelegramChannelScraper()
+        transport.side_effect = NetworkError("SECRET")
+        self.assertIsNone(scraper.fetch_channel_page("proxychan"))
+        self.assertEqual(scraper.last_outcome, "retryable")
+        transport.side_effect = None
+        transport.return_value = (404, b"SECRET")
+        self.assertIsNone(scraper.fetch_channel_page("proxychan"))
+        self.assertEqual(scraper.last_outcome, "dead")
 
-        # External subscription URLs
-        self.assertIn("https://raw.githubusercontent.com/user/repo/main/sub.txt", result.sub_urls)
-        self.assertIn("https://sub.v2ray.io/all.txt", result.sub_urls)
-
-        # Discovered sister channels
-        self.assertIn("sisterproxy", result.discovered_channels)
-        self.assertIn("anotherv2ray", result.discovered_channels)
-        self.assertIn("v2raybest", result.discovered_channels)
-
-        # Image URLs
-        self.assertIn("https://cdn.telegram.org/file/qr123.jpg", result.image_urls)
-
-        # Pagination ID (min post id is 99)
-        self.assertEqual(result.oldest_post_id, 99)
-
-
-class TestWebSearchScraper(OfflineDiscoveryTestCase):
-    def test_parse_duckduckgo_results(self):
-        sample_ddg_html = """
-        <div class="result results_links results_links_deep web-result">
-            <a class="result__url" href="https://t.me/s/v2ray_free_configs">t.me/s/v2ray_free_configs</a>
-            <a class="result__snippet">Telegram channel with free vless and vmess configs.</a>
-        </div>
-        <div class="result results_links results_links_deep web-result">
-            <a class="result__url" href="https://github.com/free-v2ray/subscription">github.com/free-v2ray/subscription</a>
-            <a class="result__snippet">Raw subscription aggregator updated hourly.</a>
-        </div>
-        """
-        scraper = WebSearchScraper()
-        channels, urls = scraper.parse_duckduckgo_html(sample_ddg_html)
-        self.assertIn("v2ray_free_configs", channels)
-        self.assertTrue(any("github.com/free-v2ray" in u for u in urls))
+    @patch("src.discovery.search_engine.fetch_bytes", create=True, return_value=(200, b'{"items":[]}'))
+    def test_public_github_search_never_uses_ambient_credentials(self, transport):
+        with patch.dict(os.environ, {"GITHUB_TOKEN": "SECRET"}):
+            self.assertEqual(WebSearchScraper().search_github("public"), [])
+        self.assertNotIn("Authorization", transport.call_args.kwargs["headers"])
 
 
 class TestDiscoveryAgent(OfflineDiscoveryTestCase):
-    def setUp(self):
-        super().setUp()
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
-        previous_cwd = Path.cwd()
-        # The agent's public-source and OCR paths are cwd-relative.
-        os.chdir(self.root)
-        self.addCleanup(os.chdir, previous_cwd)
-        (self.root / "data").mkdir()
-        self.test_state_file = self.root / "data" / "state.json"
-        self.test_discovered_file = self.root / "sources.discovered.json"
-        self.test_leaderboard_file = self.root / "DISCOVERY.md"
-        self.test_sources_file = self.root / "sources.json"
-        self.test_sources_file.write_text(json.dumps({
-            "sources": [{
-                "id": "fixture-public", "name": "Fixture Public",
-                "url": "https://example.com/sub.txt", "format": "auto", "enabled": True,
-            }]
-        }), encoding="utf-8")
+    def agent(self, seeds=None, key=""):
+        return DiscoveryAgent(state_file=str(self.root / "data/state.json"), discovered_sources_file=str(self.root / "sources.discovered.json"), leaderboard_file=str(self.root / "DISCOVERY.md"), initial_seeds=seeds or [], nemotron_client=NemotronClient(api_key=key))
 
-    @patch("src.discovery.search_engine.WebSearchScraper.search_github", return_value=[])
-    @patch("src.discovery.search_engine.WebSearchScraper.search_duckduckgo", return_value=([], []))
-    @patch("src.discovery.search_engine.TelegramChannelScraper.fetch_channel_page")
-    def test_discovery_agent_run_cycle(self, mock_fetch, _mock_ddg, _mock_gh):
-        # Mock telegram page returning a valid node and a sister channel
-        mock_fetch.return_value = """
-        <div class="tgme_channel_info_description">Check sister @NewChan</div>
-        <div class="tgme_widget_message" data-post="mockchan/1">
-            <div class="tgme_widget_message_text">
-                vless://11111111-2222-3333-4444-555555555555@1.2.3.4:443?type=tcp&security=reality#MockNode
-            </div>
-        </div>
-        """
-        agent = DiscoveryAgent(
-            state_file=str(self.test_state_file),
-            discovered_sources_file=str(self.test_discovered_file),
-            leaderboard_file=str(self.test_leaderboard_file),
-            initial_seeds=["mockchan"],
-            nemotron_client=NemotronClient(api_key=""),
-        )
+    @contextmanager
+    def crawl(self, agent, pages=PAGE):
+        with patch.object(agent, "_expand_queries_via_nemotron"), patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=pages if isinstance(pages, list) else None, return_value=pages) as fetch:
+            yield fetch
 
-        discovered = agent.run_cycle(max_channels=1, max_time_seconds=10)
-        self.assertEqual(len(discovered), 1)
-        self.assertEqual(discovered[0]["id"], "tg-mockchan")
-        self.assertTrue(self.test_discovered_file.exists())
-        self.assertTrue(self.test_leaderboard_file.exists())
+    def write_public(self, sources=None):
+        path = self.root / "sources.json"
+        path.write_text(json.dumps({"sources": sources or []}), encoding="utf-8")
+        return str(path)
 
-        # Verify sister channel @NewChan got added to candidate queue
-        state = agent.state_manager.get_state()
-        self.assertIn("newchan", state["candidate_queue"])
-        self.assertIn("mockchan", state["visited_channels"])
+    def test_cycle_retains_deep_configs_and_aggregation_sees_complete_semantics(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent, ['<div data-post="proxychan/100">none</div>', '<div data-post="proxychan/90">' + URI + '</div>']):
+            sources = agent.run_cycle(max_channels=1)
+        self.assertEqual({s["id"] for s in sources}, {"tg-proxychan", "nemotron-vision-ocr"})
+        cache = next(s for s in load_sources(discovered_sources_path="sources.discovered.json", sources_path=self.write_public()) if s.url == "data/discovered_ocr_configs.txt")
+        nodes, _, stats = fetch_source(cache)
+        self.assertTrue(stats.success)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0].params["path"], ["/first", "/second"])
+        self.assertIn("retained", cache.name.lower())
 
-    def test_load_sources_merges_discovered_sources(self):
-        # Write dummy discovered sources
-        self.test_discovered_file.write_text(json.dumps({
-            "sources": [
-                {
-                    "id": "tg-autodiscovered",
-                    "name": "Auto Discovered Telegram",
-                    "url": "https://t.me/s/autodiscovered",
-                    "format": "telegram_web",
-                    "tags": ["auto-discovered", "telegram"],
-                    "enabled": True
-                }
-            ]
-        }, indent=2), encoding="utf-8")
+    def test_zero_limits_do_no_work_negative_invalid_default_quick_cap(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent) as fetch:
+            agent.run_cycle(max_channels=0)
+            agent.run_cycle(max_time_seconds=0)
+            fetch.assert_not_called()
+        for kwargs in ({"max_channels": -1}, {"max_time_seconds": -1}, {"max_api_requests": -1}):
+            with self.assertRaises(ValueError):
+                agent.run_cycle(**kwargs)
+        with self.crawl(agent):
+            agent.run_cycle(max_channels=1, max_api_requests=0)
+        self.assertEqual(agent.nemotron._max_attempts, 500)
 
-        sources = load_sources(
-            sources_path=str(self.test_sources_file),
-            discovered_sources_path=str(self.test_discovered_file),
-        )
-        discovered_item = next((s for s in sources if s.id == "tg-autodiscovered"), None)
-        self.assertIsNotNone(discovered_item)
-        self.assertIn("auto-discovered", discovered_item.tags)
+    def test_extended_mode_still_obeys_channel_cap_and_no_budget_exhaustion_calls(self):
+        agent = self.agent(["proxyone", "proxytwo"], key="synthetic")
+        with self.crawl(agent) as fetch:
+            agent.run_cycle(max_channels=1, max_api_requests=500)
+        self.assertEqual(fetch.call_count, 1)
+        self.assertEqual(agent.nemotron.api_requests_count, 0)
+        self.assertIn("proxytwo", agent.state_manager.state["candidate_queue"])
 
-    def test_record_external_source_in_leaderboard(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        manager.record_external_source("gh-1234", "gh:user/repo", 120, "https://raw.githubusercontent.com/user/repo/main/sub.txt")
-        md = manager.generate_leaderboard_markdown()
-        self.assertIn("`gh:user/repo`", md)
-        self.assertIn("120", md)
+    @patch("src.discovery.agent.time.monotonic")
+    def test_deadline_covers_partial_dequeue(self, clock):
+        clock.return_value = 0
+        agent = self.agent(["proxyone", "proxytwo", "proxythree"])
+        def page(*args, **kwargs):
+            clock.return_value = 10
+            return PAGE
+        with self.crawl(agent) as fetch:
+            fetch.side_effect = page
+            agent.run_cycle(max_channels=3, max_time_seconds=10)
+        self.assertEqual(fetch.call_count, 1)
+        self.assertEqual(agent.state_manager.state["candidate_queue"], ["proxyone", "proxytwo", "proxythree"])
+        self.assertNotIn("proxyone", agent.state_manager.state["visited_channels"])
 
-    def test_load_local_dotenv(self):
-        from src.discovery.agent import load_local_dotenv
-        temp_env = self.root / "data" / "test_dot_env"
-        temp_env.write_text('TEST_NVAPI_DUMMY="nvapi-123456"\n# comment\n', encoding="utf-8")
-        with patch.dict(os.environ, {}, clear=True):
-            load_local_dotenv(str(temp_env))
-            self.assertEqual(os.environ.get("TEST_NVAPI_DUMMY"), "nvapi-123456")
+    def test_exception_after_dequeue_restores_unfinished_suffix(self):
+        agent = self.agent(["proxyone", "proxytwo", "proxythree"])
+        with self.crawl(agent, [PAGE, RuntimeError("synthetic cancellation")]), self.assertRaises(RuntimeError):
+            agent.run_cycle(max_channels=3)
+        expected = ["proxytwo", "proxythree", "newchan"]
+        self.assertEqual(agent.state_manager.state["candidate_queue"], expected)
+        self.assertIn("proxyone", agent.state_manager.state["visited_channels"])
+        self.assertEqual(json.loads((self.root / "data/state.json").read_text())["candidate_queue"], expected)
 
-    def test_state_filters_spam_and_tracks_api_usage(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        manager.add_candidates(["stickers", "cuddlyturtler2_2026", "vless_free_iran", "randomchat"])
-        queue = manager.get_state()["candidate_queue"]
-        self.assertNotIn("stickers", queue)
-        self.assertNotIn("cuddlyturtler2_2026", queue)
-        self.assertEqual(queue[0], "vless_free_iran")
+    def test_timeout_then_success_across_cycles_and_confirmed_death(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent, None):
+            agent.run_cycle(max_channels=1)
+        self.assertNotIn("proxychan", agent.state_manager.state["visited_channels"])
+        self.assertIn("proxychan", agent.state_manager.state["candidate_queue"])
+        with self.crawl(agent):
+            agent.run_cycle(max_channels=1)
+        self.assertIn("proxychan", agent.state_manager.state["visited_channels"])
+        agent.tg_scraper.last_outcome = "dead"
+        agent.state_manager.restore_candidates(["proxychan"])
+        with self.crawl(agent, None):
+            sources = agent.run_cycle(max_channels=1)
+        self.assertNotIn("tg-proxychan", {s["id"] for s in sources})
+        self.assertFalse(agent.state_manager.state["sources_metadata"]["proxychan"]["is_active"])
 
-        manager.record_visited("vless_free_iran", nodes_found=25, is_active=True, sub_url="https://t.me/s/vless_free_iran")
-        manager.record_api_usage(500)
-        md = manager.generate_leaderboard_markdown()
-        self.assertIn("**500**", md)
-        self.assertEqual(manager.get_oldest_active_channels(limit=1), ["vless_free_iran"])
+    def test_corrupt_registries_or_cache_are_not_overwritten(self):
+        for filename, content in (("sources.discovered.json", '{"sources":"bad"}'), ("sources.json", '{bad'), ("sources.discovered.json", '{"sources":[{"id":"x","url":"https://u:SECRET@example.com/sub"}]}'), ("data/discovered_ocr_configs.txt", "not a valid retained config")):
+            with self.subTest(filename=filename):
+                path = self.root / filename
+                path.write_text(content, encoding="utf-8")
+                agent = self.agent()
+                with self.crawl(agent), self.assertRaises(ValueError):
+                    agent.run_cycle(max_channels=0)
+                self.assertEqual(path.read_text(encoding="utf-8"), content)
+                path.unlink()
 
-    @patch("urllib.request.urlopen")
-    def test_download_image_as_data_uri_base64(self, mock_urlopen):
-        from src.discovery.nemotron_client import _download_image_as_data_uri
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = b"\x89PNG\r\n\x1a\nFAKE_PNG_DATA"
-        mock_urlopen.return_value.__enter__.return_value = mock_resp
+    def test_checkpoint_failure_propagates_preserving_old_output(self):
+        agent = self.agent(["proxychan"])
+        registry = self.root / "sources.discovered.json"
+        registry.write_text('{"sources": []}', encoding="utf-8")
+        with self.crawl(agent), patch("src.discovery.agent.atomic_write_text", create=True, side_effect=OSError("synthetic failure")), self.assertRaises(OSError):
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(registry.read_text(encoding="utf-8"), '{"sources": []}')
 
-        uri = _download_image_as_data_uri("https://cdn.telegram.org/file/test.png")
-        self.assertTrue(uri.startswith("data:image/png;base64,"))
+    def test_unsafe_urls_never_probed_or_persisted_and_new_urls_deduplicate(self):
+        agent = self.agent(["proxychan"])
+        page = PAGE + ' https://u:SECRET@example.com/sub.txt https://127.0.0.1/sub.txt https://example.com/sub.txt?token=SECRET https://raw.githubusercontent.com/user/repo/main/sub.txt https://raw.githubusercontent.com/user/repo/main/sub.txt'
+        with self.crawl(agent, page), patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())) as probe:
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(probe.call_count, 1)
+        for path in (self.root / "data/state.json", self.root / "sources.discovered.json", self.root / "DISCOVERY.md"):
+            self.assertNotIn("SECRET", path.read_text(encoding="utf-8"))
+            self.assertNotIn("127.0.0.1", path.read_text(encoding="utf-8"))
 
-    @patch("src.discovery.search_engine.WebSearchScraper.search_github_readmes", return_value=[])
-    @patch("src.discovery.search_engine.WebSearchScraper.search_github", return_value=[])
-    @patch("src.discovery.search_engine.WebSearchScraper.search_duckduckgo", return_value=([], []))
-    @patch("src.discovery.search_engine.TelegramChannelScraper.fetch_channel_page")
-    @patch("src.discovery.nemotron_client.NemotronClient.complete_json")
-    def test_extended_mode_respects_max_api_requests(
-        self, mock_complete_json, mock_tg_fetch, _mock_ddg, _mock_gh, _mock_readmes
-    ):
-        def fake_json(*args, **kwargs):
-            client.api_requests_count += 1
-            return {"web_queries": ["site:t.me vless"], "github_queries": []}
+    def test_existing_and_curated_urls_deduplicate(self):
+        row = {"id": "public", "name": "Public", "url": "https://t.me/s/proxychan", "format": "telegram_web"}
+        self.write_public([row])
+        (self.root / "sources.discovered.json").write_text(json.dumps({"sources": [dict(row, id="duplicate"), dict(row, id="other")]}), encoding="utf-8")
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent):
+            sources = agent.run_cycle(max_channels=1)
+        self.assertEqual(sum(s["url"] == row["url"] for s in sources), 0)
 
-        mock_complete_json.side_effect = fake_json
-        mock_tg_fetch.return_value = """
-        <div class="tgme_widget_message" data-post="mockext/1">
-            <div class="tgme_widget_message_text">
-                vless://11111111-2222-3333-4444-555555555555@1.2.3.4:443?security=reality#ExtNode
-            </div>
-        </div>
-        """
+    @patch("src.discovery.agent.time.monotonic")
+    @patch("src.discovery.search_engine.fetch_bytes", create=True)
+    def test_expansion_stops_when_search_consumes_deadline(self, transport, clock):
+        clock.return_value = 0
+        def search(*args, **kwargs):
+            clock.return_value = 10
+            return 200, b'<a href="https://raw.githubusercontent.com/user/repo/main/sub.txt">public</a>'
+        transport.side_effect = search
+        agent = self.agent(["proxychan"])
+        sources = agent.run_cycle(max_time_seconds=10)
+        self.assertEqual(transport.call_count, 1)
+        self.assertEqual(sources, [])
+        self.assertEqual(transport.call_args.kwargs["deadline"], 10)
 
-        client = NemotronClient(api_key="fake-nvapi-key")
-        agent = DiscoveryAgent(
-            state_file=str(self.test_state_file),
-            discovered_sources_file=str(self.test_discovered_file),
-            leaderboard_file=str(self.test_leaderboard_file),
-            initial_seeds=["mockext"],
-            nemotron_client=client,
-        )
-        discovered = agent.run_cycle(max_channels=50, max_time_seconds=30, max_api_requests=3)
-        self.assertGreaterEqual(client.api_requests_count, 1)
-        self.assertLessEqual(client.api_requests_count, 4)
-        self.assertEqual(len(discovered), 1)
+    def test_retryable_probe_is_not_marked_visited(self):
+        agent = self.agent(["proxychan"])
+        page = PAGE + ' https://raw.githubusercontent.com/user/repo/main/sub.txt'
+        with self.crawl(agent, page), patch("src.discovery.agent.fetch_bytes", create=True, side_effect=NetworkError("synthetic")):
+            agent.run_cycle(max_channels=1)
+        self.assertFalse(agent.state_manager.is_url_visited("https://raw.githubusercontent.com/user/repo/main/sub.txt"))
 
-    def test_incremental_state_persists_across_runs(self):
-        manager = DiscoveryStateManager(state_file=str(self.test_state_file))
-        manager.record_visited("active_tg", nodes_found=50, is_active=True, oldest_post_id=420)
-        manager.record_visited_url("https://example.com/readme.md")
-        manager.record_rejected_channels(["spam_bot"])
-        manager.save()
+    def test_dotenv_fixture_is_explicit_and_does_not_override(self):
+        path = self.root / "synthetic.env"
+        path.write_text('TEST_DUMMY="synthetic"\n', encoding="utf-8")
+        load_local_dotenv(str(path))
+        self.assertEqual(os.environ["TEST_DUMMY"], "synthetic")
 
-        # Reload on next run
-        reloaded = DiscoveryStateManager(state_file=str(self.test_state_file))
-        self.assertTrue(reloaded.is_url_visited("https://example.com/readme.md"))
-        self.assertEqual(reloaded.get_channel_oldest_post_id("active_tg"), 420)
-        self.assertEqual(reloaded.get_top_active_handles(limit=1), ["active_tg"])
-        reloaded.add_candidates(["spam_bot", "new_vless_sub"])
-        self.assertNotIn("spam_bot", reloaded.get_state()["candidate_queue"])
-        self.assertIn("new_vless_sub", reloaded.get_state()["candidate_queue"])
+    @patch("src.discovery.search_engine.fetch_bytes", create=True)
+    def test_webpage_retains_full_config_not_truncated_prompt_snippet(self, transport):
+        agent = self.agent()
+        # The snippet cuts a valid URI before its second path, but retention must not.
+        padding = "public text " * 373
+        transport.return_value = (200, (padding + URI).encode())
+        discovered = {}
+        agent._analyze_webpage_via_nemotron("https://github.com/public/repo", discovered, set())
+        self.assertEqual(len(agent._retained), 1)
+        node = parse_proxy_uri(next(iter(agent._retained.values())))
+        self.assertEqual(node.params["path"], ["/first", "/second"])
 
+    def test_existing_source_confirmed_dead_and_retryable_retained(self):
+        row = {"id": "sub-old", "name": "Public", "url": "https://example.com/sub.txt"}
+        path = self.root / "sources.discovered.json"
+        path.write_text(json.dumps({"sources": [row]}), encoding="utf-8")
+        agent = self.agent()
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")):
+            self.assertEqual([s["id"] for s in agent.run_cycle(max_channels=1)], ["sub-old"])
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", return_value=(410, b"")):
+            self.assertEqual(agent.run_cycle(max_channels=1), [])
 
-class TestDiscoveryFixtureSafety(unittest.TestCase):
-    def setUp(self):
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
-        previous_cwd = Path.cwd()
-        os.chdir(self.root)
-        self.addCleanup(os.chdir, previous_cwd)
-        (self.root / "data").mkdir()
+    def test_checkpoint_state_failure_never_returns_success(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent), patch.object(agent.state_manager, "save", side_effect=OSError("synthetic failure")), self.assertRaises(OSError):
+            agent.run_cycle(max_channels=1)
 
-    def test_ambient_api_key_never_causes_network(self):
-        case = TestDiscoveryAgent("test_discovery_agent_run_cycle")
-        self.addCleanup(case.doCleanups)
-        case.setUp()
-        with patch.dict(os.environ, {"NVIDIA_API_KEY": "synthetic-ambient-key"}, clear=True), patch(
-            "urllib.request.urlopen"
-        ) as transport, patch(
-            "urllib.request.OpenerDirector.open", side_effect=AssertionError("unexpected direct request")
-        ) as direct_transport:
-            response = transport.return_value.__enter__.return_value
-            response.read.return_value = b'{"choices":[{"message":{"role":"assistant","content":"{}"}}]}'
-            case.test_discovery_agent_run_cycle()
-            self.assertEqual(transport.call_count + direct_transport.call_count, 0)
+    @patch("src.discovery.agent.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b"SECRET"))
+    def test_initial_expansion_real_api_failure_propagates_and_stays_counted(self, transport, _clock):
+        agent = self.agent(["proxychan"], key="synthetic")
+        with self.assertRaises(RuntimeError):
+            agent.run_cycle(max_api_requests=1)
+        self.assertEqual(agent.nemotron.api_requests_count, 1)
+        self.assertEqual(transport.call_count, 1)
+        self.assertEqual(agent.state_manager.state["candidate_queue"], ["proxychan"])
 
-    def test_fixtures_leave_existing_files_unchanged(self):
-        sentinels = {
-            "data/test_discovery_state.json": b"state sentinel\x00",
-            "data/test_agent_state.json": b"agent sentinel\x00",
-            "test_sources.discovered.json": b"sources sentinel\x00",
-            "test_DISCOVERY.md": b"leaderboard sentinel\x00",
-            "data/test_dot_env": b"dotenv fixture sentinel\x00",
-            "data/discovered_ocr_configs.txt": b"vless://fixture-uuid@192.0.2.10:443?security=tls#Private-sentinel\n",
-            "sources.json": b'{"sources": []}',
-            ".env": b"TEST_NVAPI_DUMMY=existing-user-value\n",
-        }
-        for name, content in sentinels.items():
-            (self.root / name).write_bytes(content)
-        suite = unittest.TestSuite([
-            TestDiscoveryStateManager("test_load_and_save_state"),
-            TestDiscoveryAgent("test_discovery_agent_run_cycle"),
-            TestDiscoveryAgent("test_load_local_dotenv"),
-        ])
-        result = unittest.TestResult()
-        suite.run(result)
-        self.assertTrue(result.wasSuccessful(), result.errors + result.failures)
-        for name, content in sentinels.items():
-            with self.subTest(path=name):
-                path = self.root / name
-                self.assertTrue(path.is_file(), "fixture deleted an existing file")
-                self.assertEqual(path.read_bytes(), content)
+    def test_retained_cache_and_image_records_are_bounded(self):
+        agent = self.agent()
+        text = "\n".join(URI.replace("example.com", f"public{i}.example.com") for i in range(401))
+        refs = agent._retain(text, "https://t.me/s/proxychan")
+        self.assertEqual(len(refs), 400)
+        self.assertEqual(len(agent._retained), 400)
+        agent._save_checkpoint({}, [])
+        self.assertEqual(len((self.root / "data/discovered_ocr_configs.txt").read_text().splitlines()), 400)
+
+    def test_pagination_history_advances_then_wraps_latest(self):
+        agent = self.agent(["proxychan"])
+        pages = ['<div data-post="proxychan/100">' + URI + '</div>', '<div data-post="proxychan/90">' + URI + '</div>']
+        with self.crawl(agent, pages) as fetch:
+            agent.run_cycle(max_channels=1)
+        self.assertEqual([call.kwargs["before_id"] for call in fetch.call_args_list], [None, 100])
+        with self.crawl(agent, ['<div data-post="proxychan/80">' + URI + '</div>', '<div data-post="proxychan/1">' + URI + '</div>']) as fetch:
+            agent.run_cycle(max_channels=1)
+        self.assertEqual([call.kwargs["before_id"] for call in fetch.call_args_list], [90, 80])
+        with self.crawl(agent) as fetch:
+            agent.run_cycle(max_channels=1)
+        self.assertIsNone(fetch.call_args.kwargs["before_id"])
+
+    def test_retryable_deep_page_preserves_candidate_and_cursor(self):
+        agent = self.agent(["proxychan", "proxytwo"])
+        with self.crawl(agent, ['<div data-post="proxychan/100">' + URI + '</div>', None, PAGE]):
+            agent.run_cycle(max_channels=2)
+        self.assertIn("proxychan", agent.state_manager.state["candidate_queue"])
+        self.assertNotIn("proxychan", agent.state_manager.state["visited_channels"])
+        self.assertIsNone(agent.state_manager.get_channel_oldest_post_id("proxychan"))
+
+    def test_private_cache_redirection_rejected_before_read(self):
+        agent = self.agent()
+        sentinel = self.root / "synthetic-private.txt"
+        sentinel.write_text("PRIVATE_SENTINEL", encoding="utf-8")
+        with patch("pathlib.Path.resolve", return_value=sentinel), self.assertRaises(ValueError):
+            agent.run_cycle(max_channels=0)
+        self.assertEqual(sentinel.read_text(), "PRIVATE_SENTINEL")
+
+    def test_conflicting_registry_ids_rejected_without_loss(self):
+        path = self.root / "sources.discovered.json"
+        data = json.dumps({"sources": [{"id": "same", "url": "https://example.com/one.txt"}, {"id": "same", "url": "https://example.com/two.txt"}]})
+        path.write_text(data, encoding="utf-8")
+        agent = self.agent()
+        with self.crawl(agent), self.assertRaises(ValueError):
+            agent.run_cycle(max_channels=0)
+        self.assertEqual(path.read_text(), data)
+
+    def test_telegram_case_and_preview_aliases_deduplicate(self):
+        self.write_public([{"id": "public", "url": "https://www.t.me/ProxyChan"}])
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent):
+            sources = agent.run_cycle(max_channels=1)
+        self.assertNotIn("tg-proxychan", {source["id"] for source in sources})
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_image_success_cache_reused_across_cycles(self, transport, _clock):
+        agent = self.agent(["proxychan"], key="synthetic")
+        image_page = '<div data-post="proxychan/1"><img src="https://cdn.telegram.org/public.png"></div>'
+        transport.side_effect = [(200, IMAGE), completion(URI), (200, IMAGE)]
+        with self.crawl(agent, image_page):
+            agent.run_cycle(max_channels=1, max_api_requests=3)
+        reloaded = self.agent(key="synthetic")
+        with self.crawl(reloaded, image_page):
+            reloaded.run_cycle(max_channels=1, max_api_requests=3)
+        self.assertEqual(agent.nemotron.api_requests_count, 1)
+        self.assertEqual(reloaded.nemotron.api_requests_count, 0)
+        self.assertEqual(reloaded.state_manager.state["sources_metadata"]["proxychan"]["last_nodes_yield"], 1)
+
+    def test_filter_api_failure_restores_whole_dequeued_batch(self):
+        agent = self.agent(["chana", "chanb"], key="synthetic")
+        with self.crawl(agent), patch.object(agent.nemotron, "complete_json", side_effect=RuntimeError("synthetic cancellation")), self.assertRaises(RuntimeError):
+            agent.run_cycle(max_channels=2, max_api_requests=3)
+        self.assertEqual(agent.state_manager.state["candidate_queue"], ["chana", "chanb"])
+
+    def test_ambient_nvidia_key_and_existing_files_are_isolated(self):
+        sentinel = self.root / "data/existing-private-fixture.txt"
+        sentinel.write_bytes(b"SENTINEL")
+        agent = self.agent(["proxychan"])
+        with patch.dict(os.environ, {"NVIDIA_API_KEY": "SECRET", "GITHUB_TOKEN": "SECRET"}), self.crawl(agent):
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(agent.nemotron.api_requests_count, 0)
+        self.assertEqual(sentinel.read_bytes(), b"SENTINEL")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_retryable_image_download_keeps_channel_for_next_cycle(self, transport, _clock):
+        agent = self.agent(["proxychan"], key="synthetic")
+        page = '<div data-post="proxychan/1"><img src="https://cdn.telegram.org/public.png"></div>'
+        transport.side_effect = NetworkError("synthetic download failure")
+        with self.crawl(agent, page):
+            agent.run_cycle(max_channels=1, max_api_requests=3)
+        self.assertIn("proxychan", agent.state_manager.state["candidate_queue"])
+        self.assertNotIn("proxychan", agent.state_manager.state["visited_channels"])
+        transport.side_effect = [(200, IMAGE), completion(URI)]
+        with self.crawl(agent, page):
+            agent.run_cycle(max_channels=1, max_api_requests=3)
+        self.assertIn("proxychan", agent.state_manager.state["visited_channels"])
+
+    def test_retryable_subscription_only_channel_is_not_acknowledged(self):
+        agent = self.agent(["proxychan"])
+        page = '<div data-post="proxychan/1">https://example.com/sub.txt</div>'
+        with self.crawl(agent, page), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")):
+            agent.run_cycle(max_channels=1)
+        self.assertIn("proxychan", agent.state_manager.state["candidate_queue"])
+        self.assertNotIn("proxychan", agent.state_manager.state["visited_channels"])
+
+    def test_existing_external_refresh_rotates_beyond_first_five(self):
+        rows = [{"id": f"sub-{i}", "url": f"https://example.com/sub{i}.txt"} for i in range(6)]
+        (self.root / "sources.discovered.json").write_text(json.dumps({"sources": rows}), encoding="utf-8")
+        agent = self.agent()
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())):
+            agent.run_cycle(max_channels=1)
+        def response(url, **kwargs):
+            return (410, b"") if url.endswith("sub5.txt") else (200, URI.encode())
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", side_effect=response):
+            sources = agent.run_cycle(max_channels=1)
+        self.assertNotIn("sub-5", {s["id"] for s in sources})
+
+    def test_transport_rejected_loaded_source_preserves_registry(self):
+        path = self.root / "sources.discovered.json"
+        raw = '{"sources":[{"id":"unsafe-dns","url":"https://private-dns.example.com/sub.txt"}]}'
+        path.write_text(raw, encoding="utf-8")
+        agent = self.agent()
+        with self.crawl(agent), patch("src.discovery.agent.fetch_bytes", side_effect=ValueError("Non-public destination rejected")), self.assertRaises(ValueError):
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(path.read_text(), raw)
+        self.assertFalse((self.root / "data/state.json").exists())
+
+    def test_retained_cache_deduplicates_loaded_and_curated_rows(self):
+        (self.root / "data/discovered_ocr_configs.txt").write_text(URI + "\n", encoding="utf-8")
+        (self.root / "sources.discovered.json").write_text(json.dumps({"sources": [{"id": "existing-cache", "url": "data/discovered_ocr_configs.txt"}]}), encoding="utf-8")
+        sources = self.agent().run_cycle(max_channels=0)
+        self.assertEqual([s["id"] for s in sources], ["existing-cache"])
+        self.assertIn("retained", sources[0]["name"].lower())
+        self.write_public([{"id": "public-cache", "url": "data/discovered_ocr_configs.txt"}])
+        self.assertEqual(self.agent().run_cycle(max_channels=0), [])
 
 
 if __name__ == "__main__":

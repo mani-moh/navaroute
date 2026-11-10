@@ -1,14 +1,15 @@
 from __future__ import annotations
 
+import ipaddress
 import json
-import logging
-import os
 import re
 import time
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlsplit, urlunsplit
 
-logger = logging.getLogger(__name__)
+from src.models import SourceConfig
+from src.storage import atomic_write_text
 
 DEFAULT_STATE_FILE = "data/discovery_state.json"
 DEFAULT_DISCOVERY_SOURCES_FILE = "sources.discovered.json"
@@ -29,13 +30,142 @@ IGNORE_CHANNEL_HANDLES = {
 
 
 def normalize_channel_handle(raw_handle: str) -> str:
-    """Extracts a clean telegram channel username from URLs or @mentions."""
+    """Accept a complete username or public Telegram channel/post URL, never a prefix."""
+    if not isinstance(raw_handle, str):
+        return ""
     clean = raw_handle.strip()
-    clean = re.sub(r"^https?://(?:www\.)?t\.me/(?:s/)?", "", clean, flags=re.IGNORECASE)
-    clean = clean.lstrip("@").strip("/?#")
-    # Take first path component if subpaths exist (e.g. chan/123 -> chan)
-    clean = clean.split("/")[0]
-    return clean.lower()
+    if clean.startswith(("http://", "https://")):
+        try:
+            parsed = urlsplit(approved_public_url(clean))
+        except ValueError:
+            return ""
+        if parsed.hostname not in ("t.me", "www.t.me") or parsed.query:
+            return ""
+        match = re.fullmatch(r"/(?:s/)?([A-Za-z][A-Za-z0-9_]{2,31})(?:/[0-9]+)?/?", parsed.path)
+        clean = match[1] if match else ""
+    else:
+        clean = clean.removeprefix("@")
+    return clean.lower() if re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{2,31}", clean) else ""
+
+
+def approved_public_url(url: str) -> str:
+    """Offline public-input policy; transport additionally validates/pins every DNS answer.
+
+    Query-bearing subscriptions are not approved public inputs (may carry credentials).
+    Only Telegram's numeric pagination query is allowed. Never strip a secret into a
+    different apparently valid URL, and never resolve merely to load a checkpoint.
+    """
+    try:
+        SourceConfig.from_dict({"id": "discovery", "url": url})
+        if url == "data/discovered_ocr_configs.txt":
+            return url
+        if len(url.encode("utf-8")) > 16 * 1024 or re.search(r"[\\\x00-\x20\x7f-\x9f]|%(?:0[0-9a-f]|1[0-9a-f]|7f)", url, re.I):
+            raise ValueError
+        parsed = urlsplit(url)
+        host = parsed.hostname.rstrip(".").encode("idna").decode("ascii").lower()
+        if parsed.fragment or parsed.netloc.endswith(":") or "%" in host:
+            raise ValueError
+        if parsed.query and not (host == "t.me" and re.fullmatch(r"/s/[A-Za-z][A-Za-z0-9_]{2,31}", parsed.path) and re.fullmatch(r"before=[1-9][0-9]{0,19}", parsed.query)):
+            raise ValueError
+        path = parsed.path or "/"
+        if host in ("t.me", "www.t.me"):
+            channel = re.fullmatch(r"/(?:s/)?([A-Za-z][A-Za-z0-9_]{2,31})(/[0-9]+)?/?", path)
+            if channel:
+                host = "t.me"
+                path = "/s/" + channel[1].lower() + (channel[2] or "")
+        try:
+            ip = ipaddress.ip_address(host)
+        except ValueError:
+            if (len(host) > 253 or "." not in host or host.endswith((".localhost", ".local", ".internal", ".home", ".lan", ".test", ".invalid"))
+                    or re.fullmatch(r"[0-9.]+|0x[0-9a-f]+", host)
+                    or any(not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", part) for part in host.split("."))):
+                raise ValueError
+        else:
+            if (not ip.is_global or ip.is_reserved or ip.is_multicast
+                    or isinstance(ip, ipaddress.IPv6Address) and (ip.ipv4_mapped or ip.sixtofour or ip.teredo)):
+                raise ValueError
+        authority = f"[{host}]" if ":" in host else host
+        if parsed.port is not None and parsed.port != (443 if parsed.scheme == "https" else 80):
+            authority += f":{parsed.port}"
+        return urlunsplit((parsed.scheme, authority, path, parsed.query, ""))
+    except (ValueError, TypeError, AttributeError, UnicodeError):
+        raise ValueError("Unapproved discovery URL") from None
+
+
+def read_public_text(path: Path, max_bytes: int = 8 * 1024 * 1024) -> str:
+    """Bound checkpoint reads, including successful but oversized local files."""
+    with path.open("rb") as stream:
+        raw = stream.read(max_bytes + 1)
+    if len(raw) > max_bytes:
+        raise ValueError("Discovery checkpoint exceeds byte limit")
+    try:
+        return raw.decode("utf-8")
+    except UnicodeError:
+        raise ValueError("Invalid discovery checkpoint encoding") from None
+
+
+def _counter(value: Any) -> bool:
+    return type(value) is int and value >= 0
+
+
+def validate_state(data: Any) -> None:
+    if not isinstance(data, dict) or data.get("version", 1) != 1 or type(data.get("version", 1)) is not int:
+        raise ValueError("Invalid discovery state")
+    allowed = {"version", "last_updated", "queries_executed", "candidate_queue", "candidate_scores",
+               "visited_channels", "rejected_channels", "visited_urls", "sources_metadata",
+               "last_run_api_requests", "total_api_requests", "image_results"}
+    if set(data) - allowed:
+        raise ValueError("Unknown discovery state fields")
+    for key in ("candidate_queue", "visited_channels", "rejected_channels"):
+        values = data.get(key, [])
+        if not isinstance(values, list) or len(values) > 10000 or any(not normalize_channel_handle(v) or v != normalize_channel_handle(v) for v in values):
+            raise ValueError("Invalid discovery handles")
+    for key in ("queries_executed", "visited_urls"):
+        values = data.get(key, [])
+        if not isinstance(values, list) or len(values) > 5000 or any(not isinstance(v, str) or len(v) > 16384 for v in values):
+            raise ValueError("Invalid discovery history")
+        for value in values:
+            if key == "visited_urls":
+                approved_public_url(value)
+            elif not value or len(value) > 500 or re.search(r"[\x00-\x1f\x7f]|https?://", value):
+                raise ValueError("Invalid discovery query")
+    scores = data.get("candidate_scores", {})
+    if not isinstance(scores, dict) or len(scores) > 10000 or any(not normalize_channel_handle(h) or h != normalize_channel_handle(h) or not _counter(n) for h, n in scores.items()):
+        raise ValueError("Invalid discovery scores")
+    for key in ("last_updated", "last_run_api_requests", "total_api_requests"):
+        if not _counter(data.get(key, 0)):
+            raise ValueError("Invalid discovery counter")
+    metadata = data.get("sources_metadata", {})
+    if not isinstance(metadata, dict) or len(metadata) > 10000:
+        raise ValueError("Invalid discovery metadata")
+    for key, entry in metadata.items():
+        if not isinstance(key, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,100}", key) or not isinstance(entry, dict):
+            raise ValueError("Invalid discovery source")
+        required = {"handle", "last_checked", "last_nodes_yield", "total_nodes_yield", "checks_count", "is_active", "sub_url"}
+        if not required.issubset(entry) or set(entry) - required - {"oldest_post_id", "is_telegram", "retained_fingerprints"}:
+            raise ValueError("Invalid discovery source schema")
+        for field in ("last_checked", "last_nodes_yield", "total_nodes_yield", "checks_count", "oldest_post_id"):
+            if field in entry and not _counter(entry[field]):
+                raise ValueError("Invalid discovery metrics")
+        for field in ("is_active", "is_telegram"):
+            if field in entry and type(entry[field]) is not bool:
+                raise ValueError("Invalid discovery status")
+        if "sub_url" in entry:
+            approved_public_url(entry["sub_url"])
+        if "handle" in entry and (not isinstance(entry["handle"], str) or not re.fullmatch(r"[A-Za-z0-9_:/.-]{1,100}", entry["handle"])):
+            raise ValueError("Invalid discovery label")
+        if entry.get("is_telegram", True) and (key != entry["handle"] or normalize_channel_handle(entry["handle"]) != entry["handle"]
+                                               or normalize_channel_handle(entry["sub_url"]) != entry["handle"]):
+            raise ValueError("Invalid Telegram discovery metadata")
+        refs = entry.get("retained_fingerprints", [])
+        if not isinstance(refs, list) or len(refs) > 400 or any(not isinstance(ref, str) or not re.fullmatch(r"[0-9a-f]{64}", ref) for ref in refs):
+            raise ValueError("Invalid retained references")
+    images = data.get("image_results", {})
+    if not isinstance(images, dict) or len(images) > 400 or any(not isinstance(h, str) or not re.fullmatch(r"[0-9a-f]{64}", h) or not isinstance(text, str) or len(text.encode("utf-8")) > 65536 for h, text in images.items()):
+        raise ValueError("Invalid image results")
+    from src.parsers import parse_proxy_uri
+    if any(parse_proxy_uri(uri) is None for text in images.values() for uri in text.splitlines()):
+        raise ValueError("Invalid cached image config")
 
 
 class DiscoveryStateManager:
@@ -60,22 +190,21 @@ class DiscoveryStateManager:
         """Loads state from disk if it exists."""
         if self.state_file.exists():
             try:
-                data = json.loads(self.state_file.read_text(encoding="utf-8"))
-                if isinstance(data, dict):
-                    self.state.update(data)
-            except Exception as exc:
-                logger.warning("Failed to load discovery state from %s: %s", self.state_file, exc)
+                data = json.loads(read_public_text(self.state_file))
+                validate_state(data)
+            except (ValueError, UnicodeError, RecursionError):
+                raise ValueError("Cannot load discovery state") from None
+            self.state.update(data)
 
     def save(self) -> None:
         """Persists state to disk atomically."""
         self.state["last_updated"] = int(time.time())
+        validate_state(self.state)
         self.state_file.parent.mkdir(parents=True, exist_ok=True)
-        temp_file = self.state_file.with_suffix(".tmp")
-        try:
-            temp_file.write_text(json.dumps(self.state, indent=2, ensure_ascii=False), encoding="utf-8")
-            temp_file.replace(self.state_file)
-        except Exception as exc:
-            logger.error("Failed to save discovery state: %s", exc)
+        content = json.dumps(self.state, indent=2, ensure_ascii=False)
+        if len(content.encode("utf-8")) > 8 * 1024 * 1024:
+            raise ValueError("Discovery state exceeds byte limit")
+        atomic_write_text(self.state_file, content)
 
     def get_state(self) -> dict[str, Any]:
         return self.state
@@ -121,6 +250,7 @@ class DiscoveryStateManager:
 
     def record_visited_url(self, url: str) -> None:
         """Records an external URL so future runs build incrementally without repeating checks."""
+        url = approved_public_url(url)
         urls = self.state.setdefault("visited_urls", [])
         if url not in urls:
             urls.append(url)
@@ -165,6 +295,12 @@ class DiscoveryStateManager:
         self.state["candidate_queue"] = queue[limit:]
         return popped
 
+    def restore_candidates(self, handles: list[str]) -> None:
+        """Restore unacknowledged work first, including active-channel refreshes."""
+        clean = [normalize_channel_handle(h) for h in handles]
+        queue = self.state["candidate_queue"]
+        self.state["candidate_queue"] = list(dict.fromkeys([h for h in clean if h] + queue))
+
     def record_visited(
         self,
         raw_handle: str,
@@ -190,11 +326,7 @@ class DiscoveryStateManager:
         meta = self.state.setdefault("sources_metadata", {})
         existing = meta.get(handle, {})
         times_seen = existing.get("checks_count", 0) + 1
-        prev_oldest = existing.get("oldest_post_id")
-        if oldest_post_id and prev_oldest:
-            deepest_id = min(int(oldest_post_id), int(prev_oldest))
-        else:
-            deepest_id = oldest_post_id or prev_oldest
+        deepest_id = oldest_post_id
 
         entry: dict[str, Any] = {
             "handle": handle,
@@ -203,18 +335,22 @@ class DiscoveryStateManager:
             "total_nodes_yield": existing.get("total_nodes_yield", 0) + nodes_found,
             "checks_count": times_seen,
             "is_active": is_active,
-            "sub_url": sub_url or f"https://t.me/s/{handle}",
+            "sub_url": approved_public_url(sub_url or f"https://t.me/s/{handle}"),
+            "is_telegram": True,
         }
         if deepest_id is not None:
             entry["oldest_post_id"] = deepest_id
+        if "retained_fingerprints" in existing:
+            entry["retained_fingerprints"] = existing["retained_fingerprints"]
         meta[handle] = entry
 
     def record_query(self, query: str) -> None:
         """Records an executed search query."""
         queries = self.state.setdefault("queries_executed", [])
         q_clean = query.strip()
-        if q_clean and q_clean not in queries:
+        if q_clean and len(q_clean) <= 500 and not re.search(r"[\x00-\x1f\x7f]|https?://", q_clean) and q_clean not in queries:
             queries.append(q_clean)
+            self.state["queries_executed"] = queries[-5000:]
 
     def record_external_source(
         self,
@@ -224,6 +360,9 @@ class DiscoveryStateManager:
         sub_url: str,
     ) -> None:
         """Records metrics for non-Telegram sources (GitHub/Web) without polluting Telegram channel queue."""
+        sub_url = approved_public_url(sub_url)
+        if not re.fullmatch(r"[A-Za-z0-9_:/.-]{1,100}", display_name):
+            display_name = source_id
         meta = self.state.setdefault("sources_metadata", {})
         existing = meta.get(source_id, {})
         times_seen = existing.get("checks_count", 0) + 1
