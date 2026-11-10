@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import io
 import json
 import subprocess
 import unittest
@@ -11,6 +12,7 @@ from unittest.mock import patch
 
 from src.dedup import deduplicate_nodes
 from src.models import (
+    ConnectionLimitError,
     ProxyNode,
     SourceConfig,
     country_code_to_flag,
@@ -715,3 +717,184 @@ class TestLosslessContent(unittest.TestCase):
         nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)
         self.assertEqual([node.credential for node in nodes], ["good"])
         self.assertIsNone(parse_proxy_uri("trojan://bad\ud800@example.com:443"))
+
+
+class TestTask3ReviewRegressions(unittest.TestCase):
+    source = SourceConfig("fixture", "Fixture", "https://example.com/feed")
+
+    def test_vmess_query_aliases_have_one_lossless_canonical_key(self):
+        node = parse_proxy_uri("vmess://custom@example.com:443?tls=tls&net=grpc&headerType=none")
+        self.assertIsNotNone(node)
+        self.assertEqual(node.params, {"security": "tls", "type": "grpc", "headerType": "none"})
+        rebuilt = parse_proxy_uri(node.to_uri(False))
+        self.assertEqual(rebuilt.params, {"security": "tls", "type": "grpc", "headerType": "none"})
+        self.assertEqual(rebuilt.semantic_fingerprint(), node.semantic_fingerprint())
+
+    def test_vmess_reverse_alias_conflicts_never_overwrite_settings(self):
+        for query in ["security=tls&tls=none", "tls=none&security=tls",
+                      "headerType=none&header_type=http", "type=grpc&net=ws"]:
+            with self.subTest(query=query):
+                self.assertIsNone(parse_proxy_uri("vmess://custom@example.com:443?" + query))
+        node = ProxyNode("vmess", "example.com", 443, "custom")
+        node.params = {"security": "tls", "tls": "none"}
+        with self.assertRaises(ValueError):
+            node.to_uri(False)
+
+    def test_single_alpn_json_connection_retains_one_stable_identity(self):
+        outbound = {"protocol": "trojan", "settings": {"servers": [
+            {"address": "example.com", "port": 443, "password": "custom"}]},
+            "streamSettings": {"security": "tls", "tlsSettings": {"alpn": ["h2"]}}}
+        nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [outbound]}), self.source)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0].params, {"security": "tls", "alpn": "h2"})
+        rebuilt = parse_proxy_uri(nodes[0].to_uri(False))
+        self.assertEqual(rebuilt.params, {"security": "tls", "alpn": "h2"})
+        self.assertEqual(rebuilt.semantic_fingerprint(), nodes[0].semantic_fingerprint())
+
+    def test_singleton_uri_values_normalize_without_flattening_vmess_extras(self):
+        for scheme, credential in [("vless", "custom"), ("trojan", "secret"), ("ss", "aes-256-gcm:secret"),
+                                   ("hysteria2", "secret"), ("tuic", "custom:secret"), ("wireguard", "key")]:
+            with self.subTest(scheme=scheme):
+                node = ProxyNode(scheme, "example.com", 443, credential,
+                                 params={"alpn": ["h2"], "unknown": [" x "]})
+                self.assertEqual(node.params, {"alpn": "h2", "unknown": " x "})
+                rebuilt = parse_proxy_uri(node.to_uri(False))
+                self.assertEqual(rebuilt.params, {"alpn": "h2", "unknown": " x "})
+                self.assertEqual(rebuilt.semantic_fingerprint(), node.semantic_fingerprint())
+                node.params = {"alpn": ["h2"], "unknown": [" x "]}
+                self.assertEqual(rebuilt.semantic_fingerprint(), node.semantic_fingerprint())
+                self.assertEqual(parse_proxy_uri(node.to_uri(False)).params, rebuilt.params)
+        vmess = ProxyNode("vmess", "example.com", 443, "custom", params={"alpn": ["h2"], "extra": [" x "]})
+        self.assertEqual(vmess.params, {"alpn": "h2", "extra": [" x "]})
+        self.assertEqual(parse_proxy_uri(vmess.to_uri(False)).params, {"alpn": "h2", "extra": [" x "]})
+        invalid = ProxyNode("vless", "example.com", 443, "custom", params={"unknown": [{"required": "value"}]})
+        with self.assertRaises(ValueError):
+            invalid.to_uri(False)
+
+    def test_deep_vmess_extras_fail_with_a_controlled_resource_error(self):
+        for depth in (1100, 2200):
+            payload = '{"add":"example.com","port":443,"id":"custom","extra":' + '[' * depth + '"required"' + ']' * depth + '}'
+            uri = "vmess://" + base64.b64encode(payload.encode()).decode()
+            with self.subTest(depth=depth), self.assertRaises(ConnectionLimitError):
+                parse_proxy_uri(uri)
+        node = ProxyNode("vmess", "example.com", 443, "custom")
+        nested = "required"
+        for _ in range(1100):
+            nested = [nested]
+        node.params = {"extra": nested}
+        with self.assertRaises(ConnectionLimitError):
+            deduplicate_nodes([node])
+
+    def test_admitted_nesting_round_trips_and_dedup_keeps_an_independent_copy(self):
+        with patch("src.models.MAX_PARAMETER_DEPTH", 2):
+            payload = '{"add":"example.com","port":443,"id":"custom","extra":[["required"]]}'
+            uri = "vmess://" + base64.b64encode(payload.encode()).decode()
+            node = parse_proxy_uri(uri)
+            self.assertIsNotNone(node)
+            self.assertEqual(node.params, {"extra": [["required"]]})
+            self.assertEqual(parse_proxy_uri(node.to_uri(False)).semantic_fingerprint(), node.semantic_fingerprint())
+            merged = deduplicate_nodes([node])[0]
+            merged.params["extra"][0][0] = "changed"
+            self.assertEqual(node.params, {"extra": [["required"]]})
+            excessive = '{"add":"example.com","port":443,"id":"custom","extra":[[["required"]]]}'
+            with self.assertRaises(ConnectionLimitError):
+                parse_proxy_uri("vmess://" + base64.b64encode(excessive.encode()).decode())
+
+    def test_bracketed_country_heading_does_not_turn_plain_peers_into_json(self):
+        first = "vless://first@example.com:443"
+        second = base64.b64encode(b"trojan://second@example.com:443").decode()
+        for heading in ("[DE]", "[IN]", "[North Korea]"):
+            with self.subTest(heading=heading):
+                nodes, executable = extract_nodes_from_content(heading + "\n" + first + "\n" + second, self.source)
+                self.assertEqual([node.credential for node in nodes], ["first", "second"])
+                self.assertEqual(executable, [])
+
+    def test_rejected_or_malformed_json_is_never_rescanned_for_embedded_uris(self):
+        uri = "vless://embedded@example.com:443"
+        chained = {"outbounds": [{"protocol": "vless", "proxySettings": {"tag": "other"},
+                                  "settings": {"vnext": [{"address": "example.com", "port": 443,
+                                      "users": [{"id": "custom"}]}]}, "uri": uri}]}
+        for content in [json.dumps(chained), json.dumps([chained]),
+                        '{"outbounds":[{"uri":"' + uri + '"',
+                        '[broken,{"outbounds":[{"uri":"' + uri + '"}]}]',
+                        json.dumps({"unsupported": uri})]:
+            with self.subTest(content=content):
+                self.assertEqual(extract_nodes_from_content(content, self.source), ([], []))
+        explicit_json = replace(self.source, format="xray_json")
+        self.assertEqual(extract_nodes_from_content("[DE]\n" + uri, explicit_json), ([], []))
+
+    def test_invalid_enclosing_json_records_still_consume_expanded_candidate_budget(self):
+        bad_server = {"address": "example.com", "port": 0, "users": [{"id": "bad"}] * 4}
+        good_server = {"address": "example.com", "port": 443, "users": [{"id": "good"}]}
+        base = {"protocol": "vless", "settings": {"vnext": [bad_server, good_server]}}
+        cases = [
+            {"outbounds": [base]},
+            {"outbounds": [base | {"streamSettings": {"network": "unsupported"}}]},
+            {"outbounds": [base | {"proxySettings": {"tag": "dependency"}}]},
+            {"outbounds": [base | {"protocol": "freedom"}]},
+            {"outbounds": [base | {"settings": base["settings"] | {"unsupported": True}}]},
+            {"outbounds": [base]},
+        ]
+        cases[-1]["transport"] = {"wsSettings": {"path": "/inherited"}}
+        with patch("src.parsers.MAX_CONTENT_NODES", 2):
+            for index, config in enumerate(cases):
+                with self.subTest(case=index), self.assertRaises(ValueError):
+                    extract_nodes_from_content(json.dumps(config), self.source)
+            exact = {"protocol": "vless", "settings": {"vnext": [
+                {"address": "example.com", "port": 443, "users": [{"id": "first"}, {"id": "second"}]}]}}
+            nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [exact]}), self.source)
+            self.assertEqual([node.credential for node in nodes], ["first", "second"])
+
+    def test_approved_ocr_cache_survives_synthetic_discovery_registry_loading(self):
+        from src.fetcher import load_sources
+
+        ocr = {"id": "nemotron-vision-ocr", "name": "Nemotron 3.5 Super VL Vision OCR Feed",
+               "url": "data/discovered_ocr_configs.txt", "verified_upstream": False,
+               "format": "auto", "tags": ["auto-discovered", "vision-ocr", "nemotron"], "enabled": True}
+        registries = {
+            "fixture-sources.json": {"sources": [{"id": "public-http", "url": "https://example.com/feed"}]},
+            "fixture-discovered.json": {"sources": [ocr]},
+        }
+
+        def registry_open(path, mode="r", *args, **kwargs):
+            self.assertEqual(mode, "rb")
+            return io.BytesIO(json.dumps(registries[path.name]).encode())
+
+        with patch.object(Path, "open", autospec=True, side_effect=registry_open):
+            sources = load_sources("fixture-sources.json", "fixture-discovered.json")
+        self.assertEqual([source.id for source in sources], ["public-http", "nemotron-vision-ocr"])
+        self.assertEqual(sources[1].url, "data/discovered_ocr_configs.txt")
+        self.assertEqual(sources[1].tags, ["auto-discovered", "vision-ocr", "nemotron"])
+        self.assertFalse(sources[1].verified_upstream)
+
+    def test_ocr_exception_never_accepts_arbitrary_local_paths_or_variants(self):
+        for url in ["data/private.txt", "data/../private.txt", "../private.txt", "C:/private.txt",
+                    "file:///C:/private.txt", "./data/discovered_ocr_configs.txt", "data\\discovered_ocr_configs.txt",
+                    "data/discovered_ocr_configs.txt#fragment", "data/discovered_ocr_configs.txt?query=1",
+                    "data/discovered_ocr_configs.txt/", "DATA/discovered_ocr_configs.txt"]:
+            with self.subTest(url=url), self.assertRaises(ValueError):
+                SourceConfig.from_dict({"id": "fixture", "url": url})
+
+    def test_ambiguous_single_alpn_is_not_flattened_into_a_different_protocol_list(self):
+        bad = {"protocol": "trojan", "settings": {"servers": [
+            {"address": "example.com", "port": 443, "password": "bad"}]},
+            "streamSettings": {"security": "tls", "tlsSettings": {"alpn": ["h2,h3"]}}}
+        good = {"protocol": "trojan", "settings": {"servers": [
+            {"address": "example.com", "port": 443, "password": "good"}]},
+            "streamSettings": {"security": "tls", "tlsSettings": {"alpn": ["h2"]}}}
+        for ambiguous in ("h2,h3", ""):
+            with self.subTest(alpn=ambiguous):
+                bad["streamSettings"]["tlsSettings"]["alpn"] = [ambiguous]
+                nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [bad, good]}), self.source)
+                self.assertEqual([node.credential for node in nodes], ["good"])
+                vmess = ProxyNode("vmess", "example.com", 443, "custom", params={"alpn": [ambiguous]})
+                self.assertEqual(vmess.params, {"alpn": [ambiguous]})
+                self.assertEqual(parse_proxy_uri(vmess.to_uri(False)).params, {"alpn": [ambiguous]})
+
+    def test_decoder_recursion_is_a_resource_error_not_a_process_crash_or_empty_feed(self):
+        uri = "vmess://" + base64.b64encode(b'{"add":"example.com","port":443,"id":"custom"}').decode()
+        with patch("src.parsers.json.loads", side_effect=RecursionError("decoder limit")):
+            for operation in [lambda: parse_proxy_uri(uri),
+                              lambda: extract_nodes_from_content('{"outbounds":[]}', self.source)]:
+                with self.subTest(operation=operation), self.assertRaises(ConnectionLimitError):
+                    operation()

@@ -86,7 +86,10 @@ def _unique_object(pairs: list[tuple[str, Any]]) -> dict:
 
 
 def _load_json(content: str) -> Any:
-    return json.loads(content, object_pairs_hook=_unique_object)
+    try:
+        return json.loads(content, object_pairs_hook=_unique_object)
+    except RecursionError:
+        raise models.ConnectionLimitError("JSON nesting exceeds decoder safety limit") from None
 
 
 def _port(value: Any) -> Optional[int]:
@@ -145,14 +148,10 @@ def _node(scheme: str, address: str, port: Any, credential: Any, params: dict,
         if not separator or not username or (scheme == "tuic" and not password):
             return None
     try:
-        json.dumps(params, allow_nan=False)
-    except (ValueError, TypeError):
-        return None
-    node = ProxyNode(scheme, address, port, credential, params=params, raw_uri=raw_uri,
-                     remark=remark, country_code=detect_country(remark),
-                     source_ids={source.id} if source else set(), tags=set(source.tags) if source else set(),
-                     is_verified_source=source.verified_upstream if source else False)
-    try:
+        node = ProxyNode(scheme, address, port, credential, params=params, raw_uri=raw_uri,
+                         remark=remark, country_code=detect_country(remark),
+                         source_ids={source.id} if source else set(), tags=set(source.tags) if source else set(),
+                         is_verified_source=source.verified_upstream if source else False)
         node.to_uri(False)
     except models.ConnectionLimitError:
         raise
@@ -308,9 +307,13 @@ def extract_nodes_from_content(content: str, source: SourceConfig) -> tuple[list
     content = content.strip()
     if not content:
         return [], []
-    if source.format == "xray_json" or content.startswith(("{", "[")):
+    json_start = re.match(r'^(?:\{\s*(?:"|})|\[\s*(?:\{|\[|"|\]|-?\d|true\b|false\b|null\b))', content)
+    config_marker = content.startswith(("{", "[")) and re.search(r'"(?:outbounds|inbounds|routing)"\s*:', content)
+    if source.format == "xray_json" or json_start or config_marker:
         try:
             data = _load_json(content)
+        except models.ConnectionLimitError:
+            raise
         except (ValueError, TypeError):
             return [], []
         configs = data if isinstance(data, list) else [data]
@@ -407,16 +410,35 @@ def _stream_params(stream: Any) -> dict:
     return params
 
 
-def _extract_nodes_from_xray_json(json_configs: list[dict], source: SourceConfig) -> list[ProxyNode]:
-    extracted = []
+def _check_json_candidate_budget(json_configs: list[dict]) -> None:
     _check_candidate_count(len(json_configs))
     candidates = 0
+    for config in json_configs:
+        outbounds = config.get("outbounds") if isinstance(config, dict) else None
+        if not isinstance(outbounds, list):
+            continue
+        for outbound in outbounds:
+            settings = outbound.get("settings") if isinstance(outbound, dict) else None
+            expanded = 0
+            for key in ("vnext", "servers"):
+                servers = settings.get(key) if isinstance(settings, dict) else None
+                if not isinstance(servers, list):
+                    continue
+                for server in servers:
+                    users = server.get("users") if isinstance(server, dict) else None
+                    expanded += max(1, len(users)) if isinstance(users, list) else 1
+                    _check_candidate_count(candidates + expanded)
+            candidates += max(1, expanded)
+            _check_candidate_count(candidates)
+
+
+def _extract_nodes_from_xray_json(json_configs: list[dict], source: SourceConfig) -> list[ProxyNode]:
+    _check_json_candidate_budget(json_configs)
+    extracted = []
     for config in json_configs:
         if not isinstance(config, dict) or "transport" in config or not isinstance(config.get("outbounds"), list):
             continue
         for outbound in config["outbounds"]:
-            candidates += 1
-            _check_candidate_count(candidates)
             if not isinstance(outbound, dict) or set(outbound) - {"protocol", "settings", "streamSettings", "tag"}:
                 continue
             protocol = outbound.get("protocol")
@@ -427,8 +449,6 @@ def _extract_nodes_from_xray_json(json_configs: list[dict], source: SourceConfig
             key = "vnext" if scheme in ("vless", "vmess") else "servers"
             if not isinstance(settings, dict) or set(settings) != {key} or not isinstance(settings[key], list) or not isinstance(remark, str):
                 continue
-            candidates += max(0, len(settings[key]) - 1)
-            _check_candidate_count(candidates)
             try:
                 params = _stream_params(outbound.get("streamSettings", {}))
             except (ValueError, TypeError):
@@ -439,8 +459,6 @@ def _extract_nodes_from_xray_json(json_configs: list[dict], source: SourceConfig
                 if scheme in ("vless", "vmess"):
                     if set(server) - {"address", "port", "users"} or not isinstance(server.get("users"), list):
                         continue
-                    candidates += max(0, len(server["users"]) - 1)
-                    _check_candidate_count(candidates)
                     for user in server["users"]:
                         if not isinstance(user, dict) or not isinstance(user.get("id"), str) or not user["id"]:
                             continue

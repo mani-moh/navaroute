@@ -10,6 +10,7 @@ from typing import Any, Optional
 
 FINGERPRINT_VERSION = 1
 MAX_URI_BYTES = 16 * 1024
+MAX_PARAMETER_DEPTH = 64
 PARAM_ALIASES = {"net": "type", "network": "type", "service_name": "serviceName",
                  "servicename": "serviceName", "dial_mode": "dialMode", "header_type": "headerType"}
 VMESS_FIELDS = {"net": "type", "tls": "security", "type": "headerType"}
@@ -25,15 +26,33 @@ def bounded_uri(uri: str) -> str:
     return uri
 
 
-def canonical_params(params: dict[str, Any]) -> dict[str, Any]:
+def canonical_params(params: dict[str, Any], scheme: str = "") -> dict[str, Any]:
+    pending = [(params, 0)]
+    while pending:
+        value, depth = pending.pop()
+        if not isinstance(value, (dict, list)):
+            continue
+        if depth > MAX_PARAMETER_DEPTH:
+            raise ConnectionLimitError(f"connection parameters exceed nesting depth {MAX_PARAMETER_DEPTH}")
+        children = value.values() if isinstance(value, dict) else value
+        pending.extend((child, depth + 1) for child in children)
     result: dict[str, Any] = {}
     for key, value in params.items():
         key = PARAM_ALIASES.get(key, key)
+        if scheme == "vmess" and key == "tls":
+            key = "security"
         if key in result:
             previous = result[key] if isinstance(result[key], list) else [result[key]]
             result[key] = previous + (value if isinstance(value, list) else [value])
         else:
             result[key] = value
+    for key, value in result.items():
+        if (scheme != "vmess" or key == "alpn") and isinstance(value, list) and len(value) == 1 and isinstance(value[0], str):
+            if key == "alpn" and (not value[0] or "," in value[0]):
+                if scheme == "vmess":
+                    continue
+                raise ValueError("singleton ALPN cannot be represented by URI query")
+            result[key] = value[0]
     return result
 
 
@@ -94,14 +113,15 @@ class SourceConfig:
         tags = data.get("tags", [])
         if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag for tag in tags):
             raise ValueError("source tags must be a list of nonempty strings")
-        try:
-            url = urllib.parse.urlsplit(data["url"])
-            if url.scheme not in ("http", "https") or not url.hostname or url.username is not None or url.password is not None:
-                raise ValueError("source URL must be unauthenticated HTTP(S)")
-            if url.port is not None and not 1 <= url.port <= 65535:
-                raise ValueError("invalid source URL port")
-        except ValueError as exc:
-            raise ValueError("invalid source URL") from exc
+        if data["url"] != "data/discovered_ocr_configs.txt":
+            try:
+                url = urllib.parse.urlsplit(data["url"])
+                if url.scheme not in ("http", "https") or not url.hostname or url.username is not None or url.password is not None:
+                    raise ValueError("source URL must be unauthenticated HTTP(S)")
+                if url.port is not None and not 1 <= url.port <= 65535:
+                    raise ValueError("invalid source URL port")
+            except ValueError as exc:
+                raise ValueError("invalid source URL") from exc
         if any(c.isspace() or ord(c) < 32 for c in data["url"]):
             raise ValueError("source URL contains whitespace/control characters")
         return cls(
@@ -158,9 +178,12 @@ class ProxyNode:
     healthcheck_kind: str = "untested"
     healthchecked_at: Optional[str] = None
 
+    def __post_init__(self) -> None:
+        self.params = canonical_params(self.params, self.scheme)
+
     def semantic_fingerprint(self) -> str:
         """Versioned identity of the complete connection, never its source/evidence labels."""
-        params = canonical_params(self.params)
+        params = canonical_params(self.params, self.scheme)
         for key in ("sni", "host"):
             if isinstance(params.get(key), str):
                 params[key] = params[key].lower()
@@ -179,7 +202,7 @@ class ProxyNode:
         return self.params.get("security") == "reality" or bool(self.params.get("pbk"))
 
     def has_web_transport(self) -> bool:
-        transport = canonical_params(self.params).get("type", "")
+        transport = canonical_params(self.params, self.scheme).get("type", "")
         return isinstance(transport, str) and transport.lower() in ("ws", "grpc", "httpupgrade", "xhttp", "splithttp")
 
     def is_iran_related(self) -> bool:
@@ -246,7 +269,7 @@ class ProxyNode:
     def to_uri(self, include_formatted_remark: bool = True) -> str:
         """Serialize canonical fields. Reject shapes a scheme cannot represent losslessly."""
         target_remark = self.format_remark() if include_formatted_remark else self.remark
-        params = canonical_params(self.params)
+        params = canonical_params(self.params, self.scheme)
         if self.scheme == "vmess":
             scalar_fields = {"v", "type", "security", "headerType", "host", "path", "sni", "fp", "scy", "serviceName"}
             if any(key in scalar_fields and not isinstance(value, str) for key, value in params.items()):
@@ -254,7 +277,12 @@ class ProxyNode:
             if "aid" in params and not (isinstance(params["aid"], str) and params["aid"].isascii() and params["aid"].isdigit()):
                 raise ValueError("invalid VMess alterId")
             reverse = {canonical: original for original, canonical in VMESS_FIELDS.items()}
-            v_dict = {reverse.get(key, key): value for key, value in params.items()}
+            v_dict = {}
+            for key, value in params.items():
+                output_key = reverse.get(key, key)
+                if output_key in v_dict:
+                    raise ValueError("conflicting VMess output settings")
+                v_dict[output_key] = value
             if set(v_dict).intersection({"add", "port", "id", "ps"}):
                 raise ValueError("VMess parameters conflict with canonical fields")
             v_dict.update(ps=target_remark, add=self.address, port=self.port, id=self.credential)
