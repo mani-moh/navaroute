@@ -2,9 +2,9 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://f418674e-f518-4318-8ff9-e10000000046@172.67.131.125:2083?path=%2Fsync&security=tls&host=smart-edge-424.arti98399-1905.workers.dev&fp=chrome&type=ws&sni=smart-edge-424.arti98399-1905.workers.dev#[✅] [🇭🇺 HU] VLESS-ws | src:igareck-vless-rus | 22ms
-vless://2f094d48-7186-206c-9e57-e977bbac3b08@eu90.cdn77.icu:20034?pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&security=reality&sid=1ed136481e0ede74&sni=eu64.cdn77.icu&type=raw&fp=edge#[✅] [🇭🇺 HU] VLESS-Reality | src:luxxuria-speed-tested | 178ms
 vless://f418674e-f518-4318-8ff9-e10000000046@172.67.131.125:2083?security=tls&type=ws&path=%2F&host=smart-edge-424.arti98399-1905.workers.dev&sni=smart-edge-424.arti98399-1905.workers.dev&fp=chrome#[🇭🇺 HU] VLESS-ws | src:0xradikal-all
+vless://f418674e-f518-4318-8ff9-e10000000046@172.67.131.125:2083?path=%2Fsync&security=tls&host=smart-edge-424.arti98399-1905.workers.dev&fp=chrome&type=ws&sni=smart-edge-424.arti98399-1905.workers.dev#[✅] [🇭🇺 HU] VLESS-ws | src:igareck-vless-rus
+vless://2f094d48-7186-206c-9e57-e977bbac3b08@eu90.cdn77.icu:20034?pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&security=reality&sid=1ed136481e0ede74&sni=eu64.cdn77.icu&type=raw&fp=edge#[✅] [🇭🇺 HU] VLESS-Reality | src:luxxuria-speed-tested
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@38.180.225.247:2053?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chrome&security=tls#[🇭🇺 HU] VLESS-ws | src:0xradikal-all
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@38.180.225.247:2053?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=/fp=chromesecurity=tls#[🇭🇺 HU] VLESS-ws | src:peasoft-nomorewalls
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@194.71.130.160:989#[🇭🇺 HU] SS | src:farid-karimi-mixed-iran

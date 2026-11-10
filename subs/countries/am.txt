@@ -2,11 +2,11 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://ccb8ff48-3934-4250-b4ec-bb76b95d154f@91.192.156.72:443?flow=xtls-rprx-vision&fp=firefox&pbk=NaCZ-sS4poEbFwKmD7ePAVyc5OhHxsD9nkAStjXkoWs&security=reality&sid=027af64166562b09&sni=fi1.fox-lisa.ru&type=raw#[✅] [🇦🇲 AM] VLESS-Reality | src:luxxuria-speed-tested | 131ms
+vless://ccb8ff48-3934-4250-b4ec-bb76b95d154f@91.192.156.72:443?flow=xtls-rprx-vision&fp=firefox&pbk=NaCZ-sS4poEbFwKmD7ePAVyc5OhHxsD9nkAStjXkoWs&security=reality&sid=027af64166562b09&sni=fi1.fox-lisa.ru&type=raw#[✅] [🇦🇲 AM] VLESS-Reality | src:luxxuria-speed-tested
 vless://5d7b401c-78fa-4254-872e-6d42bf7e75ec@91.198.108.191:443?sni=v1n3.11676767.xyz&type=ws&host=v1n3.11676767.xyz&path=/go.php/productsfp=chrome&security=tls#[🇦🇲 AM] VLESS-ws | src:peasoft-nomorewalls
 vless://f667a096-5231-4cfb-8759-92bb32473139@77.91.68.70:55983?encryption=none&security=reality&sni=yahoo.com&fp=chrome&pbk=nWQ7b9l9X6N3PrXLgIzOvMM8iSYrqjVHEb9ikWxqYSg&sid=0e&type=tcp&headerType=none#[🇦🇲 AM] VLESS-Reality | src:elf2017spring-configshub
-vless://5ed7fb94-bacd-485b-aca1-6a439738ed1f@solar.appleseraj.ir:2083?security=tls&type=ws&headerType=&path=?ed=2048&host=armwwww.appleseraj.ir&sni=armwwww.appleseraj.ir&fp=chrome#[🇦🇲 AM] VLESS-ws | src:0xradikal-all
 vless://db80088c-32a1-4cb8-a907-0f3cb7844152@157.228.71.76:443?security=reality&amp;encryption=none&amp;pbk=zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg&amp;headerType=none&amp;type=tcp&amp;flow=xtls-rprx-vision&amp;sni=it1.japancase.site&amp;sid=41ae8e266bc3346f#[🇦🇲 AM] VLESS-Reality | src:heliataromi-confighub-mixed
+vless://5ed7fb94-bacd-485b-aca1-6a439738ed1f@solar.appleseraj.ir:2083?security=tls&type=ws&headerType=&path=?ed=2048&host=armwwww.appleseraj.ir&sni=armwwww.appleseraj.ir&fp=chrome#[🇦🇲 AM] VLESS-ws | src:0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpxZHBNNFJPdm9MdGF5aTdOTjlESUlk@194.156.103.148:443#[🇦🇲 AM] SS | src:sub-07d2577deb
 vless://636d3fe4-eb1f-49ee-9f70-2f4ec935015a@am.speeditest.ir:81?note=---Telegram---@NetifyVPN---Telegram---@NetifyVPN---Telegram---@NetifyVPN---Telegram---@NetifyVPN---&security=none&encryption=none&host=zhaket.com&headerType=http&type=tcp#[🇦🇲 AM] VLESS-tcp | src:elf2017spring-configshub
 vless://e9979910-79d1-4621-a93c-b2a579c44ba7@198.62.62.175:8880?path=%2FJ5aLQOY1R9ONWYCM%3Fed%3D2560&security=none&encryption=none&host=vngsupply.ip-ddns.com&type=ws#[🇦🇲 AM] VLESS-ws | src:elf2017spring-configshub
