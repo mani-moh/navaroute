@@ -59,9 +59,9 @@ PattN features strict privacy isolation for private Cloudflare Workers / BPB end
 
 ---
 
-## 🛰️ Autonomous Discovery Agent (NVIDIA Nemotron 3.5 Super VL)
+## 🛰️ Autonomous Discovery Agent (NVIDIA NIM Frontier AI)
 
-Before every 6-hour refresh, PattN runs an autonomous discovery agent powered by NVIDIA's `nvidia/nemotron-3.5-super-vl-120b-a12b`:
+Before every 6-hour refresh (plus a daily 500-request extended deep scan), PattN runs an autonomous discovery agent powered by `moonshotai/kimi-k2.6` (with automatic failover to `mistralai/mistral-large-4-1t-a52b`, `nvidia/nemotron-3-ultra-550b-a55b`, and `nvidia/nemotron-3.5-super-vl-120b-a12b`):
 - **Web, GitHub & Telegram Exploration**: Synthesizes search dorks via Nemotron reasoning, mines public Telegram previews (`t.me/s/...`), follows cross-promoted sister channels, and harvests GitHub subscription repositories.
 - **Multimodal Vision OCR**: Extracts proxy URIs directly from configuration screenshots and QR code images posted in Telegram channels.
 - **Persistent Memory**: Builds upon previous runs via [`data/discovery_state.json`](data/discovery_state.json) and outputs validated feeds into [`sources.discovered.json`](sources.discovered.json), automatically merged into every aggregation.

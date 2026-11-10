@@ -264,7 +264,7 @@ class DiscoveryStateManager:
             "# 🛰️ Autonomous Subscription Discovery Leaderboard",
             "",
             "> Real-time ranking of auto-discovered proxy feeds, Telegram channels, and aggregators",
-            f"> *Updated automatically by PattN Autonomous Agent (powered by NVIDIA Nemotron 3.5 Super VL)*",
+            "> *Updated automatically by PattN Autonomous Agent (powered by NVIDIA NIM Frontier AI: Kimi K2.6 / Mistral Large 4 / Nemotron)*",
             "",
             f"**Last Sync:** `{timestamp_str}`  ",
             f"**Total Channels Scanned:** `{visited_count}` | **Pending Queue:** `{queued_count}` | **Active Discovered Feeds:** `{len(active_sources)}` | **Current Node Yield:** `{total_nodes}`",
