@@ -236,7 +236,12 @@ def verify_tester_checkout(root: Path, tester_revision: str, protected_head: str
                 raise IranResultsError("Unsupported executable-code tree entry")
             local[path] = (mode, sha)
             file = root / path
-            if file.is_symlink() or not file.resolve().is_relative_to(root) or git_blob_sha(file.read_bytes()) != sha:
+            if file.is_symlink() or not file.resolve().is_relative_to(root):
+                raise IranResultsError("Local tester code content mismatch")
+            content = file.read_bytes()
+            if path == "scripts/check_from_iran.ps1":
+                content = content.replace(b"\r\n", b"\n")  # .gitattributes checks out this wrapper as CRLF.
+            if git_blob_sha(content) != sha:
                 raise IranResultsError("Local tester code content mismatch")
     if local != remote or "src/iran_results.py" not in local or "scripts/test_iran_reachability.py" not in local:
         raise IranResultsError("Tester imports differ from protected code")

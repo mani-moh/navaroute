@@ -109,6 +109,14 @@ class TestHealthcheck(unittest.TestCase):
             with self.assertRaises(hc.CoreInfrastructureError):
                 check_nodes_health([node], use_xray=True, xray_bin=CORE_FIXTURE, rounds=2)
 
+    def test_transport_failure_before_connect_is_infrastructure_not_node_failure(self):
+        from src import healthcheck as hc
+        from src.network import NetworkError
+        with patch("src.network._resolve", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]), \
+             patch("src.network._connect", side_effect=NetworkError("owned proxy connection unavailable")):
+            with self.assertRaises(hc.CoreInfrastructureError):
+                hc._probe_http_via_local_proxy(25000)
+
     def test_default_cert_context_and_total_read_deadline_are_used_through_connect(self):
         from src import healthcheck as hc
         from tests.test_network import WireSocket

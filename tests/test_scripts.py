@@ -20,6 +20,137 @@ URI = "trojan://public-fixture@1.1.1.1:443#Public\n"
 
 
 class TestStandaloneCommand(unittest.TestCase):
+    def test_pinned_bootstrap_rejects_status_clean_source_mismatch(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            file = root / "src/iran_results.py"
+            file.parent.mkdir()
+            reviewed = b"REVIEWED = True\n"
+            file.write_bytes(b"REVIEWED = False\n")
+            blob = hashlib.sha1(b"blob " + str(len(reviewed)).encode() + b"\0" + reviewed).hexdigest()
+            def git(argv, **kw):
+                if "ls-tree" in argv:
+                    out = f"100644 blob {blob}\tsrc/iran_results.py\n".encode()
+                elif "status" in argv:
+                    out = b""  # Simulates assume-unchanged/skip-worktree hiding a modification.
+                elif "--abbrev-ref" in argv:
+                    out = b"HEAD"
+                elif "--show-toplevel" in argv:
+                    out = str(root).encode()
+                else:
+                    out = SHA.encode()
+                kw["stdout"].write(out)
+                return subprocess.CompletedProcess(argv, 0)
+            with patch.object(cli, "REPO_ROOT", root), patch.object(cli.subprocess, "run", side_effect=git):
+                with self.assertRaises(ValueError):
+                    cli._check_local_pin_before_imports(SHA)
+
+    def test_pinned_import_executes_validated_source_not_matching_ignored_cache(self):
+        import importlib
+        import importlib.machinery
+        from importlib import _bootstrap_external
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            contents = {"src/__init__.py": b"", "src/iran_results.py": b"REVIEWED = True\n"}
+            rows = []
+            for path, source in contents.items():
+                file = root / path
+                file.parent.mkdir(exist_ok=True)
+                file.write_bytes(source)
+                blob = hashlib.sha1(b"blob " + str(len(source)).encode() + b"\0" + source).hexdigest()
+                rows.append(f"100644 blob {blob}\t{path}")
+            target = root / "src/iran_results.py"
+            stat = target.stat()
+            cached = _bootstrap_external._code_to_timestamp_pyc(
+                compile("CACHE_EXECUTED = True\n", str(target), "exec"), int(stat.st_mtime), stat.st_size)
+            original_read = importlib.machinery.SourceFileLoader.get_data
+            cache_reads = []
+            def read(loader, path):
+                if path.endswith(".pyc") and "iran_results" in path:
+                    cache_reads.append(path)
+                    return cached
+                return original_read(loader, path)
+            def git(argv, **kw):
+                if "ls-tree" in argv:
+                    out = "\n".join(rows).encode()
+                elif "status" in argv:
+                    out = b""
+                elif "--abbrev-ref" in argv:
+                    out = b"HEAD"
+                elif "--show-toplevel" in argv:
+                    out = str(root).encode()
+                else:
+                    out = SHA.encode()
+                kw["stdout"].write(out)
+                return subprocess.CompletedProcess(argv, 0)
+            with patch.object(cli, "REPO_ROOT", root), patch.object(cli.subprocess, "run", side_effect=git), \
+                 patch.object(sys, "path", [str(root), *sys.path]), patch.object(sys, "meta_path", list(sys.meta_path)), \
+                 patch.dict(sys.modules), patch.object(importlib.machinery.SourceFileLoader, "get_data", new=read):
+                for name in list(sys.modules):
+                    if name == "src" or name.startswith("src."):
+                        del sys.modules[name]
+                sources = cli._check_local_pin_before_imports(SHA)
+                cli._install_pinned_imports(sources)
+                module = importlib.import_module("src.iran_results")
+                self.assertFalse(getattr(module, "CACHE_EXECUTED", False))
+                self.assertTrue(module.REVIEWED)
+                self.assertEqual(cache_reads, [])
+                self.assertEqual(Path(module.__file__).resolve(), target)
+                target.write_bytes(b"REVIEWED = False\n")
+                del sys.modules["src.iran_results"]
+                self.assertTrue(importlib.import_module("src.iran_results").REVIEWED)
+                (root / "src/untracked.py").write_bytes(b"CACHE_EXECUTED = True\n")
+                with self.assertRaises(ModuleNotFoundError):
+                    importlib.import_module("src.untracked")
+
+    def test_pinned_bootstrap_rejects_preloaded_project_import_origin(self):
+        from types import SimpleNamespace
+        with patch.dict(sys.modules, {"src": SimpleNamespace(__file__="unreviewed-origin")}):
+            with self.assertRaises(ImportError):
+                cli._install_pinned_imports({})
+
+    def test_pinned_entrypoint_does_not_enable_untracked_root_dependency_imports(self):
+        import builtins
+        import importlib
+        import subprocess
+        original_import = builtins.__import__
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp).resolve()
+            script = root / "scripts/test_iran_reachability.py"
+            contents = {"scripts/test_iran_reachability.py": Path(cli.__file__).read_bytes(),
+                        "src/__init__.py": b"", "src/healthcheck.py": b"# reviewed\n"}
+            rows = []
+            for path, content in contents.items():
+                file = root / path
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_bytes(content)
+                sha = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
+                rows.append(f"100644 blob {sha}\t{path}")
+            (root / "navaroute_untracked_dependency_fixture.py").write_bytes(b"CACHE_EXECUTED = True\n")
+            def git(argv, **kw):
+                out = ("\n".join(rows).encode() if "ls-tree" in argv else b"" if "status" in argv
+                       else b"HEAD" if "--abbrev-ref" in argv else str(root).encode() if "--show-toplevel" in argv else SHA.encode())
+                kw["stdout"].write(out)
+                return subprocess.CompletedProcess(argv, 0)
+            def imports(name, *args, **kw):
+                if name.startswith("src."):
+                    with self.assertRaises(ModuleNotFoundError):
+                        importlib.import_module("navaroute_untracked_dependency_fixture")
+                    raise SystemExit(0)
+                return original_import(name, *args, **kw)
+            argv = [str(script), "--xray-bin", "supplied", "--source-sha", SHA, "--source-digest", DIGEST, "--tester-revision", SHA]
+            with patch.object(sys, "argv", argv), patch.object(sys, "path", list(sys.path)), \
+                 patch.object(sys, "meta_path", list(sys.meta_path)), patch.dict(sys.modules), \
+                 patch.object(builtins, "__import__", side_effect=imports), patch("subprocess.run", side_effect=git):
+                for name in list(sys.modules):
+                    if name == "src" or name.startswith("src."):
+                        del sys.modules[name]
+                with self.assertRaises(SystemExit) as result:
+                    runpy.run_path(str(script), run_name="__main__")
+                self.assertEqual(result.exception.code, 0)
+
     def test_missing_core_and_legacy_flags_are_rejected(self):
         parser = cli.build_arg_parser()
         for argv in ([], ["--sync-pattn-db"], ["--from-github"], ["--force"], ["--db-path", "sentinel"], ["--use-local-iran"]):
@@ -205,6 +336,73 @@ class TestStandaloneCommand(unittest.TestCase):
                 self.assertNotIn("private-sentinel", out.getvalue())
                 self.assertEqual(old.read_text(), "old-evidence")
                 self.assertEqual(list(Path(tmp).iterdir()), [old])
+
+    def test_policy_dns_failure_before_socket_preserves_recovery_and_never_uploads(self):
+        from src import healthcheck as hc
+        from src.network import NetworkError
+        from unittest.mock import MagicMock
+        import subprocess
+        payload = URI.encode()
+        source_digest = hashlib.sha256(payload).hexdigest()
+        for failure in (NetworkError("policy DNS unavailable"), ValueError("non-public policy answer")):
+            with self.subTest(failure=type(failure).__name__), tempfile.TemporaryDirectory() as tmp:
+                old = Path(tmp) / "existing.json"
+                old.write_bytes(b"existing-evidence")
+                proc = MagicMock()
+                proc.poll.return_value = None
+                with patch.object(cli, "authorize_owner", return_value={"head": SHA}), \
+                     patch.object(cli, "verify_tester_checkout"), patch.object(cli, "verify_source_commit"), \
+                     patch.object(cli, "inspect_core", return_value={"version": "Xray 25.10.15", "sha256": DIGEST}), \
+                     patch("src.iran_results._fetch_official_bytes", return_value=(200, payload)) as source, \
+                     patch.object(hc, "_reserve_ports", return_value=[25000]), \
+                     patch.object(hc.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)), \
+                     patch.object(hc.subprocess, "Popen", return_value=proc), patch.object(hc, "_wait_ports_listening", return_value=True), \
+                     patch("src.network._resolve", side_effect=failure), \
+                     patch("src.network.socket.socket", side_effect=AssertionError("no socket before policy DNS")), \
+                     patch.object(cli, "publish_results", return_value=SHA) as upload, contextlib.redirect_stdout(io.StringIO()):
+                    result = cli.run_iran_check(xray_bin=str(Path(tmp) / "supplied-core"), source_sha=SHA,
+                        source_digest=source_digest, tester_revision=SHA, attest_direct_iran=True,
+                        attest_access_reviewed=True, recovery_dir=Path(tmp), publish=True, rounds=2)
+                self.assertEqual(result, 1)
+                self.assertEqual(source.call_count, 1)  # Official GitHub source was available.
+                self.assertEqual(upload.call_count, 0)
+                self.assertEqual(old.read_bytes(), b"existing-evidence")
+                self.assertEqual(list(Path(tmp).iterdir()), [old])
+                proc.terminate.assert_called_once()
+                proc.wait.assert_called()
+
+    def test_genuine_started_connect_failure_can_write_zero_survivor_evidence(self):
+        from src import healthcheck as hc
+        from tests.test_network import WireSocket
+        from unittest.mock import MagicMock
+        import socket
+        import subprocess
+        payload = URI.encode()
+        fixture = WireSocket(b"HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n")
+        proc = MagicMock()
+        proc.poll.return_value = None
+        def resolve(host, port, deadline, **kw):
+            ip = "127.0.0.1" if host == "127.0.0.1" else "1.1.1.1"
+            return [(socket.AF_INET, socket.SOCK_STREAM, 6, "", (ip, port))]
+        with tempfile.TemporaryDirectory() as tmp, \
+             patch.object(cli, "authorize_owner", return_value={"head": SHA}), \
+             patch.object(cli, "verify_tester_checkout"), patch.object(cli, "verify_source_commit"), \
+             patch.object(cli, "inspect_core", return_value={"version": "Xray 25.10.15", "sha256": DIGEST}), \
+             patch("src.iran_results._fetch_official_bytes", return_value=(200, payload)), \
+             patch.object(hc, "_reserve_ports", return_value=[25000]), \
+             patch.object(hc.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)), \
+             patch.object(hc.subprocess, "Popen", return_value=proc), patch.object(hc, "_wait_ports_listening", return_value=True), \
+             patch("src.network._resolve", side_effect=resolve), patch("src.network._connect", return_value=fixture), \
+             patch.object(cli, "publish_results", side_effect=AssertionError("no implicit upload")), contextlib.redirect_stdout(io.StringIO()):
+            result = cli.run_iran_check(xray_bin=str(Path(tmp) / "supplied-core"), source_sha=SHA,
+                source_digest=hashlib.sha256(payload).hexdigest(), tester_revision=SHA, attest_direct_iran=True,
+                attest_access_reviewed=True, recovery_dir=Path(tmp), rounds=2)
+            self.assertEqual(result, 0)
+            recovered = json.loads(next(Path(tmp).glob("*.json")).read_bytes())["manifest"]
+            self.assertEqual((recovered["counts"]["tested"], recovered["counts"]["failed"], recovered["counts"]["passed"]), (1, 1, 0))
+            self.assertEqual(recovered["observations"][0]["status"], "failed")
+        self.assertIn(b"CONNECT 1.1.1.1:443", fixture.sent)
+        self.assertTrue(fixture.closed)
 
 
 class TestRetainedScheduledGates(unittest.TestCase):

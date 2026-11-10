@@ -346,7 +346,20 @@ class TestProtectedCheckout(IranFixture):
                        "src.iran_results": SimpleNamespace(__file__=str(root / "src/iran_results.py"))}
             with patch.object(self.results, "_command", side_effect=command), patch.object(self.results, "gh_api", side_effect=api), \
                  patch.object(self.results.sys, "modules", modules):
-                self.results.verify_tester_checkout(root, SHA, "c" * 40)
+                wrapper = root / "scripts/check_from_iran.ps1"
+                for newline in (b"\n", b"\r\n"):
+                    wrapper.write_bytes(contents["scripts/check_from_iran.ps1"].replace(b"\n", newline))
+                    with self.subTest(wrapper_newline=newline):
+                        self.results.verify_tester_checkout(root, SHA, "c" * 40)
+                wrapper.write_bytes(b"# unreviewed\r\n")
+                with self.assertRaises(self.results.IranResultsError):
+                    self.results.verify_tester_checkout(root, SHA, "c" * 40)
+                wrapper.write_bytes(contents["scripts/check_from_iran.ps1"])
+                python_source = root / "src/iran_results.py"
+                python_source.write_bytes(contents["src/iran_results.py"].replace(b"\n", b"\r\n"))
+                with self.assertRaises(self.results.IranResultsError):
+                    self.results.verify_tester_checkout(root, SHA, "c" * 40)
+                python_source.write_bytes(contents["src/iran_results.py"])
                 for key, value in (("dirty", True), ("branch", "master"), ("status", "diverged"), ("modified", True)):
                     old = scenario[key]
                     scenario[key] = value

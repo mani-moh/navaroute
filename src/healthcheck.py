@@ -251,6 +251,16 @@ def _stop_owned(proc: subprocess.Popen) -> None:
         proc.wait(timeout=1.5)
 
 
+class _ProbeConnection(_Connection):
+    proxy_request_started = False
+
+    def send(self, data):
+        if self.sock is not None:
+            _remaining(self.deadline)
+            self.proxy_request_started = True
+        return super().send(data)
+
+
 def _probe_http_via_local_proxy(port: int, test_url: str = HEALTHCHECK_TEST_URLS[0], timeout: float = 5.0) -> tuple[bool, float | None]:
     if test_url not in HEALTHCHECK_TEST_URLS:
         raise ValueError("Unsupported probe policy endpoint")
@@ -258,9 +268,10 @@ def _probe_http_via_local_proxy(port: int, test_url: str = HEALTHCHECK_TEST_URLS
     parsed = urlsplit(test_url)
     start = time.perf_counter()
     deadline = _end(timeout)
-    conn = _Connection(parsed.hostname, 443, True, deadline, ("127.0.0.1", port, None))
+    conn = None
     response = None
     try:
+        conn = _ProbeConnection(parsed.hostname, 443, True, deadline, ("127.0.0.1", port, None))
         conn.connect()
         conn.sock.settimeout(_remaining(deadline))
         conn.request("GET", parsed.path, headers={"Host": parsed.hostname, "Connection": "close", "Accept-Encoding": "identity"})
@@ -275,14 +286,17 @@ def _probe_http_via_local_proxy(port: int, test_url: str = HEALTHCHECK_TEST_URLS
         _remaining(deadline)
         return True, round((time.perf_counter() - start) * 1000, 1)
     except (OSError, ValueError, http.client.HTTPException):
+        if conn is None or not conn.proxy_request_started:
+            raise CoreInfrastructureError("Policy probe infrastructure unavailable before CONNECT") from None
         return False, None
     finally:
-        if conn.timer is not None:
+        if conn is not None and conn.timer is not None:
             conn.timer.cancel()
         if response is not None:
             response.close()
-        conn.close()
-        conn.watched_socket = None
+        if conn is not None:
+            conn.close()
+            conn.watched_socket = None
 
 
 def _run_xray_items(items: list[tuple[int, dict]], xray_bin: str, timeout: float, test_url: str, workers: int) -> BatchResult:

@@ -4,6 +4,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.abc
+import importlib.machinery
+import importlib.util
 import json
 import os
 import re
@@ -31,35 +34,78 @@ def build_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _check_local_pin_before_imports(revision: str) -> None:
+def _check_local_pin_before_imports(revision: str) -> dict:
     # The operator supplies the reviewed pin; remote protected-tree checks follow before probes.
     if re.fullmatch(r"[0-9a-f]{40}", revision) is None:
         raise ValueError
     env = {k: v for k, v in os.environ.items() if k.upper() in {"SYSTEMROOT", "WINDIR", "TEMP", "TMP", "PATH"}}
-    commands = [("rev-parse", "HEAD"), ("rev-parse", "--abbrev-ref", "HEAD"),
-                ("status", "--porcelain", "--untracked-files=all", "--", "src", "scripts", ".github/CODEOWNERS")]
-    allowed = [{revision.encode()}, {b"HEAD", b"iran-results"}, {b""}]
-    for args, expected in zip(commands, allowed):
+    def git(*args, limit=16384):
         with tempfile.TemporaryFile() as output:
             result = subprocess.run(["git", "-C", str(REPO_ROOT), *args], stdin=subprocess.DEVNULL, stdout=output,
                                     stderr=subprocess.DEVNULL, env=env, timeout=10, check=False)
             output.seek(0)
-            content = output.read(16385)
-        if result.returncode != 0 or len(content) > 16384 or content.strip() not in expected:
+            content = output.read(limit + 1)
+        if result.returncode != 0 or len(content) > limit:
             raise ValueError
+        return content.strip()
+    if git("rev-parse", "HEAD") != revision.encode() or git("rev-parse", "--abbrev-ref", "HEAD") not in {b"HEAD", b"iran-results"}:
+        raise ValueError
+    if git("status", "--porcelain", "--untracked-files=all", "--", "src", "scripts", ".github/CODEOWNERS"):
+        raise ValueError
+    if Path(git("rev-parse", "--show-toplevel").decode("utf-8")).resolve() != REPO_ROOT:
+        raise ValueError
+    sources = {}
+    for entry in git("ls-tree", "-r", revision, limit=2 * 1024 * 1024).decode("utf-8").splitlines():
+        meta, path = entry.split("\t", 1)
+        if not path.endswith(".py"):
+            continue
+        mode, kind, sha = meta.split()
+        file = REPO_ROOT / path
+        if mode not in {"100644", "100755"} or kind != "blob" or file.is_symlink() or not file.resolve().is_relative_to(REPO_ROOT):
+            raise ValueError
+        with file.open("rb") as stream:
+            source = stream.read(2 * 1024 * 1024 + 1)
+        if len(source) > 2 * 1024 * 1024 or hashlib.sha1(b"blob " + str(len(source)).encode("ascii") + b"\0" + source).hexdigest() != sha:
+            raise ValueError
+        if path.startswith("src/"):
+            parts = Path(path).with_suffix("").parts
+            package = parts[-1] == "__init__"
+            name = ".".join(parts[:-1] if package else parts)
+            if name in sources or not all(part.isidentifier() for part in name.split(".")):
+                raise ValueError
+            sources[name] = (str(file.resolve()), source, package)
+    if "src" not in sources:
+        raise ValueError
+    return sources
+
+
+def _install_pinned_imports(sources: dict) -> None:
+    if any(name == "src" or name.startswith("src.") for name in sys.modules):
+        raise ImportError("Project code was imported before the pinned-source gate")
+    class SourceOnlyLoader(importlib.machinery.SourceFileLoader):
+        def get_code(self, fullname):
+            return compile(sources[fullname][1], self.path, "exec", dont_inherit=True)
+    class PinnedFinder(importlib.abc.MetaPathFinder):
+        def find_spec(self, fullname, path=None, target=None):
+            if fullname != "src" and not fullname.startswith("src."):
+                return None
+            if fullname not in sources:
+                raise ModuleNotFoundError("Project import is not in the reviewed pin")
+            origin, _, package = sources[fullname]
+            return importlib.util.spec_from_file_location(fullname, origin, loader=SourceOnlyLoader(fullname, origin),
+                submodule_search_locations=[str(Path(origin).parent)] if package else None)
+    sys.meta_path.insert(0, PinnedFinder())
 
 
 if __name__ == "__main__":
     command_arguments = vars(build_arg_parser().parse_args())
     try:
-        _check_local_pin_before_imports(command_arguments["tester_revision"])
-    except (OSError, ValueError, subprocess.SubprocessError):
+        _install_pinned_imports(_check_local_pin_before_imports(command_arguments["tester_revision"]))
+    except (OSError, ValueError, ImportError, subprocess.SubprocessError):
         print("Error: use the clean pinned reviewed iran-results checkout; no project code imported.")
         sys.exit(1)
 
-# All project imports resolve to this checkout, never the invocation directory/master.
-sys.path.insert(0, str(REPO_ROOT))
-
+# Standalone project imports use the pinned finder, not a directory added to default dependency lookup.
 from src.healthcheck import CoreInfrastructureError, check_nodes_health, utc_now, validate_limits
 from src.iran_results import (IranResultsError, _json_bytes, _sha, MAX_MANIFEST_BYTES, authorize_owner,
     build_manifest, inspect_core, load_official_snapshot, publish_results, render_result_files,
