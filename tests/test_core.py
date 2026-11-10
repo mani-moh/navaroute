@@ -817,6 +817,8 @@ class TestTask3ReviewRegressions(unittest.TestCase):
         for content in [json.dumps(chained), json.dumps([chained]),
                         '{"outbounds":[{"uri":"' + uri + '"',
                         '[broken,{"outbounds":[{"uri":"' + uri + '"}]}]',
+                        r'[broken,{"\u006futbounds":[{"uri":"' + uri + '"}]}]',
+                        r'[broken,{"\u006futbounds":[{"\u0075ri":"' + uri + '"}]}]',
                         json.dumps({"unsupported": uri})]:
             with self.subTest(content=content):
                 self.assertEqual(extract_nodes_from_content(content, self.source), ([], []))

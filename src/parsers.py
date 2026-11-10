@@ -308,8 +308,8 @@ def extract_nodes_from_content(content: str, source: SourceConfig) -> tuple[list
     if not content:
         return [], []
     json_start = re.match(r'^(?:\{\s*(?:"|})|\[\s*(?:\{|\[|"|\]|-?\d|true\b|false\b|null\b))', content)
-    config_marker = content.startswith(("{", "[")) and re.search(r'"(?:outbounds|inbounds|routing)"\s*:', content)
-    if source.format == "xray_json" or json_start or config_marker:
+    json_member = content.startswith(("{", "[")) and re.search(r'\{\s*"(?:[^"\\]|\\.)*"\s*:', content)
+    if source.format == "xray_json" or json_start or json_member:
         try:
             data = _load_json(content)
         except models.ConnectionLimitError:
