@@ -1,0 +1,11 @@
+#profile-title: base64:UGF0dE4gSk8=
+#profile-update-interval: 6
+#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowYmI0NDdjZWU3MjI4ZWIw@91.106.109.17:41022#[🇯🇴 JO] SS | src:sub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYTE3YzFmNzRjZGM1MWQ1@91.106.109.17:48210#[🇯🇴 JO] SS | src:sub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYTE3YzFmNzRjZGM1MWQ1@91.106.109.17:48211#[🇯🇴 JO] SS | src:lalatinahub-mineral
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYTE3YzFmNzRjZGM1MWQ1@91.106.109.17:48212#[🇯🇴 JO] SS | src:sub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYTE3YzFmNzRjZGM1MWQ1@91.106.109.17:48213#[🇯🇴 JO] SS | src:lalatinahub-mineral
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMWJmMDU0ZGNjMDM0MmNk@91.106.109.74:11201#[🇯🇴 JO] SS | src:sub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiZTVlZTNjNjJmMGFhZTk2@91.106.109.73:11201#[🇯🇴 JO] SS | src:sub-07d2577deb

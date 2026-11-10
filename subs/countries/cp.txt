@@ -28,7 +28,6 @@ vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.128:8880?mode=gun&securi
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.128:8880?mode=gun&security=none&encryption=none&authority=/??ed=2048@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN--@HiByeVPNN&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.154:8880?mode=gun&security=&encryption=none&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.154:8880?mode=gun&security=none&encryption=none&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.160:8880?encryption=none&security=none&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.242.87.69:8880?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@195.42.233.107:8880?mode=gun&security=none&encryption=none&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@195.42.233.125:8880?mode=gun&security=&encryption=none&type=grpc#[🇨🇵 CP] VLESS-grpc | src:elf2017spring-configshub

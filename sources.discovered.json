@@ -12,6 +12,170 @@
       ],
       "enabled": true,
       "is_private": false
+    },
+    {
+      "id": "gh-c964add1d0",
+      "name": "GitHub Auto (0xAKIRAVX/DNC-VPN)",
+      "url": "https://raw.githubusercontent.com/0xAKIRAVX/DNC-VPN/main/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-configshub",
+      "name": "Telegram @configshub",
+      "url": "https://t.me/s/configshub",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-freev2rays",
+      "name": "Telegram @freev2rays",
+      "url": "https://t.me/s/freev2rays",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2rayngvpn",
+      "name": "Telegram @v2rayngvpn",
+      "url": "https://t.me/s/v2rayngvpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2ray_outlineir",
+      "name": "Telegram @v2ray_outlineir",
+      "url": "https://t.me/s/v2ray_outlineir",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2rayng_config",
+      "name": "Telegram @v2rayng_config",
+      "url": "https://t.me/s/v2rayng_config",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-07d2577deb",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/all.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-4e6407a342",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/vless.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "sub-27c82f8d87",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/vmess.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-shadowsocksm",
+      "name": "Telegram @shadowsocksm",
+      "url": "https://t.me/s/shadowsocksm",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-vlessconfig",
+      "name": "Telegram @vlessconfig",
+      "url": "https://t.me/s/vlessconfig",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
+    },
+    {
+      "id": "tg-v2ray_collector",
+      "name": "Telegram @v2ray_collector",
+      "url": "https://t.me/s/v2ray_collector",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true,
+      "is_private": false
     }
   ]
 }

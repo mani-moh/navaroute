@@ -4,6 +4,8 @@
 
 vless://b1c31d36-c6b5-414b-88d2-9e24e7bfcca3@185.146.234.242:443?&security=tls&fp=chrome&sni=www.nihaoyun.top&type=ws&headerType=none&host=www.nihaoyun.top&path=%2F#[🇮🇸 IS] VLESS-ws | src:0xradikal-all
 vless://46d221fa-e9b4-748c-4eae-019a88e42991@191.44.112.170:443?sni=orbylume.my.to&type=ws&host=orbylume.my.to&path=/tvpn-tor/isfp=firefox&security=tls#[🇮🇸 IS] VLESS-ws | src:ermaozi-get-subscribe
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@37.235.49.152:989#[🇮🇸 IS] SS | src:sub-07d2577deb
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@37.235.49.168:989#[🇮🇸 IS] SS | src:sub-07d2577deb
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@37.235.49.168:989#[🇮🇸 IS] SS | src:elf2017spring-configshub
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.169:10889/?type=tcp&security=tls&sni=ya.ru#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.172:10889/?type=tcp&security=tls&sni=web.max.ru#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral

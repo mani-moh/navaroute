@@ -2,9 +2,9 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
+trojan://bpb-trojan@190.93.244.202:443?path=/tr?ed&security=tls&host=fcspring.ggff.net&type=ws&sni=fcspring.ggff.net#[🇨🇷 CR] Trojan-ws | src:0xradikal-all
+trojan://humanity@190.93.245.148:443?path=/assignment&security=tls&insecure=0&host=www.pleadcourt.org&type=ws&allowInsecure=0&sni=www.pleadcourt.org#[🇨🇷 CR] Trojan-ws | src:0xradikal-all
 vmess://eyJhZGQiOiAiMTkwLjkzLjI0NC4yMDEiLCAiYWlkIjogIjAiLCAiYWxwbiI6ICIiLCAiZnAiOiAiY2hyb21lIiwgImhvc3QiOiAiYXJnby10dW5uZWwuMTExODc0Lnh5eiIsICJpZCI6ICI1ZjFkNmQzMi03NmIzLTQ1NjItODk4Mi1kZjJiN2MxMjI3MDgiLCAibmV0IjogIndzIiwgInBhdGgiOiAiLzVmMWQ2ZDMyLTc2YjMtNDU2Mi04OTgyLWRmMmI3YzEyMjcwOC12bSIsICJwb3J0IjogIjQ0MyIsICJwcyI6ICJb8J+HqPCfh7cgQ1JdIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAic2N5IjogImF1dG8iLCAic25pIjogImFyZ28tdHVubmVsLjExMTg3NC54eXoiLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIn0=
 ss://bm9uZToxNGIwMmUyYS04OTMwLTRhZmItODQxMi1lYTRhNDk1NGNhNWI=@190.93.246.16:443?plugin=v2ray-plugin%3Bmode%3Dwebsocket%3Bpath%3D%2F14b02e2a-8930-4afb-8412-ea4a4954ca5b%2F%3Fed%5C%3D2560%3Bhost%3Dylnhh.us.ci#[🇨🇷 CR] SS | src:0xradikal-all
-trojan://humanity@190.93.245.148:443?path=%2Fassignment&security=tls&insecure=0&host=www.pleadcourt.org&type=ws&allowInsecure=0&sni=www.pleadcourt.org#[🇨🇷 CR] Trojan-ws | src:0xradikal-all
-trojan://bpb-trojan@190.93.244.202:443?path=/tr?ed&security=tls&host=fcspring.ggff.net&type=ws&sni=fcspring.ggff.net#[🇨🇷 CR] Trojan-ws | src:0xradikal-all
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@190.93.244.138:2096/?type=ws&encryption=none&host=sni.111000.indevs.in&path=%2F&security=tls&sni=sni.111000.indevs.in#[🇨🇷 CR] VLESS-ws | src:lalatinahub-mineral
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@190.93.245.138:2096/?type=ws&encryption=none&host=sni.111000.indevs.in&path=%2F%3Fed%3D2560%26telegram%F0%9F%87%A8%F0%9F%87%B3%2B%40wangcai2&security=tls&sni=sni.111000.indevs.in#[🇨🇷 CR] VLESS-ws | src:lalatinahub-mineral
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@190.93.245.138:2096?type=ws&encryption=none&host=sni.111000.indevs.in&path=%2F%3Fed%3D2560%26telegram%F0%9F%87%A8%F0%9F%87%B3%2B%40wangcai2&security=tls&sni=sni.111000.indevs.in#[🇨🇷 CR] VLESS-ws | src:lalatinahub-mineral
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@190.93.244.138:2096?&security=tls&sni=sni.111000.indevs.in&type=ws&headerType=none&host=sni.111000.indevs.in&path=%2F#[🇨🇷 CR] VLESS-ws | src:lalatinahub-mineral

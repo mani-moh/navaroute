@@ -2,8 +2,11 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20005?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sni=eu64.cdn77.icu#[✅] [🇦🇷 AR] VLESS-Reality | src:luxxuria-speed-tested
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20005?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sni=eu64.cdn77.icu#[✅] [🇦🇷 AR] VLESS-Reality | src:luxxuria-speed-tested | 304ms
 vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20005?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&type=tcp&encryption=none#[🇦🇷 AR] VLESS-Reality | src:ewecrow78-whitelist1
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZjI2ZDhiYjU5M2E1ZmM1@154.205.154.200:11201#[🇦🇷 AR] SS | src:lalatinahub-mineral
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1Yjk3ODA0N2I0N2Y3ZWFi@154.205.154.184:11201#[🇦🇷 AR] SS | src:sub-07d2577deb
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@190.103.176.32:989#[🇦🇷 AR] SS | src:sub-07d2577deb
 vless://d8dd94fd-540e-461d-b5d4-acebef02c22a@147.45.196.103:34045?type=tcp&headerType=none&security=reality&sni=visit-this-invitation-link-to-join-tg-enkelte-notif.ekt.me&pbk=cDaDzPr3PlS3NM8lreHZbdo-Mhqz8vMBzMSkHXhGIUA&sid=e8ab71d0#[🇦🇷 AR] VLESS-Reality | src:elf2017spring-configshub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4dGFMNENueUczU0g1RUVzN1BFNzVj@190.103.176.123:8443#[🇦🇷 AR] SS | src:lalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpBUmd2R1p5d0ErZ2FjZ0dWMjZCdm11MDUrd1ptUlcvaitBZFUrWjhCdDQ0PQ@190.103.176.32:990#[🇦🇷 AR] SS | src:lalatinahub-mineral
