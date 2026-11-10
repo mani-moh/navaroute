@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -11,7 +12,20 @@ from src.discovery.state_manager import DiscoveryStateManager
 from src.fetcher import load_sources
 
 
-class TestNemotronClient(unittest.TestCase):
+class OfflineDiscoveryTestCase(unittest.TestCase):
+    def setUp(self):
+        temp_directory = tempfile.gettempdir()
+        environment = patch.dict(os.environ, {"TEMP": temp_directory, "TMP": temp_directory}, clear=True)
+        environment.start()
+        self.addCleanup(environment.stop)
+        for target in ("urllib.request.urlopen", "urllib.request.OpenerDirector.open"):
+            guard = patch(target, side_effect=AssertionError("unexpected external request"))
+            transport = guard.start()
+            self.addCleanup(guard.stop)
+            self.addCleanup(transport.assert_not_called)
+
+
+class TestNemotronClient(OfflineDiscoveryTestCase):
     def test_client_init_defaults(self):
         with patch.dict(os.environ, {"NVIDIA_API_KEY": "test-nvapi-key"}, clear=True):
             client = NemotronClient()
@@ -111,15 +125,12 @@ class TestNemotronClient(unittest.TestCase):
             self.assertIsNone(client.complete_json("hello"))
 
 
-class TestDiscoveryStateManager(unittest.TestCase):
+class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
     def setUp(self):
-        self.test_state_file = Path("data/test_discovery_state.json")
-        if self.test_state_file.exists():
-            self.test_state_file.unlink()
-
-    def tearDown(self):
-        if self.test_state_file.exists():
-            self.test_state_file.unlink()
+        super().setUp()
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.test_state_file = Path(temporary.name) / "state.json"
 
     def test_load_and_save_state(self):
         manager = DiscoveryStateManager(state_file=str(self.test_state_file))
@@ -159,7 +170,7 @@ class TestDiscoveryStateManager(unittest.TestCase):
         self.assertIn("Autonomous Subscription Discovery Leaderboard", md)
 
 
-class TestTelegramChannelScraper(unittest.TestCase):
+class TestTelegramChannelScraper(OfflineDiscoveryTestCase):
     def test_parse_channel_page_extracts_uris_and_sister_channels(self):
         sample_html = """
         <div class="tgme_channel_info_description">Official proxy configs. Sister channel: @SisterProxy and join https://t.me/AnotherV2ray. Sub: https://raw.githubusercontent.com/user/repo/main/sub.txt</div>
@@ -202,7 +213,7 @@ class TestTelegramChannelScraper(unittest.TestCase):
         self.assertEqual(result.oldest_post_id, 99)
 
 
-class TestWebSearchScraper(unittest.TestCase):
+class TestWebSearchScraper(OfflineDiscoveryTestCase):
     def test_parse_duckduckgo_results(self):
         sample_ddg_html = """
         <div class="result results_links results_links_deep web-result">
@@ -220,19 +231,27 @@ class TestWebSearchScraper(unittest.TestCase):
         self.assertTrue(any("github.com/free-v2ray" in u for u in urls))
 
 
-class TestDiscoveryAgent(unittest.TestCase):
+class TestDiscoveryAgent(OfflineDiscoveryTestCase):
     def setUp(self):
-        self.test_state_file = Path("data/test_agent_state.json")
-        self.test_discovered_file = Path("test_sources.discovered.json")
-        self.test_leaderboard_file = Path("test_DISCOVERY.md")
-        for f in (self.test_state_file, self.test_discovered_file, self.test_leaderboard_file):
-            if f.exists():
-                f.unlink()
-
-    def tearDown(self):
-        for f in (self.test_state_file, self.test_discovered_file, self.test_leaderboard_file):
-            if f.exists():
-                f.unlink()
+        super().setUp()
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        previous_cwd = Path.cwd()
+        # The agent's public-source and OCR paths are cwd-relative.
+        os.chdir(self.root)
+        self.addCleanup(os.chdir, previous_cwd)
+        (self.root / "data").mkdir()
+        self.test_state_file = self.root / "data" / "state.json"
+        self.test_discovered_file = self.root / "sources.discovered.json"
+        self.test_leaderboard_file = self.root / "DISCOVERY.md"
+        self.test_sources_file = self.root / "sources.json"
+        self.test_sources_file.write_text(json.dumps({
+            "sources": [{
+                "id": "fixture-public", "name": "Fixture Public",
+                "url": "https://example.com/sub.txt", "format": "auto", "enabled": True,
+            }]
+        }), encoding="utf-8")
 
     @patch("src.discovery.search_engine.WebSearchScraper.search_github", return_value=[])
     @patch("src.discovery.search_engine.WebSearchScraper.search_duckduckgo", return_value=([], []))
@@ -252,6 +271,7 @@ class TestDiscoveryAgent(unittest.TestCase):
             discovered_sources_file=str(self.test_discovered_file),
             leaderboard_file=str(self.test_leaderboard_file),
             initial_seeds=["mockchan"],
+            nemotron_client=NemotronClient(api_key=""),
         )
 
         discovered = agent.run_cycle(max_channels=1, max_time_seconds=10)
@@ -281,7 +301,7 @@ class TestDiscoveryAgent(unittest.TestCase):
         }, indent=2), encoding="utf-8")
 
         sources = load_sources(
-            sources_path="sources.json",
+            sources_path=str(self.test_sources_file),
             discovered_sources_path=str(self.test_discovered_file),
         )
         discovered_item = next((s for s in sources if s.id == "tg-autodiscovered"), None)
@@ -297,16 +317,11 @@ class TestDiscoveryAgent(unittest.TestCase):
 
     def test_load_local_dotenv(self):
         from src.discovery.agent import load_local_dotenv
-        temp_env = Path("data/test_dot_env")
+        temp_env = self.root / "data" / "test_dot_env"
         temp_env.write_text('TEST_NVAPI_DUMMY="nvapi-123456"\n# comment\n', encoding="utf-8")
-        try:
-            os.environ.pop("TEST_NVAPI_DUMMY", None)
+        with patch.dict(os.environ, {}, clear=True):
             load_local_dotenv(str(temp_env))
             self.assertEqual(os.environ.get("TEST_NVAPI_DUMMY"), "nvapi-123456")
-        finally:
-            os.environ.pop("TEST_NVAPI_DUMMY", None)
-            if temp_env.exists():
-                temp_env.unlink()
 
     def test_state_filters_spam_and_tracks_api_usage(self):
         manager = DiscoveryStateManager(state_file=str(self.test_state_file))
@@ -381,6 +396,58 @@ class TestDiscoveryAgent(unittest.TestCase):
         reloaded.add_candidates(["spam_bot", "new_vless_sub"])
         self.assertNotIn("spam_bot", reloaded.get_state()["candidate_queue"])
         self.assertIn("new_vless_sub", reloaded.get_state()["candidate_queue"])
+
+
+class TestDiscoveryFixtureSafety(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        previous_cwd = Path.cwd()
+        os.chdir(self.root)
+        self.addCleanup(os.chdir, previous_cwd)
+        (self.root / "data").mkdir()
+
+    def test_ambient_api_key_never_causes_network(self):
+        case = TestDiscoveryAgent("test_discovery_agent_run_cycle")
+        self.addCleanup(case.doCleanups)
+        case.setUp()
+        with patch.dict(os.environ, {"NVIDIA_API_KEY": "synthetic-ambient-key"}, clear=True), patch(
+            "urllib.request.urlopen"
+        ) as transport, patch(
+            "urllib.request.OpenerDirector.open", side_effect=AssertionError("unexpected direct request")
+        ) as direct_transport:
+            response = transport.return_value.__enter__.return_value
+            response.read.return_value = b'{"choices":[{"message":{"role":"assistant","content":"{}"}}]}'
+            case.test_discovery_agent_run_cycle()
+            self.assertEqual(transport.call_count + direct_transport.call_count, 0)
+
+    def test_fixtures_leave_existing_files_unchanged(self):
+        sentinels = {
+            "data/test_discovery_state.json": b"state sentinel\x00",
+            "data/test_agent_state.json": b"agent sentinel\x00",
+            "test_sources.discovered.json": b"sources sentinel\x00",
+            "test_DISCOVERY.md": b"leaderboard sentinel\x00",
+            "data/test_dot_env": b"dotenv fixture sentinel\x00",
+            "data/discovered_ocr_configs.txt": b"vless://fixture-uuid@192.0.2.10:443?security=tls#Private-sentinel\n",
+            "sources.json": b'{"sources": []}',
+            ".env": b"TEST_NVAPI_DUMMY=existing-user-value\n",
+        }
+        for name, content in sentinels.items():
+            (self.root / name).write_bytes(content)
+        suite = unittest.TestSuite([
+            TestDiscoveryStateManager("test_load_and_save_state"),
+            TestDiscoveryAgent("test_discovery_agent_run_cycle"),
+            TestDiscoveryAgent("test_load_local_dotenv"),
+        ])
+        result = unittest.TestResult()
+        suite.run(result)
+        self.assertTrue(result.wasSuccessful(), result.errors + result.failures)
+        for name, content in sentinels.items():
+            with self.subTest(path=name):
+                path = self.root / name
+                self.assertTrue(path.is_file(), "fixture deleted an existing file")
+                self.assertEqual(path.read_bytes(), content)
 
 
 if __name__ == "__main__":
