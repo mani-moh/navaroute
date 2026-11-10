@@ -4,7 +4,7 @@
 
 **Goal:** Deliver a safe, subscription-only NavaRoute repository, with reliable scheduled generation and owner-authorized standalone manual Iran results.
 
-**Architecture:** Retain the standard-library batch pipeline and fix shared transport/connection contracts before their callers. Remove client machinery and destructive synthesis. Keep owner tester/workflow/imports and evidence on protected `iran-results`, separately from scheduled output on `master`.
+**Architecture:** Retain the standard-library batch pipeline and fix shared transport/connection contracts before their callers. Remove client machinery and destructive synthesis. Keep owner tester/imports/uploader and evidence on protected `iran-results`, separately from scheduled `master`. The user selected direct owner API publication, with Actions PR creation/approval kept blocked and an explicit owner-admin protection exception.
 
 **Tech Stack:** Python 3.10+, standard library, unittest; Git/GitHub CLI; supplied standalone Xray; GitHub Actions. No new runtime packages.
 
@@ -20,7 +20,8 @@
 - Preserve **`master`**, daily discovery and six-hour aggregation; no history rewrite/force-push/local directory move.
 - Remove **all app/client interaction**; do not read/migrate ignored local data or real client files.
 - Iran testing runs only on the owner's machine, **only on explicit command**; never a schedule/refresh/discovery/retest.
-- Supported tester, all imports and publication execution come from protected **`iran-results`**, never scheduled-writable code.
+- Supported tester, all imports and direct API publication execution come from protected **`iran-results`**, never scheduled-writable code.
+- Keep Actions PR creation/approval blocked; direct publication uses the authenticated owner-admin exception only. No Iran publication/test workflow.
 - Source inputs for publishable Iran evidence come from one immutable official public snapshot; no local fallback/private input.
 - Official publication requires owner authorization/review; public-code execution and physical origin cannot be guaranteed.
 - Preserve full connection semantics or reject the entry; unsupported fields never disappear into a successful probe.
@@ -33,7 +34,7 @@
 - DNS/proxy differences: private/rebound destinations must not receive a request, and explicit proxy failure must not leak direct traffic (Task 2).
 - Meaningful URI blanks/lists/custom identifiers: preserve valid connection semantics rather than silently normalizing (Task 3).
 - Cancellation after dequeue or before checkpoint replacement: unfinished work and previous state must remain recoverable (Task 4).
-- Publication races/approval invalidation: a changed snapshot/PR cannot retain stale owner authorization or report unconfirmed publication (Tasks 5, 8).
+- Publication races: concurrent protected-head changes must reject a non-forced owner update; retries cannot fabricate fresh tests or report unconfirmed publication (Tasks 5, 8).
 - Historical generated snapshots: rebranding cannot fabricate fresh probes or convert ambiguous legacy fingerprints into owner evidence (Tasks 6, 7).
 
 ---
@@ -51,7 +52,7 @@
 | `src/discovery/*.py`, `tests/test_discovery.py` | Hard attempts/deadlines, durable queues/source state/retained yield; Task 4 after Tasks 1–3. |
 | `src/healthcheck.py`, `scripts/test_iran_reachability.py`, `scripts/check_from_iran.ps1`, `tests/test_scripts.py`, health tests in `tests/test_pipeline.py` | Faithful owned-core probing and owner command; Task 5. |
 | `scripts/sync_to_pattn.py`, `scripts/trigger_update.ps1` | Delete, with callers and obsolete tests, in Task 5. |
-| `src/iran_results.py` (new), new manual publication/validation workflows, `tests/test_iran_results.py` (new) | Sanitized schema, public subset, manual PR and owner merge protocol; Task 5. |
+| `src/iran_results.py` (new), `tests/test_iran_results.py` (new) | Sanitized schema, public subset, direct owner API publication; Task 5. No new Iran workflow. |
 | `src/categorizer.py`, publisher/main portions of `tests/test_pipeline.py` | Staged generation, evidence-qualified feeds, static-doc markers; Task 6. |
 | Existing workflows, `.gitignore`, `.gitattributes`, `.env.example`, maintained docs, package docstrings and `subs/` | Security gates, identity/artifact migration; Task 7 after caller stabilization. |
 | Protected branch setup, GitHub rename/metadata, remote release | Coordinator only, Task 8, after reviews and full verification. |
@@ -115,20 +116,20 @@ All public/private transport, atomic-file and identity interfaces below must be 
 
 ### Task 5: No-client, owner-only standalone testing and evidence
 
-**Files:** `src/healthcheck.py`; replace retained Iran script/wrapper; create `src/iran_results.py`, `tests/test_iran_results.py`, manual publication/metadata validation workflows; update `tests/test_scripts.py` and health tests; delete `scripts/sync_to_pattn.py`, `scripts/trigger_update.ps1` and every remaining client caller/flag/fixture.
+**Files:** `src/healthcheck.py`; replace retained Iran script/wrapper; create `src/iran_results.py`, `tests/test_iran_results.py`; update `tests/test_scripts.py` and health tests; delete `scripts/sync_to_pattn.py`, `scripts/trigger_update.ps1` and every remaining client caller/flag/fixture. Do not create an Iran workflow.
 
 **Consumes:** Tasks 1–3 public transport/canonical fingerprints; Task 6 publisher must not be imported to mutate scheduled artifacts from this flow.
 
-**Produces:** `build_xray_outbound(node) -> dict|None` is faithful or unsupported; batch/core probing distinguishes actual failure from infrastructure error and never socket-falls back in manual mode. Owner CLI requires `--xray-bin`, immutable official input and explicit publish/attestation intent. `validate_manifest(manifest: dict, nodes: list[ProxyNode], *, source_sha: str, source_digest: str) -> None`; `render_result_files(...) -> dict[str,str]` returns only `data/iran-verification.json`, `subs/iran-tested.txt`, and `subs/iran-tested_base64.txt` proposal content. No arbitrary URI field in submitted evidence.
+**Produces:** `build_xray_outbound(node) -> dict|None` is faithful or unsupported; batch/core probing distinguishes actual failure from infrastructure error and never socket-falls back in manual mode. Owner CLI requires `--xray-bin`, immutable official input and explicit publish/attestation intent. `validate_manifest(manifest: dict, nodes: list[ProxyNode], *, source_sha: str, source_digest: str) -> None`; `render_result_files(...) -> dict[str,str]` returns only `data/iran-verification.json`, `subs/iran-tested.txt`, and `subs/iran-tested_base64.txt`. Direct uploader creates one owner commit/non-forced ref update, with exact-content confirmation. No arbitrary URI field in submitted evidence.
 
 **Manifest contract:** schema/fingerprint version 1; canonical repo; source commit and exact digest; UTC started/completed; owner-attested direct-Iran context; safe core version/hash; probe policy `https-204-v1`; positive rounds; bounded counts; unique fingerprint/status/finite latency observations. No raw credentials, environment/local path/IP/hostname/log fields. Unknown fields are rejected.
 
 - [ ] Write failure-before-probe tests for anonymous/non-owner/expired auth, unofficial/mixed/failed input, missing supplied core, private/rebound destinations and invalid limits. Assert no SQLite/client path/PATH/registry/existing-service interaction; rejected legacy flags stay rejected.
 - [ ] Write conversion/HTTPS tests for implicit Trojan TLS, VMess gRPC, supported options, unsupported fm/cs/dialMode/plugin/etc., malformed peer isolation, unsupported protocols before budget, reset of stale statuses, captive 200/invalid cert, core startup/cancellation cleanup and zero genuine work. Use owned local proxy mocks only, no external probes.
-- [ ] Write manifest/publication tests for unknown fingerprints/fields, duplicates, negative/nonfinite latency, private sentinel values, oversized dispatch, failed/wrong-ref workflow, changed PR after local validation, repeated upload, and missing confirmed merge. Assert no false “published,” no stale approval reuse, and all emitted URI identities belong to the pinned snapshot.
+- [ ] Write manifest/publication tests for unknown fingerprints/fields, duplicates, negative/nonfinite latency, private sentinel values, oversized payload, wrong owner/admin/protection, changed protected head, repeated upload, failed non-forced update and missing exact-content confirmation. Assert no false “published,” no overwritten concurrent commit, and emitted URI identities are a public subset.
 - [ ] Run `python -m unittest tests.test_iran_results tests.test_scripts -v` and health tests; capture red evidence.
 - [ ] Delete client machinery and implement standalone owned-core HTTPS probes with expected 204/certificate validation; mark unsupported configs untestable, not stripped. Require trusted protected tester checkout and `gh api user` owner before work; do not expose credentials to the child core.
-- [ ] Implement `workflow_dispatch`-only protected-ref owner/triggering-actor checks. Trusted protected code validates data only, renders one proposal commit/PR to `iran-results`; local owner command matches exact PR files, approves and merges, then confirms official content. Never execute master/PR code or retest in workflow. Metadata validator may run automatically but does no traffic/core testing and uses protected trusted code only.
+- [ ] Implement owner/admin/canonical-repo/protected-ref checks in trusted local code. Validate/render only approved paths, create blobs/tree/commit against the captured protected head through owner-authenticated `gh api`, update `force=false` and confirm the exact reference/content. Keep idempotent dated retries. No bot PR, no Iran workflow, no master/PR code execution or new Actions secret.
 - [ ] Run all negative/privacy/cleanup/publication tests; coordinator commits: `feat: add owner-authorized standalone Iran evidence without client integration`.
 
 ### Task 6: Safe truthful subscription and documentation generation
@@ -164,12 +165,12 @@ All public/private transport, atomic-file and identity interfaces below must be 
 **Files/settings:** final branch diff, finding-resolution ledger, GitHub repo metadata/remote and new protected `iran-results` branch only. No product edits without appropriate implementer/review ownership.
 
 - [ ] Dispatch a fresh requirements/security reviewer with approved spec and complete diff; then a fresh connected-code `ponytail-review`. Verify each finding, fix root causes with red/green evidence and rerun impacted/full tests. Do not waive critical/high defects as cosmetic limits.
-- [ ] Run fresh `python -m compileall -q src scripts tests` and offline `python -m unittest discover -s tests -v`; run pytest if installed, without making it a runtime dependency. Check `git diff --check`, public artifact schemas/round trips/counts, no-client imports/calls, secret/private inventory, marker stability, workflow triggers and both actor/ref checks. Record any unavailable real-core/schema checks honestly.
+- [ ] Run fresh `python -m compileall -q src scripts tests` and offline `python -m unittest discover -s tests -v`; run pytest if installed, without making it a runtime dependency. Check `git diff --check`, artifact invariants, no-client calls, private inventory, marker stability, schedule exclusion and owner/admin/protection checks. Record unavailable real-core/schema checks honestly.
 - [ ] Review logical commits and source baseline; no resets of user work. Recheck authenticated owner, target availability, collaborators/apps and branch-protection capabilities. Verify a create/protect/PR-review policy is possible before promising isolation.
 - [ ] Rename repo to `navaroute`, update origin/description/topics and active links, retain master. Observe remote CI and raw URLs; no old-name reuse/history rewrite.
-- [ ] Initialize `iran-results` with the reviewed tester, all imports/workflow/validator, CODEOWNERS and empty **untested** evidence paths; protect with owner code-owner review, stale-review dismissal/latest-push approval, enforced no automation bypass. Keep Actions approval disabled. Verify effective settings and scheduled-token lack of direct/unreviewed update authority; inability to enforce is a blocker, not a silent fallback.
-- [ ] Ensure protected manual workflow registration/ref and local owner's separate trusted checkout procedure work without executing master code. Tests validate failures without real Iran traffic. Leave real input/probe evidence unclaimed until owner command actually runs.
-- [ ] Publish resolution ledger/post-hardening assessment with evidence, final diff and residual live-test limits. Provide the one explicit owner command and explain accepted dispatch vs PR vs official merged result. Run `finishing-a-development-branch` for integration decisions and leave original ignored local data untouched.
+- [ ] Initialize `iran-results` with reviewed tester/imports/uploader, CODEOWNERS and empty **untested** evidence paths. Require owner/code-owner review for ordinary writers, stale/latest-push review controls, no automation bypass; intentionally permit the owner-admin exception (`enforce_admins=false`) chosen by the user. Keep Actions PR creation/approval disabled. Verify sole owner admin/no untrusted admin App, and normal schedule-token inability to update protected code/evidence. Unverified strict access remains a release blocker/explicit limitation.
+- [ ] Verify the owner's separate pinned protected checkout and direct API publication protocol without executing master code or real Iran traffic. Leave real probe evidence unclaimed until the owner command runs.
+- [ ] Publish resolution ledger/post-hardening assessment with evidence and limits. Provide the explicit owner command and distinguish completed local test from confirmed official API commit. Run `finishing-a-development-branch`; preserve original ignored data.
 
 ## Dependency/dispatch order
 
