@@ -1,75 +1,43 @@
 from __future__ import annotations
 
-from src.models import ProxyNode
+import json
+from copy import deepcopy
+from dataclasses import replace
+from datetime import datetime, timezone
+
+from src.models import ProxyNode, health_observation_time
 
 
 def deduplicate_nodes(nodes: list[ProxyNode]) -> list[ProxyNode]:
-    """Deduplicate a list of ProxyNodes by their semantic fingerprint.
-
-    Merges source_ids, tags, is_verified_source, passed_healthcheck,
-    minimum latency_ms, and selects the best country_code.
-    """
+    """Merge metadata only for complete equal connections, independent of source order."""
     groups: dict[str, list[ProxyNode]] = {}
     for node in nodes:
-        fp = node.semantic_fingerprint()
-        if fp not in groups:
-            groups[fp] = []
-        groups[fp].append(node)
-
-    deduped: list[ProxyNode] = []
-    for group in groups.values():
-        primary = group[0]
-
-        merged_source_ids: set[str] = set()
-        merged_tags: set[str] = set()
-        is_verified = False
-        passed_health = False
-        latencies: list[float] = []
-        country_codes: list[str] = []
-
-        # Merge parameters across duplicates
-        merged_params = dict(primary.params)
-
-        for n in group:
-            merged_source_ids.update(n.source_ids)
-            merged_tags.update(n.tags)
-            if n.is_verified_source:
-                is_verified = True
-            if n.passed_healthcheck:
-                passed_health = True
-            if n.latency_ms is not None:
-                latencies.append(n.latency_ms)
-            if n.country_code and n.country_code != "XX":
-                country_codes.append(n.country_code)
-            for k, v in n.params.items():
-                if k not in merged_params:
-                    merged_params[k] = v
-
-        best_country = country_codes[0] if country_codes else primary.country_code
-        min_latency = min(latencies) if latencies else None
-
-        # Prefer raw_uri and remark from a verified source if available
-        best_node = primary
-        for n in group:
-            if n.is_verified_source and not best_node.is_verified_source:
-                best_node = n
-                break
-
-        merged_node = ProxyNode(
-            scheme=primary.scheme,
-            address=primary.address,
-            port=primary.port,
-            credential=primary.credential,
-            params=merged_params,
-            raw_uri=best_node.raw_uri or primary.raw_uri,
-            remark=best_node.remark or primary.remark,
-            country_code=best_country,
-            source_ids=merged_source_ids,
-            tags=merged_tags,
-            is_verified_source=is_verified,
-            passed_healthcheck=passed_health,
-            latency_ms=min_latency,
-        )
-        deduped.append(merged_node)
-
+        groups.setdefault(node.semantic_fingerprint(), []).append(node)
+    deduped = []
+    for fingerprint in sorted(groups):
+        group = groups[fingerprint]
+        representative = min(group, key=lambda n: (
+            not n.is_verified_source, n.remark, sorted(n.source_ids), n.raw_uri,
+            n.address, n.country_code, sorted(n.tags),
+            n.scheme, json.dumps(n.params, sort_keys=True, ensure_ascii=False, allow_nan=False),
+        ))
+        countries = {n.country_code.upper() for n in group if n.country_code and n.country_code.upper() != "XX"}
+        observations = [n for n in group if health_observation_time(n) is not None]
+        observation = max(observations, key=lambda n: (
+            health_observation_time(n) or datetime.min.replace(tzinfo=timezone.utc),
+            n.healthcheck_kind == "xray", not n.passed_healthcheck,
+            n.latency_ms if n.latency_ms is not None else -1,
+            n.healthchecked_at,
+        )) if observations else None
+        deduped.append(replace(
+            representative, params=deepcopy(representative.params),
+            source_ids=set().union(*(n.source_ids for n in group)),
+            tags=set().union(*(n.tags for n in group)),
+            is_verified_source=any(n.is_verified_source for n in group),
+            country_code=next(iter(countries)) if len(countries) == 1 else "XX",
+            passed_healthcheck=observation.passed_healthcheck if observation else False,
+            latency_ms=observation.latency_ms if observation else None,
+            healthcheck_kind=observation.healthcheck_kind if observation else "untested",
+            healthchecked_at=observation.healthchecked_at if observation else None,
+        ))
     return deduped

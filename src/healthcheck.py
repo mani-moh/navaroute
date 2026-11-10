@@ -532,7 +532,7 @@ def check_nodes_health(
     # Reset status before probing
     def sort_key(n: ProxyNode) -> tuple[int, int]:
         p1 = 0 if n.is_verified_source else 1
-        p2 = 0 if (n.is_iran_optimized() or n.is_reality() or "confighub" in n.tags) else 1
+        p2 = 0 if (n.is_iran_related() or n.is_reality() or "confighub" in n.tags) else 1
         return (p1, p2)
 
     nodes_with_priority = sorted(nodes, key=sort_key)

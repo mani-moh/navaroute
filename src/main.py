@@ -10,7 +10,6 @@ from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
 from src.fetcher import fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
-from src.transform_pattn import generate_pattn_variants
 
 if hasattr(sys.stdout, "reconfigure"):
     try:
@@ -58,18 +57,6 @@ def build_arg_parser() -> argparse.ArgumentParser:
         type=int,
         default=800,
         help="Maximum prioritized nodes to probe during healthcheck (default: 800)",
-    )
-    parser.add_argument(
-        "--use-xray",
-        action=argparse.BooleanOptionalAction,
-        default=False,
-        help="Use local Xray binary for deep SOCKS proxy health probing when available (default: disabled, uses fast socket handshake)",
-    )
-    parser.add_argument(
-        "--pattn-variants",
-        action=argparse.BooleanOptionalAction,
-        default=True,
-        help="Generate specialized PattN bypass variants (F&F, IPv6-OOB, SNI-Spoof) (default: enabled)",
     )
     parser.add_argument(
         "--max-workers",
@@ -177,16 +164,7 @@ def main(argv: list[str] | None = None) -> int:
     deduped_nodes = deduplicate_nodes(raw_nodes)
     safe_print(f"      Condensed {len(raw_nodes)} raw nodes -> {len(deduped_nodes)} unique nodes")
 
-    # 4. PattN Bypass Variant Transformation
-    if args.pattn_variants:
-        safe_print("[4/6] Synthesizing PattN bypass variants (F&F, IPv6-OOB, SNI-Spoof)...")
-        variants = generate_pattn_variants(deduped_nodes, max_source_nodes=250)
-        safe_print(f"      Generated {len(variants)} specialized bypass variants")
-        all_nodes = deduplicate_nodes(deduped_nodes + variants)
-        safe_print(f"      Total unique nodes with variants: {len(all_nodes)}")
-    else:
-        safe_print("[4/6] PattN variants disabled, skipping.")
-        all_nodes = deduped_nodes
+    all_nodes = deduped_nodes
 
     # 5. Live Multi-Stage Healthcheck
     if args.healthcheck:
@@ -199,7 +177,6 @@ def main(argv: list[str] | None = None) -> int:
             max_nodes=args.max_test_nodes,
             concurrency=64,
             timeout=3.5,
-            use_xray=args.use_xray,
         )
         passed_count = sum(1 for n in all_nodes if n.passed_healthcheck)
         safe_print(f"      Healthcheck finished: {passed_count} nodes responsive")

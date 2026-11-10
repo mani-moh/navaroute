@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import base64
+import contextlib
+import io
 import json
 import os
 import socket
@@ -22,127 +24,10 @@ from src.healthcheck import (
     probe_node_socket,
     probe_node_xray,
 )
-from src.main import main
+from src.main import build_arg_parser, main
 from src.models import ProxyNode, SourceConfig, SourceStats
-from src.transform_pattn import (
-    FAST_AND_FURIOUS_CIPHERS,
-    FRAGMENT_FM_JSON,
-    generate_pattn_variants,
-)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-class TestPattnVariants(unittest.TestCase):
-    def setUp(self):
-        self.base_vless = ProxyNode(
-            scheme="vless",
-            address="cloudflare-cdn.com",
-            port=443,
-            credential="vless-uuid-1234",
-            params={
-                "type": "ws",
-                "security": "tls",
-                "sni": "my-worker.example.org",
-                "host": "my-worker.example.org",
-                "path": "/ws-path",
-            },
-            remark="Base VLESS DE",
-            country_code="DE",
-            is_verified_source=True,
-            passed_healthcheck=True,
-            latency_ms=45.0,
-        )
-
-        self.base_trojan = ProxyNode(
-            scheme="trojan",
-            address="trojan.example.com",
-            port=443,
-            credential="secret-trojan-pass",
-            params={
-                "type": "grpc",
-                "security": "tls",
-                "sni": "grpc.example.com",
-                "serviceName": "trojan-grpc",
-            },
-            remark="Base Trojan US",
-            country_code="US",
-            is_verified_source=True,
-        )
-
-    def test_generate_pattn_variants_creates_three_variants(self):
-        variants = generate_pattn_variants([self.base_vless], max_source_nodes=10)
-        self.assertEqual(len(variants), 3)
-
-        v_fnf = next(v for v in variants if "[PattN F&F]" in v.remark)
-        v_oob = next(v for v in variants if "[PattN IPv6-OOB]" in v.remark)
-        v_spoof = next(v for v in variants if "[PattN SNI-Spoof]" in v.remark)
-
-        # 1. Fast & Furious Variant
-        self.assertEqual(v_fnf.address, "188.114.98.0")
-        self.assertEqual(v_fnf.port, 443)
-        self.assertEqual(v_fnf.params.get("fp"), "unsafe")
-        self.assertEqual(v_fnf.params.get("cs"), FAST_AND_FURIOUS_CIPHERS)
-        self.assertEqual(v_fnf.params.get("fm"), FRAGMENT_FM_JSON)
-        self.assertEqual(v_fnf.params.get("sni"), "my-worker.example.org")
-        self.assertEqual(v_fnf.params.get("host"), "my-worker.example.org")
-        self.assertTrue(v_fnf.is_pattn_special())
-        self.assertIn("pattn", v_fnf.tags)
-        self.assertIn("pattn_variant", v_fnf.tags)
-
-        # Rebuilt URI check
-        uri_fnf = v_fnf.to_uri(include_formatted_remark=True)
-        self.assertIn("188.114.98.0:443", uri_fnf)
-        self.assertIn("fp=unsafe", uri_fnf)
-        self.assertIn("cs=", uri_fnf)
-        self.assertIn("fm=", uri_fnf)
-        self.assertIn("[PattN F&F]", uri_fnf)
-
-        # 2. IPv6-OOB Variant
-        self.assertIn("2a06:98c1:3120::7", v_oob.address)
-        self.assertEqual(v_oob.port, 443)
-        self.assertEqual(v_oob.params.get("dialMode"), "oob.0")
-        self.assertEqual(v_oob.params.get("fp"), "hellochrome_120")
-        self.assertEqual(v_oob.params.get("sni"), "my-worker.example.org")
-        self.assertTrue(v_oob.is_pattn_special())
-
-        uri_oob = v_oob.to_uri(include_formatted_remark=True)
-        self.assertIn("[2a06:98c1:3120::7]:443", uri_oob)
-        self.assertIn("dialMode=oob.0", uri_oob)
-        self.assertIn("[PattN IPv6-OOB]", uri_oob)
-
-        # 3. SNI-Spoof Variant
-        self.assertEqual(v_spoof.address, "127.0.0.1")
-        self.assertEqual(v_spoof.port, 40443)
-        self.assertEqual(v_spoof.params.get("fp"), "chrome")
-        self.assertEqual(v_spoof.params.get("sni"), "my-worker.example.org")
-        self.assertTrue(v_spoof.is_pattn_special())
-
-        uri_spoof = v_spoof.to_uri(include_formatted_remark=True)
-        self.assertIn("127.0.0.1:40443", uri_spoof)
-        self.assertIn("fp=chrome", uri_spoof)
-        self.assertIn("[PattN SNI-Spoof]", uri_spoof)
-
-    def test_pattn_variants_skip_existing_variants_and_ineligible_nodes(self):
-        # A node already marked as variant should not spawn more variants
-        variant_node = ProxyNode(
-            scheme="vless",
-            address="188.114.98.0",
-            port=443,
-            credential="uuid",
-            tags={"pattn_variant"},
-            remark="Node [PattN F&F]",
-        )
-        self.assertEqual(len(generate_pattn_variants([variant_node])), 0)
-
-        # A node without TLS or without SNI/host
-        ineligible_node = ProxyNode(
-            scheme="ss",
-            address="192.168.1.1",
-            port=8388,
-            credential="pass",
-        )
-        self.assertEqual(len(generate_pattn_variants([ineligible_node])), 0)
 
 
 class TestHealthcheck(unittest.TestCase):
@@ -313,14 +198,13 @@ class TestCategorizer(unittest.TestCase):
             latency_ms=60.0,
         )
 
-        pattn_variant = ProxyNode(
+        special_node = ProxyNode(
             scheme="vless",
-            address="188.114.98.0",
+            address="special.example.com",
             port=443,
             credential="pub-uuid-3",
             params={"type": "ws", "security": "tls", "fm": "1", "fp": "unsafe"},
-            tags={"pattn", "pattn_variant"},
-            remark="PattN F&F",
+            remark="Special parameter node",
             country_code="DE",
         )
 
@@ -337,7 +221,7 @@ class TestCategorizer(unittest.TestCase):
             for i in range(5)
         ]
 
-        all_nodes = [public_verified, public_iran, pattn_variant] + de_nodes
+        all_nodes = [public_verified, public_iran, special_node] + de_nodes
         json_cfgs = [{"outbounds": [{"protocol": "vless", "tag": "test-json"}]}]
         stats = [
             SourceStats(
@@ -423,9 +307,18 @@ class TestFetcherAndLoader(unittest.TestCase):
 
 
 class TestMainPipeline(unittest.TestCase):
+    def test_cli_rejects_synthesis_and_core_switches(self):
+        for flag in ("--pattn-variants", "--no-pattn-variants", "--use-xray", "--no-use-xray"):
+            with self.subTest(flag=flag), contextlib.redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as result:
+                    build_arg_parser().parse_args([flag])
+                self.assertEqual(result.exception.code, 2)
+
+    @patch("src.main.load_sources", return_value=[])
     @patch("src.main.fetch_all_sources")
-    def test_main_cli_execution(self, mock_fetch):
+    def test_main_cli_execution(self, mock_fetch, _mock_sources):
         temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(temp_dir.cleanup)
         out_path = Path(temp_dir.name) / "cli_subs"
 
         node = ProxyNode(
@@ -453,7 +346,6 @@ class TestMainPipeline(unittest.TestCase):
             "--sources", str(BASE_DIR / "sources.json"),
             "--output-dir", str(out_path),
             "--no-healthcheck",
-            "--pattn-variants",
             "--no-docs",
             "--max-workers", "2",
         ])
@@ -461,6 +353,31 @@ class TestMainPipeline(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertTrue((out_path / "all.txt").exists())
         self.assertTrue((out_path / "categories" / "pattn-special.txt").exists())
+        from src.parsers import extract_nodes_from_content
+        published, _ = extract_nodes_from_content((out_path / "all.txt").read_text(encoding="utf-8"), SourceConfig("fixture", "Fixture", "https://example.com"))
+        self.assertEqual(len(published), 1)
+        self.assertEqual((published[0].address, published[0].port, published[0].credential), ("cli.example.com", 443, "cli-uuid"))
+        self.assertEqual(published[0].params, node.params)
 
         temp_dir.cleanup()
 
+    def test_main_optional_healthcheck_remains_socket_only_without_changing_connections(self):
+        node = ProxyNode("vless", "socket.example", 8443, " custom ",
+                         params={"type": "ws", "security": "tls", "host": "cdn.example", "path": " /x/ ", "flow": ""})
+        attempts = []
+
+        def fixture_socket(candidate, timeout):
+            attempts.append((candidate.address, candidate.port, candidate.credential, dict(candidate.params)))
+            return True, 12.0
+
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.main.load_sources", return_value=[]), \
+             patch("src.main.fetch_all_sources", return_value=([node], [], [])), \
+             patch("src.healthcheck.probe_node_socket", side_effect=fixture_socket):
+            self.assertEqual(main(["--output-dir", scratch, "--healthcheck", "--no-docs"]), 0)
+            self.assertEqual(attempts, [("socket.example", 8443, " custom ",
+                {"type": "ws", "security": "tls", "host": "cdn.example", "path": " /x/ ", "flow": ""})])
+            from src.parsers import extract_nodes_from_content
+            published, _ = extract_nodes_from_content((Path(scratch) / "all.txt").read_text(encoding="utf-8"), SourceConfig("fixture", "Fixture", "https://example.com"))
+            self.assertEqual(len(published), 1)
+            self.assertEqual(published[0].semantic_fingerprint(), node.semantic_fingerprint())

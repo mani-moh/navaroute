@@ -5,7 +5,9 @@ import json
 import subprocess
 import unittest
 import urllib.parse
+from dataclasses import replace
 from pathlib import Path
+from unittest.mock import patch
 
 from src.dedup import deduplicate_nodes
 from src.models import (
@@ -64,7 +66,7 @@ class TestParsers(unittest.TestCase):
         assert node.params.get("security") == "reality"
         assert node.params.get("serviceName") == "vless-grpc"
         assert node.is_reality() is True
-        assert node.is_cdn_fronted() is True
+        assert node.has_web_transport() is True
         assert node.is_verified_source is True
 
     def test_parse_standard_uri_with_path(self):
@@ -100,7 +102,7 @@ class TestParsers(unittest.TestCase):
         assert node.country_code == "US"
         assert node.params.get("type") == "ws"
         assert node.params.get("security") == "tls"
-        assert node.is_cdn_fronted() is True
+        assert node.has_web_transport() is True
 
         # Verify to_uri preserves/updates vmess JSON
         rebuilt = node.to_uri(include_formatted_remark=True)
@@ -204,7 +206,7 @@ class TestParsers(unittest.TestCase):
         # Whitespace uppercase 2-letter code matches when not a stop word
         assert detect_country("Fast node TR best") == "TR"
 
-    def test_pattn_special_detection(self):
+    def test_special_parameter_detection(self):
         node = ProxyNode(
             scheme="vless",
             address="1.1.1.1",
@@ -212,7 +214,7 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
             params={"fm": "1"},
         )
-        assert node.is_pattn_special() is True
+        assert node.has_special_parameters() is True
 
         node2 = ProxyNode(
             scheme="vless",
@@ -221,7 +223,7 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
             params={"dialMode": "1"},
         )
-        assert node2.is_pattn_special() is True
+        assert node2.has_special_parameters() is True
 
         node3 = ProxyNode(
             scheme="vless",
@@ -230,7 +232,7 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
             params={"cs": "test"},
         )
-        assert node3.is_pattn_special() is True
+        assert node3.has_special_parameters() is True
 
         node4 = ProxyNode(
             scheme="vless",
@@ -239,7 +241,7 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
             params={"fp": "unsafe"},
         )
-        assert node4.is_pattn_special() is True
+        assert node4.has_special_parameters() is True
 
         node5 = ProxyNode(
             scheme="vless",
@@ -248,7 +250,7 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
             tags={"pattn"},
         )
-        assert node5.is_pattn_special() is True
+        assert node5.has_special_parameters() is False
 
         normal_node = ProxyNode(
             scheme="vless",
@@ -256,7 +258,7 @@ class TestParsers(unittest.TestCase):
             port=443,
             credential="uuid",
         )
-        assert normal_node.is_pattn_special() is False
+        assert normal_node.has_special_parameters() is False
 
 
 class TestContentExtraction(unittest.TestCase):
@@ -334,7 +336,7 @@ class TestContentExtraction(unittest.TestCase):
         }
         src = SourceConfig(id="json-src", name="JSON Source", url="http://json", format="xray_json")
         nodes, jsons = extract_nodes_from_content(json.dumps(xray_content), src)
-        assert len(jsons) == 1
+        assert jsons == []
         assert len(nodes) == 1
         assert nodes[0].scheme == "vless"
         assert nodes[0].address == "ir.example.com"
@@ -368,6 +370,8 @@ class TestDeduplication(unittest.TestCase):
         node_b = parse_proxy_uri(uri_b, source=src2)
         node_b.latency_ms = 45.0
         node_b.passed_healthcheck = True
+        node_b.healthcheck_kind = "socket"
+        node_b.healthchecked_at = "2026-11-10T12:00:00Z"
 
         deduped = deduplicate_nodes([node_a, node_b])
         assert len(deduped) == 1
@@ -382,7 +386,332 @@ class TestDeduplication(unittest.TestCase):
 
         # Test to_uri output
         formatted_uri = merged.to_uri(include_formatted_remark=True)
-        assert "[✅]" in formatted_uri
-        assert "[🇩🇪 DE]" in formatted_uri
+        decoded_remark = urllib.parse.unquote(formatted_uri.split("#", 1)[1])
+        assert "[source-claimed]" in decoded_remark
+        assert "[socket:passed]" in decoded_remark
+        assert "[🇩🇪 DE]" in decoded_remark
         assert "VLESS-Reality" in formatted_uri
         assert "45ms" in formatted_uri
+
+
+class TestCanonicalConnections(unittest.TestCase):
+    def test_every_connection_option_participates_in_identity(self):
+        # Dropping a meaningful parameter must not merge different connections.
+        base = ProxyNode("vless", "example.com", 443, " custom id ")
+        for key, values in {
+            "fp": ["chrome", "firefox"], "alpn": ["h2", "http/1.1"],
+            "plugin": ["obfs-local;obfs=http", "obfs-local;obfs=tls"],
+            "aid": ["0", "1"], "headers": [{"X-Test": "a"}, {"X-Test": "b"}],
+            "encryption": ["none", "custom"], "path": ["/ws", " /ws ", "/ws/"],
+            "unknown": ["", "a"], "flow": ["", "xtls-rprx-vision"],
+            "security": ["tls", "TLS"], "type": ["ws", "WS"],
+        }.items():
+            with self.subTest(key=key):
+                nodes = [base] + [replace(base, params={key: value}) for value in values]
+                self.assertEqual(len(deduplicate_nodes(nodes)), len(nodes))
+        self.assertNotEqual(base.semantic_fingerprint(), replace(base, credential="custom id").semantic_fingerprint())
+
+    def test_raw_uri_cannot_override_changed_canonical_fields(self):
+        node = parse_proxy_uri("trojan://old@old.example:443?path=%2Fold#old")
+        node.address, node.port, node.credential = "new.example", 8443, " 密@码:/?# "
+        node.params = {"path": " /新/?# ", "security": "tls"}
+        rebuilt = parse_proxy_uri(node.to_uri(False))
+        self.assertEqual((rebuilt.address, rebuilt.port, rebuilt.credential), ("new.example", 8443, " 密@码:/?# "))
+        self.assertEqual(rebuilt.params, {"path": " /新/?# ", "security": "tls"})
+
+    def test_supported_schemes_round_trip_encoded_auth_options_and_fragments(self):
+        fixtures = [
+            ("vless://custom%20id%3A%40%2F@EXAMPLE.com:443?path=%20%2Fws%2F%20&host=cdn.example#%E6%B5%8B%23%26", "custom id:@/"),
+            ("trojan://%20p%40%3A%2F%3F%23%20@[2001:db8::1]:8443?security=tls&alpn=h2&alpn=http%2F1.1", " p@:/?# "),
+            ("hy2://pass%3A%40@example.com:443?obfs-password=%20secret%20", "pass:@"),
+            ("tuic://custom-id:p%3A%40%2F%3F%23%20@[2001:db8::2]:443?alpn=h3&alpn=h2", "custom-id:p:@/?# "),
+            ("wg://key%2B%2F%3D@example.com:51820?address=10.0.0.2%2F32&address=fd00%3A%3A2%2F128", "key+/="),
+            ("ss://aes-256-gcm:p%3A%40%2F%3F%23%20@[2001:db8::3]:8388?plugin=obfs-local%3Bobfs%3Dhttp", "aes-256-gcm:p:@/?# "),
+        ]
+        for uri, credential in fixtures:
+            with self.subTest(uri=uri):
+                node = parse_proxy_uri(uri)
+                self.assertIsNotNone(node)
+                self.assertEqual(node.credential, credential)
+                rebuilt = parse_proxy_uri(node.to_uri(False))
+                self.assertIsNotNone(rebuilt)
+                self.assertEqual(rebuilt.credential, credential)
+                self.assertEqual(rebuilt.params, node.params)
+                self.assertEqual(rebuilt.remark, node.remark)
+                self.assertEqual(rebuilt.semantic_fingerprint(), node.semantic_fingerprint())
+        tuic = parse_proxy_uri(fixtures[3][0]).to_uri(False)
+        self.assertIn("custom-id:p%3A%40%2F%3F%23%20@", tuic)
+
+    def test_shadowsocks_2022_uses_percent_encoded_not_base64_userinfo(self):
+        node = ProxyNode("ss", "example.com", 8388, "2022-blake3-aes-128-gcm:key+/=:second+/=")
+        uri = node.to_uri(False)
+        self.assertEqual(uri, "ss://2022-blake3-aes-128-gcm:key%2B%2F%3D%3Asecond%2B%2F%3D@example.com:8388")
+        self.assertEqual(parse_proxy_uri(uri).credential, "2022-blake3-aes-128-gcm:key+/=:second+/=")
+
+    def test_query_style_vmess_repeated_values_round_trip_or_reject_at_parse(self):
+        node = parse_proxy_uri("vmess://custom@example.com:443?type=grpc&path=a&alpn=h2&alpn=h3")
+        self.assertIsNotNone(node)
+        rebuilt = parse_proxy_uri(node.to_uri(False))
+        self.assertIsNotNone(rebuilt)
+        self.assertEqual(rebuilt.params["path"], "a")
+        self.assertEqual(rebuilt.params["alpn"], ["h2", "h3"])
+        self.assertEqual(rebuilt.semantic_fingerprint(), node.semantic_fingerprint())
+        self.assertIsNone(parse_proxy_uri("vmess://custom@example.com:443?type=grpc&path=a&path=b"))
+
+    def test_repeated_and_blank_query_values_are_not_flattened(self):
+        node = parse_proxy_uri("vless://id@example.com:443?path=&path=%20%2Fx%20&alpn=h2&alpn=h3&unknown=")
+        self.assertEqual(node.params, {"path": ["", " /x "], "alpn": ["h2", "h3"], "unknown": ""})
+        self.assertEqual(parse_proxy_uri(node.to_uri(False)).params, node.params)
+
+    def test_authority_path_preserves_trailing_slash_and_whitespace(self):
+        node = parse_proxy_uri("vless://custom@example.com:443/%20x%20/?type=ws")
+        self.assertEqual(node.params["path"], "/ x /")
+        self.assertIsNone(parse_proxy_uri("vless://custom@example.com:443/a?path=%2Fb"))
+
+    def test_vmess_json_extra_fields_grpc_and_canonical_updates_round_trip(self):
+        data = {"v": "2", "add": "vmess.example", "port": "443", "id": " custom ",
+                "ps": "源 #名", "net": "grpc", "type": "none", "tls": "tls",
+                "path": " service / ", "serviceName": " service / ", "aid": 0,
+                "scy": "aes-128-gcm", "alpn": ["h2", "h3"], "fp": "chrome",
+                "extra": {"headers": {"X-Token": " a "}, "list": ["", "x"]}}
+        uri = "vmess://" + base64.b64encode(json.dumps(data).encode()).decode()
+        node = parse_proxy_uri(uri)
+        self.assertEqual(node.params["extra"], data["extra"])
+        self.assertEqual(node.params["aid"], "0")
+        node.credential = "new custom"
+        rebuilt_uri = node.to_uri(False)
+        decoded = json.loads(base64.b64decode(rebuilt_uri[8:]))
+        self.assertEqual(decoded["id"], "new custom")
+        self.assertEqual(decoded["extra"], data["extra"])
+        self.assertEqual(decoded["path"], " service / ")
+        self.assertEqual(parse_proxy_uri(rebuilt_uri).semantic_fingerprint(), node.semantic_fingerprint())
+
+    def test_vmess_conflicting_or_unrepresentable_reserved_fields_are_rejected(self):
+        base = {"add": "example.com", "port": 443, "id": "custom"}
+        for extras in [{"security": {"cipher": "custom"}}, {"headerType": {"required": "value"}},
+                       {"network": {"required": "value"}}, {"aid": "NaN"},
+                       {"tls": "tls", "security": "other"}]:
+            with self.subTest(extras=extras):
+                uri = "vmess://" + base64.b64encode(json.dumps(base | extras).encode()).decode()
+                self.assertIsNone(parse_proxy_uri(uri))
+        self.assertIsNone(parse_proxy_uri("vmess://custom@example.com:443?aid=NaN"))
+
+    def test_invalid_shapes_ports_and_auth_are_rejected(self):
+        for uri in ["vless://@example.com:443", "trojan://p@example.com:",
+                    "vless://id@example.com:1.5", "vless://id@example.com:65536",
+                    "vless://id@example.com:0", "vless://id@[not-ip]:443",
+                    "tuic://password@example.com:443", "ss://password@example.com:8388",
+                    "freedom://id@example.com:443"]:
+            with self.subTest(uri=uri):
+                self.assertIsNone(parse_proxy_uri(uri))
+        for port in [True, 443.5, float("inf"), float("nan"), "1.5", "", 0, 65536]:
+            data = {"add": "example.com", "port": port, "id": "custom"}
+            uri = "vmess://" + base64.b64encode(json.dumps(data).encode()).decode()
+            with self.subTest(port=port):
+                self.assertIsNone(parse_proxy_uri(uri))
+
+    def test_observation_labels_do_not_promote_source_or_legacy_flags(self):
+        node = ProxyNode("vless", "example.com", 443, "id", is_verified_source=True,
+                         passed_healthcheck=True, latency_ms=10)
+        label = node.format_remark()
+        self.assertIn("source-claimed", label)
+        self.assertNotIn("socket", label)
+        self.assertNotIn("end-to-end", label)
+        self.assertNotIn("10ms", label)
+        fingerprint = node.semantic_fingerprint()
+        node.healthcheck_kind, node.healthchecked_at = "socket", "2026-11-10T12:00:00Z"
+        self.assertIn("socket", node.format_remark())
+        self.assertNotIn("end-to-end", node.format_remark())
+        node.healthcheck_kind = "xray"
+        self.assertIn("end-to-end", node.format_remark())
+        self.assertEqual(node.semantic_fingerprint(), fingerprint)
+
+    def test_metadata_merging_is_deterministic_and_does_not_mix_observations(self):
+        base = ProxyNode("vless", "example.com", 443, "id", params={"fp": "chrome"})
+        a = replace(base, remark="z", country_code="DE", source_ids={"a"},
+                    healthcheck_kind="socket", healthchecked_at="2026-11-10T12:00:00Z",
+                    passed_healthcheck=True, latency_ms=1)
+        b = replace(base, remark="a", country_code="US", source_ids={"b"},
+                    healthcheck_kind="socket", healthchecked_at="2026-11-10T13:00:00Z",
+                    passed_healthcheck=False, latency_ms=None, is_verified_source=True)
+        first, second = deduplicate_nodes([a, b])[0], deduplicate_nodes([b, a])[0]
+        self.assertEqual(first, second)
+        self.assertEqual(first.params, {"fp": "chrome"})
+        self.assertEqual(first.country_code, "XX")
+        self.assertEqual(first.remark, "a")
+        self.assertEqual(first.source_ids, {"a", "b"})
+        self.assertFalse(first.passed_healthcheck)
+        self.assertIsNone(first.latency_ms)
+        self.assertEqual(first.healthchecked_at, "2026-11-10T13:00:00Z")
+
+    def test_equal_connections_have_a_deterministic_canonical_representative(self):
+        first = ProxyNode("vless", "example.com", 443, "id", params={"sni": "EXAMPLE.COM"})
+        second = replace(first, params={"sni": "example.com"})
+        self.assertEqual(deduplicate_nodes([first, second]), deduplicate_nodes([second, first]))
+
+    def test_country_is_only_an_unambiguous_source_claim(self):
+        for remark, want in [("North Korea", "KP"), ("South Korea", "KR"),
+                             ("Korea", "XX"), ("America", "XX"), ("[IN]", "IN"),
+                             ("[NO]", "NO"), ("country:IT", "IT"), ("[DE] [US]", "XX")]:
+            with self.subTest(remark=remark):
+                self.assertEqual(detect_country(remark), want)
+        self.assertEqual(detect_country("unknown", "example.de", "example.ir"), "XX")
+
+    def test_geographic_and_web_predicates_do_not_invent_optimization(self):
+        node = ProxyNode("vless", "example.com", 443, "id", params={"fm": "1"}, tags={"cdn"})
+        self.assertTrue(node.has_special_parameters())
+        self.assertFalse(node.has_web_transport())
+        self.assertFalse(node.is_iran_related())
+        node.country_code = "IR"
+        self.assertTrue(node.is_iran_related())
+
+
+class TestStrictSourceConfig(unittest.TestCase):
+    def test_invalid_middle_source_does_not_poison_valid_rows(self):
+        valid = {"id": "source", "url": "https://example.com/feed", "tags": ["iran"]}
+        for change in [{"id": 1}, {"url": []}, {"enabled": "false"},
+                       {"verified_upstream": 1}, {"tags": "iran"}, {"tags": [1]},
+                       {"format": []}, {"name": None}]:
+            with self.subTest(change=change):
+                with self.assertRaises(ValueError):
+                    SourceConfig.from_dict(valid | change)
+        self.assertEqual(SourceConfig.from_dict(valid).tags, ["iran"])
+
+
+class TestLosslessContent(unittest.TestCase):
+    source = SourceConfig("fixture", "Fixture", "https://example.com/feed")
+
+    def test_href_only_html_and_mixed_encoded_lines_survive(self):
+        first = "vless://first@example.com:443?type=ws&security=tls#One"
+        second = "trojan://second@example.com:8443#Two"
+        markup = '<html><a href="' + first.replace("&", "&amp;") + '">import</a></html>'
+        nodes, _ = extract_nodes_from_content(markup, self.source)
+        self.assertEqual([node.credential for node in nodes], ["first"])
+        content = first + "\n" + base64.b64encode(second.encode()).decode()
+        nodes, _ = extract_nodes_from_content(content, self.source)
+        self.assertEqual([node.credential for node in nodes], ["first", "second"])
+
+    def test_json_users_are_independently_lossless_or_rejected(self):
+        outbound = {"protocol": "vmess", "settings": {"vnext": [
+            {"address": "example.com", "port": 443, "users": [
+                {"id": "first", "alterId": 0, "security": "aes-128-gcm"},
+                {"id": None}, {"id": "second", "alterId": 2, "security": "auto"},
+                {"id": "unsupported", "unknownRequired": "must-preserve"}]}]},
+            "streamSettings": {"network": "grpc", "security": "tls",
+                "grpcSettings": {"serviceName": " svc / ", "multiMode": True},
+                "tlsSettings": {"serverName": "EXAMPLE.com", "alpn": ["h2", "h3"], "fingerprint": "chrome"}}}
+        nodes, executable = extract_nodes_from_content(json.dumps([{"outbounds": [outbound]}, None, {"outbounds": "bad"}]), self.source)
+        self.assertEqual([node.credential for node in nodes], ["first", "second"])
+        self.assertEqual(nodes[0].params["aid"], "0")
+        self.assertEqual(nodes[1].params["aid"], "2")
+        self.assertEqual(nodes[0].params["scy"], "aes-128-gcm")
+        self.assertEqual(nodes[0].params["serviceName"], " svc / ")
+        self.assertEqual(nodes[0].params["multiMode"], "true")
+        self.assertEqual(nodes[0].params["alpn"], ["h2", "h3"])
+        self.assertEqual(executable, [])
+        for node in nodes:
+            self.assertEqual(parse_proxy_uri(node.to_uri(False)).semantic_fingerprint(), node.semantic_fingerprint())
+
+    def test_json_shadowsocks_is_normalized_and_preserves_plugin(self):
+        ob = {"protocol": "shadowsocks", "settings": {"servers": [
+            {"address": "example.com", "port": 8388, "method": "aes-256-gcm", "password": " p:@/ ",
+             "plugin": "obfs-local", "pluginOpts": "obfs=http;obfs-host=example.com"}]}}
+        nodes, raw = extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0].scheme, "ss")
+        self.assertEqual(nodes[0].credential, "aes-256-gcm: p:@/ ")
+        self.assertEqual(nodes[0].params["plugin"], "obfs-local;obfs=http;obfs-host=example.com")
+        self.assertEqual(raw, [])
+        self.assertEqual(parse_proxy_uri(nodes[0].to_uri(False)).credential, "aes-256-gcm: p:@/ ")
+
+    def test_json_trojan_tls_and_host_headers_are_preserved(self):
+        ob = {"protocol": "trojan", "settings": {"servers": [
+            {"address": "example.com", "port": 8443, "password": " p:@/ "},
+            {"address": "bad.example", "port": 0, "password": "bad"}]},
+            "streamSettings": {"network": "ws", "security": "tls",
+                "wsSettings": {"path": " /x/ ", "headers": {"Host": "CDN.example"}},
+                "tlsSettings": {"serverName": "SNI.example", "alpn": ["h2", "http/1.1"],
+                    "fingerprint": "firefox", "allowInsecure": False, "disableSNI": True}}}
+        nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0].params, {"type": "ws", "security": "tls", "path": " /x/ ",
+            "host": "CDN.example", "sni": "SNI.example", "alpn": ["h2", "http/1.1"],
+            "fp": "firefox", "allowInsecure": "false", "disableSNI": "true"})
+        self.assertEqual(parse_proxy_uri(nodes[0].to_uri(False)).params, nodes[0].params)
+
+    def test_malformed_json_shapes_and_global_transport_never_become_connections(self):
+        good = {"protocol": "vless", "settings": {"vnext": [{"address": "example.com", "port": 443, "users": [{"id": "custom"}]}]}}
+        for content in ['{"outbounds": "bad"}', '{"outbounds": [', '[1, null, []]',
+                        '{"outbounds": [], "outbounds": []}',
+                        json.dumps({"outbounds": [good], "transport": {"wsSettings": {"path": "/required"}}})]:
+            with self.subTest(content=content):
+                self.assertEqual(extract_nodes_from_content(content, self.source), ([], []))
+
+    def test_candidate_limits_raise_without_returning_a_truncated_feed(self):
+        first = "vless://first@example.com:443"
+        second = "trojan://second@example.com:8443"
+        for content in [first + "\n" + second,
+                        first + "\n" + base64.b64encode(second.encode()).decode(),
+                        "vless://@example.com:443\n" + first]:
+            with self.subTest(content=content), patch("src.parsers.MAX_CONTENT_NODES", 1):
+                with self.assertRaises(ValueError):
+                    extract_nodes_from_content(content, self.source)
+        ob = {"protocol": "vless", "settings": {"vnext": [
+            {"address": "example.com", "port": 443, "users": [{"id": "first"}, {"id": "second"}]}]}}
+        with patch("src.parsers.MAX_CONTENT_NODES", 1):
+            with self.assertRaises(ValueError):
+                extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)
+            self.assertEqual(len(extract_nodes_from_content(first, self.source)[0]), 1)
+
+    def test_oversized_uri_or_serialized_json_connection_is_an_explicit_resource_error(self):
+        uri = "vless://id@example.com:443?path=" + "x" * 200
+        node = ProxyNode("vless", "example.com", 443, "id", params={"path": "x" * 200})
+        ob = {"protocol": "vless", "settings": {"vnext": [{"address": "example.com", "port": 443, "users": [{"id": "id"}]}]},
+              "streamSettings": {"network": "ws", "wsSettings": {"path": "x" * 200}}}
+        with patch("src.models.MAX_URI_BYTES", 128):
+            for operation in [lambda: parse_proxy_uri(uri), lambda: node.to_uri(False),
+                              lambda: extract_nodes_from_content(uri, self.source),
+                              lambda: extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)]:
+                with self.subTest(operation=operation), self.assertRaises(ValueError):
+                    operation()
+        unicode_uri = "vless://id@example.com:443?path=" + "界" * 10
+        with patch("src.models.MAX_URI_BYTES", 50), self.assertRaises(ValueError):
+            parse_proxy_uri(unicode_uri)
+
+    def test_html_and_json_container_limits_reject_excess_before_expanding(self):
+        uri = "vless://id@example.com:443"
+        for content in [f'<html><a href="{uri}">first</a><a href="{uri}">second</a></html>',
+                        json.dumps([{"outbounds": []}, {"outbounds": []}]),
+                        json.dumps({"outbounds": [None, None]})]:
+            with self.subTest(content=content), patch("src.parsers.MAX_CONTENT_NODES", 1), self.assertRaises(ValueError):
+                extract_nodes_from_content(content, self.source)
+
+    def test_punctuation_in_paths_is_connection_data_not_prose(self):
+        node = parse_proxy_uri("vless://id@example.com:443/path.")
+        self.assertEqual(node.params["path"], "/path.")
+        self.assertEqual(parse_proxy_uri(node.to_uri(False)).params["path"], "/path.")
+
+    def test_json_unsupported_settings_dependencies_and_invalid_peers_do_not_leak(self):
+        good = {"protocol": "vless", "settings": {"vnext": [
+            {"address": "example.com", "port": 443, "users": [{"id": "custom", "encryption": "none", "flow": ""}]}]}}
+        bad_entries = [None, {"protocol": "freedom", "settings": good["settings"]},
+                       good | {"proxySettings": {"tag": "upstream"}},
+                       good | {"streamSettings": {"sockopt": {"dialerProxy": "other"}}},
+                       good | {"streamSettings": {"security": "tls", "tlsSettings": {"certificates": [{}]}}},
+                       good | {"streamSettings": {"network": "ws", "wsSettings": {"headers": {"X-Required": "token"}}}},
+                       good | {"settings": {"vnext": "bad"}}]
+        for port in [True, 1.5, float("inf"), float("nan"), "1.5", 0, 65536]:
+            bad_entries.append(good | {"settings": {"vnext": [{"address": "example.com", "port": port, "users": [{"id": "bad"}]}]}})
+        nodes, executable = extract_nodes_from_content(json.dumps({"outbounds": bad_entries + [good]}), self.source)
+        self.assertEqual([node.credential for node in nodes], ["custom"])
+        self.assertEqual(nodes[0].params["encryption"], "none")
+        self.assertEqual(nodes[0].params["flow"], "")
+        self.assertEqual(executable, [])
+
+    def test_malformed_unicode_entries_do_not_discard_valid_json_peers(self):
+        ob = {"protocol": "trojan", "settings": {"servers": [
+            {"address": "example.com", "port": 443, "password": "bad\ud800"},
+            {"address": "example.com", "port": 443, "password": "good"}]}}
+        nodes, _ = extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)
+        self.assertEqual([node.credential for node in nodes], ["good"])
+        self.assertIsNone(parse_proxy_uri("trojan://bad\ud800@example.com:443"))

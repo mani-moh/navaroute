@@ -151,7 +151,7 @@ def publish_subscriptions(
     categories_dir.mkdir(parents=True, exist_ok=True)
 
     # PattN Special (F&F, IPv6-OOB, SNI-Spoof, fm, dialMode, cs)
-    pattn_special_nodes = [n for n in public_nodes if n.is_pattn_special()]
+    pattn_special_nodes = [n for n in public_nodes if n.has_special_parameters()]
     _write_sub_pair(
         categories_dir / "pattn-special.txt",
         "PattN Special Bypass",
@@ -160,7 +160,7 @@ def publish_subscriptions(
     )
 
     # Iran Optimized
-    iran_nodes = [n for n in public_nodes if n.is_iran_optimized()]
+    iran_nodes = [n for n in public_nodes if n.is_iran_related()]
     _write_sub_pair(
         categories_dir / "iran-optimized.txt",
         "PattN Iran Optimized",
@@ -178,7 +178,7 @@ def publish_subscriptions(
     )
 
     # CDN / WS / gRPC
-    cdn_nodes = [n for n in public_nodes if n.is_cdn_fronted()]
+    cdn_nodes = [n for n in public_nodes if n.has_web_transport()]
     _write_sub_pair(
         categories_dir / "cdn-ws-grpc.txt",
         "PattN CDN WS & gRPC",
@@ -384,7 +384,7 @@ def _update_readme_doc(
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     total_nodes = len(public_nodes) or counts.get("subs/all.txt", 0)
     healthy_nodes = sum(1 for n in public_nodes if n.passed_healthcheck) or counts.get("subs/verified.txt", 0)
-    pattn_special = sum(1 for n in public_nodes if n.is_pattn_special()) or counts.get("subs/categories/pattn-special.txt", 0)
+    pattn_special = sum(1 for n in public_nodes if n.has_special_parameters()) or counts.get("subs/categories/pattn-special.txt", 0)
 
     repo_slug = detect_repo_slug()
     branch = _detect_current_branch()

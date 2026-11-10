@@ -5,7 +5,46 @@ import hashlib
 import json
 import urllib.parse
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from typing import Any, Optional
+
+FINGERPRINT_VERSION = 1
+MAX_URI_BYTES = 16 * 1024
+PARAM_ALIASES = {"net": "type", "network": "type", "service_name": "serviceName",
+                 "servicename": "serviceName", "dial_mode": "dialMode", "header_type": "headerType"}
+VMESS_FIELDS = {"net": "type", "tls": "security", "type": "headerType"}
+
+
+class ConnectionLimitError(ValueError):
+    """Resource rejection, distinct from an ordinary malformed entry."""
+
+
+def bounded_uri(uri: str) -> str:
+    if len(uri) > MAX_URI_BYTES or len(uri.encode("utf-8")) > MAX_URI_BYTES:
+        raise ConnectionLimitError(f"connection exceeds {MAX_URI_BYTES} UTF-8 bytes")
+    return uri
+
+
+def canonical_params(params: dict[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in params.items():
+        key = PARAM_ALIASES.get(key, key)
+        if key in result:
+            previous = result[key] if isinstance(result[key], list) else [result[key]]
+            result[key] = previous + (value if isinstance(value, list) else [value])
+        else:
+            result[key] = value
+    return result
+
+
+def health_observation_time(node: ProxyNode) -> Optional[datetime]:
+    if node.healthcheck_kind not in ("socket", "xray") or not isinstance(node.healthchecked_at, str):
+        return None
+    try:
+        timestamp = datetime.fromisoformat(node.healthchecked_at.replace("Z", "+00:00"))
+        return timestamp if timestamp.utcoffset() == timedelta(0) else None
+    except ValueError:
+        return None
 
 
 def country_code_to_flag(code: str) -> str:
@@ -41,6 +80,30 @@ class SourceConfig:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SourceConfig":
+        if not isinstance(data, dict):
+            raise ValueError("source must be an object")
+        for key in ("id", "url"):
+            if not isinstance(data.get(key), str) or not data[key] or data[key] != data[key].strip():
+                raise ValueError(f"source {key} must be a nonempty string without surrounding whitespace")
+        for key in ("name", "format"):
+            if key in data and (not isinstance(data[key], str) or not data[key]):
+                raise ValueError(f"source {key} must be a nonempty string")
+        for key in ("enabled", "verified_upstream"):
+            if key in data and not isinstance(data[key], bool):
+                raise ValueError(f"source {key} must be boolean")
+        tags = data.get("tags", [])
+        if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag for tag in tags):
+            raise ValueError("source tags must be a list of nonempty strings")
+        try:
+            url = urllib.parse.urlsplit(data["url"])
+            if url.scheme not in ("http", "https") or not url.hostname or url.username is not None or url.password is not None:
+                raise ValueError("source URL must be unauthenticated HTTP(S)")
+            if url.port is not None and not 1 <= url.port <= 65535:
+                raise ValueError("invalid source URL port")
+        except ValueError as exc:
+            raise ValueError("invalid source URL") from exc
+        if any(c.isspace() or ord(c) < 32 for c in data["url"]):
+            raise ValueError("source URL contains whitespace/control characters")
         return cls(
             id=data["id"],
             name=data.get("name", data["id"]),
@@ -83,7 +146,7 @@ class ProxyNode:
     address: str
     port: int
     credential: str  # UUID, password, or method:password
-    params: dict[str, str] = field(default_factory=dict)
+    params: dict[str, Any] = field(default_factory=dict)
     raw_uri: str = ""
     remark: str = ""
     country_code: str = "XX"
@@ -92,68 +155,46 @@ class ProxyNode:
     is_verified_source: bool = False
     passed_healthcheck: bool = False
     latency_ms: Optional[float] = None
+    healthcheck_kind: str = "untested"
+    healthchecked_at: Optional[str] = None
 
     def semantic_fingerprint(self) -> str:
-        """SHA-256 hex digest of canonical tuple:
-
-        (scheme, address.lower().strip("[]"), port, credential,
-         transport_type, security, sni.lower(), host.lower(),
-         path, service_name, pbk, sid, flow, fm, dial_mode, cs)
-        """
-        canonical_tuple = (
-            self.scheme.lower().strip(),
-            self.address.lower().strip().strip("[]"),
-            int(self.port),
-            self.credential.strip(),
-            self.params.get("type", self.params.get("net", self.params.get("network", ""))).lower().strip(),
-            self.params.get("security", "").lower().strip(),
-            self.params.get("sni", "").lower().strip(),
-            self.params.get("host", "").lower().strip(),
-            self.params.get("path", "").strip(),
-            self.params.get("serviceName", self.params.get("service_name", self.params.get("servicename", ""))).strip(),
-            self.params.get("pbk", "").strip(),
-            self.params.get("sid", "").strip(),
-            self.params.get("flow", "").lower().strip(),
-            self.params.get("fm", "").strip(),
-            self.params.get("dialMode", self.params.get("dial_mode", "")).strip(),
-            self.params.get("cs", "").strip(),
-        )
-        canonical_str = json.dumps(canonical_tuple, ensure_ascii=False)
+        """Versioned identity of the complete connection, never its source/evidence labels."""
+        params = canonical_params(self.params)
+        for key in ("sni", "host"):
+            if isinstance(params.get(key), str):
+                params[key] = params[key].lower()
+        canonical_tuple = (FINGERPRINT_VERSION, self.scheme.lower(), self.address.lower().strip("[]"),
+                           self.port, self.credential, params)
+        canonical_str = json.dumps(canonical_tuple, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
         return hashlib.sha256(canonical_str.encode("utf-8")).hexdigest()
 
-    def is_pattn_special(self) -> bool:
-        """True if params contains fm, dialMode, cs, fp == "unsafe", or "pattn" in tags."""
+    def has_special_parameters(self) -> bool:
         if any(k in self.params for k in ("fm", "dialMode", "dial_mode", "cs")):
             return True
-        if self.params.get("fp", "").lower() == "unsafe":
-            return True
-        if "pattn" in self.tags:
-            return True
-        return False
+        return self.params.get("fp") == "unsafe"
 
     def is_reality(self) -> bool:
         """True if params.get("security") == "reality" or bool(params.get("pbk"))."""
-        return self.params.get("security", "").lower() == "reality" or bool(self.params.get("pbk"))
+        return self.params.get("security") == "reality" or bool(self.params.get("pbk"))
 
-    def is_cdn_fronted(self) -> bool:
-        """True if transport_type in ("ws", "grpc", "httpupgrade", "xhttp", "splithttp")
+    def has_web_transport(self) -> bool:
+        transport = canonical_params(self.params).get("type", "")
+        return isinstance(transport, str) and transport.lower() in ("ws", "grpc", "httpupgrade", "xhttp", "splithttp")
 
-        or any tag in ("cdn", "whitedns").
-        """
-        transport = self.params.get("type", self.params.get("net", self.params.get("network", ""))).lower()
-        if transport in ("ws", "grpc", "httpupgrade", "xhttp", "splithttp"):
-            return True
-        return any(t in self.tags for t in ("cdn", "whitedns"))
-
-    def is_iran_optimized(self) -> bool:
-        """True if "iran" or "whitelist" in tags or is_pattn_special()."""
-        return bool(self.tags.intersection({"iran", "whitelist"})) or self.is_pattn_special()
+    def is_iran_related(self) -> bool:
+        return self.country_code == "IR" or bool(self.tags.intersection({"iran", "whitelist"}))
 
     def format_remark(self) -> str:
-        """Generate formatted remark like: [✅] [🇩🇪 DE] VLESS-Reality | src:alirzza9 | 65ms"""
+        """Label source claims separately from timestamped socket/end-to-end observations."""
         parts = []
-        if self.is_verified_source or self.passed_healthcheck:
-            parts.append("[✅]")
+        if self.is_verified_source:
+            parts.append("[source-claimed]")
+        observed = health_observation_time(self) is not None
+        if observed:
+            kind = "socket" if self.healthcheck_kind == "socket" else "end-to-end"
+            outcome = "passed" if self.passed_healthcheck else "failed"
+            parts.append(f"[{kind}:{outcome}]")
 
         country = self.country_code.upper() if self.country_code else "XX"
         flag = country_code_to_flag(country)
@@ -187,21 +228,13 @@ class ProxyNode:
                 proto_label = scheme_label
         parts.append(proto_label)
 
-        # Preserve PattN bypass variant labels in formatted remark
-        if "[PattN F&F]" in self.remark or (self.address == "188.114.98.0" and "pattn_variant" in self.tags):
-            parts.append("[PattN F&F]")
-        elif "[PattN IPv6-OOB]" in self.remark or ("oob.0" in self.params.get("dialMode", "") and "pattn_variant" in self.tags):
-            parts.append("[PattN IPv6-OOB]")
-        elif "[PattN SNI-Spoof]" in self.remark or (self.address == "127.0.0.1" and "pattn_variant" in self.tags):
-            parts.append("[PattN SNI-Spoof]")
-
         src_part = ""
         if self.source_ids:
             first_src = sorted(self.source_ids)[0]
             src_part = f"| src:{first_src}"
 
         latency_part = ""
-        if self.latency_ms is not None:
+        if observed and self.passed_healthcheck and self.latency_ms is not None:
             latency_part = f"| {int(round(self.latency_ms))}ms"
 
         main_prefix = " ".join(parts)
@@ -211,63 +244,45 @@ class ProxyNode:
         return main_prefix
 
     def to_uri(self, include_formatted_remark: bool = True) -> str:
-        """Rebuilds or updates the #remark on raw_uri (or updates ps inside vmess:// base64 JSON!)
-
-        with clean formatted remark.
-        """
+        """Serialize canonical fields. Reject shapes a scheme cannot represent losslessly."""
         target_remark = self.format_remark() if include_formatted_remark else self.remark
-        if not target_remark:
-            target_remark = self.remark or self.address
-
-        # Case 1: VMess base64 JSON
-        if self.raw_uri and self.raw_uri.startswith("vmess://") and "@" not in self.raw_uri:
-            raw_b64 = self.raw_uri[len("vmess://"):].split("#")[0].strip()
-            raw_b64 += "=" * ((4 - len(raw_b64) % 4) % 4)
-            try:
-                decoded = base64.b64decode(raw_b64).decode("utf-8", errors="replace")
-                json_obj = json.loads(decoded)
-                json_obj["ps"] = target_remark
-                new_b64 = base64.b64encode(json.dumps(json_obj, ensure_ascii=False).encode("utf-8")).decode("utf-8")
-                return f"vmess://{new_b64}"
-            except Exception:
-                pass
-
-        # Case 2: raw_uri exists
-        if self.raw_uri:
-            base = self.raw_uri.split("#")[0]
-            return f"{base}#{target_remark}"
-
-        # Case 3: Reconstruct from fields
+        params = canonical_params(self.params)
         if self.scheme == "vmess":
-            v_dict = {
-                "v": "2",
-                "ps": target_remark,
-                "add": self.address,
-                "port": self.port,
-                "id": self.credential,
-                "aid": self.params.get("aid", "0"),
-                "scy": self.params.get("scy", "auto"),
-                "net": self.params.get("type", self.params.get("net", "tcp")),
-                "type": self.params.get("headerType", "none"),
-                "host": self.params.get("host", ""),
-                "path": self.params.get("path", ""),
-                "tls": self.params.get("security", ""),
-                "sni": self.params.get("sni", ""),
-                "alpn": self.params.get("alpn", ""),
-                "fp": self.params.get("fp", ""),
-            }
-            for k, val in self.params.items():
-                if k not in v_dict and val:
-                    v_dict[k] = val
-            b64 = base64.b64encode(json.dumps(v_dict, ensure_ascii=False).encode("utf-8")).decode("utf-8")
-            return f"vmess://{b64}"
+            scalar_fields = {"v", "type", "security", "headerType", "host", "path", "sni", "fp", "scy", "serviceName"}
+            if any(key in scalar_fields and not isinstance(value, str) for key, value in params.items()):
+                raise ValueError("VMess scalar setting cannot be represented")
+            if "aid" in params and not (isinstance(params["aid"], str) and params["aid"].isascii() and params["aid"].isdigit()):
+                raise ValueError("invalid VMess alterId")
+            reverse = {canonical: original for original, canonical in VMESS_FIELDS.items()}
+            v_dict = {reverse.get(key, key): value for key, value in params.items()}
+            if set(v_dict).intersection({"add", "port", "id", "ps"}):
+                raise ValueError("VMess parameters conflict with canonical fields")
+            v_dict.update(ps=target_remark, add=self.address, port=self.port, id=self.credential)
+            b64 = base64.b64encode(json.dumps(v_dict, ensure_ascii=False, allow_nan=False).encode("utf-8")).decode("utf-8")
+            return bounded_uri(f"vmess://{b64}")
 
-        query = urllib.parse.urlencode(self.params)
-        if self.scheme == "ss" and ":" in self.credential:
-            cred_b64 = base64.urlsafe_b64encode(self.credential.encode("utf-8")).decode("utf-8").rstrip("=")
-            cred = f"{cred_b64}@"
+        if self.scheme not in ("vless", "trojan", "ss", "hysteria2", "tuic", "wireguard"):
+            raise ValueError("unsupported URI scheme")
+        for value in params.values():
+            if not isinstance(value, str) and not (isinstance(value, list) and value and all(isinstance(v, str) for v in value)):
+                raise ValueError("parameter cannot be represented by URI query")
+        query = urllib.parse.urlencode(params, doseq=True)
+        if self.scheme == "ss":
+            if ":" not in self.credential:
+                raise ValueError("Shadowsocks requires method:password")
+            method, _, password = self.credential.partition(":")
+            if method.startswith("2022-"):
+                cred = urllib.parse.quote(method, safe="") + ":" + urllib.parse.quote(password, safe="")
+            else:
+                cred = base64.urlsafe_b64encode(self.credential.encode("utf-8")).decode("utf-8").rstrip("=")
+        elif self.scheme == "tuic":
+            username, separator, password = self.credential.partition(":")
+            if not separator or not username or not password:
+                raise ValueError("TUIC requires username:password")
+            cred = urllib.parse.quote(username, safe="") + ":" + urllib.parse.quote(password, safe="")
         else:
-            cred = f"{self.credential}@" if self.credential else ""
+            cred = urllib.parse.quote(self.credential, safe="")
         addr = f"[{self.address}]" if ":" in self.address and not self.address.startswith("[") else self.address
         q_str = f"?{query}" if query else ""
-        return f"{self.scheme}://{cred}{addr}:{self.port}{q_str}#{target_remark}"
+        fragment = "#" + urllib.parse.quote(target_remark, safe="") if target_remark else ""
+        return bounded_uri(f"{self.scheme}://{cred}@{addr}:{self.port}{q_str}{fragment}")
