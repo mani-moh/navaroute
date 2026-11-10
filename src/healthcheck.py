@@ -1,589 +1,424 @@
+"""Public socket observations and explicitly supplied, owned-core HTTPS tests."""
 from __future__ import annotations
 
 import concurrent.futures
 import http.client
 import json
+import math
 import os
 import re
-import shutil
 import socket
-import ssl
 import statistics
 import subprocess
 import tempfile
 import time
-import urllib.parse
-import urllib.request
-from typing import Optional
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
 
 from src.models import ProxyNode
+from src.network import _Connection, _authority, _end, _hostname, _remaining, _resolve, connect_public
 
-IPV4_REGEX = re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
-
-HEALTHCHECK_TEST_URLS = [
-    "http://cp.cloudflare.com/generate_204",
-    "http://www.gstatic.com/generate_204",
-    "http://captive.apple.com/hotspot-detect.html",
-]
+HEALTHCHECK_TEST_URLS = ["https://cp.cloudflare.com/generate_204", "https://www.gstatic.com/generate_204"]
 
 
-def _is_ip_address(addr: str) -> bool:
-    clean = addr.strip("[]")
-    if ":" in clean:
-        return True
-    return bool(IPV4_REGEX.match(clean))
+class CoreInfrastructureError(RuntimeError):
+    """No reliable completed test; callers must preserve previous evidence."""
 
 
-def probe_node_socket(
-    node: ProxyNode, timeout: float = 3.5
-) -> tuple[bool, Optional[float]]:
-    """Fast, multi-stage TCP + TLS/SNI socket handshake verifier.
+@dataclass
+class BatchResult:
+    passed: dict[int, float] = field(default_factory=dict)
+    attempted: set[int] = field(default_factory=set)
+    unsupported: set[int] = field(default_factory=set)
 
-    Measures real network latency and verifies server reachability.
-    """
-    address = node.address.strip("[]").strip()
-    port = node.port
 
-    if not address or not (1 <= port <= 65535):
-        return False, None
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
-    t0 = time.perf_counter()
-    sock: Optional[socket.socket] = None
 
+def core_environment() -> dict[str, str]:
+    # No PATH, proxy configuration, GitHub/NVIDIA tokens, profile or client settings.
+    return {k: v for k, v in os.environ.items() if k.upper() in {"SYSTEMROOT", "WINDIR", "TEMP", "TMP", "TMPDIR"}}
+
+
+def validate_limits(max_nodes: int, concurrency: int, timeout: float, batch_size: int, rounds: int) -> None:
+    for value, limit in ((max_nodes, 5000), (concurrency, 64), (batch_size, 128), (rounds, 10)):
+        if type(value) is not int or not 1 <= value <= limit:
+            raise ValueError("Invalid test limits")
+    if type(timeout) not in (int, float) or not math.isfinite(timeout) or not 0 < timeout <= 30:
+        raise ValueError("Invalid test timeout")
+
+
+def probe_node_socket(node: ProxyNode, timeout: float = 3.5) -> tuple[bool, float | None]:
+    """TCP reachability only, not credential/TLS/end-to-end verification."""
+    start = time.perf_counter()
     try:
-        sock = socket.create_connection((address, port), timeout=timeout)
-        sock.settimeout(timeout)
-
-        # For VLESS-Reality:
-        # Standard Python SSL cannot complete a Reality handshake because Reality
-        # requires a specialized ClientHello with pbk/sid authentication.
-        # However, successful TCP handshake verifies the server is responsive.
-        if node.is_reality():
-            elapsed_ms = (time.perf_counter() - t0) * 1000.0
-            sock.close()
-            return True, round(elapsed_ms, 1)
-
-        # For standard TLS / HTTPS fronted nodes:
-        needs_tls = (
-            port == 443
-            or node.params.get("security") == "tls"
-            or (node.scheme in ("trojan", "vless", "vmess") and bool(node.params.get("sni")))
-        )
-
-        if needs_tls:
-            context = ssl.create_default_context()
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
-            sni = (
-                node.params.get("sni")
-                or node.params.get("host")
-                or (address if not _is_ip_address(address) else None)
-            )
-            try:
-                tls_sock = context.wrap_socket(sock, server_hostname=sni if sni else None)
-                elapsed_ms = (time.perf_counter() - t0) * 1000.0
-                tls_sock.close()
-                return True, round(elapsed_ms, 1)
-            except Exception:
-                sock.close()
-                return False, None
-        else:
-            elapsed_ms = (time.perf_counter() - t0) * 1000.0
-            sock.close()
-            return True, round(elapsed_ms, 1)
-
-    except Exception:
-        if sock:
-            try:
-                sock.close()
-            except Exception:
-                pass
+        with connect_public((node.address.strip("[]"), node.port), timeout=timeout):
+            return True, round((time.perf_counter() - start) * 1000, 1)
+    except (OSError, ValueError):
         return False, None
 
 
-def build_xray_outbound(node: ProxyNode) -> Optional[dict]:
-    """Converts a ProxyNode into an Xray outbound configuration dictionary."""
+def build_xray_outbound(node: ProxyNode) -> dict | None:
+    """Convert the complete supported connection; anything unaccounted for is unsupported."""
+    p = node.params
     scheme = node.scheme.lower()
-    address = node.address.strip("[]").strip()
-    port = node.port
-
-    if not address or not (1 <= port <= 65535):
+    if scheme not in {"vless", "vmess", "trojan", "ss"} or type(node.port) is not int or not 1 <= node.port <= 65535 or not isinstance(node.credential, str) or not node.credential:
         return None
-
-    outbound: dict = {"tag": "proxy"}
-
-    net = node.params.get("type", node.params.get("net", node.params.get("network", "tcp"))).lower()
-    security = node.params.get("security", "").lower()
-    sni = node.params.get("sni", node.params.get("host", ""))
-    host = node.params.get("host", node.params.get("sni", ""))
-
-    stream_settings: dict = {"network": net}
-
-    if security == "tls":
-        stream_settings["security"] = "tls"
-        tls_settings: dict = {}
-        if sni:
-            tls_settings["serverName"] = sni
-        if alpn := node.params.get("alpn"):
-            tls_settings["alpn"] = [a.strip() for a in alpn.split(",") if a.strip()]
-        if fp := node.params.get("fp"):
-            tls_settings["fingerprint"] = fp
-        stream_settings["tlsSettings"] = tls_settings
-    elif security == "reality" or node.is_reality():
-        stream_settings["security"] = "reality"
-        stream_settings["realitySettings"] = {
-            "serverName": sni,
-            "publicKey": node.params.get("pbk", ""),
-            "shortId": node.params.get("sid", ""),
-            "spiderX": node.params.get("spx", ""),
-            "fingerprint": node.params.get("fp", "chrome"),
-        }
-
-    if net == "ws":
-        stream_settings["wsSettings"] = {
-            "path": node.params.get("path", "/"),
-            "headers": {"Host": host} if host else {},
-        }
-    elif net == "grpc":
-        service = node.params.get("serviceName", node.params.get("service_name", ""))
-        stream_settings["grpcSettings"] = {"serviceName": service}
-    elif net == "httpupgrade":
-        stream_settings["httpupgradeSettings"] = {
-            "path": node.params.get("path", "/"),
-            "host": host or "",
-        }
-    elif net in ("xhttp", "splithttp"):
-        stream_settings["xhttpSettings"] = {
-            "path": node.params.get("path", "/"),
-            "host": host or "",
-        }
-
-    outbound["streamSettings"] = stream_settings
-
+    try:
+        address = _hostname(node.address.strip("[]"))
+    except (ValueError, AttributeError):
+        return None
+    if any(not isinstance(v, str) for k, v in p.items() if k != "alpn"):
+        return None
+    net = p.get("type", "tcp")
+    security = p.get("security", "reality" if p.get("pbk") else "tls" if scheme == "trojan" else "none") or "none"
+    if net not in {"tcp", "ws", "grpc", "httpupgrade"} or security not in {"none", "tls", "reality"}:
+        return None
+    allowed = {"type", "security", "headerType"}
+    if p.get("headerType", "none") not in {"", "none"}:
+        return None
     if scheme == "vless":
-        outbound["protocol"] = "vless"
-        outbound["settings"] = {
-            "vnext": [{
-                "address": address,
-                "port": port,
-                "users": [{
-                    "id": node.credential,
-                    "encryption": node.params.get("encryption", "none"),
-                    "flow": node.params.get("flow", ""),
-                }]
-            }]
-        }
-    elif scheme == "vmess":
-        outbound["protocol"] = "vmess"
-        outbound["settings"] = {
-            "vnext": [{
-                "address": address,
-                "port": port,
-                "users": [{
-                    "id": node.credential,
-                    "alterId": int(node.params.get("aid", 0)),
-                    "security": node.params.get("scy", "auto"),
-                }]
-            }]
-        }
-    elif scheme == "trojan":
-        outbound["protocol"] = "trojan"
-        outbound["settings"] = {
-            "servers": [{
-                "address": address,
-                "port": port,
-                "password": node.credential,
-            }]
-        }
-    elif scheme == "ss":
-        outbound["protocol"] = "shadowsocks"
-        method, _, password = node.credential.partition(":")
-        if not password:
+        allowed |= {"encryption", "flow"}
+        if p.get("encryption", "none") != "none" or p.get("flow", "") not in {"", "xtls-rprx-vision"}:
             return None
-        outbound["settings"] = {
-            "servers": [{
-                "address": address,
-                "port": port,
-                "method": method,
-                "password": password,
-            }]
-        }
-    else:
+        if p.get("flow") and (net != "tcp" or security not in {"tls", "reality"}):
+            return None
+    elif scheme == "vmess":
+        allowed |= {"v", "aid", "scy"}
+        if p.get("v", "2") != "2" or not re.fullmatch(r"[0-9]{1,5}", p.get("aid", "0")) or int(p.get("aid", "0")) > 65535:
+            return None
+        if p.get("scy", "auto") not in {"auto", "aes-128-gcm", "chacha20-poly1305", "none", "zero"}:
+            return None
+    if scheme == "ss" and (net != "tcp" or security != "none"):
         return None
+    stream = {"network": net, "security": security}
+    if security in {"tls", "reality"}:
+        allowed |= {"sni", "fp"}
+        sni = p.get("sni") or address
+        try:
+            _hostname(sni)
+        except ValueError:
+            return None
+        fp = p.get("fp", "chrome" if security == "reality" else "")
+        if fp not in {"", "chrome", "firefox", "safari", "ios", "android", "edge", "360", "qq", "random", "randomized"}:
+            return None
+        settings = {"serverName": sni}
+        if fp:
+            settings["fingerprint"] = fp
+        if security == "tls":
+            allowed |= {"alpn", "allowInsecure"}
+            if "alpn" in p:
+                alpn = p["alpn"].split(",") if isinstance(p["alpn"], str) else p["alpn"]
+                if not isinstance(alpn, list) or not alpn or any(not isinstance(a, str) or not a or len(a) > 255 or re.search(r"[\s\x00-\x1f\x7f]", a) for a in alpn):
+                    return None
+                settings["alpn"] = alpn
+            if "allowInsecure" in p:
+                if p["allowInsecure"] not in {"true", "false", "1", "0"}:
+                    return None
+                settings["allowInsecure"] = p["allowInsecure"] in {"true", "1"}
+            stream["tlsSettings"] = settings
+        else:
+            if scheme not in {"vless", "trojan"} or not p.get("pbk"):
+                return None
+            allowed |= {"pbk", "sid", "spx"}
+            settings.update(publicKey=p["pbk"], shortId=p.get("sid", ""), spiderX=p.get("spx", ""))
+            stream["realitySettings"] = settings
+    if net in {"ws", "httpupgrade"}:
+        allowed |= {"host", "path"}
+        host = p.get("host", "")
+        if host and re.search(r"[\x00-\x20\x7f]", host):
+            return None
+        path = p.get("path", "/")
+        if not path.startswith("/") or re.search(r"[\x00-\x1f\x7f]", path):
+            return None
+        if net == "ws":
+            stream["wsSettings"] = {"path": path, "headers": {"Host": host} if host else {}}
+        else:
+            stream["httpupgradeSettings"] = {"path": path, "host": host}
+    elif net == "grpc":
+        allowed |= {"serviceName", "mode"}
+        service = p.get("serviceName", "")
+        if scheme == "vmess":
+            allowed |= {"path", "host"}
+            if p.get("host") or ("serviceName" in p and "path" in p and p["path"] != service):
+                return None
+            service = service or p.get("path", "")
+        if re.search(r"[\x00-\x1f\x7f]", service) or p.get("mode", "gun") not in {"gun", "multi"}:
+            return None
+        stream["grpcSettings"] = {"serviceName": service}
+        if "mode" in p:
+            stream["grpcSettings"]["multiMode"] = p["mode"] == "multi"
+    elif scheme == "vmess":
+        # Empty legacy VMess fields explicitly mean no transport option.
+        allowed |= {"host", "path"}
+        if p.get("host") or p.get("path"):
+            return None
+    if set(p) - allowed:
+        return None
+    if scheme in {"vless", "vmess"}:
+        user = {"id": node.credential}
+        if scheme == "vless":
+            user.update(encryption=p.get("encryption", "none"), flow=p.get("flow", ""))
+        else:
+            user.update(alterId=int(p.get("aid", "0")), security=p.get("scy", "auto"))
+        settings = {"vnext": [{"address": address, "port": node.port, "users": [user]}]}
+        protocol = scheme
+    else:
+        server = {"address": address, "port": node.port, "password": node.credential}
+        protocol = "trojan"
+        if scheme == "ss":
+            method, separator, password = node.credential.partition(":")
+            if not separator or not password or method not in {"aes-128-gcm", "aes-256-gcm", "chacha20-ietf-poly1305", "2022-blake3-aes-128-gcm", "2022-blake3-aes-256-gcm", "2022-blake3-chacha20-poly1305"}:
+                return None
+            server.update(method=method, password=password)
+            protocol = "shadowsocks"
+        settings = {"servers": [server]}
+    return {"tag": "proxy", "protocol": protocol, "settings": settings, "streamSettings": stream}
 
+
+def prepare_public_outbound(node: ProxyNode, timeout: float = 5.0) -> dict | None:
+    outbound = build_xray_outbound(node)
+    if outbound is not None:
+        answers = _resolve(node.address.strip("[]"), node.port, _end(timeout))
+        endpoint = outbound["settings"].get("vnext", outbound["settings"].get("servers"))[0]
+        original_authority = _authority(endpoint["address"], node.port)
+        stream = outbound["streamSettings"]
+        if stream["network"] == "ws" and not node.params.get("host"):
+            stream["wsSettings"]["headers"]["Host"] = original_authority
+        elif stream["network"] == "httpupgrade" and not node.params.get("host"):
+            stream["httpupgradeSettings"]["host"] = original_authority
+        elif stream["network"] == "grpc":
+            # grpc authority otherwise derives from the dial target; pinning must not alter it.
+            security_settings = stream.get("tlsSettings", stream.get("realitySettings", {}))
+            stream["grpcSettings"]["authority"] = security_settings.get("serverName", original_authority)
+        endpoint["address"] = answers[0][4][0]
     return outbound
 
 
-def probe_node_xray(
-    node: ProxyNode,
-    xray_bin: str,
-    timeout: float = 4.0,
-    test_url: str = "http://cp.cloudflare.com/generate_204",
-) -> tuple[bool, Optional[float]]:
-    """Probes a node using an ephemeral Xray core process via SOCKS5 proxy."""
-    outbound = build_xray_outbound(node)
-    if not outbound:
-        return probe_node_socket(node, timeout=timeout)
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(("127.0.0.1", 0))
-        local_port = s.getsockname()[1]
-
-    config = {
-        "log": {"loglevel": "none"},
-        "inbounds": [{
-            "port": local_port,
-            "listen": "127.0.0.1",
-            "protocol": "socks",
-            "settings": {"auth": "noauth"},
-        }],
-        "outbounds": [outbound, {"protocol": "freedom", "tag": "direct"}],
-    }
-
-    tmp_config = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
-    try:
-        json.dump(config, tmp_config)
-        tmp_config.close()
-
-        try:
-            proc = subprocess.Popen(
-                [xray_bin, "run", "-c", tmp_config.name],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except Exception:
-            return probe_node_socket(node, timeout=timeout)
-
-        try:
-            time.sleep(0.15)
-            t0 = time.perf_counter()
-            proxy_handler = urllib.request.ProxyHandler({"http": f"socks5://127.0.0.1:{local_port}"})
-            opener = urllib.request.build_opener(proxy_handler)
-            req = urllib.request.Request(test_url, headers={"User-Agent": "PattN-Healthcheck/1.0"})
-            with opener.open(req, timeout=timeout) as resp:
-                if resp.status in (200, 204):
-                    elapsed_ms = (time.perf_counter() - t0) * 1000.0
-                    return True, round(elapsed_ms, 1)
-                return False, None
-        except Exception:
-            # Fall back to socket probe if SOCKS request or urllib fails
-            return probe_node_socket(node, timeout=timeout)
-        finally:
-            try:
-                proc.terminate()
-                proc.wait(timeout=0.5)
-            except Exception:
-                try:
-                    proc.kill()
-                except Exception:
-                    pass
-    finally:
-        try:
-            os.remove(tmp_config.name)
-        except Exception:
-            pass
-
-
 def _reserve_ports(count: int) -> list[int]:
-    """Allocates `count` available ephemeral loopback ports."""
-    sockets: list[socket.socket] = []
-    ports: list[int] = []
+    sockets = []
     try:
         for _ in range(count):
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.bind(("127.0.0.1", 0))
-            sockets.append(s)
-            ports.append(s.getsockname()[1])
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sockets.append(sock)
+            sock.bind(("127.0.0.1", 0))
+        return [sock.getsockname()[1] for sock in sockets]
     finally:
-        for s in sockets:
-            try:
-                s.close()
-            except Exception:
-                pass
-    return ports
+        for sock in sockets:
+            sock.close()
 
 
-def _build_xray_batch_config(
-    outbounds: list[tuple[int, dict]],
-    ports: list[int],
-) -> dict:
-    """Builds one Xray config mapping each loopback HTTP inbound to its node outbound.
-
-    Places a blackhole outbound first so unmatched routing can never fall through direct.
-    """
-    inbounds = []
-    xray_outbounds = [{"protocol": "blackhole", "tag": "block"}]
-    rules = []
-
-    for slot, (_, ob) in enumerate(outbounds):
-        in_tag = f"in_{slot}"
-        out_tag = f"out_{slot}"
-        inbounds.append({
-            "tag": in_tag,
-            "port": ports[slot],
-            "listen": "127.0.0.1",
-            "protocol": "http",
-            "settings": {},
-        })
-        ob_copy = dict(ob)
-        ob_copy["tag"] = out_tag
-        xray_outbounds.append(ob_copy)
-        rules.append({
-            "type": "field",
-            "inboundTag": [in_tag],
-            "outboundTag": out_tag,
-        })
-
-    return {
-        "log": {"loglevel": "none"},
-        "inbounds": inbounds,
-        "outbounds": xray_outbounds,
-        "routing": {
-            "domainStrategy": "AsIs",
-            "rules": rules,
-        },
-    }
+def _build_xray_batch_config(outbounds: list[tuple[int, dict]], ports: list[int]) -> dict:
+    config = {"log": {"loglevel": "none"}, "inbounds": [], "outbounds": [{"protocol": "blackhole", "tag": "block"}],
+              "routing": {"domainStrategy": "AsIs", "rules": []}}
+    for slot, (_, outbound) in enumerate(outbounds):
+        config["inbounds"].append({"tag": f"in_{slot}", "port": ports[slot], "listen": "127.0.0.1", "protocol": "http", "settings": {}})
+        config["outbounds"].append(dict(outbound, tag=f"out_{slot}"))
+        config["routing"]["rules"].append({"type": "field", "inboundTag": [f"in_{slot}"], "outboundTag": f"out_{slot}"})
+    return config
 
 
-def _wait_ports_listening(
-    ports: list[int],
-    proc: subprocess.Popen,
-    timeout: float = 4.0,
-) -> bool:
-    """Waits until first and last batch inbound ports accept connections or process exits."""
-    if not ports:
-        return True
-    check_ports = [ports[0]] if len(ports) == 1 else [ports[0], ports[-1]]
-    deadline = time.monotonic() + timeout
+def _wait_ports_listening(ports: list[int], proc: subprocess.Popen, timeout: float = 4.0) -> bool:
+    deadline = _end(timeout)
     while time.monotonic() < deadline:
         if proc.poll() is not None:
             return False
         ready = True
-        for p in check_ports:
+        for port in ports:
             try:
-                with socket.create_connection(("127.0.0.1", p), timeout=0.2):
+                with socket.create_connection(("127.0.0.1", port), timeout=min(.1, _remaining(deadline))):
                     pass
             except OSError:
                 ready = False
                 break
         if ready:
             return True
-        time.sleep(0.05)
+        time.sleep(.025)
     return False
 
 
-def _probe_http_via_local_proxy(
-    port: int,
-    test_url: str = "http://cp.cloudflare.com/generate_204",
-    timeout: float = 5.0,
-) -> tuple[bool, Optional[float]]:
-    """Sends a real HTTP request through a local Xray HTTP proxy inbound."""
-    parsed = urllib.parse.urlsplit(test_url)
-    host = parsed.netloc
-    conn: Optional[http.client.HTTPConnection] = None
+def _stop_owned(proc: subprocess.Popen) -> None:
+    if proc.poll() is None:
+        try:
+            proc.terminate()
+            proc.wait(timeout=1.5)
+        except (OSError, subprocess.TimeoutExpired):
+            proc.kill()
+            proc.wait(timeout=1.5)
+    else:
+        proc.wait(timeout=1.5)
+
+
+def _probe_http_via_local_proxy(port: int, test_url: str = HEALTHCHECK_TEST_URLS[0], timeout: float = 5.0) -> tuple[bool, float | None]:
+    if test_url not in HEALTHCHECK_TEST_URLS:
+        raise ValueError("Unsupported probe policy endpoint")
+    from urllib.parse import urlsplit
+    parsed = urlsplit(test_url)
+    start = time.perf_counter()
+    deadline = _end(timeout)
+    conn = _Connection(parsed.hostname, 443, True, deadline, ("127.0.0.1", port, None))
+    response = None
     try:
-        conn = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
-        t0 = time.perf_counter()
-        conn.request(
-            "GET",
-            test_url,
-            headers={
-                "Host": host,
-                "User-Agent": "Mozilla/5.0 Chrome/133.0.0.0",
-                "Connection": "close",
-            },
-        )
-        resp = conn.getresponse()
-        resp.read()
-        elapsed_ms = (time.perf_counter() - t0) * 1000.0
-        if resp.status in (200, 204):
-            return True, round(elapsed_ms, 1)
-        return False, None
-    except Exception:
+        conn.connect()
+        conn.sock.settimeout(_remaining(deadline))
+        conn.request("GET", parsed.path, headers={"Host": parsed.hostname, "Connection": "close", "Accept-Encoding": "identity"})
+        response = conn.getresponse()
+        _remaining(deadline)
+        # 204 is bodyless by definition; reject a contradictory framing header as well.
+        if response.status != 204 or response.getheader("Content-Length", "0") != "0" or response.getheader("Transfer-Encoding") is not None:
+            return False, None
+        # HTTPResponse ignores an illegal 204 body; inspect one wire byte through EOF instead.
+        if response.getheader("Content-Encoding", "identity") != "identity" or response.fp.read(1):
+            return False, None
+        _remaining(deadline)
+        return True, round((time.perf_counter() - start) * 1000, 1)
+    except (OSError, ValueError, http.client.HTTPException):
         return False, None
     finally:
-        if conn is not None:
-            try:
-                conn.close()
-            except Exception:
-                pass
+        if conn.timer is not None:
+            conn.timer.cancel()
+        if response is not None:
+            response.close()
+        conn.close()
+        conn.watched_socket = None
 
 
-def probe_batch_xray(
-    nodes: list[ProxyNode],
-    xray_bin: str,
-    timeout: float = 5.0,
-    test_url: str = "http://cp.cloudflare.com/generate_204",
-    workers: int = 24,
-) -> dict[int, float]:
-    """Tests a batch of nodes end-to-end inside a single Xray process.
-
-    Returns a mapping `{node_index: latency_ms}` strictly for nodes whose proxied
-    HTTP request returned 200/204 (no fallback to TCP connect). Automatically bisects
-    if a malformed node causes Xray startup to reject the batch.
-    """
-    valid_items: list[tuple[int, dict]] = []
-    for idx, node in enumerate(nodes):
-        ob = build_xray_outbound(node)
-        if ob is not None:
-            valid_items.append((idx, ob))
-
-    if not valid_items:
-        return {}
-
-    return _run_xray_items(valid_items, xray_bin=xray_bin, timeout=timeout, test_url=test_url, workers=workers)
-
-
-def _run_xray_items(
-    items: list[tuple[int, dict]],
-    xray_bin: str,
-    timeout: float,
-    test_url: str,
-    workers: int,
-) -> dict[int, float]:
+def _run_xray_items(items: list[tuple[int, dict]], xray_bin: str, timeout: float, test_url: str, workers: int) -> BatchResult:
     ports = _reserve_ports(len(items))
-    config = _build_xray_batch_config(items, ports)
-
-    tmp_config = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
-    try:
-        json.dump(config, tmp_config)
-        tmp_config.close()
-
+    with tempfile.TemporaryDirectory(prefix="navaroute-core-") as tmp:
+        path = Path(tmp) / "config.json"
+        config = _build_xray_batch_config(items, ports)
+        path.write_text(json.dumps(config, allow_nan=False), encoding="utf-8")
         try:
-            proc = subprocess.Popen(
-                [xray_bin, "run", "-c", tmp_config.name],
-                stdin=subprocess.DEVNULL,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except Exception:
-            return {}
-
-        started = False
+            checked = subprocess.run([xray_bin, "run", "-test", "-c", str(path)], stdin=subprocess.DEVNULL,
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10, env=core_environment(), cwd=tmp)
+        except (OSError, subprocess.SubprocessError):
+            raise CoreInfrastructureError("Core configuration validation unavailable") from None
+        if checked.returncode != 0:
+            if len(items) == 1:
+                return BatchResult(unsupported={items[0][0]})
+            mid = len(items) // 2
+            left = _run_xray_items(items[:mid], xray_bin, timeout, test_url, workers)
+            right = _run_xray_items(items[mid:], xray_bin, timeout, test_url, workers)
+            return BatchResult(left.passed | right.passed, left.attempted | right.attempted, left.unsupported | right.unsupported)
         try:
-            started = _wait_ports_listening(ports, proc, timeout=4.0)
-            if not started:
-                # Terminate failed batch and bisect so 1 malformed config never drops valid peers
-                if len(items) > 1:
-                    proc.kill()
-                    proc.wait()
-                    mid = len(items) // 2
-                    left = _run_xray_items(items[:mid], xray_bin, timeout, test_url, workers)
-                    right = _run_xray_items(items[mid:], xray_bin, timeout, test_url, workers)
-                    left.update(right)
-                    return left
-                return {}
-
-            results: dict[int, float] = {}
-            max_w = min(workers, len(items))
-            with concurrent.futures.ThreadPoolExecutor(max_workers=max_w) as pool:
-                future_map = {
-                    pool.submit(_probe_http_via_local_proxy, ports[slot], test_url, timeout): orig_idx
-                    for slot, (orig_idx, _) in enumerate(items)
-                }
-                for fut in concurrent.futures.as_completed(future_map):
-                    orig_idx = future_map[fut]
-                    try:
-                        ok, latency = fut.result()
-                        if ok and latency is not None:
-                            results[orig_idx] = latency
-                    except Exception:
-                        pass
-            return results
-        finally:
-            try:
-                if proc.poll() is None:
-                    proc.terminate()
-                    proc.wait(timeout=1.5)
-            except Exception:
+            proc = subprocess.Popen([xray_bin, "run", "-c", str(path)], stdin=subprocess.DEVNULL,
+                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=core_environment(), cwd=tmp)
+        except OSError:
+            raise CoreInfrastructureError("Owned core startup failed") from None
+        try:
+            if not _wait_ports_listening(ports, proc, timeout=min(timeout, 4)):
+                raise CoreInfrastructureError("Owned core did not become ready")
+            result = BatchResult()
+            with concurrent.futures.ThreadPoolExecutor(max_workers=min(workers, len(items))) as pool:
+                futures = {pool.submit(_probe_http_via_local_proxy, ports[slot], test_url, timeout): index for slot, (index, _) in enumerate(items)}
                 try:
-                    proc.kill()
-                    proc.wait(timeout=1.0)
-                except Exception:
-                    pass
-    finally:
-        try:
-            os.remove(tmp_config.name)
-        except Exception:
-            pass
+                    for future in concurrent.futures.as_completed(futures):
+                        index = futures[future]
+                        passed, latency = future.result()
+                        result.attempted.add(index)
+                        if passed and latency is not None:
+                            result.passed[index] = latency
+                except BaseException:
+                    for future in futures:
+                        future.cancel()
+                    raise
+            if proc.poll() is not None:
+                raise CoreInfrastructureError("Owned core exited during probes")
+            return result
+        finally:
+            _stop_owned(proc)
 
 
-def check_nodes_health(
-    nodes: list[ProxyNode],
-    max_nodes: int = 1500,
-    concurrency: int = 64,
-    timeout: float = 3.5,
-    xray_bin: Optional[str] = None,
-    use_xray: bool = False,
-    batch_size: int = 48,
-    rounds: int = 1,
-    test_urls: Optional[list[str]] = None,
-) -> None:
-    """Prioritizes and concurrently tests the reachability and latency of nodes.
+def probe_batch_xray(nodes: list[ProxyNode], xray_bin: str, timeout: float = 5.0,
+                     test_url: str = HEALTHCHECK_TEST_URLS[0], workers: int = 24, *, prepared: list[dict] | None = None) -> BatchResult:
+    if not isinstance(xray_bin, str) or not xray_bin or not Path(xray_bin).is_absolute():
+        raise CoreInfrastructureError("Explicit absolute standalone core path required")
+    validate_limits(max(1, len(nodes)), workers, timeout, 48, 1)
+    if test_url not in HEALTHCHECK_TEST_URLS:
+        raise ValueError("Unsupported probe policy endpoint")
+    items = []
+    unsupported = set()
+    for index, node in enumerate(nodes):
+        outbound = prepared[index] if prepared is not None else prepare_public_outbound(node, timeout)
+        if outbound is None:
+            unsupported.add(index)
+        else:
+            items.append((index, outbound))
+    result = _run_xray_items(items, xray_bin, timeout, test_url, workers) if items else BatchResult()
+    result.unsupported |= unsupported
+    return result
 
-    When use_xray=True and an Xray binary is available, runs batched end-to-end
-    HTTP-proxied probes across `rounds` rounds (intersection of all rounds survives).
-    Otherwise runs fast concurrent TCP+TLS/SNI socket verification.
-    Sets passed_healthcheck and latency_ms in-place.
-    """
-    if not nodes:
-        return
 
-    # Reset status before probing
-    def sort_key(n: ProxyNode) -> tuple[int, int]:
-        p1 = 0 if n.is_verified_source else 1
-        p2 = 0 if (n.is_iran_related() or n.is_reality() or "confighub" in n.tags) else 1
-        return (p1, p2)
+def probe_node_xray(node: ProxyNode, xray_bin: str, timeout: float = 4.0,
+                    test_url: str = HEALTHCHECK_TEST_URLS[0]) -> tuple[bool, float | None]:
+    result = probe_batch_xray([node], xray_bin, timeout, test_url, workers=1)
+    return 0 in result.passed, result.passed.get(0)
 
-    nodes_with_priority = sorted(nodes, key=sort_key)
-    target_nodes = nodes_with_priority[:max_nodes]
 
-    resolved_xray = (xray_bin or shutil.which("xray")) if use_xray else None
-
-    if resolved_xray:
+def check_nodes_health(nodes: list[ProxyNode], max_nodes: int = 1500, concurrency: int = 64, timeout: float = 3.5,
+                       xray_bin: str | None = None, use_xray: bool = False, batch_size: int = 48,
+                       rounds: int = 1, test_urls: list[str] | None = None) -> dict:
+    validate_limits(max_nodes, concurrency, timeout, batch_size, rounds)
+    for node in nodes:
+        node.passed_healthcheck = False
+        node.latency_ms = None
+        node.healthcheck_kind = "untested"
+        node.healthchecked_at = None
+    ordered = sorted(nodes, key=lambda n: (not n.is_verified_source, not (n.is_iran_related() or n.is_reality() or "confighub" in n.tags)))
+    unsupported = 0
+    unsupported_fingerprints = set()
+    if use_xray:
+        if not isinstance(xray_bin, str) or not xray_bin or not Path(xray_bin).is_absolute():
+            raise CoreInfrastructureError("Explicit absolute standalone core path required")
         endpoints = test_urls or HEALTHCHECK_TEST_URLS
-        latencies: dict[int, list[float]] = {i: [] for i in range(len(target_nodes))}
-        survivor_indices = set(range(len(target_nodes)))
-
-        for r_idx in range(max(1, rounds)):
-            if not survivor_indices:
-                break
-            cur_url = endpoints[r_idx % len(endpoints)]
-            active_list = sorted(survivor_indices)
-            round_passed: set[int] = set()
-
-            for start in range(0, len(active_list), max(1, batch_size)):
-                chunk_indices = active_list[start : start + batch_size]
-                chunk_nodes = [target_nodes[i] for i in chunk_indices]
-                batch_res = probe_batch_xray(
-                    chunk_nodes,
-                    xray_bin=resolved_xray,
-                    timeout=max(timeout, 4.5),
-                    test_url=cur_url,
-                    workers=min(concurrency, len(chunk_nodes), 32),
-                )
-                for local_idx, lat in batch_res.items():
-                    orig_i = chunk_indices[local_idx]
-                    round_passed.add(orig_i)
-                    latencies[orig_i].append(lat)
-
-            survivor_indices &= round_passed
-
-        for idx, n in enumerate(target_nodes):
-            if idx in survivor_indices and latencies[idx]:
-                n.passed_healthcheck = True
-                n.latency_ms = round(statistics.median(latencies[idx]), 1)
-            else:
-                n.passed_healthcheck = False
-                n.latency_ms = None
-        return
-
-    def _worker(n: ProxyNode) -> None:
-        passed, latency = probe_node_socket(n, timeout=timeout)
-        n.passed_healthcheck = passed
-        n.latency_ms = latency
-
-    workers = min(concurrency, max(1, len(target_nodes)))
-    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = [executor.submit(_worker, node) for node in target_nodes]
-        concurrent.futures.wait(futures)
+        if any(url not in HEALTHCHECK_TEST_URLS for url in endpoints):
+            raise ValueError("Unsupported probe policy endpoint")
+        supported = [n for n in ordered if build_xray_outbound(n) is not None]
+        unsupported = len(nodes) - len(supported)
+        unsupported_fingerprints = {n.semantic_fingerprint() for n in nodes if build_xray_outbound(n) is None}
+        target = supported[:max_nodes]
+        # Validate every selected public DNS answer before any core is started; never re-resolve for dial.
+        prepared = [prepare_public_outbound(n, timeout) for n in target]
+        latencies = {i: [] for i in range(len(target))}
+        active = set(range(len(target)))
+        for round_index in range(rounds):
+            round_passed = set()
+            indices = sorted(active)
+            for start in range(0, len(indices), batch_size):
+                chunk = indices[start:start + batch_size]
+                result = probe_batch_xray([target[i] for i in chunk], xray_bin, timeout,
+                                          endpoints[round_index % len(endpoints)], concurrency,
+                                          prepared=[prepared[i] for i in chunk])
+                if round_index > 0 and result.unsupported:
+                    raise CoreInfrastructureError("Previously supported core configuration failed")
+                unsupported += len(result.unsupported)
+                unsupported_fingerprints.update(target[chunk[i]].semantic_fingerprint() for i in result.unsupported)
+                for local in result.attempted:
+                    node = target[chunk[local]]
+                    node.healthcheck_kind = "xray"
+                    node.healthchecked_at = utc_now()
+                for local, latency in result.passed.items():
+                    index = chunk[local]
+                    latencies[index].append(latency)
+                    round_passed.add(index)
+            active &= round_passed
+        for index in active:
+            if len(latencies[index]) == rounds:
+                target[index].passed_healthcheck = True
+                target[index].latency_ms = round(statistics.median(latencies[index]), 1)
+    else:
+        def worker(node):
+            passed, latency = probe_node_socket(node, timeout)
+            node.passed_healthcheck = passed
+            node.latency_ms = latency
+            node.healthcheck_kind = "socket"
+            node.healthchecked_at = utc_now()
+        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as pool:
+            list(pool.map(worker, ordered[:max_nodes]))
+    tested = sum(n.healthcheck_kind != "untested" for n in nodes)
+    passed = sum(n.passed_healthcheck for n in nodes)
+    return {"tested": tested, "passed": passed, "failed": tested - passed, "unsupported": unsupported,
+            "untested": len(nodes) - tested - unsupported, "unsupported_fingerprints": sorted(unsupported_fingerprints)}

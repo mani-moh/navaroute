@@ -28,138 +28,242 @@ from src.main import build_arg_parser, main
 from src.models import ProxyNode, SourceConfig, SourceStats
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+CORE_FIXTURE = str(Path(tempfile.gettempdir()) / "navaroute-nonexistent-fixture-core")
 
 
 class TestHealthcheck(unittest.TestCase):
-    def test_probe_node_unreachable_socket(self):
-        # Port 1 on non-routable IP
-        node = ProxyNode(
-            scheme="vless",
-            address="192.0.2.1",
-            port=1,
-            credential="uuid",
-        )
-        passed, latency = probe_node_socket(node, timeout=0.3)
-        self.assertFalse(passed)
-        self.assertIsNone(latency)
+    def test_socket_rejects_private_without_connect_and_records_real_kind(self):
+        from src import healthcheck as hc
+        for address in ("127.0.0.1", "192.168.1.1", "192.0.2.1", "::1"):
+            with self.subTest(address=address), patch("src.network.socket.socket", side_effect=AssertionError("private connect")):
+                self.assertEqual(probe_node_socket(ProxyNode("trojan", address, 443, "public")), (False, None))
+        nodes = [ProxyNode("trojan", "1.1.1.1", 443, "public", passed_healthcheck=True, latency_ms=10),
+                 ProxyNode("trojan", "8.8.8.8", 443, "other", passed_healthcheck=True, latency_ms=10)]
+        with patch.object(hc, "probe_node_socket", return_value=(False, None)):
+            check_nodes_health(nodes, max_nodes=1)
+        self.assertEqual(nodes[0].healthcheck_kind, "socket")
+        self.assertIsNotNone(nodes[0].healthchecked_at)
+        self.assertFalse(nodes[1].passed_healthcheck)
+        self.assertEqual(nodes[1].healthcheck_kind, "untested")
+        self.assertIsNone(nodes[1].latency_ms)
 
-    def test_probe_node_reachable_tcp_socket(self):
-        # Bind a real temporary local TCP server
-        server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_sock.bind(("127.0.0.1", 0))
-        server_sock.listen(1)
-        port = server_sock.getsockname()[1]
+    def test_faithful_trojan_tls_vmess_grpc_and_supported_settings(self):
+        trojan = build_xray_outbound(ProxyNode("trojan", "public.example", 443, "public"))
+        self.assertEqual(trojan["streamSettings"]["security"], "tls")
+        self.assertEqual(trojan["streamSettings"]["tlsSettings"]["serverName"], "public.example")
+        vmess = build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid", params={
+            "type": "grpc", "path": "service", "security": "tls", "sni": "public.example", "aid": "0",
+            "scy": "auto", "headerType": "none", "v": "2", "alpn": ["h2", "http/1.1"]}))
+        self.assertEqual(vmess["streamSettings"]["grpcSettings"], {"serviceName": "service"})
+        self.assertEqual(vmess["streamSettings"]["tlsSettings"]["alpn"], ["h2", "http/1.1"])
+        ws = build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid", params={
+            "type": "ws", "security": "tls", "host": "cdn.example", "sni": "tls.example", "path": "/ws", "flow": ""}))
+        self.assertEqual(ws["streamSettings"]["wsSettings"], {"path": "/ws", "headers": {"Host": "cdn.example"}})
+        self.assertEqual(ws["streamSettings"]["tlsSettings"]["serverName"], "tls.example")
 
-        def _accept_conn():
-            try:
-                conn, _ = server_sock.accept()
-                time.sleep(0.01)
-                conn.close()
-            except Exception:
-                pass
+    def test_unsupported_complete_settings_never_drop_into_pass(self):
+        for params in ({"fm": "1"}, {"cs": "1"}, {"dialMode": "auto"}, {"plugin": "obfs-local"},
+                       {"unknown": {"nested": True}}, {"type": ["ws", "grpc"]}, {"type": "xhttp", "mode": "auto"},
+                       {"headerType": "http"}, {"aid": "oops"}, {"security": "tls", "alpn": {"x": "h2"}},
+                       {"type": "tcp", "path": "/ignored"}, {"type": "grpc", "path": "one", "serviceName": "two"}):
+            with self.subTest(params=params):
+                self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "public", params=params)))
+        self.assertIsNone(build_xray_outbound(ProxyNode("hysteria2", "1.1.1.1", 443, "public")))
 
-        th = threading.Thread(target=_accept_conn, daemon=True)
-        th.start()
+    def test_manual_mode_missing_binary_never_falls_back(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        with patch.object(hc, "probe_node_socket", side_effect=AssertionError("fallback forbidden")):
+            with self.assertRaises(hc.CoreInfrastructureError):
+                check_nodes_health([node], use_xray=True)
+            with patch.object(hc.subprocess, "run", side_effect=OSError("missing fixture core")), self.assertRaises(hc.CoreInfrastructureError):
+                probe_node_xray(node, CORE_FIXTURE)
 
-        node = ProxyNode(
-            scheme="ss",
-            address="127.0.0.1",
-            port=port,
-            credential="pass",
-        )
-        passed, latency = probe_node_socket(node, timeout=1.5)
-        server_sock.close()
+    def test_relative_core_path_never_uses_path_or_resolves_nodes(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "public.example", 443, "public")
+        with patch.object(hc, "prepare_public_outbound", side_effect=AssertionError("reject core before DNS")), \
+             patch.object(hc.subprocess, "Popen", side_effect=AssertionError("PATH lookup forbidden")):
+            with self.assertRaises(hc.CoreInfrastructureError):
+                probe_node_xray(node, "xray")
 
+    def test_unsupported_filtered_before_budget_and_round_intersection(self):
+        from src import healthcheck as hc
+        nodes = [ProxyNode("hysteria2", "1.1.1.1", 443, "public"),
+                 ProxyNode("trojan", "1.1.1.1", 443, "one"), ProxyNode("vmess", "8.8.8.8", 443, "two")]
+        with patch.object(hc, "prepare_public_outbound", side_effect=lambda n, t: build_xray_outbound(n)), \
+             patch.object(hc, "probe_batch_xray", side_effect=[hc.BatchResult({0: 120., 1: 80.}, {0, 1}, set()),
+                                                           hc.BatchResult({1: 90.}, {0, 1}, set())]):
+            summary = check_nodes_health(nodes, max_nodes=2, use_xray=True, xray_bin=CORE_FIXTURE, rounds=2)
+        self.assertEqual(summary["tested"], 2)
+        self.assertEqual(summary["unsupported"], 1)
+        self.assertEqual(nodes[0].healthcheck_kind, "untested")
+        self.assertFalse(nodes[1].passed_healthcheck)
+        self.assertTrue(nodes[2].passed_healthcheck)
+        self.assertEqual(nodes[2].latency_ms, 85.)
+
+    def test_config_failure_after_a_good_round_is_infrastructure_not_failed_probe(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        with patch.object(hc, "probe_batch_xray", side_effect=[hc.BatchResult({0: 10.}, {0}, set()), hc.BatchResult(unsupported={0})]):
+            with self.assertRaises(hc.CoreInfrastructureError):
+                check_nodes_health([node], use_xray=True, xray_bin=CORE_FIXTURE, rounds=2)
+
+    def test_default_cert_context_and_total_read_deadline_are_used_through_connect(self):
+        from src import healthcheck as hc
+        from tests.test_network import WireSocket
+        import ssl
+        real_context = ssl.create_default_context()
+        clock = [100.0]
+        def wrap(context, transport, **kw):
+            self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+            self.assertTrue(context.check_hostname)
+            self.assertEqual(kw["server_hostname"], "cp.cloudflare.com")
+            transport.response = b"HTTP/1.1 204 No Content\r\n\r\n"
+            return transport
+        sock = WireSocket(b"HTTP/1.1 200 Connection established\r\n\r\n", clock=clock)
+        with patch("src.network._resolve", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]), \
+             patch("src.network._connect", return_value=sock), patch("src.network.ssl.create_default_context", return_value=real_context), \
+             patch.object(ssl.SSLContext, "wrap_socket", new=wrap), patch("src.network.time.monotonic", side_effect=lambda: clock[0]):
+            self.assertEqual(hc._probe_http_via_local_proxy(25000, timeout=.1), (False, None))
+
+    def test_public_socket_positive_uses_validated_numeric_peer_without_tls_claim(self):
+        from tests.test_network import WireSocket
+        class SocketFixture(WireSocket):
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                self.close()
+        fixture = SocketFixture(b"", peer=("1.1.1.1", 443))
+        with patch("src.network.socket.socket", return_value=fixture):
+            passed, latency = probe_node_socket(ProxyNode("trojan", "1.1.1.1", 443, "public"))
         self.assertTrue(passed)
         self.assertIsNotNone(latency)
-        self.assertGreater(latency, 0.0)
+        self.assertEqual(fixture.connected, ("1.1.1.1", 443))
+        self.assertTrue(fixture.closed)
 
-    def test_check_nodes_health_prioritizes_verified(self):
-        n1 = ProxyNode(
-            scheme="vless",
-            address="192.0.2.1",
-            port=1,
-            credential="u1",
-            is_verified_source=True,
-        )
-        n2 = ProxyNode(
-            scheme="vless",
-            address="192.0.2.2",
-            port=1,
-            credential="u2",
-            is_verified_source=False,
-        )
-        # Should execute without errors and mutate nodes
-        check_nodes_health([n1, n2], max_nodes=10, timeout=0.2)
-        self.assertFalse(n1.passed_healthcheck)
-        self.assertFalse(n2.passed_healthcheck)
+    def test_https_204_only_with_verified_context_and_no_proxy_env(self):
+        from src import healthcheck as hc
+        from tests.test_network import WireSocket
+        # Reuse the socket-free wire boundary; real CONNECT/HTTP/TLS policy code runs.
+        for response, want in ((b"HTTP/1.1 204 No Content\r\nContent-Length: 0\r\n\r\n", True),
+                               (b"HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n", False),
+                               (b"HTTP/1.1 204 No Content\r\nContent-Length: 1\r\n\r\nx", False)):
+            sock = WireSocket(b"HTTP/1.1 200 Connection established\r\n\r\n", ("127.0.0.1", 25000))
+            context = MagicMock()
+            def wrap(transport, **kwargs):
+                transport.response = response
+                return transport
+            context.wrap_socket.side_effect = wrap
+            with self.subTest(response=response), \
+                 patch("src.network._resolve", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]), \
+                 patch("src.network._connect", return_value=sock), patch("src.network.ssl.create_default_context", return_value=context):
+                passed, latency = hc._probe_http_via_local_proxy(25000)
+            self.assertEqual(passed, want)
+            self.assertEqual(context.wrap_socket.call_args.kwargs["server_hostname"], "cp.cloudflare.com")
 
-    def test_build_xray_outbound_and_fallback(self):
-        vless_node = ProxyNode(
-            scheme="vless",
-            address="1.2.3.4",
-            port=443,
-            credential="uuid-vless",
-            params={"type": "ws", "security": "tls", "sni": "test.com", "path": "/ws"},
-        )
-        ob_vless = build_xray_outbound(vless_node)
-        self.assertIsNotNone(ob_vless)
-        self.assertEqual(ob_vless["protocol"], "vless")
-        self.assertEqual(ob_vless["streamSettings"]["network"], "ws")
-        self.assertEqual(ob_vless["streamSettings"]["security"], "tls")
+    def test_core_config_failure_isolates_peer_and_start_failure_cleans_owned_temp(self):
+        from src import healthcheck as hc
+        import subprocess
+        nodes = [ProxyNode("trojan", "1.1.1.1", 443, "one"), ProxyNode("trojan", "8.8.8.8", 443, "two")]
+        paths = []
 
-        trojan_node = ProxyNode(
-            scheme="trojan",
-            address="5.6.7.8",
-            port=443,
-            credential="secret-trojan",
-            params={"type": "grpc", "serviceName": "tr-grpc", "security": "reality", "pbk": "test-pbk"},
-        )
-        ob_trojan = build_xray_outbound(trojan_node)
-        self.assertIsNotNone(ob_trojan)
-        self.assertEqual(ob_trojan["protocol"], "trojan")
-        self.assertEqual(ob_trojan["streamSettings"]["security"], "reality")
+        def validate(argv, **kwargs):
+            path = Path(argv[-1])
+            paths.append(path)
+            config = json.loads(path.read_text())
+            bad = any(ob.get("settings", {}).get("servers", [{}])[0].get("password") == "one" for ob in config["outbounds"])
+            self.assertNotIn("NVIDIA_API_KEY", kwargs["env"])
+            self.assertNotIn("GH_TOKEN", kwargs["env"])
+            return subprocess.CompletedProcess(argv, int(bad))
 
-        # Invalid node
-        invalid_node = ProxyNode(scheme="unknown", address="1.1.1.1", port=0, credential="c")
-        self.assertIsNone(build_xray_outbound(invalid_node))
+        proc = MagicMock()
+        proc.poll.return_value = None
+        with patch.object(hc, "prepare_public_outbound", side_effect=lambda n, t: build_xray_outbound(n)), \
+             patch.object(hc.subprocess, "run", side_effect=validate), patch.object(hc.subprocess, "Popen", return_value=proc), \
+             patch.object(hc, "_wait_ports_listening", return_value=True), patch.object(hc, "_probe_http_via_local_proxy", return_value=(True, 10.)):
+            result = hc.probe_batch_xray(nodes, CORE_FIXTURE)
+        self.assertEqual(result.passed, {1: 10.})
+        self.assertEqual(result.unsupported, {0})
+        self.assertTrue(all(not p.exists() for p in paths))
+        proc.terminate.assert_called_once()
+        proc.wait.assert_called()
+        with patch.object(hc, "prepare_public_outbound", side_effect=lambda n, t: build_xray_outbound(n)), \
+             patch.object(hc.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)), \
+             patch.object(hc.subprocess, "Popen", return_value=proc), patch.object(hc, "_wait_ports_listening", return_value=False):
+            with self.assertRaises(hc.CoreInfrastructureError):
+                hc.probe_batch_xray(nodes, CORE_FIXTURE)
 
-        # probe_node_xray with non-existent binary gracefully falls back to socket probe
-        passed, latency = probe_node_xray(vless_node, xray_bin="non_existent_xray_bin", timeout=0.2)
-        self.assertFalse(passed)
-        self.assertIsNone(latency)
+    def test_pinned_dial_preserves_original_sni_host_and_fingerprint(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "public.example", 443, "public", params={"type": "ws", "path": "/"})
+        original = node.semantic_fingerprint()
+        with patch("src.network.socket.getaddrinfo", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]):
+            outbound = hc.prepare_public_outbound(node)
+        self.assertEqual(outbound["settings"]["servers"][0]["address"], "1.1.1.1")
+        self.assertEqual(outbound["streamSettings"]["tlsSettings"]["serverName"], "public.example")
+        self.assertEqual(outbound["streamSettings"]["wsSettings"]["headers"]["Host"], "public.example:443")
+        self.assertEqual(node.semantic_fingerprint(), original)
+        with patch("src.network.socket.getaddrinfo", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("127.0.0.1", 443))]), \
+             patch.object(hc.subprocess, "Popen", side_effect=AssertionError("private core dial")):
+            with self.assertRaises(ValueError):
+                check_nodes_health([node], use_xray=True, xray_bin=CORE_FIXTURE)
 
-    @patch("src.healthcheck.probe_batch_xray")
-    def test_batched_xray_config_and_multiround_intersection(self, mock_probe_batch):
-        from src.healthcheck import _build_xray_batch_config
+    def test_grpc_pinning_preserves_tls_server_name_authority(self):
+        from src import healthcheck as hc
+        node = ProxyNode("vmess", "1.1.1.1", 443, "public", params={"type": "grpc", "path": "service", "security": "tls", "sni": "tls.example"})
+        outbound = hc.prepare_public_outbound(node)
+        self.assertEqual(outbound["streamSettings"]["grpcSettings"], {"serviceName": "service", "authority": "tls.example"})
 
-        n1 = ProxyNode(scheme="vless", address="1.1.1.1", port=443, credential="u1")
-        n2 = ProxyNode(scheme="vmess", address="2.2.2.2", port=443, credential="u2")
-        n3 = ProxyNode(scheme="trojan", address="3.3.3.3", port=443, credential="u3")
+    def test_captive_bodyless_204_with_illegal_body_is_not_pass(self):
+        from src import healthcheck as hc
+        from tests.test_network import WireSocket
+        sock = WireSocket(b"HTTP/1.1 200 Connection established\r\n\r\n")
+        context = MagicMock()
+        def wrap(transport, **kw):
+            transport.response = b"HTTP/1.1 204 No Content\r\n\r\ncaptive-sentinel"
+            return transport
+        context.wrap_socket.side_effect = wrap
+        with patch("src.network._resolve", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]), \
+             patch("src.network._connect", return_value=sock), patch("src.network.ssl.create_default_context", return_value=context):
+            self.assertEqual(hc._probe_http_via_local_proxy(25000), (False, None))
 
-        cfg = _build_xray_batch_config([(0, build_xray_outbound(n1))], [25000])
-        self.assertEqual(cfg["outbounds"][0]["protocol"], "blackhole")
-        self.assertEqual(cfg["inbounds"][0]["protocol"], "http")
-        self.assertEqual(cfg["inbounds"][0]["port"], 25000)
-        self.assertEqual(cfg["routing"]["rules"][0]["inboundTag"], ["in_0"])
+    def test_invalid_destination_certificate_no_fallback_and_owned_cancel_kill_wait(self):
+        from src import healthcheck as hc
+        from tests.test_network import WireSocket
+        import ssl
+        import subprocess
+        context = MagicMock()
+        context.wrap_socket.side_effect = ssl.SSLCertVerificationError("private-sentinel")
+        sock = WireSocket(b"HTTP/1.1 200 Connection established\r\n\r\n")
+        with patch("src.network._resolve", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("1.1.1.1", 443))]), \
+             patch("src.network._connect", return_value=sock), patch("src.network.ssl.create_default_context", return_value=context):
+            self.assertEqual(hc._probe_http_via_local_proxy(25000), (False, None))
+        proc = MagicMock()
+        proc.poll.return_value = None
+        proc.wait.side_effect = [subprocess.TimeoutExpired("supplied", 1), None]
+        paths = []
+        def popen(argv, **kw):
+            paths.append(Path(argv[-1]))
+            return proc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        with patch.object(hc.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)), \
+             patch.object(hc.subprocess, "Popen", side_effect=popen), \
+             patch.object(hc, "_wait_ports_listening", side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                hc.probe_batch_xray([node], CORE_FIXTURE)
+        proc.kill.assert_called_once()
+        self.assertEqual(proc.wait.call_count, 2)
+        self.assertTrue(all(not path.exists() for path in paths))
 
-        # Round 1 passes n1 and n2; Round 2 ([n1, n2]) only passes index 1 (n2) -> strictly n2 survives
-        mock_probe_batch.side_effect = [
-            {0: 120.0, 1: 80.0},
-            {1: 90.0},
-        ]
-        check_nodes_health(
-            [n1, n2, n3],
-            max_nodes=10,
-            xray_bin="fake_xray",
-            use_xray=True,
-            rounds=2,
-            batch_size=10,
-        )
-        self.assertFalse(n1.passed_healthcheck)
-        self.assertTrue(n2.passed_healthcheck)
-        self.assertEqual(n2.latency_ms, 85.0)
-        self.assertFalse(n3.passed_healthcheck)
+    def test_owned_termination_error_still_kills_and_waits(self):
+        from src import healthcheck as hc
+        proc = MagicMock()
+        proc.poll.return_value = None
+        proc.terminate.side_effect = OSError("terminated concurrently")
+        hc._stop_owned(proc)
+        proc.kill.assert_called_once()
+        proc.wait.assert_called_once()
 
 
 class TestCategorizer(unittest.TestCase):
