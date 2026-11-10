@@ -195,7 +195,28 @@ def _authority(host, port):
     return f"[{host}]:{port}" if ":" in host else f"{host}:{port}"
 
 
+class _Response(http.client.HTTPResponse):
+    """Stdlib chunk decoding tolerates invalid separators and trailer EOF."""
+
+    def _get_chunk_left(self):
+        if self.chunk_left == 0:
+            if self._safe_read(2) != b"\r\n":
+                raise NetworkError("Invalid chunk framing")
+            self.chunk_left = None
+        return super()._get_chunk_left()
+
+    def _read_and_discard_trailer(self):
+        while True:
+            line = self.fp.readline(http.client._MAXLINE + 1)
+            if len(line) > http.client._MAXLINE or not line.endswith(b"\r\n"):
+                raise NetworkError("Incomplete or invalid chunk terminator")
+            if line == b"\r\n":
+                return
+
+
 class _Connection(http.client.HTTPConnection):
+    response_class = _Response
+
     def __init__(self, host, port, secure, deadline, proxy):
         super().__init__(host, port, timeout=_remaining(deadline))
         self.secure = secure

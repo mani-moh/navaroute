@@ -367,6 +367,26 @@ class NetworkTests(WireFixture):
             with self.subTest(wire=wire), self.assertRaises(network.NetworkError):
                 self.fetch(max_bytes=32)
 
+    def test_valid_chunked_response_preserves_body_and_trailers(self):
+        for body in (b"2\r\nok\r\n0\r\n\r\n", b"1;fixture=yes\r\no\r\n1\r\nk\r\n0\r\nX-Fixture: value\r\n\r\n"):
+            self.responses = [b"HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n" + body]
+            with self.subTest(body=body):
+                self.assertEqual(self.fetch(max_bytes=2), (200, b"ok"))
+                self.assertTrue(self.sockets[-1].closed)
+
+    def test_invalid_chunk_separators_and_incomplete_terminators_fail(self):
+        for body in (b"2\r\nokXX0\r\n\r\n", b"2\r\nok\r\n0\r\n",
+                     b"2\r\nok\r\n0\r\n\n", b"2\r\nok\r\n0\r\nX-Fixture: synthetic-secret\r\n"):
+            self.responses = [b"HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n" + body]
+            before = len(self.sockets)
+            with self.subTest(body=body):
+                with self.assertRaises(network.NetworkError) as error:
+                    self.fetch("http://public.example/?token=synthetic-secret", max_bytes=2)
+                self.assertTrue(self.sockets[-1].closed)
+                self.assertEqual(len(self.sockets), before + 1)
+                self.assertNotIn("synthetic-secret", str(error.exception))
+                self.assertNotIn("public.example", str(error.exception))
+
     def test_reserved_ipv6_and_public_peer_swap_are_not_allowed(self):
         for ip in ("::127.0.0.1", "2002:7f00:1::", "ff02::1"):
             with self.subTest(ip=ip), self.assertRaises(ValueError):
