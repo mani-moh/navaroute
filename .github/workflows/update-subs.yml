@@ -17,10 +17,6 @@ on:
         description: "Maximum number of nodes to health-check"
         type: string
         default: "1000"
-      run_discovery:
-        description: "Run Autonomous Discovery Agent (NVIDIA Nemotron 3.5 Super VL) before aggregation"
-        type: boolean
-        default: true
 
 permissions:
   contents: write
@@ -79,20 +75,6 @@ jobs:
       - name: Run unit tests
         run: |
           python -m unittest discover -s tests -v
-
-      - name: Run Autonomous Discovery Agent (Nemotron 3.5 Super VL)
-        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.run_discovery == true) }}
-        shell: bash
-        env:
-          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ -n "$NVIDIA_API_KEY" ]; then
-            echo "::add-mask::$NVIDIA_API_KEY"
-          else
-            echo "Note: NVIDIA_API_KEY secret is not set; discovery will run in heuristic fallback mode."
-          fi
-          python -m src.main --discover-only --discovery-time 360 --discovery-channels 150 || echo "Discovery finished with non-fatal warnings"
 
       - name: Run public aggregation pipeline
         shell: bash

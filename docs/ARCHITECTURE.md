@@ -53,5 +53,5 @@ flowchart LR
 ## CI Automation Cadence
 
 - **`.github/workflows/ci.yml`**: Runs Python compilation checks (`compileall`), unit/integration tests across Python 3.10 & 3.12, and secret scans on every push & PR.
-- **`.github/workflows/update-subs.yml`**: Runs every 6 hours (`0 */6 * * *`) to discover new feeds, aggregate public nodes, update `subs/` & docs, and run security checks.
-- **`.github/workflows/daily-deep-discovery.yml`**: Runs daily (`0 2 * * *`) for an extended 500-request frontier AI crawl, serialized via `concurrency: pattn-git-writer`.
+- **`.github/workflows/update-subs.yml`**: Runs every 6 hours (`0 */6 * * *`) for fast scheduled source aggregation, multi-platform categorization, docs update, and security checks (without AI discovery overhead).
+- **`.github/workflows/daily-deep-discovery.yml`**: Runs daily (`0 2 * * *`) for an autonomous 500-request frontier AI deep crawl exploring new channels and configs, serialized via `concurrency: pattn-git-writer`.

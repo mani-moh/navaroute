@@ -37,16 +37,12 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("run_healthcheck:", self.workflow_content)
         self.assertIn("generate_pattn_variants:", self.workflow_content)
         self.assertIn("max_test_nodes:", self.workflow_content)
-        self.assertIn("run_discovery:", self.workflow_content)
 
-    def test_workflow_includes_discovery_step_and_masking(self) -> None:
-        """Verify update-subs.yml executes discovery before aggregation and masks NVIDIA_API_KEY."""
-        self.assertIn("Run Autonomous Discovery Agent", self.workflow_content)
-        self.assertIn("NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}", self.workflow_content)
-        self.assertIn("::add-mask::$NVIDIA_API_KEY", self.workflow_content)
-        self.assertIn("--discover-only", self.workflow_content)
-        self.assertIn("sources.discovered.json", self.workflow_content)
-        self.assertIn("DISCOVERY.md", self.workflow_content)
+    def test_workflow_is_fast_source_aggregation(self) -> None:
+        """Verify update-subs.yml is a fast 6h updater without AI discovery overhead."""
+        self.assertNotIn("--discover-only", self.workflow_content)
+        self.assertIn("Run public aggregation pipeline", self.workflow_content)
+        self.assertIn("python -m src.main", self.workflow_content)
 
     def test_trigger_script_exists_and_valid(self) -> None:
         """Verify trigger_update.ps1 exists and defines expected parameters."""
