@@ -479,8 +479,12 @@ class TestPrivateSubs(unittest.TestCase):
 
 class TestFetcherAndLoader(unittest.TestCase):
     def test_load_sources_public_and_private_env(self):
-        # Test loading sources.json
-        sources = load_sources(sources_path=str(BASE_DIR / "sources.json"), include_private=False)
+        # Test loading sources.json in isolation from dynamic discovered sources
+        sources = load_sources(
+            sources_path=str(BASE_DIR / "sources.json"),
+            include_private=False,
+            discovered_sources_path="non_existent_discovered.json",
+        )
         self.assertEqual(len(sources), 60)
         self.assertTrue(all(not s.is_private for s in sources))
 

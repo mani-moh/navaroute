@@ -40,6 +40,16 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("generate_pattn_variants:", self.workflow_content)
         self.assertIn("max_test_nodes:", self.workflow_content)
         self.assertIn("sync_private_gist:", self.workflow_content)
+        self.assertIn("run_discovery:", self.workflow_content)
+
+    def test_workflow_includes_discovery_step_and_masking(self) -> None:
+        """Verify update-subs.yml executes discovery before aggregation and masks NVIDIA_API_KEY."""
+        self.assertIn("Run Autonomous Discovery Agent", self.workflow_content)
+        self.assertIn("NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}", self.workflow_content)
+        self.assertIn("::add-mask::$NVIDIA_API_KEY", self.workflow_content)
+        self.assertIn("--discover-only", self.workflow_content)
+        self.assertIn("sources.discovered.json", self.workflow_content)
+        self.assertIn("DISCOVERY.md", self.workflow_content)
 
     def test_workflow_privacy_isolation(self) -> None:
         """Verify that zero private domains, tokens, or URLs appear in update-subs.yml."""
@@ -304,7 +314,12 @@ class TestRepoSlugAndPrivateOnly(unittest.TestCase):
         nodes = load_public_subs_from_disk(subs_dir=BASE_DIR / "subs")
         self.assertGreater(len(nodes), 100)
         verified = [n for n in nodes if n.passed_healthcheck]
-        self.assertEqual(len(verified), 237)
+        ver_lines = [
+            l for l in (BASE_DIR / "subs" / "verified.txt").read_text(encoding="utf-8").splitlines()
+            if l.strip() and not l.strip().startswith("#") and "://" in l
+        ]
+        self.assertGreater(len(verified), 50)
+        self.assertEqual(len(verified), len(ver_lines))
         for n in verified:
             self.assertFalse(n.is_private)
             self.assertTrue(n.passed_healthcheck)

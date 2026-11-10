@@ -21,6 +21,10 @@ on:
         description: "Publish private BPB + verified configs to Secret Gist (requires PRIVATE_SOURCES & GIST_TOKEN secrets)"
         type: boolean
         default: true
+      run_discovery:
+        description: "Run Autonomous Discovery Agent (NVIDIA Nemotron 3.5 Super VL) before aggregation"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -76,6 +80,19 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
 
+      - name: Run Autonomous Discovery Agent (Nemotron 3.5 Super VL)
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.run_discovery == true) }}
+        shell: bash
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: |
+          if [ -n "$NVIDIA_API_KEY" ]; then
+            echo "::add-mask::$NVIDIA_API_KEY"
+          else
+            echo "Note: NVIDIA_API_KEY secret is not set; discovery will run in heuristic fallback mode."
+          fi
+          python -m src.main --discover-only --discovery-time 360 --discovery-channels 150 || echo "Discovery finished with non-fatal warnings"
+
       - name: Run public aggregation pipeline
         shell: bash
         run: |
@@ -100,6 +117,7 @@ jobs:
         shell: bash
         env:
           PRIVATE_SOURCES: ${{ secrets.PRIVATE_SOURCES }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
           # 1. Ensure private artifacts are never tracked or staged
           if git status --porcelain | grep -E "(sources\.private\.json|private_subs/)"; then
@@ -107,27 +125,32 @@ jobs:
             exit 1
           fi
 
-          # 2. Dynamic privacy audit: ensure no private endpoints leak into public tracked files
-          if [ -n "$PRIVATE_SOURCES" ]; then
-            python -c '
-            import os, sys, subprocess, re
-            priv = os.environ.get("PRIVATE_SOURCES", "")
-            urls = re.findall(r"https?://[^\s\",]+", priv)
-            domains = set()
-            for u in urls:
-                m = re.search(r"https?://([^/:]+)", u)
-                if m:
-                    domains.add(m.group(1).lower())
-            print(f"Auditing repository against {len(domains)} private domains...")
-            for d in domains:
-                if len(d) > 4:
-                    res = subprocess.run(["git", "grep", "-I", "-i", d], capture_output=True, text=True)
-                    if res.returncode == 0 and res.stdout.strip():
-                        print(f"CRITICAL PRIVACY VIOLATION: Private domain detected in tracked files: {d}")
-                        sys.exit(1)
-            print("Dynamic privacy audit passed: 0 leaks found.")
-            '
-          fi
+          # 2. Dynamic privacy audit: ensure no private endpoints or API keys leak into public tracked files
+          python -c '
+          import os, sys, subprocess, re
+          priv = os.environ.get("PRIVATE_SOURCES", "")
+          nvapi = os.environ.get("NVIDIA_API_KEY", "").strip()
+          if nvapi and len(nvapi) > 8:
+              res = subprocess.run(["git", "grep", "-I", "-F", nvapi], capture_output=True, text=True)
+              if res.returncode == 0 and res.stdout.strip():
+                  print("CRITICAL SECURITY VIOLATION: NVIDIA_API_KEY detected in tracked files!")
+                  sys.exit(1)
+          if priv:
+              urls = re.findall(r"https?://[^\s\",]+", priv)
+              domains = set()
+              for u in urls:
+                  m = re.search(r"https?://([^/:]+)", u)
+                  if m:
+                      domains.add(m.group(1).lower())
+              print(f"Auditing repository against {len(domains)} private domains...")
+              for d in domains:
+                  if len(d) > 4:
+                      res = subprocess.run(["git", "grep", "-I", "-i", d], capture_output=True, text=True)
+                      if res.returncode == 0 and res.stdout.strip():
+                          print(f"CRITICAL PRIVACY VIOLATION: Private domain detected in tracked files: {d}")
+                          sys.exit(1)
+          print("Dynamic privacy & security audit passed: 0 leaks found.")
+          '
 
       - name: Commit and push public updates
         shell: bash
@@ -135,6 +158,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add subs/ README.md STATUS.md
+          [ -f sources.discovered.json ] && git add sources.discovered.json || true
+          [ -f DISCOVERY.md ] && git add DISCOVERY.md || true
+          [ -d data ] && git add data/ || true
           if git diff --staged --quiet; then
             echo "No subscription updates to commit"
           else

@@ -122,12 +122,56 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=False,
         help="Disable automatic generation of STATUS.md and README.md",
     )
+    parser.add_argument(
+        "--discover",
+        action="store_true",
+        default=False,
+        help="Run the autonomous Nemotron discovery agent before aggregation",
+    )
+    parser.add_argument(
+        "--discover-only",
+        action="store_true",
+        default=False,
+        help="Run ONLY the autonomous discovery agent and exit",
+    )
+    parser.add_argument(
+        "--discovery-time",
+        type=int,
+        default=360,
+        help="Max time budget in seconds for the discovery agent (default: 360)",
+    )
+    parser.add_argument(
+        "--discovery-channels",
+        type=int,
+        default=100,
+        help="Max channels to scan per discovery cycle (default: 100)",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_arg_parser()
     args = parser.parse_args(argv)
+
+    if args.discover or args.discover_only:
+        from src.discovery.agent import DiscoveryAgent, load_local_dotenv
+
+        load_local_dotenv()
+        safe_print("=" * 65)
+        safe_print("🛰️ Running Autonomous Discovery Agent (Nemotron 3.5 Super VL)...")
+        safe_print("=" * 65)
+        try:
+            agent = DiscoveryAgent()
+            discovered = agent.run_cycle(
+                max_channels=args.discovery_channels,
+                max_time_seconds=args.discovery_time,
+            )
+            safe_print(f"✅ Discovery finished: {len(discovered)} active discovered sources.")
+        except Exception as exc:
+            safe_print(f"⚠️ Discovery encountered a non-fatal error: {exc}")
+
+        if args.discover_only:
+            return 0
 
     if args.private_only:
         from src.private_gist import run_private_sync

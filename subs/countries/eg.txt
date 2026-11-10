@@ -2,9 +2,13 @@
 #profile-update-interval: 6
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
-vless://3a90bf69-1ffe-4ebb-b9a7-ad9ba8e9f66f@185.147.27.164:8443?allowInsecure=1&encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ekb.eg&type=tcp#[🇪🇬 EG] VLESS-tcp | src:farid-karimi-vless-iran
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20082?type=raw&security=reality&fp=chrome&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇪🇬 EG] VLESS-Reality | src:luxxuria-speed-tested
+vless://17923e69-98e0-4952-a599-9c848c1b8ffe@185.147.27.23:30111?flow=xtls-rprx-vision&type=raw&security=reality&sni=eg1.hat.onl&pbk=tt35z7OjUx1kFP0ymroVmbVMiflTzKCkAKbqkhlv7AE&sid=91570bdd8b38b7d9&fp=qq#[✅] [🇪🇬 EG] VLESS-Reality | src:luxxuria-speed-tested
 trojan://af4b064a9c39472fb34ad8b113acdc6b@38.54.59.90:443?allowInsecure=1&sni=38.54.59.90#[🇪🇬 EG] Trojan | src:0xradikal-all
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.152.155.131:443?allowInsecure=1&fp=chrome&sni=ekb.eg#[🇪🇬 EG] Trojan | src:0xradikal-all
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20082?encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&security=reality&sid=1ed136481e0ede74&sni=eu64.cdn77.icu&type=tcp&fp=firefox#[🇪🇬 EG] VLESS-Reality | src:ewecrow78-whitelist1
+vless://3a90bf69-1ffe-4ebb-b9a7-ad9ba8e9f66f@185.147.27.164:8443?allowInsecure=1&encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=ekb.eg&type=tcp#[🇪🇬 EG] VLESS-tcp | src:farid-karimi-vless-iran
+vmess://eyJhZGQiOiAiMTU5LjIyMy4xMy4xMDkiLCAiYWlkIjogIjAiLCAiaWQiOiAiNWMwNDBmMWQtNDVkYi00M2JkLThkNDYtZTQ5NTBlNDMzNzM1IiwgIm5ldCI6ICJ0Y3AiLCAicG9ydCI6ICIxMjM0IiwgInBzIjogIlvwn4eq8J+HrCBFR10gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgInNuaSI6ICJla2IuZWciLCAidGxzIjogInRscyIsICJ0eXBlIjogIiIsICJ2IjogIjIiLCAic2tpcC1jZXJ0LXZlcmlmeSI6IHRydWV9
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2ZmYxNDIzZjYxZmZlNjcz@38.54.59.16:11201#[🇪🇬 EG] SS | src:lalatinahub-mineral
 vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@50.7.36.29:443?&security=tls&flow=xtls-rprx-vision&fp=firefox&sni=ekb.eg&type=tcp&headerType=none&path=%2F#[🇪🇬 EG] VLESS-tcp | src:leon406-subcrawler-vless
 vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@50.7.5.166:443?sni=ekb.eg&flow=xtls-rprx-vision&fp=firefox&security=tls#[🇪🇬 EG] VLESS | src:leon406-subcrawler-vless
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2ZmYxNDIzZjYxZmZlNjcz@38.54.59.16:11201#[🇪🇬 EG] SS | src:lalatinahub-mineral

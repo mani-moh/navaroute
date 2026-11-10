@@ -4,9 +4,7 @@
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCcW5xVG9paDBQYlU@51.255.13.232:8388#[🇵🇹 PT] SS | src:0xradikal-all
 vless://98a24806-141a-43d3-b094-bd66c4eb93b8@198.16.113.221:8443?&security=reality&flow=xtls-rprx-vision&pbk=8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE&sid=69984b9e02545831&fp=chrome&sni=www.apple.com&type=tcp&headerType=none&host=www.apple.com&path=%2F#[✅] [🇵🇹 PT] VLESS-Reality | src:0xradikal-all
-vless://eb6fbbdd-669b-4055-9379-4eeba938578a@198.16.113.220:8443?security=reality&type=tcp&allowInsecure=1&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=69984b9e02545831&pbk=8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE#[✅] [🇵🇹 PT] VLESS-Reality | src:0xradikal-all
 ss://YWVzLTI1Ni1nY206c3V1Y1NlVkxtdDZQUUtBUDc3TnRHdzl4@91.250.240.148:49339#[🇵🇹 PT] SS | src:farid-karimi-mixed-iran
-ss://YWVzLTEyOC1nY206ZDkyNWRkYjZmZTFlNmU2Mjg4N2NmM2RjM2Y1MTM3ZjM@185.231.233.91:17167#[🇵🇹 PT] SS | src:0xradikal-all
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpBUmd2R1p5d0ErZ2FjZ0dWMjZCdm11MDUrd1ptUlcvaitBZFUrWjhCdDQ0PQ@185.113.143.186:990#[🇵🇹 PT] SS | src:lalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@185.231.233.173:990#[🇵🇹 PT] SS | src:elf2017spring-configshub
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpBUmd2R1p5d0ErZ2FjZ0dWMjZCdm11MDUrd1ptUlcvaitBZFUrWjhCdDQ0PQ@185.113.143.186:990#[🇵🇹 PT] SS | src:lalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@185.231.233.112:989#[🇵🇹 PT] SS | src:lalatinahub-mineral

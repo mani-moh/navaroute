@@ -1,0 +1,17 @@
+{
+  "sources": [
+    {
+      "id": "gh-731be4b5c4",
+      "name": "GitHub Auto (cyrusalbert/ArashOnline)",
+      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/main/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true,
+      "is_private": false
+    }
+  ]
+}

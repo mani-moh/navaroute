@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "last_updated": 1794287990,
+  "queries_executed": [
+    "site:t.me \"vless://\" reality",
+    "site:t.me \"vmess://\" OR \"trojan://\" iran",
+    "gh:v2ray-configs sub"
+  ],
+  "candidate_queue": [
+    "configshub",
+    "configshub2",
+    "configshubplus",
+    "proxyshub",
+    "v2rayng_vpnn",
+    "freev2rays",
+    "proxymtproto",
+    "v2rayngvpn",
+    "vmessiran",
+    "customv2ray",
+    "v2ray_outlineir",
+    "v2rayng_config",
+    "shadowsocksm",
+    "vlessconfig",
+    "v2ray_collector",
+    "v2rayngn",
+    "outlinevpnofficial"
+  ],
+  "candidate_scores": {
+    "configshub": 1,
+    "configshub2": 1,
+    "configshubplus": 1,
+    "proxyshub": 1,
+    "v2rayng_vpnn": 1,
+    "freev2rays": 1,
+    "proxymtproto": 1,
+    "v2rayngvpn": 1,
+    "vmessiran": 1,
+    "customv2ray": 1,
+    "v2ray_outlineir": 1,
+    "v2rayng_config": 1,
+    "shadowsocksm": 1,
+    "vlessconfig": 1,
+    "v2ray_collector": 1,
+    "v2rayngn": 1,
+    "outlinevpnofficial": 1
+  },
+  "visited_channels": [],
+  "sources_metadata": {
+    "gh-731be4b5c4": {
+      "handle": "gh:cyrusalbert/ArashOnline",
+      "last_checked": 1794287971,
+      "last_nodes_yield": 470,
+      "total_nodes_yield": 470,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/main/configs.txt",
+      "is_telegram": false
+    }
+  }
+}

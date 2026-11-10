@@ -31,10 +31,11 @@ def load_sources(
     sources_path: str = "sources.json",
     include_private: bool = False,
     private_sources_path: str = "sources.private.json",
+    discovered_sources_path: str = "sources.discovered.json",
 ) -> list[SourceConfig]:
-    """Loads enabled sources from sources.json, and optionally private sources
+    """Loads enabled sources from sources.json, sources.discovered.json, and optionally
 
-    from private_sources_path and/or the PRIVATE_SOURCES environment variable.
+    private sources from private_sources_path and/or the PRIVATE_SOURCES environment variable.
     """
     sources: list[SourceConfig] = []
     seen_ids: set[str] = set()
@@ -52,7 +53,22 @@ def load_sources(
         except Exception:
             pass
 
-    # 2. Optionally load private sources
+    # 2. Load auto-discovered sources from discovered_sources_path if it exists
+    disc_p = Path(discovered_sources_path)
+    if disc_p.exists():
+        try:
+            disc_data = json.loads(disc_p.read_text(encoding="utf-8"))
+            for item in disc_data.get("sources", []):
+                cfg = SourceConfig.from_dict(item)
+                if "auto-discovered" not in cfg.tags:
+                    cfg.tags.append("auto-discovered")
+                if cfg.enabled and cfg.id not in seen_ids:
+                    sources.append(cfg)
+                    seen_ids.add(cfg.id)
+        except Exception:
+            pass
+
+    # 3. Optionally load private sources
     if include_private:
         # Load from private_sources_path if it exists
         priv_p = Path(private_sources_path)
@@ -138,7 +154,16 @@ def load_sources(
 
 
 def _fetch_url(url: str, timeout: float = 20.0) -> tuple[int, str]:
-    """Fetch URL with realistic headers. Uses httpx if available, fallback to urllib."""
+    """Fetch URL with realistic headers or read safe local cache file."""
+    if not url.startswith(("http://", "https://")):
+        local_path = Path(url)
+        # Allow reading safe repo-local discovery caches
+        if local_path.is_file() and (
+            url.startswith("data/") or url.startswith("data\\")
+        ):
+            return 200, local_path.read_text(encoding="utf-8", errors="replace")
+        raise ValueError(f"Unsupported URL scheme or unsafe local path: {url}")
+
     try:
         import httpx
 

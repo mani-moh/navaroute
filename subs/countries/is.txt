@@ -3,13 +3,10 @@
 #subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
 
 vless://b1c31d36-c6b5-414b-88d2-9e24e7bfcca3@185.146.234.242:443?&security=tls&fp=chrome&sni=www.nihaoyun.top&type=ws&headerType=none&host=www.nihaoyun.top&path=%2F#[🇮🇸 IS] VLESS-ws | src:0xradikal-all
-vless://b4e69d67-9d41-417c-b465-ebf1591fb792@93.95.226.159:28150?security=reality&type=tcp&sni=google.com&fp=chrome&sid=06&pbk=KQW_o2BlCjMC8aH5lkNkO_rmMCAUykQIQCCIIehhsAo#[✅] [🇮🇸 IS] VLESS-Reality | src:0xradikal-all
+vless://46d221fa-e9b4-748c-4eae-019a88e42991@191.44.112.170:443?sni=orbylume.my.to&type=ws&host=orbylume.my.to&path=/tvpn-tor/isfp=firefox&security=tls#[🇮🇸 IS] VLESS-ws | src:ermaozi-get-subscribe
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@37.235.49.168:989#[🇮🇸 IS] SS | src:elf2017spring-configshub
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.169:10889/?type=tcp&security=tls&sni=ya.ru#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.172:10889/?type=tcp&security=tls&sni=web.max.ru#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.228:10889/?type=tcp&security=tls&sni=web.max#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral
 trojan://qmBSKnAl6LYi9%3Dz23Rs.Z@37.235.49.209:28099/?type=tcp&security=tls&sni=celestialcorset.crystalhamster.click#[🇮🇸 IS] Trojan-tcp | src:lalatinahub-mineral
 vless://677615f7-87d5-5019-a44d-4fc3ff8d59d7@212.192.214.167:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=vk.cc&fp=chrome&security=reality&pbk=bDDaSDMsFiIxf5on0yovlJB3h7fPpS40DJRPiE2tJRw&sid=846349c8#[🇮🇸 IS] VLESS-Reality | src:lalatinahub-mineral
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@37.235.49.168:989#[🇮🇸 IS] SS | src:elf2017spring-configshub
-vless://b4e69d67-9d41-417c-b465-ebf1591fb792@188.114.98.0:443?security=tls&type=tcp&sni=google.com&fp=unsafe&encryption=none&headerType=none&host=google.com&cs=TLS_AES_128_GCM_SHA256%3ATLS_AES_256_GCM_SHA384%3ATLS_CHACHA20_POLY1305_SHA256%3AECDHE-ECDSA-AES128-GCM-SHA256%3AECDHE-RSA-AES128-GCM-SHA256&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%22tlshello%22%2C%22length%22%3A%2210-20%22%2C%22delay%22%3A%2210-20%22%7D%7D%2C%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%221-1%22%2C%22length%22%3A%221-3%22%2C%22delay%22%3A%225%22%7D%7D%5D%7D#[✅] [🇮🇸 IS] VLESS-tcp [PattN F&F] | src:0xradikal-all
-vless://b4e69d67-9d41-417c-b465-ebf1591fb792@[2a06:98c1:3120::7]:443?security=tls&type=tcp&sni=google.com&fp=hellochrome_120&encryption=none&headerType=none&host=google.com&dialMode=oob.0#[✅] [🇮🇸 IS] VLESS-tcp [PattN IPv6-OOB] | src:0xradikal-all
-vless://b4e69d67-9d41-417c-b465-ebf1591fb792@127.0.0.1:40443?security=tls&type=tcp&sni=google.com&fp=chrome&encryption=none&headerType=none&host=google.com#[✅] [🇮🇸 IS] VLESS-tcp [PattN SNI-Spoof] | src:0xradikal-all

@@ -4,11 +4,10 @@
 
 trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443?security=tls#[🇲🇳 MN] Trojan | src:0xradikal-all
 vmess://eyJhZGQiOiAiMTgwLjE0OS45MC42NiIsICJhaWQiOiAwLCAiaG9zdCI6ICJ0YWJ5YW43Nzcuc3l0ZXMubmV0IiwgImlkIjogImY1YzEzN2QxLWNhODktNDJjMC1iNjA0LWRiMzlhZWY2MGE3MyIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInBvcnQiOiA0NDMsICJwcyI6ICJb8J+HsvCfh7MgTU5dIFZNZXNzLXdzIHwgc3JjOm1haGFua2Vud2F5LWZyZWVkb20iLCAidGxzIjogInRscyIsICJ0eXBlIjogImF1dG8iLCAic2VjdXJpdHkiOiAiYXV0byIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInNuaSI6ICIifQ==
-trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443?type=tcp&security=tls#[🇲🇳 MN] Trojan-tcp | src:delta-kronecker-frag-json
-vless://d6b8011a-c725-435a-9fec-bf6d3530392c@104.21.90.210:443?type=ws&encryption=none&flow=&host=vlee.amclubs.nyc.mn&security=tls&sni=vlee.amclubs.nyc.mn#[🇲🇳 MN] VLESS-ws | src:lalatinahub-mineral
-vless://d6b8011a-c725-435a-9fec-bf6d3530392c@117.187.185.76:443?type=ws&encryption=none&flow=&host=vlee.amclubs.nyc.mn&path=%2F%3Fed%3D2560&security=tls&sni=vlee.amclubs.nyc.mn&fp=randomized#[🇲🇳 MN] VLESS-ws | src:lalatinahub-mineral
-vless://ef456d2c-b206-4b8b-b465-7c1df8b2bb00@saas.sin.fan:443?fp=chrome&host=sap.xiaomayi.nyc.mn&path=%2Fvless-argo&security=tls&sni=sap.xiaomayi.nyc.mn&type=ws#[🇲🇳 MN] VLESS-ws | src:leon406-subcrawler-vless
+trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443/?type=tcp&security=tls#[🇲🇳 MN] Trojan-tcp | src:delta-kronecker-frag-json
 trojan://amclubs@103.160.204.1:443/?type=ws&host=tran.amclubstest.nyc.mn&path=%2F%3Fed%3D2560&security=tls&sni=tran.amclubstest.nyc.mn#[🇲🇳 MN] Trojan-ws | src:lalatinahub-mineral
 trojan://amclubs@154.83.2.61:8443/?type=ws&path=%2F%3Fed%3D2560&security=tls&sni=tran.amclubstest.nyc.mn#[🇲🇳 MN] Trojan-ws | src:lalatinahub-mineral
 trojan://amclubs@154.83.2.94:2053/?type=ws&path=%2F%3Fed%3D2560&security=tls&sni=tran.amclubstest.nyc.mn#[🇲🇳 MN] Trojan-ws | src:lalatinahub-mineral
+vless://d6b8011a-c725-435a-9fec-bf6d3530392c@104.21.90.210:443/?type=ws&encryption=none&flow=&host=vlee.amclubs.nyc.mn&security=tls&sni=vlee.amclubs.nyc.mn#[🇲🇳 MN] VLESS-ws | src:lalatinahub-mineral
 vless://d6b8011a-c725-435a-9fec-bf6d3530392c@visa.cn:443/?type=ws&encryption=none&flow=&host=vlee.amclubs.nyc.mn&path=%2F%3Fed%3D2560&security=tls&sni=vlee.amclubs.nyc.mn&fp=randomized#[🇲🇳 MN] VLESS-ws | src:lalatinahub-mineral
+vless://ef456d2c-b206-4b8b-b465-7c1df8b2bb00@saas.sin.fan:443?fp=chrome&host=sap.xiaomayi.nyc.mn&path=%2Fvless-argo&security=tls&sni=sap.xiaomayi.nyc.mn&type=ws#[🇲🇳 MN] VLESS-ws | src:leon406-subcrawler-vless

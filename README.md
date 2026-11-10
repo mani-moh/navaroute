@@ -4,7 +4,7 @@
 
 > Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. PattN aggregates 60+ verified upstream sources, performs deep semantic deduplication, synthesizes specialized PattN fragment and out-of-band bypass variants, runs live TCP/TLS health checks, and categorizes subscriptions for seamless multi-platform import.
 
-**Last Sync**: `2026-11-09 20:53:08 UTC` | **Total Public Nodes**: `50853` | **Verified Healthy**: `237` | **PattN Bypass Variants**: `873`
+**Last Sync**: `2026-11-10 05:23:54 UTC` | **Total Public Nodes**: `60844` | **Verified Healthy**: `274` | **PattN Bypass Variants**: `1449`
 
 ---
 
@@ -14,10 +14,10 @@ Import these primary subscriptions directly into PattN, v2rayN, v2rayNG, Clash M
 
 | Feed | Description | Plain Subscription URL | Base64 Subscription URL | Nodes |
 |---|---|---|---|:---:|
-| **⭐ Verified** | Tested & low-latency configs | [`verified.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified.txt) | [`verified_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified_base64.txt) | `237` |
+| **⭐ Verified** | Tested & low-latency configs | [`verified.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified.txt) | [`verified_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/verified_base64.txt) | `274` |
 | **⚡ Top 100** | 100 lowest latency nodes | [`top100.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/top100.txt) | [`top100_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/top100_base64.txt) | `100` |
 | **⚖️ Lite 500** | Balanced mix across protocols | [`lite500.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/lite500.txt) | [`lite500_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/lite500_base64.txt) | `500` |
-| **📦 All Configs** | Complete deduplicated public feed | [`all.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all.txt) | [`all_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all_base64.txt) | `60677` |
+| **📦 All Configs** | Complete deduplicated public feed | [`all.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all.txt) | [`all_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/all_base64.txt) | `60844` |
 
 ---
 
@@ -27,12 +27,12 @@ Optimized for restrictive network environments, DPI evasion, and censorship circ
 
 | Category | Features | Plain URL | Base64 URL | Nodes |
 |---|---|---|---|:---:|
-| **🔥 PattN Special** | F&F fragment (`fm`), IPv6 dial (`dialMode=oob.0`), custom ciphers | [`pattn-special.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special.txt) | [`pattn-special_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special_base64.txt) | `1389` |
-| **🇮🇷 Iran Optimized** | Domestic ISP route optimization | [`iran-optimized.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized.txt) | [`iran-optimized_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized_base64.txt) | `20680` |
-| **🕶️ Reality** | VLESS-Reality direct SNI camouflage | [`reality.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality.txt) | [`reality_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality_base64.txt) | `7044` |
-| **☁️ CDN WS/gRPC** | Cloudflare WebSocket & gRPC fronted | [`cdn-ws-grpc.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc.txt) | [`cdn-ws-grpc_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc_base64.txt) | `39567` |
-| **🎯 ConfigsHUB** | Curated daily channel configs | [`confighub.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub.txt) | [`confighub_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub_base64.txt) | `8345` |
-| **⚡ Whitelist** | Clean IP / Whitelist bypass configs | [`whitelist.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist.txt) | [`whitelist_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist_base64.txt) | `529` |
+| **🔥 PattN Special** | F&F fragment (`fm`), IPv6 dial (`dialMode=oob.0`), custom ciphers | [`pattn-special.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special.txt) | [`pattn-special_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/pattn-special_base64.txt) | `1449` |
+| **🇮🇷 Iran Optimized** | Domestic ISP route optimization | [`iran-optimized.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized.txt) | [`iran-optimized_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/iran-optimized_base64.txt) | `20852` |
+| **🕶️ Reality** | VLESS-Reality direct SNI camouflage | [`reality.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality.txt) | [`reality_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/reality_base64.txt) | `7210` |
+| **☁️ CDN WS/gRPC** | Cloudflare WebSocket & gRPC fronted | [`cdn-ws-grpc.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc.txt) | [`cdn-ws-grpc_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/cdn-ws-grpc_base64.txt) | `39608` |
+| **🎯 ConfigsHUB** | Curated daily channel configs | [`confighub.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub.txt) | [`confighub_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/confighub_base64.txt) | `8432` |
+| **⚡ Whitelist** | Clean IP / Whitelist bypass configs | [`whitelist.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist.txt) | [`whitelist_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/whitelist_base64.txt) | `639` |
 | **🧩 Serverless JSON** | Xray JSON outbounds array | [`serverless-fragment.json`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/categories/serverless-fragment.json) | - | `3482` |
 
 ---
@@ -41,11 +41,11 @@ Optimized for restrictive network environments, DPI evasion, and censorship circ
 
 | Protocol | Plain Subscription URL | Base64 Subscription URL | Nodes |
 |---|---|---|:---:|
-| **VLESS** | [`vless.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless.txt) | [`vless_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless_base64.txt) | `40941` |
-| **VMess** | [`vmess.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess.txt) | [`vmess_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess_base64.txt) | `8486` |
-| **Trojan** | [`trojan.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan.txt) | [`trojan_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan_base64.txt) | `6472` |
-| **Shadowsocks** | [`ss.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss.txt) | [`ss_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss_base64.txt) | `3852` |
-| **Hysteria2** | [`hysteria2.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2.txt) | [`hysteria2_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2_base64.txt) | `559` |
+| **VLESS** | [`vless.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless.txt) | [`vless_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vless_base64.txt) | `41130` |
+| **VMess** | [`vmess.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess.txt) | [`vmess_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/vmess_base64.txt) | `8506` |
+| **Trojan** | [`trojan.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan.txt) | [`trojan_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/trojan_base64.txt) | `6404` |
+| **Shadowsocks** | [`ss.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss.txt) | [`ss_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/ss_base64.txt) | `3881` |
+| **Hysteria2** | [`hysteria2.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2.txt) | [`hysteria2_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/hysteria2_base64.txt) | `556` |
 | **TUIC** | [`tuic.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic.txt) | [`tuic_base64.txt`](https://raw.githubusercontent.com/mani-moh/pattn/master/subs/protocols/tuic_base64.txt) | `9` |
 
 ---
@@ -59,9 +59,26 @@ PattN features strict privacy isolation for private Cloudflare Workers / BPB end
 
 ---
 
+## 🛰️ Autonomous Discovery Agent (NVIDIA Nemotron 3.5 Super VL)
+
+Before every 6-hour refresh, PattN runs an autonomous discovery agent powered by NVIDIA's `nvidia/nemotron-3.5-super-vl-120b-a12b`:
+- **Web, GitHub & Telegram Exploration**: Synthesizes search dorks via Nemotron reasoning, mines public Telegram previews (`t.me/s/...`), follows cross-promoted sister channels, and harvests GitHub subscription repositories.
+- **Multimodal Vision OCR**: Extracts proxy URIs directly from configuration screenshots and QR code images posted in Telegram channels.
+- **Persistent Memory**: Builds upon previous runs via [`data/discovery_state.json`](data/discovery_state.json) and outputs validated feeds into [`sources.discovered.json`](sources.discovered.json), automatically merged into every aggregation.
+- **Secure API Key Setup**: Set `NVIDIA_API_KEY` in GitHub Repository Secrets (for Actions) or in your local git-ignored `.env` file.
+- Track live discovery metrics and top channels in [**DISCOVERY.md**](DISCOVERY.md).
+
+---
+
 ## 🛠️ CLI Usage
 
 ```bash
+# Run autonomous discovery agent before full aggregation
+python -m src.main --discover
+
+# Run ONLY discovery cycle and update sources.discovered.json
+python -m src.main --discover-only --discovery-time 360
+
 # Run full pipeline with healthcheck and PattN variants
 python -m src.main
 
