@@ -401,9 +401,12 @@ def _update_readme_doc(
     lines = [
         "# 🌐 PattN - High-Speed Proxy Aggregator & Bypass Subscription Pipeline",
         "",
-        "![Update Interval](https://img.shields.io/badge/Update%20Interval-6%20Hours-blue.svg) "
+        f"[![CI Tests](https://github.com/{repo_slug}/actions/workflows/ci.yml/badge.svg)](https://github.com/{repo_slug}/actions/workflows/ci.yml) "
+        f"[![Update Subs](https://github.com/{repo_slug}/actions/workflows/update-subs.yml/badge.svg)](https://github.com/{repo_slug}/actions/workflows/update-subs.yml) "
+        f"[![Daily Discovery](https://github.com/{repo_slug}/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/{repo_slug}/actions/workflows/daily-deep-discovery.yml) "
         "![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) "
-        "![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg)",
+        "![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg) "
+        "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)",
         "",
         "> Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. "
         "PattN aggregates 60+ verified upstream sources, performs deep semantic deduplication, "
@@ -499,9 +502,12 @@ def _update_readme_doc(
         "",
         "# Include private BPB sources and publish to private Gist",
         "python -m src.main --include-private --gist-token $GIST_TOKEN --gist-id $GIST_ID",
+        "",
+        "# Test reachability directly from Iran (disconnect personal VPN first)",
+        ".\\scripts\\check_from_iran.ps1",
         "```",
         "",
-        "Detailed upstream source diagnostics and latency metrics are maintained in [STATUS.md](STATUS.md).",
+        "See [STATUS.md](STATUS.md) for upstream source diagnostics, [DISCOVERY.md](DISCOVERY.md) for live autonomous discovery stats, [ARCHITECTURE.md](docs/ARCHITECTURE.md) for system design, and [CONTRIBUTING.md](CONTRIBUTING.md) for contributor guidelines.",
     ]
 
     readme_path.write_text("\n".join(lines), encoding="utf-8")

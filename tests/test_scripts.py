@@ -94,6 +94,20 @@ class TestWorkflowSyntaxAndSafety(unittest.TestCase):
         self.assertIn("::add-mask::$NVIDIA_API_KEY", content)
         self.assertIn("Dynamic privacy & security audit passed", content)
 
+    def test_professional_repo_files_and_ci_workflow(self) -> None:
+        """Verify LICENSE, .gitattributes, .env.example, docs, and ci.yml exist cleanly."""
+        for rel in ("LICENSE", ".gitattributes", ".env.example", "CONTRIBUTING.md", "docs/ARCHITECTURE.md"):
+            self.assertTrue((BASE_DIR / rel).is_file(), f"Missing standard file: {rel}")
+
+        ci_path = BASE_DIR / ".github" / "workflows" / "ci.yml"
+        self.assertTrue(ci_path.is_file(), "ci.yml must exist")
+        ci_txt = ci_path.read_text(encoding="utf-8")
+        self.assertIn("python -m unittest discover -s tests -v", ci_txt)
+        self.assertIn("Static security scan passed", ci_txt)
+
+        env_ex = (BASE_DIR / ".env.example").read_text(encoding="utf-8")
+        self.assertIn("NVIDIA_API_KEY=nvapi-your-api-key-here", env_ex)
+
 
 class TestSyncToPattn(unittest.TestCase):
     def setUp(self) -> None:

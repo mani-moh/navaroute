@@ -1,6 +1,6 @@
 # 🌐 PattN - High-Speed Proxy Aggregator & Bypass Subscription Pipeline
 
-![Update Interval](https://img.shields.io/badge/Update%20Interval-6%20Hours-blue.svg) ![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) ![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg)
+[![CI Tests](https://github.com/mani-moh/pattn/actions/workflows/ci.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/ci.yml) [![Update Subs](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/update-subs.yml) [![Daily Discovery](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/mani-moh/pattn/actions/workflows/daily-deep-discovery.yml) ![Supported Protocols](https://img.shields.io/badge/Protocols-VLESS%20%7C%20VMess%20%7C%20Trojan%20%7C%20SS%20%7C%20Hy2%20%7C%20TUIC-brightgreen.svg) ![Safety Guard](https://img.shields.io/badge/Private%20Gist-Zero%20Leaks-orange.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > Automated high-speed proxy subscription aggregator and Iranian ISP bypass engine. PattN aggregates 60+ verified upstream sources, performs deep semantic deduplication, synthesizes specialized PattN fragment and out-of-band bypass variants, runs live TCP/TLS health checks, and categorizes subscriptions for seamless multi-platform import.
 
@@ -92,4 +92,4 @@ python -m src.main --private-only
 python -m src.main --include-private --gist-token $GIST_TOKEN --gist-id $GIST_ID
 ```
 
-Detailed upstream source diagnostics and latency metrics are maintained in [STATUS.md](STATUS.md).
+See [STATUS.md](STATUS.md) for upstream source diagnostics, [DISCOVERY.md](DISCOVERY.md) for live autonomous discovery stats, [ARCHITECTURE.md](docs/ARCHITECTURE.md) for system design, and [CONTRIBUTING.md](CONTRIBUTING.md) for contributor guidelines.
