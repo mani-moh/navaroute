@@ -19,13 +19,17 @@ class TestPublicGit(unittest.TestCase):
         self.guard = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.guard)
         self.calls = []
+        self.timeouts = []
 
     def git(self, files, staged=(), failures=None):
         failures = failures or {}
         def run(argv, **kwargs):
             self.calls.append(argv)
+            self.timeouts.append(kwargs.get("timeout"))
             command = argv[1:]
             code = failures.get(command[0], 0)
+            if isinstance(code, subprocess.SubprocessError):
+                raise code
             output = b""
             if command[0] == "ls-files":
                 output = b"".join(f"100644 {'a'*40} 0\t{p}\0".encode() for p in files)
@@ -51,10 +55,22 @@ class TestPublicGit(unittest.TestCase):
             with self.subTest(path=path):
                 self.calls.clear()
                 self.assertEqual(self.check({path: b"must-not-read"})[0], 1)
-                self.assertFalse(any(c[1] == "show" for c in self.calls))
+                self.assertFalse(any(c[1] in ("cat-file", "show") for c in self.calls))
+
+    def test_tracked_backup_sqlite_and_recovery_roles_rejected_before_size_or_body(self):
+        for path in ("backup.bak", "nested/backup.BAK", "a.sqlitebackup", "nested/a.SQLiteBackup", "nested/a.sqlite3-shm",
+                     "nested/backup.bak/old/feed/all.txt", "nested/a.sqlitebackup/old/feed/all.txt",
+                     ".subs.navaroute-publish/old/feed/all.txt", "nested/.custom.navaroute-publish/old/feed/all.txt",
+                     "nested/.output.navaroute-recovery/old/feed/all.txt"):
+            with self.subTest(path=path):
+                self.calls.clear()
+                result, _ = self.check({path: b"must-not-read"})
+                self.assertFalse(any(c[1] in ("cat-file", "show") for c in self.calls))
+                self.assertEqual(result, 1)
 
     def test_public_roles_and_untracked_private_sentinel_are_not_worktree_reads(self):
-        files = {"README.md": b"public", ".env.example": b"placeholder", "data/discovery_state.json": b"{}", "subs/all.txt": b"public"}
+        files = {"README.md": b"public", ".env.example": b"placeholder", "data/discovery_state.json": b"{}", "subs/all.txt": b"public",
+                 "example.egg-info/PKG-INFO": b"nonprivate ignored-role metadata"}
         with patch.object(Path, "read_bytes", side_effect=AssertionError("never read local files")):
             self.assertEqual(self.check(files, ["subs/all.txt", "data/discovery_state.json"])[0], 0)
 
@@ -62,6 +78,20 @@ class TestPublicGit(unittest.TestCase):
         for path in ("src/main.py", "docs/ARCHITECTURE.md", "subs/iran-tested.txt", "subs/other.txt", "subs/countries/../../secret.txt", "iran-results/evidence.json"):
             with self.subTest(path=path):
                 self.assertEqual(self.check({"README.md": b"ok"}, [path])[0], 1)
+
+    def test_staged_rename_cannot_hide_forbidden_code_deletion(self):
+        run = self.git({"subs/all.txt": b"public"})
+        def rename_aware(argv, **kwargs):
+            if argv[1] == "diff":
+                self.calls.append(argv)
+                paths = ("src/obsolete.py", "subs/all.txt") if "--no-renames" in argv else ("subs/all.txt",)
+                return subprocess.CompletedProcess(argv, 0, b"".join((p + "\0").encode() for p in paths), b"private-error-sentinel")
+            return run(argv, **kwargs)
+        with patch.object(self.guard.subprocess, "run", side_effect=rename_aware), \
+             patch.dict(os.environ, {}, clear=True), contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(self.guard.main(["check", "--staged"]), 1)
+        self.assertFalse(any(c[1] in ("cat-file", "show") for c in self.calls))
+        self.assertNotIn("private-error-sentinel", output.getvalue())
 
     def test_final_staging_allows_only_exact_public_roles_including_deletions(self):
         paths = ["subs/all.txt", "subs/all_base64.txt", "subs/reachable.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
@@ -90,6 +120,17 @@ class TestPublicGit(unittest.TestCase):
         for command in ("ls-files", "diff", "show"):
             self.assertEqual(self.check({"README.md": b"ok"}, failures={command: 128})[0], 1)
 
+    def test_metadata_commands_receive_finite_timeouts(self):
+        self.assertEqual(self.check({"README.md": b"ok"})[0], 0)
+        self.assertEqual([c[1] for c in self.calls], ["ls-files", "diff", "cat-file", "show"])
+        self.assertEqual(self.timeouts, [120] * 4)
+
+    def test_timed_out_metadata_fails_quietly_before_blob_calls(self):
+        failure = subprocess.TimeoutExpired(["git", "ls-files"], 120, output=b"private-error-sentinel", stderr=b"private-error-sentinel")
+        self.assertEqual(self.check({"README.md": b"ok"}, failures={"ls-files": failure})[0], 1)
+        self.assertEqual([c[1] for c in self.calls], ["ls-files"])
+        self.assertEqual(self.timeouts, [120])
+
     def test_symlink_index_entry_cannot_hide_private_content(self):
         def run(argv, **kwargs):
             self.assertEqual(argv[1], "ls-files")
@@ -97,10 +138,13 @@ class TestPublicGit(unittest.TestCase):
         with patch.object(self.guard.subprocess, "run", side_effect=run), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(self.guard.main(["check"]), 1)
 
-    def push(self, pull=0, pushes=(0,)):
+    def push(self, pull=0, pushes=(0,), timeout=None):
         outcomes = iter(pushes)
         def run(argv, **kwargs):
             self.calls.append(argv)
+            self.timeouts.append(kwargs.get("timeout"))
+            if argv[1] == timeout:
+                raise subprocess.TimeoutExpired(argv, kwargs.get("timeout"), output=b"private-error-sentinel", stderr=b"synthetic-token")
             if argv[1] == "pull":
                 code = pull
             elif argv[1] == "push":
@@ -120,6 +164,20 @@ class TestPublicGit(unittest.TestCase):
     def test_rebase_failure_stops_before_push_and_preserves_conflict(self):
         self.assertEqual(self.push(pull=1), 1)
         self.assertEqual(len(self.calls), 1)
+
+    def test_pull_and_push_receive_finite_timeouts_on_each_retry(self):
+        self.assertEqual(self.push(pushes=(1, 0)), 0)
+        self.assertEqual(self.timeouts, [120] * 4)
+
+    def test_timed_out_pull_stops_before_push_without_clearing_commits(self):
+        self.assertEqual(self.push(timeout="pull"), 1)
+        self.assertEqual([c[1] for c in self.calls], ["pull"])
+        self.assertEqual(self.timeouts, [120])
+
+    def test_timed_out_push_fails_without_clearing_commits_or_secret_output(self):
+        self.assertEqual(self.push(timeout="push"), 1)
+        self.assertEqual([c[1] for c in self.calls], ["pull", "push"])
+        self.assertEqual(self.timeouts, [120, 120])
 
     def test_push_exhaustion_returns_nonzero_after_five_nonforced_attempts(self):
         self.assertEqual(self.push(pushes=(1,)*5), 1)

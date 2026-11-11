@@ -14,10 +14,11 @@ PRIVATE_DIRS = {"local_subs", "private_subs", "iran-results", "iran-tested", "ir
                 ".superpowers", "__pycache__", ".pytest_cache", ".venv", "venv", ".cache", "cache", "http_cache"}
 SECRET = re.compile(rb"nvapi-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}")
 MAX_BLOB_BYTES = 128 * 1024 * 1024
+GIT_TIMEOUT_SECONDS = 120
 
 
 def git(*args, env=None):
-    result = subprocess.run(["git", *args], capture_output=True, env=env)
+    result = subprocess.run(["git", *args], capture_output=True, env=env, timeout=GIT_TIMEOUT_SECONDS)
     if result.returncode:
         raise ValueError("Git operation failed; no publication confirmed")
     return result.stdout
@@ -28,9 +29,10 @@ def private_path(path):
     name = parts[-1].lower() if parts else ""
     return (not parts or "\\" in path or path.startswith("/") or any(p in (".", "..") for p in path.split("/"))
             or any(p.lower() in PRIVATE_DIRS for p in parts)
+            or any(re.fullmatch(r"\..*\.navaroute-.*", p.lower()) for p in parts[:-1])
             or name.startswith(".env") and path != ".env.example"
             or name.startswith("sources.private.")
-            or bool(re.search(r"\.(?:db|sqlite|sqlite3)(?:$|[.-])|\.(?:pyc|pyo|exe|zip)$", name))
+            or any(re.search(r"\.db(?:$|[.-])|\.sqlite|\.(?:pyc|pyo|exe|zip|bak)$", p.lower()) for p in parts)
             or path.startswith("data/") and path not in PUBLIC_FILES)
 
 
@@ -50,7 +52,7 @@ def check(staged=False):
             raise ValueError("Tracked private, unsafe or conflicted role rejected; no file contents read")
         paths.append(path)
     if staged:
-        changed = git("diff", "--cached", "--name-only", "-z").decode("utf-8").split("\0")
+        changed = git("diff", "--cached", "--no-renames", "--name-only", "-z").decode("utf-8").split("\0")
         if any(not public_output(path) for path in filter(None, changed)):
             raise ValueError("Staged path outside explicit public output roles")
     secrets = [os.environ[k].encode() for k in ("NVIDIA_API_KEY", "GITHUB_TOKEN") if os.environ.get(k)]
@@ -77,7 +79,7 @@ def push():
                GIT_TERMINAL_PROMPT="0")
     for attempt in range(5):
         git("pull", "--rebase", "origin", "master", env=env)
-        result = subprocess.run(["git", "push", "origin", "HEAD:master"], capture_output=True, env=env)
+        result = subprocess.run(["git", "push", "origin", "HEAD:master"], capture_output=True, env=env, timeout=GIT_TIMEOUT_SECONDS)
         if result.returncode == 0:
             print("Public master commit pushed without force.")
             return
