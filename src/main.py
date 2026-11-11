@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 import time
 from typing import Any
@@ -10,6 +9,7 @@ from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
 from src.fetcher import fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
+from src.project import PROJECT_NAME
 
 if hasattr(sys.stdout, "reconfigure"):
     try:
@@ -33,8 +33,8 @@ def safe_print(*args: Any, **kwargs: Any) -> None:
 
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="pattn",
-        description="PattN High-Speed Proxy Aggregator & Iranian ISP Bypass Pipeline",
+        prog="navaroute",
+        description="NavaRoute Public Proxy Subscription Aggregator",
     )
     parser.add_argument(
         "--sources",
@@ -113,37 +113,40 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_arg_parser()
     args = parser.parse_args(argv)
 
+    try:
+        return _run(args)
+    except Exception as exc:
+        # Exception messages can contain source URLs, credentials or core logs.
+        safe_print(f"Pipeline failed ({type(exc).__name__}); publication stopped. Any interrupted persistence must recover before the next run.")
+        return 1
+
+
+def _run(args: argparse.Namespace) -> int:
     if args.discover or args.discover_only:
         from src.discovery.agent import DiscoveryAgent, load_local_dotenv
 
         load_local_dotenv()
         agent = DiscoveryAgent()
-        safe_print("=" * 65)
-        safe_print(f"🛰️ Running Autonomous Discovery Agent (model={agent.nemotron.model})...")
-        safe_print("=" * 65)
-        try:
-            discovered = agent.run_cycle(
-                max_channels=args.discovery_channels,
-                max_time_seconds=args.discovery_time,
-                max_api_requests=args.discovery_api_requests,
-            )
-            safe_print(
-                f"✅ Discovery finished: {len(discovered)} active discovered sources "
-                f"({agent.nemotron.api_requests_count} NVIDIA API requests used)."
-            )
-        except Exception as exc:
-            safe_print(f"⚠️ Discovery encountered a non-fatal error: {exc}")
+        safe_print("Running requested discovery...")
+        discovered = agent.run_cycle(
+            max_channels=args.discovery_channels,
+            max_time_seconds=args.discovery_time,
+            max_api_requests=args.discovery_api_requests,
+        )
+        safe_print(f"Discovery finished: {len(discovered)} active discovered sources.")
 
         if args.discover_only:
             return 0
 
     start_total = time.perf_counter()
     safe_print("=" * 65)
-    safe_print("🌐 PattN High-Speed Proxy Aggregator & Bypass Pipeline")
+    safe_print(f"🌐 {PROJECT_NAME} Public Subscription Aggregator")
     safe_print("=" * 65)
 
     # 1. Load Sources
     sources = load_sources(sources_path=args.sources)
+    if not sources:
+        raise ValueError("No enabled valid sources")
     safe_print(f"[1/6] Loaded {len(sources)} enabled sources")
 
     # 2. Fetch Sources Concurrently
@@ -154,6 +157,8 @@ def main(argv: list[str] | None = None) -> int:
         timeout=args.timeout,
     )
     successful_sources = sum(1 for s in stats if s.success)
+    if not successful_sources or not raw_nodes:
+        raise ValueError("No usable source yield; previous publication retained")
     safe_print(
         f"      Fetched {len(raw_nodes)} raw nodes & {len(json_configs)} JSON configs "
         f"across {successful_sources}/{len(sources)} sources"
@@ -166,31 +171,32 @@ def main(argv: list[str] | None = None) -> int:
 
     all_nodes = deduped_nodes
 
-    # 5. Live Multi-Stage Healthcheck
+    # 5. Socket reachability (not credential or end-to-end verification)
     if args.healthcheck:
         safe_print(
             f"[5/6] Probing socket reachability on up to {args.max_test_nodes} "
             f"prioritized nodes..."
         )
-        check_nodes_health(
-            all_nodes,
+        health_summary = check_nodes_health(
+            [n for n in all_nodes if n.scheme not in ("hysteria2", "tuic", "wireguard")],
             max_nodes=args.max_test_nodes,
             concurrency=64,
             timeout=3.5,
         )
-        passed_count = sum(1 for n in all_nodes if n.passed_healthcheck)
+        passed_count = health_summary["passed"]
         safe_print(f"      Healthcheck finished: {passed_count} nodes responsive")
     else:
         safe_print("[5/6] Healthcheck disabled, skipping.")
 
     # 6. Publishing Subscriptions
-    safe_print(f"[6/6] Publishing public subscriptions to '{args.output_dir}/'...")
+    safe_print("[6/6] Publishing public subscriptions...")
     pub_counts = publish_subscriptions(
         nodes=all_nodes,
         json_configs=json_configs,
         stats=stats,
         output_dir=args.output_dir,
         update_docs=not args.no_docs,
+        healthcheck_ran=args.healthcheck,
     )
     safe_print(f"      Successfully generated {len(pub_counts)} subscription files")
 

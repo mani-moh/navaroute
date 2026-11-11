@@ -369,6 +369,7 @@ class TestCategorizer(unittest.TestCase):
         self.assertTrue((self.output_dir / "categories" / "iran-optimized.txt").exists())
         self.assertTrue((self.output_dir / "categories" / "reality.txt").exists())
         self.assertTrue((self.output_dir / "categories" / "serverless-fragment.json").exists())
+        self.assertEqual(json.loads((self.output_dir / "categories" / "serverless-fragment.json").read_text()), [])
 
         # Verify Protocols
         self.assertTrue((self.output_dir / "protocols" / "vless.txt").exists())
@@ -382,7 +383,7 @@ class TestCategorizer(unittest.TestCase):
         ver_text = (self.output_dir / "verified.txt").read_text(encoding="utf-8")
         self.assertIn("#profile-title: base64:", ver_text)
         self.assertIn("#profile-update-interval: 6", ver_text)
-        self.assertIn("#subscription-userinfo:", ver_text)
+        self.assertNotIn("#subscription-userinfo:", ver_text)
 
 
 class TestFetcherAndLoader(unittest.TestCase):
@@ -426,7 +427,7 @@ class TestMainPipeline(unittest.TestCase):
                     build_arg_parser().parse_args([flag])
                 self.assertEqual(result.exception.code, 2)
 
-    @patch("src.main.load_sources", return_value=[])
+    @patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")])
     @patch("src.main.fetch_all_sources")
     def test_main_cli_execution(self, mock_fetch, _mock_sources):
         temp_dir = tempfile.TemporaryDirectory()
@@ -483,8 +484,8 @@ class TestMainPipeline(unittest.TestCase):
             return True, 12.0
 
         with tempfile.TemporaryDirectory() as scratch, \
-             patch("src.main.load_sources", return_value=[]), \
-             patch("src.main.fetch_all_sources", return_value=([node], [], [])), \
+             patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+             patch("src.main.fetch_all_sources", return_value=([node], [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)])), \
              patch("src.healthcheck.probe_node_socket", side_effect=fixture_socket):
             self.assertEqual(main(["--output-dir", scratch, "--healthcheck", "--no-docs"]), 0)
             self.assertEqual(attempts, [("socket.example", 8443, " custom ",
@@ -493,3 +494,90 @@ class TestMainPipeline(unittest.TestCase):
             published, _ = extract_nodes_from_content((Path(scratch) / "all.txt").read_text(encoding="utf-8"), SourceConfig("fixture", "Fixture", "https://example.com"))
             self.assertEqual(len(published), 1)
             self.assertEqual(published[0].semantic_fingerprint(), node.semantic_fingerprint())
+
+    def test_requested_discovery_failure_is_nonzero_and_never_publishes(self):
+        from src.discovery.nemotron_client import DiscoveryAPIError
+        source = SourceConfig("fixture", "Fixture", "https://example.com")
+        node = ProxyNode("trojan", "public.example", 443, "public")
+        stats = SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)
+        for flag in ("--discover", "--discover-only"):
+            for failure in (DiscoveryAPIError("https://secret.invalid/?token=private"), OSError("private persistence"), ValueError("private rejected registry")):
+                output = io.StringIO()
+                with self.subTest(flag=flag, failure=type(failure).__name__), tempfile.TemporaryDirectory() as scratch, \
+                     patch("src.discovery.agent.load_local_dotenv"), patch("src.discovery.agent.DiscoveryAgent") as agent, \
+                     patch("src.main.load_sources", return_value=[source]), \
+                     patch("src.main.fetch_all_sources", return_value=([node], [], [stats])), \
+                     contextlib.redirect_stdout(output):
+                    agent.return_value.run_cycle.side_effect = failure
+                    code = main([flag, "--output-dir", str(Path(scratch) / "subs"), "--no-docs", "--no-healthcheck"])
+                    self.assertNotEqual(code, 0)
+                    self.assertFalse((Path(scratch) / "subs").exists())
+                    self.assertNotIn("private", output.getvalue())
+                    self.assertNotIn("secret.invalid", output.getvalue())
+
+    def test_registry_fetch_empty_yield_and_persistence_fail_nonzero_without_publication(self):
+        source = SourceConfig("fixture", "Fixture", "https://example.com")
+        node = ProxyNode("trojan", "public.example", 443, "public")
+        good = SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)
+        cases = [(ValueError("private registry"), None),
+                 ([source], ValueError("private rejected input")),
+                 ([source], ([], [], [SourceStats("fixture", "Fixture", "https://example.com")])),
+                 ([source], ([], [], [SourceStats("fixture", "Fixture", "https://example.com", success=True)])),
+                 ([source], ([node], [], [good]))]
+        for loaded, fetched in cases:
+            with self.subTest(loaded=type(loaded).__name__, fetched=type(fetched).__name__), tempfile.TemporaryDirectory() as scratch:
+                path = Path(scratch) / "subs"
+                path.mkdir()
+                (path / "all.txt").write_bytes(b"complete previous generation")
+                output = io.StringIO()
+                with patch("src.main.load_sources", **({"side_effect": loaded} if isinstance(loaded, Exception) else {"return_value": loaded})), \
+                     patch("src.main.fetch_all_sources", **({"side_effect": fetched} if isinstance(fetched, Exception) else {"return_value": fetched})), \
+                     patch("src.categorizer.atomic_write_text", side_effect=OSError("private persistence failure"), create=True), \
+                     contextlib.redirect_stdout(output):
+                    self.assertNotEqual(main(["--output-dir", str(path), "--no-healthcheck", "--no-docs"]), 0)
+                self.assertEqual((path / "all.txt").read_bytes(), b"complete previous generation")
+                self.assertNotIn("private", output.getvalue())
+
+    def test_partial_source_failure_keeps_valid_peers_and_truthful_empty_reachable(self):
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+             patch("src.main.fetch_all_sources", return_value=([ProxyNode("trojan", "public.example", 443, "public", is_verified_source=True)], [],
+                  [SourceStats("good", "Good", "https://example.com", success=True, raw_count=1), SourceStats("bad", "Bad", "https://example.com")])), \
+             contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(main(["--output-dir", scratch, "--no-docs", "--no-healthcheck"]), 0)
+            self.assertEqual((Path(scratch) / "reachable_base64.txt").read_bytes(), b"")
+
+    def test_main_never_attempts_udp_protocols_using_tcp_healthchecks(self):
+        from datetime import datetime, timezone
+        observed = datetime.now(timezone.utc).isoformat()
+        nodes = [ProxyNode("trojan", "public.example", 443, "public"),
+                 ProxyNode("hysteria2", "udp.example", 443, "public", passed_healthcheck=True, latency_ms=1,
+                           healthcheck_kind="socket", healthchecked_at=observed),
+                 ProxyNode("tuic", "udp.example", 443, "user:public", passed_healthcheck=True, latency_ms=1,
+                           healthcheck_kind="socket", healthchecked_at=observed)]
+        def socket_fixture(node, timeout):
+            if node.scheme != "trojan":
+                raise AssertionError("UDP must not be tested with TCP")
+            return True, 5.0
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+             patch("src.main.fetch_all_sources", return_value=(nodes, [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=3)])), \
+             patch("src.healthcheck.probe_node_socket", side_effect=socket_fixture), \
+             contextlib.redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
+            self.assertIn("1 nodes responsive", output.getvalue())
+            from src.parsers import parse_proxy_uri
+            reachable = base64.b64decode((Path(scratch) / "reachable_base64.txt").read_bytes()).decode().splitlines()
+            self.assertEqual([parse_proxy_uri(uri).scheme for uri in reachable], ["trojan"])
+
+    def test_main_all_socket_probes_failed_still_emits_only_accepted_aggregate(self):
+        node = ProxyNode("trojan", "public.example", 443, "public", is_verified_source=True)
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+             patch("src.main.fetch_all_sources", return_value=([node], [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)])), \
+             patch("src.healthcheck.probe_node_socket", return_value=(False, None)), \
+             contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
+            self.assertTrue((Path(scratch) / "all_base64.txt").read_bytes())
+            for name in ("reachable", "verified", "top100"):
+                self.assertEqual((Path(scratch) / f"{name}_base64.txt").read_bytes(), b"")
