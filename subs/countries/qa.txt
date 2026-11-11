@@ -1,9 +1,0 @@
-#profile-title: base64:UGF0dE4gUUE=
-#profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
-
-trojan://vip@www.gco.gov.qa:443/?type=ws&host=heihu880.pages.dev&path=%2F%3Fed%3D2560&security=tls&sni=heihu880.pages.dev#[🇶🇦 QA] Trojan-ws | src:lalatinahub-mineral
-vless://1a25f8ad-cad2-4e93-b5bf-34e42bcac02a@www.gco.gov.qa:2053/?type=ws&encryption=none&flow=&host=sni.111000.dynv6.net&path=%2F%3Fed%3D2560&security=tls&sni=sni.111000.dynv6.net&fp=chrome#[🇶🇦 QA] VLESS-ws | src:lalatinahub-mineral
-vless://7b33f59f-aada-4b49-a4ac-1c335977f2af@www.gco.gov.qa:8443/?type=ws&encryption=none&flow=&host=vless1-698.pages.dev&path=%2F%3Fed%3D2560&security=tls&sni=vless1-698.pages.dev&fp=random&packetEncoding=xudp#[🇶🇦 QA] VLESS-ws | src:lalatinahub-mineral
-vmess://eyJhZGQiOiAid3d3Lmdjby5nb3YucWEiLCAiYWlkIjogIjAiLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgImhvc3QiOiAiMjAyNTA5MzBrdWJheGl4aS5nb3ViaS5nZ2ZmLm5ldCIsICJpZCI6ICJjZTZlNjQ5ZC1jNGMxLTRiZDQtYjcwOC0wOTBlNWUyNzY2YzgiLCAibmV0IjogIndzIiwgInBhdGgiOiAiLz9lZD0yMDQ4IiwgInBvcnQiOiAiNDQzIiwgInBzIjogIlvwn4e28J+HpiBRQV0gVk1lc3Mtd3MgfCBzcmM6bGFsYXRpbmFodWItbWluZXJhbCIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiMjAyNTA5MzBrdWJheGl4aS5nb3ViaS5nZ2ZmLm5ldCIsICJ0bHMiOiAidGxzIiwgInR5cGUiOiAiIiwgInYiOiAiMiJ9
-vmess://eyJhZGQiOiAid3d3Lmdjby5nb3YucWEiLCAiYWlkIjogIjAiLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgImhvc3QiOiAibHVvZGkuNTQ2ODkzNi54eXoiLCAiaWQiOiAiYmU5Y2YxNTItN2NmMS00NmY5LTg4ZWQtYTU1YjM0M2M5MjdiIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi8iLCAicG9ydCI6ICI4MCIsICJwcyI6ICJb8J+HtvCfh6YgUUFdIFZNZXNzLXdzIHwgc3JjOmxhbGF0aW5haHViLW1pbmVyYWwiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiIiwgInYiOiAiMiJ9

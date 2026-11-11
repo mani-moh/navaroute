@@ -1,13 +1,11 @@
-#profile-title: base64:UGF0dE4gTUs=
+#profile-title: base64:TmF2YVJvdXRlIE1LIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+# snapshot-time: 2026-11-10T06:56:15+00:00
 
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?type=raw&security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#[✅] [🇲🇰 MK] VLESS-Reality | src:luxxuria-speed-tested
-ss://YWVzLTI1Ni1nY206Q1RLOEdYRlFnS1lRRXJyZ2hQSmZaNnRr@185.225.28.85:47121#[🇲🇰 MK] SS | src:farid-karimi-mixed-iran
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@46.183.185.15:989#[🇲🇰 MK] SS | src:farid-karimi-mixed-iran
-vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@212.41.9.190:2053?encryption=none&pbk=imLsTJWqsJvY4Lu9exzN3lWG788xbeu1ujMO1vOxL3U&security=reality&serviceName=cas-mk&sid=d2b34f75&sni=s3.storage.selcloud.ru&type=grpc&fp=edge#[🇲🇰 MK] VLESS-Reality | src:ewecrow78-whitelist1
-vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&type=tcp&encryption=none#[🇲🇰 MK] VLESS-Reality | src:ewecrow78-whitelist1
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@46.183.185.15:989#[🇲🇰 MK] SS | src:sub-07d2577deb
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw%3D%3D@46.183.185.37:989#[🇲🇰 MK] SS | src:sub-07d2577deb
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@46.183.185.15:990#[🇲🇰 MK] SS | src:elf2017spring-configshub
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@46.183.185.37:989#[🇲🇰 MK] SS | src:elf2017spring-configshub
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@46.183.185.37:989#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?type=raw&security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested
+vless://db57c865-2318-4fd2-8aea-e8ba58ec696d@212.41.9.190:2053?encryption=none&pbk=imLsTJWqsJvY4Lu9exzN3lWG788xbeu1ujMO1vOxL3U&security=reality&serviceName=cas-mk&sid=d2b34f75&sni=s3.storage.selcloud.ru&type=grpc&fp=edge#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://2f094d48-7186-47ca-9e57-e977bbac3b08@eu90.cdn77.icu:20049?security=reality&sni=eu64.cdn77.icu&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&type=tcp&encryption=none#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@46.183.185.15:989#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+ss://YWVzLTI1Ni1nY206Q1RLOEdYRlFnS1lRRXJyZ2hQSmZaNnRr@185.225.28.85:47121#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@46.183.185.15:990#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20SS%20%7C%20src%3Aelf2017spring-configshub

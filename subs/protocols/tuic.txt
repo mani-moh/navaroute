@@ -1,12 +1,12 @@
-#profile-title: base64:UGF0dE4gVFVJQw==
+#profile-title: base64:TmF2YVJvdXRlIFRVSUM=
 #profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+# snapshot-time: 2026-11-10T06:56:15+00:00
 
-tuic://73bfcc1c-5814-5f2a-b43a-3ef6af011db8:73bfcc1c-5814-5f2a-b43a-3ef6af011db8@54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com:443?alpn=h3&congestion_control=bbr&congestion_controller=bbr&sni=54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com&udp_relay_mode=native&version=5#[🇭🇰 HK] TUIC | src:0xradikal-all
-tuic://73bfcc1c-5814-5f2a-b43a-3ef6af011db8:73bfcc1c-5814-5f2a-b43a-3ef6af011db8@58.152.81.104:443?sni=54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com&alpn=h3#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://cd1b0ae0-4010-11ee-953a-f23c9164ca5d:cd1b0ae0-4010-11ee-953a-f23c9164ca5d@de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com:443?alpn=h3&congestion_control=bbr&sni=de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com&sub_tag=M002-260618&udp=true&udp_relay_mode=native#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://cd1b0ae0-4010-11ee-953a-f23c9164ca5d:cd1b0ae0-4010-11ee-953a-f23c9164ca5d@104.105.139.38:443?alpn=h3&congestion_control=bbr&sni=de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com&sub_tag=M002-260618&udp=true&udp_relay_mode=native#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://2d1ad594-80a4-4bfb-87a6-038e39701f51:2d1ad594-80a4-4bfb-87a6-038e39701f51@146.235.16.130:33738?alpn=h3&congestion_control=bbr&congestion_controller=bbr&sni=sg2-8sb.6121999.dpdns.org&udp_relay_mode=quic&version=5%23%F0%9F%8D%8195@oneclickvpnkeys#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://8A9905B7-801B-41AF-BFC9-2034212770F6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw3.dexlos.com:8080?sni=tw3.dexlos.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://8a9905b7-801b-41af-bfc9-2034212770f6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw3.dexlos.com:8080?sni=tw3.dexlos.com&alpn=h3&congestion_control=bbr#[🌐 XX] TUIC | src:lalatinahub-mineral
-tuic://8a9905b7-801b-41af-bfc9-2034212770f6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw5.dexlos.com:8080?sni=tw5.dexlos.com&alpn=h3#[🌐 XX] TUIC | src:lalatinahub-mineral
+tuic://8a9905b7-801b-41af-bfc9-2034212770f6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw3.dexlos.com:8080?sni=tw3.dexlos.com&alpn=h3&congestion_control=bbr#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://73bfcc1c-5814-5f2a-b43a-3ef6af011db8:73bfcc1c-5814-5f2a-b43a-3ef6af011db8@54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com:443?alpn=h3&congestion_control=bbr&congestion_controller=bbr&sni=54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com&udp_relay_mode=native&version=5#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20TUIC%20%7C%20src%3A0xradikal-all
+tuic://8a9905b7-801b-41af-bfc9-2034212770f6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw5.dexlos.com:8080?sni=tw5.dexlos.com&alpn=h3#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://cd1b0ae0-4010-11ee-953a-f23c9164ca5d:cd1b0ae0-4010-11ee-953a-f23c9164ca5d@104.105.139.38:443?alpn=h3&congestion_control=bbr&sni=de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com&sub_tag=M002-260618&udp=true&udp_relay_mode=native#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://2d1ad594-80a4-4bfb-87a6-038e39701f51:2d1ad594-80a4-4bfb-87a6-038e39701f51@146.235.16.130:33738?alpn=h3&congestion_control=bbr&congestion_controller=bbr&sni=sg2-8sb.6121999.dpdns.org&udp_relay_mode=quic&version=5%23%F0%9F%8D%8195%40oneclickvpnkeys#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://cd1b0ae0-4010-11ee-953a-f23c9164ca5d:cd1b0ae0-4010-11ee-953a-f23c9164ca5d@de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com:443?alpn=h3&congestion_control=bbr&sni=de0bc027-teisg0-thtg7i-1lkt0.jp5.hyhuawei.com&sub_tag=M002-260618&udp=true&udp_relay_mode=native#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://8A9905B7-801B-41AF-BFC9-2034212770F6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw3.dexlos.com:8080?sni=tw3.dexlos.com&congestion_control=bbr&udp_relay_mode=native&alpn=h3#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
+tuic://73bfcc1c-5814-5f2a-b43a-3ef6af011db8:73bfcc1c-5814-5f2a-b43a-3ef6af011db8@58.152.81.104:443?sni=54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com&alpn=h3#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral

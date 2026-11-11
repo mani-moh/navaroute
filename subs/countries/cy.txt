@@ -1,32 +1,29 @@
-#profile-title: base64:UGF0dE4gQ1k=
+#profile-title: base64:TmF2YVJvdXRlIENZIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+# snapshot-time: 2026-11-10T06:56:15+00:00
 
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@213.169.137.221:989#[🇨🇾 CY] SS | src:farid-karimi-mixed-iran
-ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@213.169.137.214:989#[🇨🇾 CY] SS | src:farid-karimi-mixed-iran
-vless://477270ef-12b9-45ae-854b-10005e27d48d@45.83.85.129:443?path=%2Fassets%2Fjs%2Fapp.557b1356.js&security=reality&encryption=none&pbk=yG9PCRThFyrRI10PjbNzQPvWzjnvxGbzwzHuvYMWRys&host=velllp.qikbro.com&fp=firefox&type=xhttp&sni=velllp.qikbro.com&sid=6300ca9f9d90b6f3#[🇨🇾 CY] VLESS-Reality | src:0xradikal-all
-vless://3c4aa500-e3ae-4778-837b-f02dfea8c85f@45.83.85.4:443?encryption=none&fp=&host=velka.qikbro.com&mode=auto&path=%2Fassets%2Fjs%2Fapp.043c9513.js&pbk=yG9PCRThFyrRI10PjbNzQPvWzjnvxGbzwzHuvYMWRys&security=reality&sid=6300ca9f9d90b6f3&sni=velka.qikbro.com&type=xhttp#[🇨🇾 CY] VLESS-Reality | src:0xradikal-all
-trojan://3723507166611775488@195.133.93.221:443?security=tls&sni=fitting-ox.boa152.lol&type=tcp#[🇨🇾 CY] Trojan-tcp | src:0xradikal-all
-trojan://3723507166611775488@195.133.93.234:443?sni=wise-cowbird.boa152.lol&allowInsecure=0#[🇨🇾 CY] Trojan | src:0xradikal-all
-trojan://3723507166611775488@195.133.93.81:443/?type=tcp&security=tls&sni=sensible-ocelot.boa152.lol&allowInsecure=1#[🇨🇾 CY] Trojan-tcp | src:0xradikal-all
-vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.180:8880?mode=gun&security=none&encryption=none&type=grpc#[🇨🇾 CY] VLESS-grpc | src:0xradikal-all
-vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.80:8880?encryption=none&security=none&type=grpc#[🇨🇾 CY] VLESS-grpc | src:0xradikal-all
-vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.114:8880?mode=gun&security=none&encryption=none&type=grpc&sni=pqh25v1.vetdomok.shop#[🇨🇾 CY] VLESS-grpc | src:0xradikal-all
-vless://08704c01-7edb-454a-98a2-328ccb9936fa@45.88.183.156:12794?security=none&encryption=none&headerType=none&type=tcp#[🇨🇾 CY] VLESS-tcp | src:0xradikal-all
-ss://00b0d4de-b126-4511-87c1-8f1feb462fa6@171.22.114.248:27394?security=reality&amp;encryption=none&amp;pbk=TZO1nvxk-x90cL3v9ixowQNC56sQ8k76_KaGU6jczks&amp;headerType=none&amp;fp=chrome&amp;type=tcp&amp;sni=yahoo.com&amp;sid=c2fa#[🇨🇾 CY] SS-Reality | src:heliataromi-confighub-mixed
-vless://00b0d4de-b126-4511-87c1-8f1feb462fa6@171.22.114.248:27394?security=reality&amp;encryption=none&amp;pbk=TZO1nvxk-x90cL3v9ixowQNC56sQ8k76_KaGU6jczks&amp;headerType=none&amp;fp=chrome&amp;type=tcp&amp;sni=yahoo.com&amp;sid=c2fa#[🇨🇾 CY] VLESS-Reality | src:heliataromi-confighub-mixed
-vless://db80088c-32a1-4cb8-a907-0f3cb7844152@45.86.60.190:443?security=reality&amp;encryption=none&amp;pbk=zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg&amp;headerType=none&amp;type=tcp&amp;flow=xtls-rprx-vision&amp;sni=ee2.japancase.site&amp;sid=41ae8e266bc3346f#[🇨🇾 CY] VLESS-Reality | src:heliataromi-confighub-mixed
-vless://511c1563-2cb6-4064-abc6-a59ee49818a8@5.253.30.99:40443?security=reality&encryption=none&pbk=cwmcqsfS7klQlkcoUNuATEk0NiPY-NnRb9z8rCJDQw0&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=88b6#[🇨🇾 CY] VLESS-Reality | src:0xradikal-all
-vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.153.183.211:8880/?type=grpc&encryption=none&flow=#[🇨🇾 CY] VLESS-grpc | src:sub-07d2577deb
-vless://1679af35-6dd6-4c09-ae3b-18f239217f3e@45.83.21.88:443?path=/Telegram:@AZARBAYJAB1?ed=2560&security=tls&encryption=none&insecure=0&host=rayan-007.parvin.dpdns.org&fp=chrome&type=ws&allowInsecure=0&sni=rAyAn-007.pArViN.DpDnS.OrG#[🇨🇾 CY] VLESS-ws | src:sub-07d2577deb
-vless://62e18440-148d-4b82-8a14-160c35144ffd@2.57.91.92:19771?path=%2F&security=none&encryption=none&type=ws#[🇨🇾 CY] VLESS-ws | src:sub-07d2577deb
-vless://d71ac071-5dc5-4930-824a-cacd3e85dad2@2.57.91.92:19771?type=ws&encryption=none&path=%2F&host=&security=none#[🇨🇾 CY] VLESS-ws | src:sub-07d2577deb
-vless://1edafc20-cffb-4921-bb2b-f00ce9864c5c@45.88.183.157:23803?security=&encryption=none&headerType=none&type=tcp#[🇨🇾 CY] VLESS-tcp | src:sub-07d2577deb
-vless://8dc7722c-2767-4eea-a28b-2f8daacc07e3@45.82.251.95:8880?mode=gun&security=&encryption=none&type=grpc#[🇨🇾 CY] VLESS-grpc | src:sub-07d2577deb
-vmess://eyJhZGQiOiAiNDUuODkuMTA3LjUxIiwgImFpZCI6ICIwIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJob3N0IjogIiIsICJpZCI6ICIzZGJhYTVjMy1mNDkzLTRhZDEtOWM1ZC04NTI1ZjQ5NjJhNmMiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInBvcnQiOiAiMjA1MjEiLCAicHMiOiAiW/Cfh6jwn4e+IENZXSBWTWVzcy13cyB8IHNyYzplbGYyMDE3c3ByaW5nLWNvbmZpZ3NodWIiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiLS0tIiwgInYiOiAiMiJ9
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@134.255.210.49:990#[🇨🇾 CY] SS | src:elf2017spring-configshub
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpnNVJRb3hRdVZ0bkZ2M1h4c2E4ZWRQaXNYTlBueVdLeQ@45.83.20.206:443#[🇨🇾 CY] SS | src:sub-07d2577deb
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMUXlBVUl0YWZVbW1PM0VaWng5VWJpWDZJR3lkU0JnTA@45.12.144.18:443#[🇨🇾 CY] SS | src:sub-07d2577deb
-vless://5ec3a039-ea63-4bf9-a848-a65c9bfa66f5@77.37.33.39:443/?type=ws&encryption=none&flow=&host=gb-8981.shenzogmbh.com&path=%2Fapi%2Fv1&security=tls&sni=gb-8981.shenzogmbh.com&fp=chrome#[🇨🇾 CY] VLESS-ws | src:lalatinahub-mineral
-vless://dbf403f4-b871-4446-8712-675562dbbb7b@195.85.59.161:2095/?type=ws&encryption=none&flow=&host=0221.enedrehd.workers.dev&path=%2F%3Fed%3D2560#[🇨🇾 CY] VLESS-ws | src:lalatinahub-mineral
-vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.63:8880/?type=tcp&encryption=none&flow=#[🇨🇾 CY] VLESS-tcp | src:lalatinahub-mineral
+vless://1679af35-6dd6-4c09-ae3b-18f239217f3e@45.83.21.88:443?path=%2FTelegram%3A%40AZARBAYJAB1%3Fed%3D2560&security=tls&encryption=none&insecure=0&host=rayan-007.parvin.dpdns.org&fp=chrome&type=ws&allowInsecure=0&sni=rAyAn-007.pArViN.DpDnS.OrG#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-ws%20%7C%20src%3Asub-07d2577deb
+vless://1edafc20-cffb-4921-bb2b-f00ce9864c5c@45.88.183.157:23803?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-tcp%20%7C%20src%3Asub-07d2577deb
+trojan://3723507166611775488@195.133.93.81:443?type=tcp&security=tls&sni=sensible-ocelot.boa152.lol&allowInsecure=1&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://3723507166611775488@195.133.93.234:443?sni=wise-cowbird.boa152.lol&allowInsecure=0#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20Trojan%20%7C%20src%3A0xradikal-all
+vless://511c1563-2cb6-4064-abc6-a59ee49818a8@5.253.30.99:40443?security=reality&encryption=none&pbk=cwmcqsfS7klQlkcoUNuATEk0NiPY-NnRb9z8rCJDQw0&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=88b6#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.180:8880?mode=gun&security=none&encryption=none&type=grpc#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+trojan://3723507166611775488@195.133.93.221:443?security=tls&sni=fitting-ox.boa152.lol&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+vless://d71ac071-5dc5-4930-824a-cacd3e85dad2@2.57.91.92:19771?type=ws&encryption=none&path=%2F&host=&security=none#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-ws%20%7C%20src%3Asub-07d2577deb
+vless://db80088c-32a1-4cb8-a907-0f3cb7844152@45.86.60.190:443?security=reality&amp%3Bencryption=none&amp%3Bpbk=zEntiD6D81wY__YHPvIw78e09CBIgYkyQ5meIo7c_hg&amp%3BheaderType=none&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=ee2.japancase.site&amp%3Bsid=41ae8e266bc3346f#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://8dc7722c-2767-4eea-a28b-2f8daacc07e3@45.82.251.95:8880?mode=gun&security=&encryption=none&type=grpc#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-grpc%20%7C%20src%3Asub-07d2577deb
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIi0tLSIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh6jwn4e+IENZXSBWTWVzcy13cyB8IHNyYzplbGYyMDE3c3ByaW5nLWNvbmZpZ3NodWIiLCAiYWRkIjogIjQ1Ljg5LjEwNy41MSIsICJwb3J0IjogMjA1MjEsICJpZCI6ICIzZGJhYTVjMy1mNDkzLTRhZDEtOWM1ZC04NTI1ZjQ5NjJhNmMifQ==
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@213.169.137.214:989#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMUXlBVUl0YWZVbW1PM0VaWng5VWJpWDZJR3lkU0JnTA@45.12.144.18:443#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20SS%20%7C%20src%3Asub-07d2577deb
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@213.169.137.221:989#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+vless://477270ef-12b9-45ae-854b-10005e27d48d@45.83.85.129:443?path=%2Fassets%2Fjs%2Fapp.557b1356.js&security=reality&encryption=none&pbk=yG9PCRThFyrRI10PjbNzQPvWzjnvxGbzwzHuvYMWRys&host=velllp.qikbro.com&fp=firefox&type=xhttp&sni=velllp.qikbro.com&sid=6300ca9f9d90b6f3#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://08704c01-7edb-454a-98a2-328ccb9936fa@45.88.183.156:12794?security=none&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@134.255.210.49:990#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
+vless://00b0d4de-b126-4511-87c1-8f1feb462fa6@171.22.114.248:27394?security=reality&amp%3Bencryption=none&amp%3Bpbk=TZO1nvxk-x90cL3v9ixowQNC56sQ8k76_KaGU6jczks&amp%3BheaderType=none&amp%3Bfp=chrome&amp%3Btype=tcp&amp%3Bsni=yahoo.com&amp%3Bsid=c2fa#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.80:8880?encryption=none&security=none&type=grpc#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+vless://62e18440-148d-4b82-8a14-160c35144ffd@2.57.91.92:19771?path=%2F&security=none&encryption=none&type=ws#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-ws%20%7C%20src%3Asub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpnNVJRb3hRdVZ0bkZ2M1h4c2E4ZWRQaXNYTlBueVdLeQ@45.83.20.206:443#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20SS%20%7C%20src%3Asub-07d2577deb
+vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.114:8880?mode=gun&security=none&encryption=none&type=grpc&sni=pqh25v1.vetdomok.shop#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+vless://df0680ca-e43c-498d-ed86-8e196eedd012@185.153.183.211:8880?type=grpc&encryption=none&flow=&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-grpc%20%7C%20src%3Asub-07d2577deb
+vless://3c4aa500-e3ae-4778-837b-f02dfea8c85f@45.83.85.4:443?encryption=none&fp=&host=velka.qikbro.com&mode=auto&path=%2Fassets%2Fjs%2Fapp.043c9513.js&pbk=yG9PCRThFyrRI10PjbNzQPvWzjnvxGbzwzHuvYMWRys&security=reality&sid=6300ca9f9d90b6f3&sni=velka.qikbro.com&type=xhttp#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.63:8880?type=tcp&encryption=none&flow=&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-tcp%20%7C%20src%3Alalatinahub-mineral

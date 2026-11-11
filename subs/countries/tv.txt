@@ -1,13 +1,10 @@
-#profile-title: base64:UGF0dE4gVFY=
+#profile-title: base64:TmF2YVJvdXRlIFRWIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
+# snapshot-time: 2026-11-10T06:56:15+00:00
 
-vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@45.90.57.119:8443?security=reality&encryption=none&pbk=L6DeK_a25_ZjPKFOrQLoCPWuXi5KCIH_EcRpARmCwkI&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=twitch.tv&sid=16036bbef04d0509#[🇹🇻 TV] VLESS-Reality | src:barry-far-all
-vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@147.45.51.171:8443?flow=xtls-rprx-vision&fp=firefox&pbk=dPa581kev2x9-st7VQ-DTh3NjXlHJ2830YDySuI8n2U&security=reality&sid=e723d26df67888b9&sni=twitch.tv&type=tcp#[🇹🇻 TV] VLESS-Reality | src:0xradikal-all
-vless://02be5968-d5c1-41f9-9515-3ea043b7aac3@173.245.58.66:443/?type=ws&encryption=none&flow=&host=server19.aibox.tv&path=...&security=tls&sni=server19.aibox.tv#[🇹🇻 TV] VLESS-ws | src:lalatinahub-mineral
-vless://67caf0a6-2cab-4f2e-81f5-1664e4813709@icook.tw:2096/?type=ws&encryption=none&flow=&host=server18.aibox.tv&path=%2FTG-AiLuMao%2F&security=tls&sni=server18.aibox.tv&fp=chrome#[🇹🇻 TV] VLESS-ws | src:lalatinahub-mineral
-vless://834ceabf-2853-4059-a167-5ffda883115d@104.17.48.63:443/?type=ws&encryption=none&flow=&host=server22.aibox.tv&path=%25...&security=tls&sni=server22.aibox.tv#[🇹🇻 TV] VLESS-ws | src:lalatinahub-mineral
-vless://7b402239-08a7-4a5e-91ec-5cf4e36dc5a7@172.67.121.38:8443?security=tls&sni=server18.aibox.tv&type=ws&host=server18.aibox.tv&path=/TG-AiLuMao/&fp=chrome&alpn=h2,http/1.1#[🇹🇻 TV] VLESS-ws | src:leon406-subcrawler-vless
-vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@45.90.57.119:8443?sni=twitch.tv&flow=xtls-rprx-vision&fp=firefox&security=tls#[🇹🇻 TV] VLESS | src:leon406-subcrawler-vless
-vless://9c54d883-97a8-4b49-af23-fe052eff2c3a@94.249.179.249:443?security=reality&encryption=none&pbk=JRQccSZxWwLKbEncmylepuIM6Xy89k49ZKILIbKeiQc&fp=firefox&type=grpc&sni=www.twitch.tv&sid=cdb05980#[🇹🇻 TV] VLESS-Reality | src:leon406-subcrawler-vless
-vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@185.14.30.98:8443?sni=twitch.tv&flow=xtls-rprx-vision&fp=chrome&security=tls#[🇹🇻 TV] VLESS | src:leon406-subcrawler-vless
+vless://7b402239-08a7-4a5e-91ec-5cf4e36dc5a7@172.67.121.38:8443?security=tls&sni=server18.aibox.tv&type=ws&host=server18.aibox.tv&path=%2FTG-AiLuMao%2F&fp=chrome&alpn=h2%2Chttp%2F1.1#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS-ws%20%7C%20src%3Aleon406-subcrawler-vless
+vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@185.14.30.98:8443?sni=twitch.tv&flow=xtls-rprx-vision&fp=chrome&security=tls#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS%20%7C%20src%3Aleon406-subcrawler-vless
+vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@147.45.51.171:8443?flow=xtls-rprx-vision&fp=firefox&pbk=dPa581kev2x9-st7VQ-DTh3NjXlHJ2830YDySuI8n2U&security=reality&sid=e723d26df67888b9&sni=twitch.tv&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@45.90.57.119:8443?security=reality&encryption=none&pbk=L6DeK_a25_ZjPKFOrQLoCPWuXi5KCIH_EcRpARmCwkI&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=twitch.tv&sid=16036bbef04d0509#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS-Reality%20%7C%20src%3Abarry-far-all
+vless://9c54d883-97a8-4b49-af23-fe052eff2c3a@94.249.179.249:443?security=reality&encryption=none&pbk=JRQccSZxWwLKbEncmylepuIM6Xy89k49ZKILIbKeiQc&fp=firefox&type=grpc&sni=www.twitch.tv&sid=cdb05980#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS-Reality%20%7C%20src%3Aleon406-subcrawler-vless
+vless://f5e70ce3-cfb4-4df1-b25c-d19bfae627c0@45.90.57.119:8443?sni=twitch.tv&flow=xtls-rprx-vision&fp=firefox&security=tls#%5B%F0%9F%87%B9%F0%9F%87%BB%20TV%5D%20VLESS%20%7C%20src%3Aleon406-subcrawler-vless

@@ -1,9 +1,0 @@
-#profile-title: base64:UGF0dE4gTEs=
-#profile-update-interval: 6
-#subscription-userinfo: upload=0; download=0; total=10737418240000000; expire=4102444800
-
-vless://efd11a89-7506-44ce-95b6-6654859f155b@170.114.45.6:2096?security=tls&type=ws&path=%2F&host=pcloud.z-tas.com&sni=pcloud.z-tas.com&fp=chrome&encryption=none#[✅] [🇱🇰 LK] VLESS-ws | src:0xradikal-all | 21ms
-vless://92d67828-4c56-4795-af5a-f387651380dc@140.245.120.16:443?type=ws&security=tls&fp=firefox&sni=trackydev.site&host=trackydev.site#[🇱🇰 LK] VLESS-ws | src:0xradikal-all
-vless://efd11a89-7506-44ce-95b6-6654859f155b@188.114.98.0:443?security=tls&type=ws&path=%2F&host=pcloud.z-tas.com&sni=pcloud.z-tas.com&fp=unsafe&encryption=none&cs=TLS_AES_128_GCM_SHA256%3ATLS_AES_256_GCM_SHA384%3ATLS_CHACHA20_POLY1305_SHA256%3AECDHE-ECDSA-AES128-GCM-SHA256%3AECDHE-RSA-AES128-GCM-SHA256&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%22tlshello%22%2C%22length%22%3A%2210-20%22%2C%22delay%22%3A%2210-20%22%7D%7D%2C%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%221-1%22%2C%22length%22%3A%221-3%22%2C%22delay%22%3A%225%22%7D%7D%5D%7D#[✅] [🇱🇰 LK] VLESS-ws [PattN F&F] | src:0xradikal-all
-vless://efd11a89-7506-44ce-95b6-6654859f155b@[2a06:98c1:3120::7]:443?security=tls&type=ws&path=%2F&host=pcloud.z-tas.com&sni=pcloud.z-tas.com&fp=hellochrome_120&encryption=none&dialMode=oob.0#[✅] [🇱🇰 LK] VLESS-ws [PattN IPv6-OOB] | src:0xradikal-all
-vless://efd11a89-7506-44ce-95b6-6654859f155b@127.0.0.1:40443?security=tls&type=ws&path=%2F&host=pcloud.z-tas.com&sni=pcloud.z-tas.com&fp=chrome&encryption=none#[✅] [🇱🇰 LK] VLESS-ws [PattN SNI-Spoof] | src:0xradikal-all
