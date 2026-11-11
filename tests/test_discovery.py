@@ -8,6 +8,7 @@ import unittest
 from contextlib import contextmanager
 from pathlib import Path
 from unittest.mock import patch
+from urllib.parse import parse_qs, urlsplit
 
 from src.discovery.agent import DiscoveryAgent, load_local_dotenv
 from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
@@ -1181,6 +1182,133 @@ with patch("src.network._resolve", forbidden), patch("src.discovery.agent.fetch_
                 read.assert_not_called()
                 write.assert_not_called()
         self.assertFalse((self.root / "data/discovered_ocr_configs.txt").exists())
+
+    @patch("src.discovery.agent.time.monotonic", return_value=0)
+    def test_fix3_E_cross_linked_parsed_pages_progress_across_three_reloads(self, clock):
+        parents = ["https://example.com/a.html", "https://example.com/b.html"]
+        query = 'site:t.me "vless://" reality'
+        phase, parent_reads, definitive_probes = 0, [], []
+        def search(url, **kwargs):
+            self.assertEqual(kwargs["deadline"], 10)
+            if url in parents:
+                if phase:
+                    parent_reads.append(url)
+                    return 404, b""
+                if url == parents[1]:
+                    clock.return_value = 10
+                return 200, f'<a href="{parents[1] if url == parents[0] else parents[0]}">public</a>'.encode()
+            if "duckduckgo" in url:
+                return 200, (" ".join(f'<a href="{parent}">public</a>' for parent in parents).encode() if phase == 0 else b"")
+            return 200, b'{"items":[]}'
+        def probe(url, **kwargs):
+            self.assertIn(url, parents)
+            self.assertEqual(kwargs["deadline"], 10)
+            if phase == 0:
+                raise NetworkError("synthetic transient linked-page probe")
+            definitive_probes.append(url)
+            return 404, b""
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            agent = self.agent()
+            agent.run_cycle(max_channels=1, max_time_seconds=10)
+            self.assertEqual(set(agent.state_manager.state["pending_pages"]), set(parents))
+            saved = agent.state_manager.state["pending_children"]
+            self.assertEqual(saved[parents[0]], [{"kind": "subscription", "url": parents[1]}])
+            self.assertEqual(saved[parents[1]], [{"kind": "subscription", "url": parents[0]}])
+            self.assertIn(query, agent.state_manager.state["pending_queries"])
+            phase = 1
+            for _ in range(3):
+                clock.return_value = 0
+                agent = self.agent()
+                agent.run_cycle(max_channels=1, max_time_seconds=10)
+        self.assertGreater(len(parent_reads) + len(definitive_probes), 0)
+        self.assertEqual(parent_reads, parents)
+        self.assertTrue(all(agent.state_manager.is_url_visited(parent) for parent in parents))
+        self.assertIn(query, agent.state_manager.state["queries_executed"])
+        self.assertFalse(agent.state_manager.state.get("pending_children", {}))
+
+    def interrupted_github_readme_phase(self, interruption):
+        query = "fix3 original query " + interruption
+        repo = "public/direct-" + interruption
+        readme_repo = "public/readme-sentinel-" + interruption
+        child_urls = [f"https://raw.githubusercontent.com/{repo}/main/{name}" for name in ("sub.txt", "configs.txt", "All_Configs_Sub.txt", "sub")]
+        readme_url = f"https://raw.githubusercontent.com/{readme_repo}/main/README.md"
+        phase, original_query_reads, probes = 0, [0, 0], []
+        with patch("src.discovery.agent.time.monotonic", return_value=0) as clock:
+            def search(url, **kwargs):
+                self.assertEqual(kwargs["deadline"], 10)
+                if "api.github.com" in url:
+                    searched = parse_qs(urlsplit(url).query)["q"][0]
+                    if searched != query:
+                        return 200, b'{"items":[]}'
+                    original_query_reads[phase] += 1
+                    if phase == 0 and original_query_reads[phase] == 1:
+                        if interruption == "deadline":
+                            clock.return_value = 10
+                        return 200, json.dumps({"items": [{"full_name": repo, "default_branch": "main"}]}).encode()
+                    if phase == 0:
+                        raise RuntimeError("synthetic interrupted original README search")
+                    if original_query_reads[phase] == 1:
+                        return 200, b'{"items":[]}'  # Direct results changed; old children still need replay.
+                    return 200, json.dumps({"items": [{"full_name": readme_repo, "default_branch": "main"}]}).encode()
+                return 200, URI.encode() if url == readme_url else b""
+            def probe(url, **kwargs):
+                self.assertIn(url, child_urls + [readme_url])
+                self.assertEqual(kwargs["deadline"], 10)
+                if url in child_urls:
+                    probes.append(url)
+                return 200, URI.encode()
+            suggestions = {"web_queries": ["fix3 web fixture"], "github_queries": [query]}
+            with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe), patch("src.discovery.nemotron_client.NemotronClient.complete_json", return_value=suggestions):
+                agent = self.agent(key="synthetic")
+                if interruption == "exception":
+                    with self.assertRaisesRegex(RuntimeError, "original README"):
+                        agent.run_cycle(max_channels=1, max_time_seconds=10, max_api_requests=10)
+                else:
+                    agent.run_cycle(max_channels=1, max_time_seconds=10, max_api_requests=10)
+                self.assertNotIn("gh:" + query, agent.state_manager.state["queries_executed"])
+                self.assertTrue(all(child in json.dumps(agent.state_manager.state["pending_children"]) for child in child_urls))
+                self.assertFalse(probes)
+                phase = 1
+                clock.return_value = 0
+                agent = self.agent(key="synthetic")
+                sources = agent.run_cycle(max_channels=1, max_time_seconds=10, max_api_requests=10)
+            self.assertEqual(original_query_reads, [1 if interruption == "deadline" else 2, 2])
+            self.assertEqual(set(probes), set(child_urls))
+            self.assertEqual(len(probes), 4)
+            self.assertTrue(agent.state_manager.is_url_visited(readme_url))
+            self.assertIn(readme_url, {source["url"] for source in sources})
+            self.assertIn("gh:" + query, agent.state_manager.state["queries_executed"])
+            self.assertTrue(agent._retained)
+
+    def test_fix3_F_deadline_before_original_readme_phase(self):
+        self.interrupted_github_readme_phase("deadline")
+
+    def test_fix3_F_exception_during_original_readme_phase(self):
+        self.interrupted_github_readme_phase("exception")
+
+    def test_fix3_F_replayed_probes_reduce_fresh_query_probe_cap(self):
+        query, old_child = "fix3 probe cap query", "https://example.com/old-sub.txt"
+        agent = self.agent()
+        agent.state_manager.state["pending_queries"] = ["gh:" + query]
+        agent._queue_children("gh:" + query, [old_child], "subscription", {}, set())
+        agent._save_checkpoint({}, [])
+        repos = [{"full_name": f"public/new-repo{i}", "default_branch": "main"} for i in range(7)]
+        def search(url, **kwargs):
+            if "api.github.com" in url and parse_qs(urlsplit(url).query)["q"][0] == query:
+                return 200, json.dumps({"items": repos}).encode()
+            return 200, b'{"items":[]}' if "api.github.com" in url else b""
+        probes = []
+        def probe(url, **kwargs):
+            probes.append(url)
+            return 200, URI.encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+        self.assertEqual(probes[0], old_child)
+        self.assertEqual(len(probes), 18)
+        self.assertTrue(agent.state_manager.is_url_visited(old_child))
+        self.assertNotIn("gh:" + query, agent.state_manager.state["queries_executed"])
+        self.assertEqual(len(agent.state_manager.state["pending_children"]["gh:" + query]), 11)
 
 
 if __name__ == "__main__":

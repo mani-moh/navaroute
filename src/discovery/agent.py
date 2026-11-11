@@ -294,7 +294,8 @@ class DiscoveryAgent:
         if not url.startswith(("http://", "https://")) or url in existing:
             return False
         if url in self.state_manager.state.get("pending_pages", []):
-            return None
+            # The page queue already owns this URL durably; never create circular prerequisites.
+            return False
         if url in self._cycle_probed_urls:
             count = self._cycle_probed_urls[url]
         else:
@@ -480,10 +481,13 @@ class DiscoveryAgent:
             parent = "gh:" + query
             if parent in self.state_manager.state.get("pending_children", {}):
                 before = len(self._cycle_probed_urls)
-                if self._replay_children(parent, discovered_sources, existing, PENDING_CHILDREN_MAX, max_github_probes - probes):
-                    self.state_manager.record_query(parent)
+                complete = self._replay_children(parent, discovered_sources, existing, PENDING_CHILDREN_MAX, max_github_probes - probes)
                 probes += len(self._cycle_probed_urls) - before
-                continue
+                if not complete:
+                    continue
+                if not self._can_work():
+                    return
+                # Completed children do not prove the parent's extraction phases finished.
             urls = self.web_scraper.search_github(query, max_results=8)
             self._queue_children(parent, urls, "subscription", discovered_sources, existing)
             if not self._can_work():
