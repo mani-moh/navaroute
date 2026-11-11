@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import http.client
+import ipaddress
 import json
 import math
 import os
@@ -17,7 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.models import ProxyNode
-from src.network import _Connection, _authority, _end, _hostname, _remaining, _resolve, connect_public
+from src.network import _Connection, _authority, _end, _hostname, _public_ip, _remaining, _resolve, connect_public
 
 HEALTHCHECK_TEST_URLS = ["https://cp.cloudflare.com/generate_204", "https://www.gstatic.com/generate_204"]
 
@@ -68,6 +69,12 @@ def build_xray_outbound(node: ProxyNode) -> dict | None:
         return None
     try:
         address = _hostname(node.address.strip("[]"))
+        try:
+            ipaddress.ip_address(address)
+        except ValueError:
+            pass
+        else:
+            _public_ip(address)
     except (ValueError, AttributeError):
         return None
     if any(not isinstance(v, str) for k, v in p.items() if k != "alpn"):

@@ -12,7 +12,7 @@ import socket
 import ssl
 import threading
 import time
-from urllib.parse import quote, unquote, urljoin, urlsplit
+from urllib.parse import quote, unquote, urljoin, urlsplit, urlunsplit
 
 
 class NetworkError(OSError):
@@ -83,6 +83,41 @@ def _url(url: str):
     except (ValueError, TypeError):
         raise ValueError("Invalid public URL") from None
     return parsed, host, port
+
+
+def approved_public_url(url: str) -> str:
+    """Offline public-input policy; transport also validates/pins every DNS answer.
+
+    Query-bearing subscriptions may carry credentials. Only Telegram numeric
+    pagination is allowed; never strip a secret into an apparently public URL.
+    """
+    try:
+        if url == "data/discovered_ocr_configs.txt":
+            return url
+        parsed, host, _ = _url(url)
+        if len(url.encode("utf-8")) > 16 * 1024 or parsed.fragment:
+            raise ValueError
+        if parsed.query and not (host == "t.me" and re.fullmatch(r"/s/[A-Za-z][A-Za-z0-9_]{2,31}", parsed.path) and re.fullmatch(r"before=[1-9][0-9]{0,19}", parsed.query)):
+            raise ValueError
+        path = parsed.path or "/"
+        if host in ("t.me", "www.t.me"):
+            channel = re.fullmatch(r"/(?:s/)?([A-Za-z][A-Za-z0-9_]{2,31})(/[0-9]+)?/?", path)
+            if channel:
+                host = "t.me"
+                path = "/s/" + channel[1].lower() + (channel[2] or "")
+        try:
+            ipaddress.ip_address(host)
+        except ValueError:
+            if "." not in host or host.endswith((".localhost", ".local", ".internal", ".home", ".lan", ".test", ".invalid")):
+                raise ValueError
+        else:
+            _public_ip(host)
+        authority = f"[{host}]" if ":" in host else host
+        if parsed.port is not None and parsed.port != (443 if parsed.scheme == "https" else 80):
+            authority += f":{parsed.port}"
+        return urlunsplit((parsed.scheme, authority, path, parsed.query, ""))
+    except (ValueError, TypeError, AttributeError, UnicodeError):
+        raise ValueError("Unapproved discovery URL") from None
 
 
 def _resolve(host: str, port: int, deadline: float, *, public: bool = True):
@@ -198,8 +233,27 @@ def _authority(host, port):
 class _Response(http.client.HTTPResponse):
     """Stdlib chunk decoding tolerates invalid separators and trailer EOF."""
 
+    framing_bytes = 0
+    MAX_FRAMING_BYTES = 65536
+
+    def _count_framing(self, size):
+        self.framing_bytes += size
+        if self.framing_bytes > self.MAX_FRAMING_BYTES:
+            raise NetworkError("Response chunk framing exceeds byte limit")
+
+    def _read_next_chunk_size(self):
+        line = self.fp.readline(min(http.client._MAXLINE, self.MAX_FRAMING_BYTES - self.framing_bytes) + 1)
+        self._count_framing(len(line))
+        if not line.endswith(b"\r\n"):
+            raise NetworkError("Invalid chunk framing")
+        size = line.split(b";", 1)[0].strip()
+        if not re.fullmatch(b"[0-9a-fA-F]+", size):
+            raise NetworkError("Invalid chunk size")
+        return int(size, 16)
+
     def _get_chunk_left(self):
         if self.chunk_left == 0:
+            self._count_framing(2)
             if self._safe_read(2) != b"\r\n":
                 raise NetworkError("Invalid chunk framing")
             self.chunk_left = None
@@ -207,7 +261,8 @@ class _Response(http.client.HTTPResponse):
 
     def _read_and_discard_trailer(self):
         while True:
-            line = self.fp.readline(http.client._MAXLINE + 1)
+            line = self.fp.readline(min(http.client._MAXLINE, self.MAX_FRAMING_BYTES - self.framing_bytes) + 1)
+            self._count_framing(len(line))
             if len(line) > http.client._MAXLINE or not line.endswith(b"\r\n"):
                 raise NetworkError("Incomplete or invalid chunk terminator")
             if line == b"\r\n":

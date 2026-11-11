@@ -11,7 +11,7 @@ from pathlib import Path
 
 from src.models import ProxyNode, SourceConfig, SourceStats
 from src.parsers import extract_nodes_from_content
-from src.network import NetworkError, fetch_bytes
+from src.network import NetworkError, approved_public_url, fetch_bytes
 
 SOURCE_MAX_BYTES = 32 * 1024 * 1024
 # shortcut: bound raw model multiplication for current runners; raise only after measured memory upgrades.
@@ -132,6 +132,7 @@ def fetch_source(
     status_code = None
 
     try:
+        approved_public_url(source.url)
         status_code, content = _fetch_url(source.url, timeout=float(timeout))
         if not 200 <= status_code < 300:
             raise NetworkError("Source returned unsuccessful HTTP status")

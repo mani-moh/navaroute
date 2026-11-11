@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-import ipaddress
 import json
 import re
 import time
 from pathlib import Path
 from typing import Any, Optional
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import urlsplit
 
-from src.models import SourceConfig
+from src.network import approved_public_url
 from src.storage import atomic_write_text
 
 DEFAULT_STATE_FILE = "data/discovery_state.json"
@@ -87,50 +86,6 @@ def normalize_channel_handle(raw_handle: str) -> str:
     else:
         clean = clean.removeprefix("@")
     return clean.lower() if re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{2,31}", clean) else ""
-
-
-def approved_public_url(url: str) -> str:
-    """Offline public-input policy; transport additionally validates/pins every DNS answer.
-
-    Query-bearing subscriptions are not approved public inputs (may carry credentials).
-    Only Telegram's numeric pagination query is allowed. Never strip a secret into a
-    different apparently valid URL, and never resolve merely to load a checkpoint.
-    """
-    try:
-        SourceConfig.from_dict({"id": "discovery", "url": url})
-        if url == "data/discovered_ocr_configs.txt":
-            return url
-        if len(url.encode("utf-8")) > 16 * 1024 or re.search(r"[\\\x00-\x20\x7f-\x9f]|%(?:0[0-9a-f]|1[0-9a-f]|7f)", url, re.I):
-            raise ValueError
-        parsed = urlsplit(url)
-        host = parsed.hostname.rstrip(".").encode("idna").decode("ascii").lower()
-        if parsed.fragment or parsed.netloc.endswith(":") or "%" in host:
-            raise ValueError
-        if parsed.query and not (host == "t.me" and re.fullmatch(r"/s/[A-Za-z][A-Za-z0-9_]{2,31}", parsed.path) and re.fullmatch(r"before=[1-9][0-9]{0,19}", parsed.query)):
-            raise ValueError
-        path = parsed.path or "/"
-        if host in ("t.me", "www.t.me"):
-            channel = re.fullmatch(r"/(?:s/)?([A-Za-z][A-Za-z0-9_]{2,31})(/[0-9]+)?/?", path)
-            if channel:
-                host = "t.me"
-                path = "/s/" + channel[1].lower() + (channel[2] or "")
-        try:
-            ip = ipaddress.ip_address(host)
-        except ValueError:
-            if (len(host) > 253 or "." not in host or host.endswith((".localhost", ".local", ".internal", ".home", ".lan", ".test", ".invalid"))
-                    or re.fullmatch(r"[0-9.]+|0x[0-9a-f]+", host)
-                    or any(not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?", part) for part in host.split("."))):
-                raise ValueError
-        else:
-            if (not ip.is_global or ip.is_reserved or ip.is_multicast
-                    or isinstance(ip, ipaddress.IPv6Address) and (ip.ipv4_mapped or ip.sixtofour or ip.teredo)):
-                raise ValueError
-        authority = f"[{host}]" if ":" in host else host
-        if parsed.port is not None and parsed.port != (443 if parsed.scheme == "https" else 80):
-            authority += f":{parsed.port}"
-        return urlunsplit((parsed.scheme, authority, path, parsed.query, ""))
-    except (ValueError, TypeError, AttributeError, UnicodeError):
-        raise ValueError("Unapproved discovery URL") from None
 
 
 def read_public_text(path: Path, max_bytes: int = 8 * 1024 * 1024) -> str:
@@ -360,21 +315,22 @@ class DiscoveryStateManager:
         active_tg.sort(key=lambda s: s.get("last_checked", 0))
         return [s["handle"] for s in active_tg[:limit] if "handle" in s]
 
-    def pop_next_candidates(self, limit: int = 5) -> list[str]:
+    def pop_next_candidates(self, limit: int = 5, exclude: set[str] = frozenset()) -> list[str]:
         """Pops up to `limit` candidates with highest mention score."""
         queue = self.state.setdefault("candidate_queue", [])
         if not queue:
             return []
 
-        popped = queue[:limit]
-        self.state["candidate_queue"] = queue[limit:]
+        popped = [handle for handle in queue if handle not in exclude][:limit]
+        self.state["candidate_queue"] = [handle for handle in queue if handle not in popped]
         return popped
 
-    def restore_candidates(self, handles: list[str]) -> None:
-        """Restore unacknowledged work first, including active-channel refreshes."""
+    def restore_candidates(self, handles: list[str], *, attempted: set[str] = frozenset()) -> None:
+        """Keep untouched suffix first; rotate attempted failures behind waiting work."""
         clean = [normalize_channel_handle(h) for h in handles]
         queue = self.state["candidate_queue"]
-        self.state["candidate_queue"] = list(dict.fromkeys([h for h in clean if h] + queue))
+        self.state["candidate_queue"] = list(dict.fromkeys([h for h in clean if h and h not in attempted] + queue
+                                                         + [h for h in clean if h and h in attempted]))
 
     def record_visited(
         self,
@@ -388,6 +344,9 @@ class DiscoveryStateManager:
         handle = normalize_channel_handle(raw_handle)
         if not handle:
             return
+
+        if self.state.get("pending_children", {}).get(f"https://t.me/s/{handle}"):
+            raise ValueError("Discovery channel has unfinished children")
 
         visited = self.state.setdefault("visited_channels", [])
         if handle not in visited:

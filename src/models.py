@@ -8,12 +8,18 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
+from src.network import approved_public_url
+
 FINGERPRINT_VERSION = 1
 MAX_URI_BYTES = 16 * 1024
 MAX_PARAMETER_DEPTH = 64
 PARAM_ALIASES = {"net": "type", "network": "type", "service_name": "serviceName",
                  "servicename": "serviceName", "dial_mode": "dialMode", "header_type": "headerType"}
 VMESS_FIELDS = {"net": "type", "tls": "security", "type": "headerType"}
+SCALAR_PARAMS = {"v", "type", "security", "headerType", "host", "path", "sni", "fp", "scy", "aid",
+                 "serviceName", "dialMode", "encryption", "flow", "pbk", "sid", "spx", "plugin",
+                 "allowInsecure", "disableSNI", "multiMode", "authority", "mode", "fm", "cs",
+                 "obfs", "obfs-password", "insecure", "congestion_control", "udp_relay_mode"}
 
 
 class ConnectionLimitError(ValueError):
@@ -47,6 +53,10 @@ def canonical_params(params: dict[str, Any], scheme: str = "") -> dict[str, Any]
         else:
             result[key] = value
     for key, value in result.items():
+        if key in SCALAR_PARAMS and isinstance(value, list):
+            if not value or any(not isinstance(item, str) or item != value[0] for item in value):
+                raise ValueError("Conflicting scalar connection setting")
+            result[key] = value = value[0]
         if (scheme != "vmess" or key == "alpn") and isinstance(value, list) and len(value) == 1 and isinstance(value[0], str):
             if key == "alpn" and (not value[0] or "," in value[0]):
                 if scheme == "vmess":
@@ -113,17 +123,7 @@ class SourceConfig:
         tags = data.get("tags", [])
         if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag for tag in tags):
             raise ValueError("source tags must be a list of nonempty strings")
-        if data["url"] != "data/discovered_ocr_configs.txt":
-            try:
-                url = urllib.parse.urlsplit(data["url"])
-                if url.scheme not in ("http", "https") or not url.hostname or url.username is not None or url.password is not None:
-                    raise ValueError("source URL must be unauthenticated HTTP(S)")
-                if url.port is not None and not 1 <= url.port <= 65535:
-                    raise ValueError("invalid source URL port")
-            except ValueError as exc:
-                raise ValueError("invalid source URL") from exc
-        if any(c.isspace() or ord(c) < 32 for c in data["url"]):
-            raise ValueError("source URL contains whitespace/control characters")
+        approved_public_url(data["url"])
         return cls(
             id=data["id"],
             name=data.get("name", data["id"]),

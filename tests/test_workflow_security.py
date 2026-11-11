@@ -57,6 +57,15 @@ class TestPublicGit(unittest.TestCase):
                 self.assertEqual(self.check({path: b"must-not-read"})[0], 1)
                 self.assertFalse(any(c[1] in ("cat-file", "show") for c in self.calls))
 
+    def test_case_varied_data_roles_reject_clean_and_unchanged_final_inventory(self):
+        for path in ("DATA/discovery_checkpoint.json", "Data/credentials.json", "DATA/discovery_state.json"):
+            for staged in (False, True):
+                with self.subTest(path=path, staged=staged):
+                    self.calls.clear()
+                    with patch.object(self.guard.subprocess, "run", side_effect=self.git({path: b"must-not-read"}, ["subs/all.txt"])), contextlib.redirect_stdout(io.StringIO()):
+                        self.assertEqual(self.guard.main(["check"] + (["--staged"] if staged else [])), 1)
+                    self.assertEqual([call[1] for call in self.calls], ["ls-files"])
+
     def test_tracked_backup_sqlite_and_recovery_roles_rejected_before_size_or_body(self):
         for path in ("backup.bak", "nested/backup.BAK", "a.sqlitebackup", "nested/a.SQLiteBackup", "nested/a.sqlite3-shm",
                      "nested/backup.bak/old/feed/all.txt", "nested/a.sqlitebackup/old/feed/all.txt",

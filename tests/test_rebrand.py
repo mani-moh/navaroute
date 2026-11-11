@@ -41,6 +41,9 @@ class TestPublicMigration(unittest.TestCase):
                 for row in rows:
                     node = parse_proxy_uri(row)
                     self.assertIsNotNone(node, "unparseable public row")
+                    country = re.search(r"\[\S+ ([A-Z]{2})\]", node.remark)
+                    self.assertIsNotNone(country, "generated country claim missing")
+                    self.assertEqual(node.country_code, country.group(1), "reingestion changed explicit country metadata")
                     self.assertEqual(node.healthcheck_kind, "untested")
                     self.assertFalse(node.passed_healthcheck)
                     self.assertNotIn("PattN", node.remark)

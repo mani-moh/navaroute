@@ -45,6 +45,10 @@ def _check_candidate_count(count: int) -> None:
 
 def detect_country(remark: str, host: str = "", sni: str = "") -> str:
     """Return an unambiguous source claim; host/SNI never establish geography."""
+    formatted = re.findall(r"\[(?:🌐|[\U0001f1e6-\U0001f1ff]{2}) ([A-Z]{2})\]", remark)
+    if formatted:
+        claims = set(formatted)
+        return next(iter(claims)) if len(claims) == 1 and claims <= KNOWN_ISO_CODES | {"XX"} else "XX"
     claims = set()
     for pair in re.findall(r"[\U0001f1e6-\U0001f1ff]{2}", remark):
         code = flag_to_country_code(pair)
@@ -196,7 +200,7 @@ def parse_proxy_uri(uri: str, source: Optional[SourceConfig] = None) -> Optional
     if scheme not in SUPPORTED_SCHEMES:
         return None
     try:
-        if scheme == "vmess" and "@" not in rest:
+        if scheme == "vmess" and "@" not in rest.split("#", 1)[0]:
             return _parse_vmess_json(uri, rest, source)
         if scheme == "ss":
             return _parse_shadowsocks(uri, rest, source)
@@ -484,6 +488,8 @@ def _extract_nodes_from_xray_json(json_configs: list[dict], source: SourceConfig
                     if set(server) - allowed or not isinstance(server.get("password"), str):
                         continue
                     credential, server_params = server["password"], dict(params)
+                    if scheme == "trojan":
+                        server_params.setdefault("security", "none")
                     if scheme == "ss":
                         method = server.get("method")
                         if not isinstance(method, str) or not method or ":" in method:

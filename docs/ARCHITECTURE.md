@@ -24,7 +24,7 @@ flowchart LR
 | `src/healthcheck.py` | Optional scheduled socket observations; standalone faithful owned-core probes only on explicit owner use. A TCP socket is not credential verification; unsupported UDP/core settings cannot pass by fallback. |
 | `src/categorizer.py` | Bounded render/round-trip/count validation before journaled replacement; stale owned country reconciliation; static README outside unique markers; one snapshot timestamp. Does not publish owner evidence. |
 | `src/discovery/` | Bounded requests/retries/redirects/channels and network deadlines; durable child/parent queue progress and public cache/source/checkpoint reconciliation. Model/OCR results are untrusted inputs, not guaranteed yield. |
-| `src/storage.py` | Atomic, fsynced public checkpoint/file replacement; interrupted journals must recover before later publication. |
+| `src/storage.py` | Atomic public checkpoint/file replacement; interrupted journals recover before later publication. Process-interruption recovery is not power-loss durability. |
 | `scripts/public_git.py` | Quiet all-tracked/index privacy and exact final staged-role checks; bounded non-forced master rebase/push, nonzero on conflict/exhaustion. No private worktree reads. |
 | `scripts/test_iran_reachability.py`, `src/iran_results.py` | Reviewed protected-branch import pinning, actual owner/admin authorization, immutable public snapshot, explicitly supplied standalone core, sanitized dated public-subset evidence and owner API publication. |
 

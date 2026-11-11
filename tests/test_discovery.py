@@ -19,7 +19,7 @@ from src.network import NetworkError
 from src.parsers import parse_proxy_uri
 from src.storage import atomic_write_text
 
-URI = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=tls&type=ws&path=%2Ffirst&path=%2Fsecond#Public"
+URI = "vless://11111111-2222-3333-4444-555555555555@example.com:443?security=tls&type=ws&path=%2Ffirst&alpn=h2&alpn=http%2F1.1#Public"
 PAGE = '<div data-post="mockchan/1">' + URI + ' sister @NewChan</div>'
 IMAGE = b"\x89PNG\r\n\x1a\nPUBLIC_SYNTHETIC_IMAGE"
 
@@ -381,7 +381,8 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
         nodes, _, stats = fetch_source(cache)
         self.assertTrue(stats.success)
         self.assertEqual(len(nodes), 1)
-        self.assertEqual(nodes[0].params["path"], ["/first", "/second"])
+        self.assertEqual(nodes[0].params["path"], "/first")
+        self.assertEqual(nodes[0].params["alpn"], ["h2", "http/1.1"])
         self.assertIn("retained", cache.name.lower())
 
     def test_zero_limits_do_no_work_negative_invalid_default_quick_cap(self):
@@ -416,14 +417,14 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
             fetch.side_effect = page
             agent.run_cycle(max_channels=3, max_time_seconds=10)
         self.assertEqual(fetch.call_count, 1)
-        self.assertEqual(agent.state_manager.state["candidate_queue"], ["proxyone", "proxytwo", "proxythree"])
+        self.assertEqual(agent.state_manager.state["candidate_queue"], ["proxytwo", "proxythree", "proxyone"])
         self.assertNotIn("proxyone", agent.state_manager.state["visited_channels"])
 
     def test_exception_after_dequeue_restores_unfinished_suffix(self):
         agent = self.agent(["proxyone", "proxytwo", "proxythree"])
         with self.crawl(agent, [PAGE, RuntimeError("synthetic cancellation")]), self.assertRaises(RuntimeError):
             agent.run_cycle(max_channels=3)
-        expected = ["proxytwo", "proxythree", "newchan"]
+        expected = ["proxythree", "newchan", "proxytwo"]
         self.assertEqual(agent.state_manager.state["candidate_queue"], expected)
         self.assertIn("proxyone", agent.state_manager.state["visited_channels"])
         self.assertEqual(json.loads((self.root / "data/state.json").read_text())["candidate_queue"], expected)
@@ -519,7 +520,8 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
         agent._analyze_webpage_via_nemotron("https://github.com/public/repo", discovered, set())
         self.assertEqual(len(agent._retained), 1)
         node = parse_proxy_uri(next(iter(agent._retained.values())))
-        self.assertEqual(node.params["path"], ["/first", "/second"])
+        self.assertEqual(node.params["path"], "/first")
+        self.assertEqual(node.params["alpn"], ["h2", "http/1.1"])
 
     def test_existing_source_confirmed_dead_and_retryable_retained(self):
         row = {"id": "sub-old", "name": "Public", "url": "https://example.com/sub.txt"}

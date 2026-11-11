@@ -33,7 +33,7 @@ def private_path(path):
             or name.startswith(".env") and path != ".env.example"
             or name.startswith("sources.private.")
             or any(re.search(r"\.db(?:$|[.-])|\.sqlite|\.(?:pyc|pyo|exe|zip|bak)$", p.lower()) for p in parts)
-            or path.startswith("data/") and path not in PUBLIC_FILES)
+            or path.lower().startswith("data/") and path not in PUBLIC_FILES)
 
 
 def public_output(path):

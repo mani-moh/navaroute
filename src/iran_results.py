@@ -5,7 +5,6 @@ import base64
 import binascii
 import hashlib
 import http.client
-import ipaddress
 import json
 import math
 import os
@@ -21,7 +20,7 @@ from pathlib import Path
 
 from src.healthcheck import build_xray_outbound, core_environment
 from src.models import FINGERPRINT_VERSION, ProxyNode
-from src.network import _Connection, _end, _hostname, _public_ip, _remaining, _url
+from src.network import _Connection, _end, _remaining, _url
 from src.parsers import parse_proxy_uri
 from src.project import DEFAULT_BRANCH, DEFAULT_REPOSITORY, OWNER_LOGIN
 
@@ -321,13 +320,6 @@ def load_official_snapshot(source_sha: str, source_digest: str) -> list[ProxyNod
             node = parse_proxy_uri(line)
             if node is None:
                 raise IranResultsError("Official snapshot contains non-connection input")
-            host = _hostname(node.address.strip("[]"))
-            try:
-                ipaddress.ip_address(host)
-            except ValueError:
-                pass
-            else:
-                _public_ip(host)
             nodes.setdefault(node.semantic_fingerprint(), node)
         if not nodes:
             raise IranResultsError("Official snapshot contains no candidates")
@@ -404,6 +396,7 @@ def validate_manifest(manifest: dict, nodes: list[ProxyNode], *, source_sha: str
         if set(counts) != {"candidates", "tested", "passed", "failed", "unsupported", "untested"} or any(type(n) is not int or not 0 <= n <= MAX_CANDIDATES for n in counts.values()):
             raise IranResultsError("Invalid bounded evidence counts")
         known = {n.semantic_fingerprint() for n in nodes}
+        unsupported = {n.semantic_fingerprint() for n in nodes if build_xray_outbound(n) is None}
         observations = manifest["observations"]
         if not isinstance(observations, list) or len(observations) != len(known) or counts["candidates"] != len(known):
             raise IranResultsError("Evidence must cover its exact public snapshot")
@@ -417,6 +410,8 @@ def validate_manifest(manifest: dict, nodes: list[ProxyNode], *, source_sha: str
             latency = observation["latency_ms"]
             if fingerprint not in known or fingerprint in seen or status not in actual:
                 raise IranResultsError("Unknown or duplicated public observation")
+            if fingerprint in unsupported and status != "unsupported":
+                raise IranResultsError("Ineligible public connection must remain unsupported")
             if status == "passed":
                 if type(latency) not in (int, float) or not math.isfinite(latency) or not 0 <= latency <= 30000:
                     raise IranResultsError("Invalid finite probe latency")
@@ -437,10 +432,12 @@ def build_manifest(nodes, *, source_sha, source_digest, tester_revision, started
     observations = []
     for node in nodes:
         fingerprint = node.semantic_fingerprint()
-        if node.healthcheck_kind == "xray" and node.healthchecked_at is not None:
+        if fingerprint in unsupported or build_xray_outbound(node) is None:
+            status = "unsupported"
+        elif node.healthcheck_kind == "xray" and node.healthchecked_at is not None:
             status = "passed" if node.passed_healthcheck else "failed"
         else:
-            status = "unsupported" if fingerprint in unsupported or build_xray_outbound(node) is None else "untested"
+            status = "untested"
         observations.append({"fingerprint": fingerprint, "status": status, "latency_ms": node.latency_ms if status == "passed" else None})
     observations.sort(key=lambda row: row["fingerprint"])
     counts = {status: sum(row["status"] == status for row in observations) for status in ("passed", "failed", "unsupported", "untested")}

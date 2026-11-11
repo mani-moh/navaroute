@@ -20,7 +20,7 @@ class FetcherWireTests(WireFixture):
     # Real source wrapper/parser/transport on the same bounded wire fixtures.
     def test_non_2xx_body_is_not_parsed_as_success(self):
         self.responses = [response(body=b"vless://test@8.8.8.8:443", status=404)]
-        nodes, configs, stats = fetch_source(SourceConfig("bad", "Bad", "http://public.example/?token=secret"))
+        nodes, configs, stats = fetch_source(SourceConfig("bad", "Bad", "http://public.example/feed"))
         self.assertEqual((nodes, configs), ([], []))
         self.assertFalse(stats.success)
         self.assertEqual(stats.status_code, 404)

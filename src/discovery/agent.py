@@ -436,6 +436,10 @@ class DiscoveryAgent:
         for page in list(self.state_manager.state.get("pending_pages", []))[:5]:
             if not self._can_work():
                 return
+            handle = normalize_channel_handle(page)
+            if handle:
+                self.state_manager.restore_candidates([handle], attempted={handle})
+                continue
             self._analyze_webpage_via_nemotron(page, discovered_sources, existing)
         past = self.state_manager.state["queries_executed"]
         res = None
@@ -504,27 +508,38 @@ class DiscoveryAgent:
 
     def _process_channel(self, handle: str, discovered: dict[str, dict[str, Any]], existing: set[str], extended: bool) -> bool:
         source_id, url = f"tg-{handle}", f"https://t.me/s/{handle}"
+        state = self.state_manager.state
+        before_probes = len(self._cycle_probed_urls)
+        if not self._replay_children(url, discovered, existing, 5, 5):
+            return False
         page = self.tg_scraper.fetch_channel_page(handle, before_id=self.state_manager.get_channel_oldest_post_id(handle))
         if not self._can_work():
             return False
         if not page:
             if self.tg_scraper.last_outcome == "dead":
+                self.state_manager.record_visited_url(url)
                 self.state_manager.record_visited(handle, 0, False)
                 for key in [k for k, s in discovered.items() if s["url"] == url]:
                     discovered.pop(key)
                 return True
             return False
         refs = set(self.state_manager.state["sources_metadata"].get(handle, {}).get("retained_fingerprints", []))
-        images, subs, oldest = [], [], None
+        images, oldest = [], None
         before = self.state_manager.get_channel_oldest_post_id(handle)
         for page_index in range(3 if extended else 2):
             if not self._can_work():
                 return False
             result = self.tg_scraper.parse_channel_page(page, current_channel=handle)
+            if result.sub_urls:
+                waiting = state.setdefault("pending_pages", [])
+                if url not in waiting:
+                    waiting.append(url)
+                if url in state["visited_urls"]:
+                    state["visited_urls"].remove(url)
+            self._queue_children(url, result.sub_urls, "subscription", discovered, existing)
             refs.update(self._retain(page, url))
             self.state_manager.add_candidates(result.discovered_channels)
             images.extend(u for u in result.image_urls if u not in images)
-            subs.extend(u for u in result.sub_urls if u not in subs)
             oldest = result.oldest_post_id
             if oldest is None or oldest <= 1 or before is not None and oldest >= before:
                 # shortcut: exhausted history wraps to latest, add archival cursors only if full-history traversal is required.
@@ -549,14 +564,12 @@ class DiscoveryAgent:
                 if self.nemotron.last_image_outcome == "retryable":
                     return False
                 refs.update(self._retain(text, url))
-        for sub in subs[:5]:
-            if not self._can_work():
-                return False
-            if self._consider_url(sub, discovered, existing) is None:
-                return False
+        if not self._replay_children(url, discovered, existing, 5, 5 - (len(self._cycle_probed_urls) - before_probes)):
+            return False
         if not self._can_work():
             return False
         retained_refs = sorted(refs.intersection(self._retained))
+        self.state_manager.record_visited_url(url)
         self.state_manager.record_visited(handle, len(retained_refs), bool(retained_refs), sub_url=url, oldest_post_id=oldest)
         self.state_manager.state["sources_metadata"][handle]["retained_fingerprints"] = retained_refs
         if retained_refs and url not in existing and not any(s["url"] == url for s in discovered.values()):
@@ -679,7 +692,7 @@ class DiscoveryAgent:
                 if count is not None:
                     self.state_manager.record_external_source(key, key, count, source["url"])
             while checked < max_channels and self._can_work():
-                batch = self.state_manager.pop_next_candidates(min(5, max_channels - checked))
+                batch = self.state_manager.pop_next_candidates(min(5, max_channels - checked), exclude=attempted)
                 if not batch:
                     refresh = self.state_manager.get_oldest_active_channels(limit=max_channels)
                     refresh += [normalize_channel_handle(s["url"]) for s in discovered.values() if normalize_channel_handle(s["url"])]
@@ -690,7 +703,6 @@ class DiscoveryAgent:
                 if extended:
                     batch = self._filter_candidates_via_nemotron(batch)
                     pending = [h for h in pending if h not in self.state_manager.state["rejected_channels"]]
-                retryable = []
                 for handle in batch:
                     if not self._can_work() or checked >= max_channels:
                         break
@@ -698,12 +710,8 @@ class DiscoveryAgent:
                     attempted.add(handle)
                     if self._process_channel(handle, discovered, existing, extended):
                         pending.remove(handle)
-                    else:
-                        retryable.append(handle)
-                self.state_manager.restore_candidates(pending)
+                self.state_manager.restore_candidates(pending, attempted=attempted)
                 pending = []
-                if retryable:
-                    break
                 if checked and checked % 15 == 0:
                     self._save_checkpoint(discovered, [])
         except DiscoveryBudgetExceeded:
@@ -713,7 +721,7 @@ class DiscoveryAgent:
             checkpoint_valid = False
             raise
         finally:
-            self.state_manager.restore_candidates(pending)
+            self.state_manager.restore_candidates(pending, attempted=attempted)
             self.state_manager.record_api_usage(self.nemotron.api_requests_count - start_requests)
             if checkpoint_valid:
                 active = self._save_checkpoint(discovered, [])

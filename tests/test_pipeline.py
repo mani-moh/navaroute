@@ -63,12 +63,17 @@ class TestHealthcheck(unittest.TestCase):
 
     def test_unsupported_complete_settings_never_drop_into_pass(self):
         for params in ({"fm": "1"}, {"cs": "1"}, {"dialMode": "auto"}, {"plugin": "obfs-local"},
-                       {"unknown": {"nested": True}}, {"type": ["ws", "grpc"]}, {"type": "xhttp", "mode": "auto"},
+                       {"unknown": {"nested": True}}, {"type": "xhttp", "mode": "auto"},
                        {"headerType": "http"}, {"aid": "oops"}, {"security": "tls", "alpn": {"x": "h2"}},
                        {"type": "tcp", "path": "/ignored"}, {"type": "grpc", "path": "one", "serviceName": "two"}):
             with self.subTest(params=params):
                 self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "public", params=params)))
         self.assertIsNone(build_xray_outbound(ProxyNode("hysteria2", "1.1.1.1", 443, "public")))
+        with self.assertRaises(ValueError):
+            ProxyNode("vmess", "1.1.1.1", 443, "public", params={"type": ["ws", "grpc"]})
+        node = ProxyNode("vmess", "1.1.1.1", 443, "public")
+        node.params = {"type": ["ws", "grpc"]}
+        self.assertIsNone(build_xray_outbound(node))
 
     def test_manual_mode_missing_binary_never_falls_back(self):
         from src import healthcheck as hc

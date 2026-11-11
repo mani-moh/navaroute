@@ -9,7 +9,7 @@ Socket healthcheck ran: false; reachable: 0 (not credential verified).
 | Fetch-successful Sources | 0 |
 | Sources Yielding Usable Nodes | 0 |
 | Raw Extracted Nodes | 0 |
-| Accepted Public Nodes | 54189 |
+| Accepted Public Nodes | 54187 |
 | Socket Reachable Nodes | 0 |
 
 | Source | Fetch | Raw | Unique | Error |

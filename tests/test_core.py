@@ -461,8 +461,9 @@ class TestCanonicalConnections(unittest.TestCase):
         self.assertIsNone(parse_proxy_uri("vmess://custom@example.com:443?type=grpc&path=a&path=b"))
 
     def test_repeated_and_blank_query_values_are_not_flattened(self):
-        node = parse_proxy_uri("vless://id@example.com:443?path=&path=%20%2Fx%20&alpn=h2&alpn=h3&unknown=")
-        self.assertEqual(node.params, {"path": ["", " /x "], "alpn": ["h2", "h3"], "unknown": ""})
+        self.assertIsNone(parse_proxy_uri("vless://id@example.com:443?path=&path=%20%2Fx%20"))
+        node = parse_proxy_uri("vless://id@example.com:443?path=&alpn=h2&alpn=h3&unknown=&unknown=%20%2Fx%20")
+        self.assertEqual(node.params, {"path": "", "alpn": ["h2", "h3"], "unknown": ["", " /x "]})
         self.assertEqual(parse_proxy_uri(node.to_uri(False)).params, node.params)
 
     def test_authority_path_preserves_trailing_slash_and_whitespace(self):
