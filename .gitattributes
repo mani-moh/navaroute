@@ -1,3 +1,5 @@
 * text=auto eol=lf
 *.ps1 text eol=crlf
 *.bat text eol=crlf
+# Empty generated feeds retain the producer's header/body separator.
+subs/** whitespace=-blank-at-eof

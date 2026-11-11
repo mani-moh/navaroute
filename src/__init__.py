@@ -1,1 +1,1 @@
-"""PattN Subscription Aggregator Core Package"""
+"""NavaRoute public subscription aggregator package."""

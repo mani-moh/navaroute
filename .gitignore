@@ -1,6 +1,21 @@
-# Local environment secrets and local Iran-verified outputs (NEVER COMMIT)
-.env
+# Private historical sources, local recovery/evidence and secrets (NEVER COMMIT)
+.env*
+!.env.example
 local_subs/
+private_subs/
+sources.private.*
+*.db
+*.db-*
+*.db.*
+*.sqlite*
+*.bak
+cache/
+.cache/
+http_cache/
+data/*
+!data/discovery_state.json
+!data/discovered_ocr_configs.txt
+.*.navaroute-*/
 
 # SDD scratch workspace
 .superpowers/

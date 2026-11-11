@@ -1,4 +1,4 @@
-name: Update PattN Subscriptions
+name: Update NavaRoute Subscriptions
 
 on:
   schedule:
@@ -6,136 +6,72 @@ on:
   workflow_dispatch:
     inputs:
       run_healthcheck:
-        description: "Run live healthcheck on candidate nodes"
-        type: boolean
-        default: true
-      generate_pattn_variants:
-        description: "Generate PattN F&F, IPv6-OOB, and SNI-Spoof variants"
+        description: "Run bounded socket reachability checks (not credential verification)"
         type: boolean
         default: true
       max_test_nodes:
-        description: "Maximum number of nodes to health-check"
+        description: "Maximum candidate nodes to socket-check"
         type: string
         default: "1000"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: pattn-git-writer
+  group: navaroute-git-writer
   cancel-in-progress: false
 
 jobs:
   aggregate-and-publish:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout master
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
         with:
+          ref: master
           fetch-depth: 0
-
+          persist-credentials: false
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
         with:
           python-version: "3.12"
-
-      - name: Download Xray Core (patterniha/Xray-core)
-        shell: bash
-        run: |
-          mkdir -p xray-bin
-          python -c '
-          import urllib.request, json, zipfile, io, os
-          try:
-              req = urllib.request.Request(
-                  "https://api.github.com/repos/patterniha/Xray-core/releases/latest",
-                  headers={"User-Agent": "PattN-CI-Fetcher"}
-              )
-              with urllib.request.urlopen(req, timeout=15) as r:
-                  rel_data = json.loads(r.read())
-              asset = next(
-                  (a for a in rel_data.get("assets", []) if "linux-64" in a["name"].lower() and a["name"].endswith(".zip")),
-                  None
-              )
-              if asset:
-                  download_url = asset["browser_download_url"]
-                  with urllib.request.urlopen(download_url, timeout=30) as z_resp:
-                      with zipfile.ZipFile(io.BytesIO(z_resp.read())) as zf:
-                          zf.extract("xray", "xray-bin")
-                  os.chmod("xray-bin/xray", 0o755)
-                  print("patterniha/Xray-core binary downloaded and extracted successfully")
-              else:
-                  print("No matching Linux x64 asset found, using pure Python healthcheck fallback")
-          except Exception as exc:
-              print(f"Xray binary download skipped ({exc}), proceeding with socket healthcheck")
-          '
-          if [ -f "xray-bin/xray" ]; then
-            echo "$PWD/xray-bin" >> "$GITHUB_PATH"
-          fi
-
+      - name: Tracked privacy gate
+        run: python scripts/public_git.py check
       - name: Run unit tests
-        run: |
-          python -m unittest discover -s tests -v
-
+        run: python -m unittest discover -s tests -v
       - name: Run public aggregation pipeline
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_HEALTHCHECK: ${{ inputs.run_healthcheck }}
+          MAX_TEST_NODES: ${{ inputs.max_test_nodes }}
         run: |
+          set -euo pipefail
           HC_FLAG="--healthcheck"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.run_healthcheck }}" = "false" ]; then
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$RUN_HEALTHCHECK" = "false" ]; then
             HC_FLAG="--no-healthcheck"
           fi
-
-          PV_FLAG="--pattn-variants"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.generate_pattn_variants }}" = "false" ]; then
-            PV_FLAG="--no-pattn-variants"
-          fi
-
-          MAX_NODES="1000"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.max_test_nodes }}" ]; then
-            MAX_NODES="${{ inputs.max_test_nodes }}"
-          fi
-
-          python -m src.main $HC_FLAG $PV_FLAG --max-test-nodes "$MAX_NODES"
-
-      - name: Security audit
+          python -m src.main "$HC_FLAG" --max-test-nodes "${MAX_TEST_NODES:-1000}"
+      - name: Stage, audit and publish only public roles
         shell: bash
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
-          # 1. Ensure local/secret artifacts are never tracked or staged
-          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
-            echo "ERROR: Local/sensitive files detected in git working tree!"
-            exit 1
-          fi
-
-          # 2. Ensure API keys never leak into public tracked files
-          python -c '
-          import os, sys, subprocess
-          nvapi = os.environ.get("NVIDIA_API_KEY", "").strip()
-          if nvapi and len(nvapi) > 8:
-              res = subprocess.run(["git", "grep", "-I", "-F", nvapi], capture_output=True, text=True)
-              if res.returncode == 0 and res.stdout.strip():
-                  print("CRITICAL SECURITY VIOLATION: NVIDIA_API_KEY detected in tracked files!")
-                  sys.exit(1)
-          print("Security audit passed: 0 leaks found.")
-          '
-
-      - name: Commit and push public updates
-        shell: bash
-        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add subs/ README.md STATUS.md
-          [ -f sources.discovered.json ] && git add sources.discovered.json || true
-          [ -f DISCOVERY.md ] && git add DISCOVERY.md || true
-          [ -d data ] && git add data/ || true
+          git add -- subs/ README.md STATUS.md sources.discovered.json DISCOVERY.md data/discovery_state.json
+          if [ -f data/discovered_ocr_configs.txt ]; then
+            git add -- data/discovered_ocr_configs.txt
+          fi
+          python scripts/public_git.py check --staged
           if git diff --staged --quiet; then
-            echo "No subscription updates to commit"
+            echo "No public updates to commit"
           else
-            git commit -m "chore(auto): update subscriptions & health status [skip ci]"
-            CURRENT_BRANCH="${GITHUB_REF_NAME:-$(git branch --show-current)}"
-            CURRENT_BRANCH="${CURRENT_BRANCH:-master}"
-            for i in 1 2 3 4 5; do
-              git pull --rebase origin "$CURRENT_BRANCH" || true
-              git push origin "HEAD:$CURRENT_BRANCH" && break || sleep 3
-            done
+            git commit -m "chore(auto): refresh NavaRoute public subscriptions"
+            python scripts/public_git.py push
           fi

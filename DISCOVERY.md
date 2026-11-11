@@ -1,7 +1,8 @@
-# 🛰️ Autonomous Subscription Discovery Leaderboard
+# NavaRoute historical public discovery snapshot
 
-> Real-time ranking of auto-discovered proxy feeds, Telegram channels, and aggregators
-> *Updated automatically by PattN Autonomous Agent (powered by NVIDIA Nemotron 3.5 Super VL)*
+> Retained historical public discovery metadata, not a new crawl or current-health ranking.
+> Snapshot source: `cfbb8793f81ea6fcefc90c511ebd786c47082766`, unchanged public records at migration base `2ef74d6`.
+> No model calls, crawl, OCR or node health probes were run during the offline migration. The historical counts and upstream links below are not fresh measurements.
 
 **Last Sync:** `2026-11-10 06:55:22 UTC`  
 **Total Channels Scanned:** `243` | **Pending Queue:** `231` | **Active Discovered Feeds:** `49` | **Current Node Yield:** `9198`
@@ -48,4 +49,4 @@
 - NVIDIA Nemotron API calls (last run / cumulative): **23** / **23**
 
 ---
-*Automated intelligence powered by PattN Pipeline*
+*NavaRoute retains these historical records; scheduled discovery may later replace them with an actual dated cycle.*

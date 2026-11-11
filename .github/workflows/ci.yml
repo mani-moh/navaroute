@@ -1,16 +1,6 @@
-name: CI Tests & Security Gate
+name: NavaRoute Tests & Security Gate
 
-on:
-  push:
-    branches: [master, main]
-    paths:
-      - "src/**"
-      - "scripts/**"
-      - "tests/**"
-      - "sources.json"
-      - ".github/workflows/**"
-  pull_request:
-    branches: [master, main]
+on: [push, pull_request]
 
 permissions:
   contents: read
@@ -21,34 +11,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.12"]
-
+        python-version: ["3.12", "3.14"]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
         with:
-          fetch-depth: 0
-
+          fetch-depth: 1
+          persist-credentials: false
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
         with:
           python-version: ${{ matrix.python-version }}
-
+      - name: Tracked privacy gate
+        run: python scripts/public_git.py check
       - name: Byte-compile Python modules
         run: python -m compileall -q src scripts tests
-
       - name: Run unit and integration tests
         run: python -m unittest discover -s tests -v
-
-      - name: Static secret scan
-        shell: bash
-        run: |
-          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
-            echo "ERROR: Local/sensitive files detected in tracked state!"
-            exit 1
-          fi
-          if git grep -I -E "(nvapi-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16})"; then
-            echo "CRITICAL: Potential secret credential pattern found in tracked files!"
-            exit 1
-          fi
-          echo "Static security scan passed: 0 secret patterns found."

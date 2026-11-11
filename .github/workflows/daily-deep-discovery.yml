@@ -1,4 +1,4 @@
-name: Daily Extended Discovery (500 NVIDIA API Requests)
+name: NavaRoute Daily Extended Discovery
 
 on:
   schedule:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       max_api_requests:
-        description: "Target NVIDIA API requests for extended deep discovery"
+        description: "Maximum actual NVIDIA API requests (includes retries and fallbacks)"
         type: string
         default: "500"
       max_time_seconds:
-        description: "Maximum time budget in seconds"
+        description: "Discovery network time budget in seconds"
         type: string
         default: "5400"
       max_channels:
@@ -19,125 +19,63 @@ on:
         default: "2000"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: pattn-git-writer
+  group: navaroute-git-writer
   cancel-in-progress: false
 
 jobs:
   daily-deep-discovery:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    permissions:
+      contents: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout master
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
         with:
+          ref: master
           fetch-depth: 0
-
+          persist-credentials: false
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
         with:
           python-version: "3.12"
-
-      - name: Download Xray Core (patterniha/Xray-core)
-        shell: bash
-        run: |
-          mkdir -p xray-bin
-          python -c '
-          import urllib.request, json, zipfile, io, os
-          try:
-              req = urllib.request.Request(
-                  "https://api.github.com/repos/patterniha/Xray-core/releases/latest",
-                  headers={"User-Agent": "PattN-CI-Fetcher"}
-              )
-              with urllib.request.urlopen(req, timeout=15) as r:
-                  rel_data = json.loads(r.read())
-              asset = next(
-                  (a for a in rel_data.get("assets", []) if "linux-64" in a["name"].lower() and a["name"].endswith(".zip")),
-                  None
-              )
-              if asset:
-                  download_url = asset["browser_download_url"]
-                  with urllib.request.urlopen(download_url, timeout=30) as z_resp:
-                      with zipfile.ZipFile(io.BytesIO(z_resp.read())) as zf:
-                          zf.extract("xray", "xray-bin")
-                  os.chmod("xray-bin/xray", 0o755)
-                  print("patterniha/Xray-core binary downloaded and extracted successfully")
-          except Exception as exc:
-              print(f"Xray binary download skipped ({exc}), proceeding with socket healthcheck")
-          '
-          if [ -f "xray-bin/xray" ]; then
-            echo "$PWD/xray-bin" >> "$GITHUB_PATH"
-          fi
-
+      - name: Tracked privacy gate
+        run: python scripts/public_git.py check
       - name: Run unit tests
-        run: |
-          python -m unittest discover -s tests -v
-
-      - name: Run Extended Autonomous Discovery Agent (500 NVIDIA API Requests)
+        run: python -m unittest discover -s tests -v
+      - name: Run requested discovery
         shell: bash
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          MAX_REQS: ${{ inputs.max_api_requests }}
+          MAX_TIME: ${{ inputs.max_time_seconds }}
+          MAX_CHANS: ${{ inputs.max_channels }}
+        run: |
+          set -euo pipefail
+          python -m src.main --discover-only --discovery-api-requests "${MAX_REQS:-500}" --discovery-time "${MAX_TIME:-5400}" --discovery-channels "${MAX_CHANS:-2000}"
+      - name: Aggregate newly discovered public sources
+        run: python -m src.main --healthcheck --max-test-nodes 1000
+      - name: Stage, audit and publish only public roles
+        shell: bash
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ -n "$NVIDIA_API_KEY" ]; then
-            echo "::add-mask::$NVIDIA_API_KEY"
-          else
-            echo "WARNING: NVIDIA_API_KEY secret is not set; extended API loop requires NVIDIA_API_KEY."
-          fi
-          MAX_REQS="500"
-          MAX_TIME="5400"
-          MAX_CHANS="2000"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            [ -n "${{ inputs.max_api_requests }}" ] && MAX_REQS="${{ inputs.max_api_requests }}"
-            [ -n "${{ inputs.max_time_seconds }}" ] && MAX_TIME="${{ inputs.max_time_seconds }}"
-            [ -n "${{ inputs.max_channels }}" ] && MAX_CHANS="${{ inputs.max_channels }}"
-          fi
-          python -m src.main --discover-only --discovery-api-requests "$MAX_REQS" --discovery-time "$MAX_TIME" --discovery-channels "$MAX_CHANS" || echo "Extended discovery finished with non-fatal warnings"
-
-      - name: Run public aggregation pipeline with newly discovered sources
-        shell: bash
-        run: |
-          python -m src.main --healthcheck --pattn-variants --max-test-nodes 1000
-
-      - name: Security audit
-        shell: bash
-        env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         run: |
-          if git status --porcelain | grep -E "(\.env$|local_subs/)"; then
-            echo "ERROR: Local/sensitive files detected in git working tree!"
-            exit 1
-          fi
-          python -c '
-          import os, sys, subprocess
-          nvapi = os.environ.get("NVIDIA_API_KEY", "").strip()
-          if nvapi and len(nvapi) > 8:
-              res = subprocess.run(["git", "grep", "-I", "-F", nvapi], capture_output=True, text=True)
-              if res.returncode == 0 and res.stdout.strip():
-                  print("CRITICAL SECURITY VIOLATION: NVIDIA_API_KEY detected in tracked files!")
-                  sys.exit(1)
-          print("Security audit passed: 0 leaks found.")
-          '
-
-      - name: Commit and push extended discovery results
-        shell: bash
-        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add subs/ README.md STATUS.md
-          [ -f sources.discovered.json ] && git add sources.discovered.json || true
-          [ -f DISCOVERY.md ] && git add DISCOVERY.md || true
-          [ -d data ] && git add data/ || true
+          git add -- subs/ README.md STATUS.md sources.discovered.json DISCOVERY.md data/discovery_state.json
+          if [ -f data/discovered_ocr_configs.txt ]; then
+            git add -- data/discovered_ocr_configs.txt
+          fi
+          python scripts/public_git.py check --staged
           if git diff --staged --quiet; then
-            echo "No updates to commit"
+            echo "No public updates to commit"
           else
-            git commit -m "chore(auto): daily extended discovery & subscription refresh [skip ci]"
-            CURRENT_BRANCH="${GITHUB_REF_NAME:-$(git branch --show-current)}"
-            CURRENT_BRANCH="${CURRENT_BRANCH:-master}"
-            for i in 1 2 3 4 5; do
-              git pull --rebase origin "$CURRENT_BRANCH" || true
-              git push origin "HEAD:$CURRENT_BRANCH" && break || sleep 3
-            done
+            git commit -m "chore(auto): refresh NavaRoute discovery and subscriptions"
+            python scripts/public_git.py push
           fi

@@ -415,7 +415,7 @@ class TestRetainedScheduledGates(unittest.TestCase):
         self.assertIn('cron: "0 2 * * *"', daily)
         self.assertIn("--discovery-api-requests", daily)
         self.assertIn("python -m unittest discover -s tests -v", ci)
-        self.assertIn("Static security scan passed", ci)
+        self.assertIn("python scripts/public_git.py check", ci)
         self.assertFalse(any("iran" in path.stem.lower() for path in (root / ".github/workflows").glob("*.yml")))
 
 
