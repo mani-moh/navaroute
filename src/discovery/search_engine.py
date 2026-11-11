@@ -4,6 +4,7 @@ import html
 import json
 import re
 from dataclasses import dataclass, field
+from html.parser import HTMLParser
 from typing import Optional
 from urllib.parse import parse_qs, quote, quote_plus, urlsplit
 
@@ -17,6 +18,37 @@ URL_REGEX = re.compile(r"https?://[^\s<>\"'`]+", re.I)
 MENTION_REGEX = re.compile(r"(?<![\w:/])@([A-Za-z][A-Za-z0-9_]{2,31})(?![\w?/:=@%+#-])")
 TG_PHOTO_PATTERN = re.compile(r'''(?:background-image:\s*url\(|src=)['"]?(https?://[^\s'"<>()]+(?:\.jpg|\.png|\.webp)[^\s'"<>)]*)''', re.I)
 DATA_POST_PATTERN = re.compile(r'data-post="[^/]+/([0-9]{1,20})"', re.I)
+
+
+class _MentionText(HTMLParser):
+    """Keep entity spelling until complete visible URL tokens can be excluded."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=False)
+        self.parts: list[str] = []
+        self.hidden: str | None = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style"):
+            self.hidden = tag
+        elif not self.hidden and tag in ("br", "div", "p", "li", "section", "tr"):
+            self.parts.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag == self.hidden:
+            self.hidden = None
+        elif not self.hidden and tag in ("div", "p", "li", "section", "tr"):
+            self.parts.append(" ")
+
+    def handle_data(self, data):
+        if not self.hidden:
+            self.parts.append(data)
+
+    def handle_entityref(self, name):
+        self.handle_data("&" + name + ";")
+
+    def handle_charref(self, name):
+        self.handle_data("&#" + name + ";")
 
 
 def public_links(text: str) -> list[str]:
@@ -86,9 +118,11 @@ class TelegramChannelScraper:
             elif parsed.hostname not in ("cdn.telegram.org",) and (parsed.hostname in ("raw.githubusercontent.com", "gist.githubusercontent.com") or re.search(r"\.(?:txt|json|html)$|/(?:sub|subscription|mix|proxies|vless|vmess)(?:[/._-]|$)", parsed.path, re.I)):
                 result.sub_urls.append(url)
         # Rejected URL credentials are still URL data, never free-standing mentions.
-        mention_text = html.unescape(URL_REGEX.sub(" ", html_content))
-        mention_text = re.sub(r"<[^>]+>", " ", mention_text)
-        mention_text = URL_REGEX.sub(" ", mention_text)
+        visible = _MentionText()
+        visible.feed(html_content)
+        visible.close()
+        mention_text = " ".join(html.unescape(token) for token in "".join(visible.parts).split()
+                                if not URL_REGEX.search(html.unescape(token)))
         result.discovered_channels.extend(normalize_channel_handle(h) for h in MENTION_REGEX.findall(mention_text))
         result.discovered_channels = list(dict.fromkeys(h for h in result.discovered_channels if h and h != normalize_channel_handle(current_channel) and h not in IGNORE_CHANNEL_HANDLES))
         for raw in TG_PHOTO_PATTERN.findall(html_content):

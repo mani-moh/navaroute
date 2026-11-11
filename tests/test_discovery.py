@@ -12,7 +12,7 @@ from unittest.mock import patch
 from src.discovery.agent import DiscoveryAgent, load_local_dotenv
 from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
-from src.discovery.state_manager import DiscoveryStateManager, normalize_channel_handle
+from src.discovery.state_manager import DiscoveryStateManager, normalize_channel_handle, read_public_text
 from src.fetcher import fetch_source, load_sources
 from src.network import NetworkError
 from src.parsers import parse_proxy_uri
@@ -289,6 +289,35 @@ class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
         with self.assertRaises(ValueError):
             DiscoveryStateManager(str(path))
         self.assertEqual(path.read_text(), raw)
+
+    def test_fix2_B_pending_child_schema_rejects_corruption_without_replacing_state(self):
+        path = self.root / "state.json"
+        parent = "https://github.com/public/repo"
+        child = {"kind": "subscription", "url": "https://example.com/sub.txt"}
+        valid = {"version": 1, "pending_pages": [parent], "pending_children": {parent: [child]}}
+        path.write_text(json.dumps(valid), encoding="utf-8")
+        manager = DiscoveryStateManager(str(path))
+        manager.save()
+        self.assertEqual(DiscoveryStateManager(str(path)).state["pending_children"], {parent: [child]})
+        invalid = [[], {parent: "not a list"}, {parent: [{"kind": "private", "url": child["url"]}]},
+                   {parent: [{"kind": "subscription", "url": "https://example.com/sub?token=SECRET"}]},
+                   {parent: [{"kind": "subscription", "url": "data/discovered_ocr_configs.txt"}]},
+                   {parent: [child, child]}, {"unregistered parent": [child]},
+                   {parent: [{"kind": "page", "url": parent}]}, {parent: [child] * 5001}]
+        for pending in invalid:
+            with self.subTest(pending_type=type(pending).__name__):
+                raw = json.dumps(dict(valid, pending_children=pending))
+                path.write_text(raw, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    DiscoveryStateManager(str(path))
+                self.assertEqual(path.read_text(encoding="utf-8"), raw)
+        path.write_text(json.dumps(dict(valid, visited_urls=[parent])), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            DiscoveryStateManager(str(path))
+        for owner, field in (("https://GITHUB.com/public/repo", "pending_pages"), (" query ", "pending_queries"), ("gh:", "pending_queries")):
+            path.write_text(json.dumps({"version": 1, field: [owner], "pending_children": {owner: [child]}}), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                DiscoveryStateManager(str(path))
 
 
 class TestScrapers(OfflineDiscoveryTestCase):
@@ -939,6 +968,219 @@ with patch("src.network._resolve", forbidden), patch("src.discovery.agent.fetch_
         self.assertEqual(len({source.id for source in sources}), len(sources))
         self.assertIn(child, {source.url for source in sources})
         self.assertIn("https://t.me/s/proxychan", {source.url for source in sources})
+
+    def test_fix2_A_combined_encoded_url_never_persists_token(self):
+        agent = self.agent(["proxychan"])
+        exact = '<div data-post="proxychan/1">https&#58;//example.com/sub.txt?token=&quot;@DoubleToken&quot;</div>'
+        page = exact + ' <a href="https&#58;//t.me/s/ApprovedProxy">public</a> @StandaloneProxy'
+        with self.crawl(agent, page):
+            agent.run_cycle(max_channels=1)
+        self.assertIn("approvedproxy", agent.state_manager.state["candidate_queue"])
+        self.assertIn("standaloneproxy", agent.state_manager.state["candidate_queue"])
+        for name in ("data/state.json", "sources.discovered.json", "DISCOVERY.md"):
+            self.assertNotIn("doubletoken", (self.root / name).read_text(encoding="utf-8").lower())
+
+    def test_fix2_B_changed_query_cannot_discard_saved_direct_child(self):
+        self.write_public()
+        child = "https://example.com/sub.txt"
+        query = 'site:t.me "vless://" reality'
+        phase, attempts = 0, 0
+        def search(url, **kwargs):
+            if "duckduckgo" in url:
+                return 200, ('<a href="' + child + '">public</a>').encode() if phase == 0 else b""
+            return 200, b'{"items":[]}'
+        def probe(url, **kwargs):
+            nonlocal attempts
+            self.assertEqual(url, child)
+            attempts += 1
+            if phase < 2:
+                raise NetworkError("synthetic retryable child")
+            return 200, URI.encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            self.agent().run_cycle(max_channels=1)
+            phase = 1
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+            self.assertEqual(attempts, 2)
+            self.assertNotIn(query, agent.state_manager.state["queries_executed"])
+            self.assertIn(child, json.dumps(agent.state_manager.state.get("pending_children", {})))
+            phase = 2
+            agent = self.agent()
+            sources = agent.run_cycle(max_channels=1)
+        self.assertEqual(attempts, 3)
+        self.assertIn(query, agent.state_manager.state["queries_executed"])
+        self.assertTrue(agent.state_manager.is_url_visited(child))
+        self.assertIn(child, {source["url"] for source in sources})
+
+    def test_fix2_B_changed_page_cannot_discard_saved_children_or_suffix(self):
+        self.write_public()
+        parent = "https://github.com/public/repo"
+        children = [f"https://example.com/sub{i}.txt" for i in range(7)]
+        agent = self.agent()
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, " ".join(children).encode())), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic retryable child")):
+            agent._analyze_webpage_via_nemotron(parent, {}, set())
+        agent._save_checkpoint({}, [])
+        phase, attempts = 1, []
+        def search(url, **kwargs):
+            return (200, b'{"items":[]}') if "api.github.com" in url else (200, b"")
+        def probe(url, **kwargs):
+            self.assertIn(url, children)
+            attempts.append(url)
+            if phase == 1:
+                raise NetworkError("synthetic retryable child")
+            return 200, URI.encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+            self.assertTrue(attempts)
+            self.assertFalse(agent.state_manager.is_url_visited(parent))
+            saved = json.dumps(agent.state_manager.state.get("pending_children", {}))
+            self.assertTrue(all(child in saved for child in children))
+            phase = 2
+            for _ in range(3):
+                agent = self.agent()
+                agent.run_cycle(max_channels=1)
+        self.assertTrue(agent.state_manager.is_url_visited(parent))
+        self.assertTrue(all(agent.state_manager.is_url_visited(child) for child in children))
+
+    @patch("src.discovery.agent.time.monotonic", return_value=0)
+    def test_fix2_B_search_deadline_saves_unattempted_suffix_for_missing_query(self, clock):
+        self.write_public()
+        children = [f"https://example.com/sub{i}.txt" for i in range(8)]
+        def search(url, **kwargs):
+            clock.return_value = 10
+            return 200, " ".join(f'<a href="{child}">public</a>' for child in children).encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes") as probe:
+            self.agent().run_cycle(max_channels=1, max_time_seconds=10)
+            probe.assert_not_called()
+        saved = json.loads((self.root / "data/state.json").read_text(encoding="utf-8"))
+        self.assertTrue(all(child in json.dumps(saved.get("pending_children", {})) for child in children))
+        clock.return_value = 0
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(404, b"")), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())):
+            for _ in range(2):
+                agent = self.agent()
+                agent.run_cycle(max_channels=1)
+        self.assertTrue(all(agent.state_manager.is_url_visited(child) for child in children))
+
+    def test_fix2_B_disappearing_page_replays_child_before_acknowledging_parent(self):
+        parent, child = "https://github.com/public/repo", "https://example.com/sub.txt"
+        agent = self.agent()
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, child.encode())), patch("src.discovery.agent.fetch_bytes", side_effect=NetworkError("synthetic")):
+            agent._analyze_webpage_via_nemotron(parent, {}, set())
+        agent._save_checkpoint({}, [])
+        agent = self.agent()
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(404, b"")), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())) as probe:
+            agent.run_cycle(max_channels=1)
+        self.assertEqual([call.args[0] for call in probe.call_args_list], [child])
+        self.assertTrue(agent.state_manager.is_url_visited(child))
+        self.assertTrue(agent.state_manager.is_url_visited(parent))
+        self.assertFalse(agent.state_manager.state.get("pending_children", {}))
+
+    def test_fix2_B_pending_children_do_not_skip_unfinished_page_extraction(self):
+        parent, child = "https://github.com/public/repo", "https://example.com/sub.txt"
+        agent = self.agent(key="synthetic")
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, child.encode())), patch.object(agent.nemotron, "complete_json", side_effect=RuntimeError("synthetic interrupted extraction")):
+            with self.assertRaises(RuntimeError):
+                agent._analyze_webpage_via_nemotron(parent, {}, set())
+        agent._save_checkpoint({}, [])
+        agent = self.agent()
+        with patch("src.discovery.search_engine.fetch_bytes", return_value=(200, URI.encode())), patch("src.discovery.agent.fetch_bytes", return_value=(200, URI.encode())):
+            agent._analyze_webpage_via_nemotron(parent, {}, set())
+        self.assertTrue(agent.state_manager.is_url_visited(child))
+        self.assertTrue(agent.state_manager.is_url_visited(parent))
+        self.assertTrue(agent._retained)
+
+    def test_fix2_B_changed_github_results_replay_saved_suffix_with_probe_cap(self):
+        phase, attempts = 0, []
+        repos = [{"full_name": f"public/repo{i}", "default_branch": "master"} for i in range(7)]
+        def search(url, **kwargs):
+            if "api.github.com" in url:
+                return 200, json.dumps({"items": repos if phase == 0 else []}).encode()
+            return 200, b""
+        def probe(url, **kwargs):
+            attempts.append(url)
+            return 200, URI.encode()
+        with patch("src.discovery.search_engine.fetch_bytes", side_effect=search), patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+            self.assertEqual(len(attempts), 18)
+            self.assertNotIn("gh:v2ray-configs sub", agent.state_manager.state["queries_executed"])
+            phase = 1
+            agent = self.agent()
+            agent.run_cycle(max_channels=1)
+        # The second cycle also refreshes five already checked public feeds.
+        self.assertEqual(len(attempts), 33)
+        self.assertEqual(len(set(attempts)), 28)
+        self.assertIn("gh:v2ray-configs sub", agent.state_manager.state["queries_executed"])
+        self.assertFalse(agent.state_manager.state.get("pending_children", {}))
+
+    def test_fix2_B_child_count_and_byte_limits_preserve_old_generation_without_writes(self):
+        for count, padding in ((5001, ""), (3000, "x" * 3000)):
+            with self.subTest(count=count):
+                agent, sources, old = self.full_old_generation()
+                parents = ["https://github.com/public/repo1", "https://github.com/public/repo2"]
+                agent.state_manager.state["pending_pages"] = parents
+                children = [{"kind": "subscription", "url": f"https://example.com/{padding}/sub{i}.txt"} for i in range(count)]
+                agent.state_manager.state["pending_children"] = {parents[0]: children[:2500], parents[1]: children[2500:]}
+                with patch("src.discovery.agent.atomic_write_text") as write, self.assertRaises(ValueError):
+                    agent._save_checkpoint(sources, [])
+                write.assert_not_called()
+                for path, raw in old.items():
+                    self.assertEqual(path.read_bytes(), raw)
+                self.assertFalse((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_fix2_C_non_public_or_wrong_role_targets_reject_before_reads(self):
+        dotenv = self.root / ".env"
+        sentinel = b"SYNTHETIC_CREDENTIAL=fixture-only\r\n"
+        dotenv.write_bytes(sentinel)
+        cases = [
+            {"leaderboard_file": ".env"},
+            {"leaderboard_file": "local_subs/DISCOVERY.md"},
+            {"leaderboard_file": ".superpowers/DISCOVERY.md"},
+            {"leaderboard_file": "data/discovery_state.json"},
+            {"leaderboard_file": "guiNConfig.json"},
+            {"state_file": "data/credentials.json"},
+            {"state_file": ".env"},
+            {"state_file": "src/discovery/state_manager.py"},
+            {"discovered_sources_file": "sources.json"},
+            {"discovered_sources_file": "local_subs/sources.discovered.json"},
+            {"leaderboard_file": "test_DISCOVERY.md"},
+            {"state_file": "data/test_agent_state.json"},
+            {"discovered_sources_file": "test_sources.discovered.json"},
+        ]
+        for options in cases:
+            with self.subTest(options=options), patch("src.discovery.agent.read_public_text", wraps=read_public_text) as read, patch("pathlib.Path.open", autospec=True, side_effect=Path.open) as opened, patch("src.discovery.agent.atomic_write_text") as write:
+                with self.assertRaises(ValueError):
+                    DiscoveryAgent(initial_seeds=[], nemotron_client=NemotronClient(api_key=""), **options)
+                read.assert_not_called()
+                opened.assert_not_called()
+                write.assert_not_called()
+        self.assertEqual(dotenv.read_bytes(), sentinel)
+        self.assertFalse((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_fix2_C_reconfigured_private_target_rejects_before_snapshot_or_recovery_read(self):
+        agent = self.agent()
+        dotenv = self.root / ".env"
+        dotenv.write_bytes(b"SYNTHETIC_CREDENTIAL=fixture-only\r\n")
+        agent._checkpoint_paths["leaderboard"] = dotenv
+        for operation in (lambda: agent._save_checkpoint({}, []), agent._recover_checkpoint):
+            with patch("pathlib.Path.open", autospec=True, side_effect=Path.open) as opened, patch("src.discovery.agent.atomic_write_text") as write:
+                with self.assertRaises(ValueError):
+                    operation()
+                opened.assert_not_called()
+                write.assert_not_called()
+        self.assertFalse((self.root / "data/discovery_checkpoint.json").exists())
+
+    @unittest.skipUnless(os.name == "nt", "Windows case-insensitive filesystem regression")
+    def test_fix2_D_absent_case_alias_roles_reject_before_serialization_or_writes(self):
+        self.assertFalse((self.root / "data/discovered_ocr_configs.txt").exists())
+        for alias in ("data/DISCOVERED_OCR_CONFIGS.TXT", "DATA/DISCOVERED_OCR_CONFIGS.TXT"):
+            with self.subTest(alias=alias), patch("src.discovery.agent.read_public_text", wraps=read_public_text) as read, patch("src.discovery.agent.atomic_write_text") as write:
+                with self.assertRaisesRegex(ValueError, "Conflicting"):
+                    DiscoveryAgent(state_file=alias, initial_seeds=[], nemotron_client=NemotronClient(api_key=""))
+                read.assert_not_called()
+                write.assert_not_called()
+        self.assertFalse((self.root / "data/discovered_ocr_configs.txt").exists())
 
 
 if __name__ == "__main__":

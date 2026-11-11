@@ -17,6 +17,7 @@ DEFAULT_LEADERBOARD_FILE = "DISCOVERY.md"
 STATE_MAX_BYTES = 8 * 1024 * 1024
 IMAGE_CACHE_MAX_BYTES = 2 * 1024 * 1024
 IMAGE_RECORD_MAX_BYTES = 65536
+PENDING_CHILDREN_MAX = 5000
 
 
 def bounded_image_results(results: dict[str, str], max_bytes: int = IMAGE_CACHE_MAX_BYTES) -> dict[str, str]:
@@ -153,7 +154,7 @@ def validate_state(data: Any) -> None:
         raise ValueError("Invalid discovery state")
     allowed = {"version", "last_updated", "queries_executed", "candidate_queue", "candidate_scores",
                "visited_channels", "rejected_channels", "visited_urls", "sources_metadata",
-               "last_run_api_requests", "total_api_requests", "image_results", "external_attempt_order", "pending_queries", "pending_pages"}
+               "last_run_api_requests", "total_api_requests", "image_results", "external_attempt_order", "pending_queries", "pending_pages", "pending_children"}
     if set(data) - allowed:
         raise ValueError("Unknown discovery state fields")
     for key in ("candidate_queue", "visited_channels", "rejected_channels"):
@@ -171,6 +172,33 @@ def validate_state(data: Any) -> None:
                     raise ValueError("Invalid pending discovery page")
             elif not value or len(value) > 500 or re.search(r"[\x00-\x1f\x7f]|https?://", value):
                 raise ValueError("Invalid discovery query")
+    children = data.get("pending_children", {})
+    if not isinstance(children, dict) or len(children) > PENDING_CHILDREN_MAX:
+        raise ValueError("Invalid pending discovery children")
+    total = 0
+    for parent, work in children.items():
+        if (parent not in data.get("pending_pages", []) + data.get("pending_queries", [])
+                or parent in data.get("visited_urls", []) + data.get("queries_executed", [])
+                or not isinstance(work, list) or len(work) > PENDING_CHILDREN_MAX):
+            raise ValueError("Invalid pending discovery parent")
+        if parent in data.get("pending_pages", []):
+            if parent != approved_public_url(parent):
+                raise ValueError("Invalid pending discovery page identity")
+        elif parent.strip() != parent or "http" in parent or parent == "gh:":
+            raise ValueError("Invalid pending discovery query identity")
+        total += len(work)
+        seen = set()
+        for child in work:
+            if (not isinstance(child, dict) or set(child) != {"kind", "url"}
+                    or child["kind"] not in ("subscription", "page")
+                    or parent in data.get("pending_pages", []) and child["kind"] != "subscription"):
+                raise ValueError("Invalid pending discovery child role")
+            url = approved_public_url(child["url"])
+            if not url.startswith(("http://", "https://")) or url != child["url"] or url == parent or url in seen:
+                raise ValueError("Invalid pending discovery child URL")
+            seen.add(url)
+    if total > PENDING_CHILDREN_MAX:
+        raise ValueError("Pending discovery children exceed limit")
     scores = data.get("candidate_scores", {})
     if not isinstance(scores, dict) or len(scores) > 10000 or any(not normalize_channel_handle(h) or h != normalize_channel_handle(h) or not _counter(n) for h, n in scores.items()):
         raise ValueError("Invalid discovery scores")
@@ -293,6 +321,9 @@ class DiscoveryStateManager:
     def record_visited_url(self, url: str) -> None:
         """Records an external URL so future runs build incrementally without repeating checks."""
         url = approved_public_url(url)
+        if self.state.get("pending_children", {}).get(url):
+            raise ValueError("Discovery page has unfinished children")
+        self.state.get("pending_children", {}).pop(url, None)
         if url in self.state.get("pending_pages", []):
             self.state["pending_pages"].remove(url)
         urls = self.state.setdefault("visited_urls", [])
@@ -392,6 +423,9 @@ class DiscoveryStateManager:
         """Records an executed search query."""
         queries = self.state.setdefault("queries_executed", [])
         q_clean = query.strip()
+        if self.state.get("pending_children", {}).get(q_clean):
+            raise ValueError("Discovery query has unfinished children")
+        self.state.get("pending_children", {}).pop(q_clean, None)
         if q_clean and len(q_clean) <= 500 and not re.search(r"[\x00-\x1f\x7f]|https?://", q_clean) and q_clean not in queries:
             queries.append(q_clean)
             self.state["queries_executed"] = queries[-5000:]
