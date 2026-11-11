@@ -114,8 +114,15 @@ class TestPublisher(unittest.TestCase):
 
     def test_special_is_supplied_parameters_legacy_mirror_and_executable_json_retired(self):
         counts = self.publish([self.node(params={"fm": "1"}), self.node("ordinary")])
-        self.assertEqual(counts["categories/supplied-parameters.txt"], 1)
-        self.assertEqual(self.uris("categories/supplied-parameters.txt"), self.uris("categories/pattn-special.txt"))
+        self.assertIn("categories/navaroute-special.txt", counts)
+        self.assertEqual(counts["categories/navaroute-special.txt"], 1)
+        self.assertEqual(counts["categories/navaroute-special_base64.txt"], 1)
+        self.assertEqual(self.uris("categories/navaroute-special.txt"), self.uris("categories/pattn-special.txt"))
+        self.assertEqual((self.out / "categories/navaroute-special_base64.txt").read_bytes(),
+                         (self.out / "categories/pattn-special_base64.txt").read_bytes())
+        for name in ("supplied-parameters.txt", "supplied-parameters_base64.txt"):
+            self.assertNotIn(f"categories/{name}", counts)
+            self.assertFalse((self.out / "categories" / name).exists())
         self.assertEqual(json.loads((self.out / "categories/serverless-fragment.json").read_text()), [])
         text = self.readme.read_text(encoding="utf-8")
         self.assertIn("supplied", text.lower())
@@ -188,7 +195,7 @@ class TestPublisher(unittest.TestCase):
             return original(path, target)
         with patch.object(Path, "replace", new=interrupted), self.assertRaises(OSError):
             self.publish([self.node("new")])
-        with patch.object(publisher, "atomic_write_text", side_effect=OSError("new staging unavailable"), create=True), self.assertRaises(OSError):
+        with patch.object(publisher.tempfile, "TemporaryDirectory", side_effect=OSError("new staging unavailable")), self.assertRaises(OSError):
             self.publish([self.node("next")])
         self.assertEqual(self.bytes(), before)
 
@@ -280,6 +287,42 @@ class TestPublisher(unittest.TestCase):
             self.publish([self.node(str(i), country_code="../../private") for i in range(5)])
         self.assertEqual(self.bytes(), before)
 
+    def assert_protected_short_name_rejected(self, relative):
+        import ctypes
+        from ctypes import wintypes
+        protected = self.root / "iran-results"
+        target = protected / relative
+        target.mkdir(parents=True)
+        (target / "all.txt").write_bytes(b"synthetic protected generation")
+        get_short = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
+        get_short.argtypes = [wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD]
+        get_short.restype = wintypes.DWORD
+        buffer = ctypes.create_unicode_buffer(32768)
+        size = get_short(str(protected), buffer, len(buffer))
+        self.assertTrue(0 < size < len(buffer), "GetShortPathNameW failed for synthetic directory")
+        short = Path(buffer.value)
+        if short.name.lower() == protected.name.lower():
+            self.skipTest("NTFS short names unavailable for the synthetic directory")
+        self.assertTrue(short.name.upper().startswith("IRAN-R~"), "Expected an actual protected-directory short-name alias")
+        self.assertEqual(short.resolve(), protected)
+        self.out = short / relative
+        before = self.bytes()
+        with patch.object(publisher, "_recover", wraps=publisher._recover) as recover, \
+             patch.object(publisher.tempfile, "TemporaryDirectory", wraps=publisher.tempfile.TemporaryDirectory) as stage:
+            with self.assertRaises(ValueError):
+                self.publish(update_docs=False)
+            recover.assert_not_called()
+            stage.assert_not_called()
+        self.assertEqual(self.bytes(), before)
+
+    @unittest.skipUnless(os.name == "nt", "Windows NTFS short-name fixture")
+    def test_protected_root_short_name_rejected_before_recovery_or_staging(self):
+        self.assert_protected_short_name_rejected("")
+
+    @unittest.skipUnless(os.name == "nt", "Windows NTFS short-name fixture")
+    def test_protected_ancestor_short_name_rejected_before_recovery_or_staging(self):
+        self.assert_protected_short_name_rejected("public/feeds")
+
     def test_actual_failed_socket_observation_remains_failed_in_aggregate(self):
         n = self.node(healthcheck_kind="socket", healthchecked_at=self.now)
         self.publish([n], healthcheck_ran=True)
@@ -299,6 +342,16 @@ class TestPublisher(unittest.TestCase):
                 raise AssertionError("Recovery attempted private read")
             return original(path, *args, **kwargs)
         with patch.object(Path, "open", new=no_private), self.assertRaises(ValueError):
+            self.publish()
+        self.assertEqual(self.bytes(), before)
+
+    def test_unapproved_special_alias_is_not_an_owned_recovery_role(self):
+        transaction = self.root / ".feeds.navaroute-publish"
+        transaction.mkdir()
+        (transaction / "manifest.json").write_text(json.dumps({
+            "state": "prepared", "files": {"feed/categories/supplied-parameters.txt": False}}))
+        before = self.bytes()
+        with self.assertRaises(ValueError):
             self.publish()
         self.assertEqual(self.bytes(), before)
 
@@ -342,7 +395,7 @@ class TestPublisher(unittest.TestCase):
             return original(path, target)
         with patch.object(Path, "replace", new=unavailable), self.assertRaises(OSError):
             self.publish([self.node("new")])
-        with patch.object(publisher, "atomic_write_text", side_effect=OSError("stage unavailable")), self.assertRaises(OSError):
+        with patch.object(publisher.tempfile, "TemporaryDirectory", side_effect=OSError("stage unavailable")), self.assertRaises(OSError):
             self.publish([self.node("next")], update_docs=False)
         self.assertEqual(self.bytes(), before)
 
@@ -380,3 +433,57 @@ class TestPublisher(unittest.TestCase):
             self.publish([self.node("next")])
         self.assertEqual(self.bytes(), complete)
         self.assertFalse(transaction.exists())
+
+    def test_complete_rollback_cleanup_after_one_backup_unlink_recovers_automatically(self):
+        self.publish(snapshot_time=HISTORICAL)
+        before = self.bytes()
+        transaction = self.root / ".feeds.navaroute-publish"
+        original_replace, original_unlink = Path.replace, Path.unlink
+        projected, backups = [], []
+        def fail_projection(path, target):
+            if Path(target).is_relative_to(self.out):
+                projected.append(target)
+                if len(projected) == 3:
+                    raise OSError("late projection unavailable")
+            return original_replace(path, target)
+        def fail_cleanup(path, *args, **kwargs):
+            if path.is_relative_to(transaction / "old"):
+                backups.append(path)
+                if len(backups) == 2:
+                    raise OSError("cleanup unavailable after one backup unlink")
+            return original_unlink(path, *args, **kwargs)
+        with patch.object(Path, "replace", new=fail_projection), patch.object(Path, "unlink", new=fail_cleanup), self.assertRaises(OSError):
+            self.publish([self.node("new")], snapshot_time=HISTORICAL)
+        self.assertFalse(backups[0].exists())
+        live = {key: value for key, value in self.bytes().items() if not key.startswith(".feeds.navaroute-publish/")}
+        self.assertEqual(live, before)
+        try:
+            counts = self.publish(snapshot_time=HISTORICAL)
+        except (ValueError, OSError) as exc:
+            self.fail(f"Healthy automatic recovery failed: {exc}")
+        self.assertEqual(counts["all.txt"], 1)
+        self.assertEqual(self.bytes(), before)
+        self.assertFalse(transaction.exists())
+
+    def assert_committed_role_recovery(self, interruption):
+        transaction = self.root / ".feeds.navaroute-publish"
+        original = Path.rmdir
+        self.publish(snapshot_time=HISTORICAL)
+        def stop_role_cleanup(path):
+            if path in (transaction / "old", transaction / "new"):
+                raise interruption
+            return original(path)
+        with patch.object(Path, "rmdir", new=stop_role_cleanup), self.assertRaises(type(interruption)):
+            self.publish([self.node("new")], snapshot_time=HISTORICAL)
+        self.assertTrue((transaction / "manifest.json").exists(), "Manifest must survive remaining role directories")
+        complete = {key: value for key, value in self.bytes().items() if not key.startswith(".feeds.navaroute-publish/")}
+        self.assertEqual(parse_proxy_uri(self.uris("all.txt")[0]).credential, "new")
+        self.publish([self.node("new")], snapshot_time=HISTORICAL)
+        self.assertEqual(self.bytes(), complete)
+        self.assertFalse(transaction.exists())
+
+    def test_committed_role_directory_failure_keeps_manifest_until_healthy_recovery(self):
+        self.assert_committed_role_recovery(OSError("role directory unavailable"))
+
+    def test_committed_role_directory_process_interruption_keeps_manifest_until_healthy_recovery(self):
+        self.assert_committed_role_recovery(KeyboardInterrupt("process interruption"))

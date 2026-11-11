@@ -25,7 +25,7 @@ STATS_START = "<!-- NAVAROUTE:STATS:START -->"
 STATS_END = "<!-- NAVAROUTE:STATS:END -->"
 PROTOCOLS = ("vless", "vmess", "trojan", "ss", "hysteria2", "tuic")
 CORE_FEEDS = ("all", "reachable", "verified", "top100", "lite500")
-CATEGORIES = ("supplied-parameters", "pattn-special", "iran-optimized", "reality",
+CATEGORIES = ("navaroute-special", "pattn-special", "iran-optimized", "reality",
               "cdn-ws-grpc", "confighub", "whitelist")
 PROTECTED_DIRECTORIES = {"data", "iran-results", "iran-tested", "iran-verification", "local_subs"}
 
@@ -81,8 +81,12 @@ def _target(key: str, out: Path, docs: bool) -> Path:
 
 def _cleanup_transaction(transaction: Path) -> None:
     # The recovery validator admits only this publisher's exact files and directories.
+    manifest_path = transaction / "manifest.json"
     for path in sorted(transaction.rglob("*"), key=lambda p: len(p.parts), reverse=True):
+        if path == manifest_path:
+            continue
         path.rmdir() if path.is_dir() else path.unlink()
+    manifest_path.unlink()
     transaction.rmdir()
 
 
@@ -141,6 +145,8 @@ def _recover(transaction: Path, out: Path, docs: bool) -> None:
                 temporary.replace(target)
             else:
                 target.unlink(missing_ok=True)
+        manifest["state"] = "committed"
+        atomic_write_text(manifest_path, json.dumps(manifest))
     _cleanup_transaction(transaction)
 
 
@@ -240,7 +246,7 @@ def publish_subscriptions(
     if any(part.lower() in PROTECTED_DIRECTORIES for part in out.parts):
         raise ValueError("Protected publisher output directory")
     out = out.resolve()
-    if out == REPOSITORY_ROOT:
+    if out == REPOSITORY_ROOT or any(part.lower() in PROTECTED_DIRECTORIES for part in out.parts):
         raise ValueError("Protected publisher output directory")
     repository_output = out.is_relative_to(REPOSITORY_ROOT)
     docs = bool(update_docs and repository_output)
@@ -312,7 +318,7 @@ def publish_subscriptions(
     groups = [("all", "All Accepted Public Configs", public), ("reachable", "Socket Reachable", reachable),
               ("verified", "Deprecated: reachability—not credential verified", reachable),
               ("top100", "Top 100 Socket Reachable — Latency First", reachable[:100]), ("lite500", "Lite 500 Protocol Balanced", lite),
-              ("categories/supplied-parameters", "Supplied Special Parameters — Not Generated or Bypass Tested", special),
+              ("categories/navaroute-special", "Supplied Special Parameters — Not Generated or Bypass Tested", special),
               ("categories/pattn-special", "Legacy Mirror of Supplied Parameters", special),
               ("categories/iran-optimized", "Iran-Related Upstream Claims — Not Iran Tested", [n for n in public if n.is_iran_related()]),
               ("categories/reality", "Supplied Reality Configs", [n for n in public if n.is_reality()]),
