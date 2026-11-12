@@ -17,6 +17,40 @@ from src.parsers import extract_nodes_from_content
 
 logger = logging.getLogger(__name__)
 
+TRACE_MAX_STR = 4096
+TRACE_MAX_RESPONSE_TEXT = 16384
+
+
+def _write_trace_line(path: str, record: dict) -> None:
+    """Append one JSONL trace record locally. Caller guarantees failures never escape."""
+    payload = json.dumps(record, ensure_ascii=False, separators=(",", ":")) + "\n"
+    flags = os.O_WRONLY | os.O_CREAT | os.O_APPEND
+    fd = os.open(path, flags, 0o600)
+    try:
+        try:
+            os.chmod(path, 0o600)
+        except OSError:
+            pass
+        os.write(fd, payload.encode("utf-8"))
+    finally:
+        os.close(fd)
+
+
+def _redact_for_trace(value: Any) -> Any:
+    """Bound every field so a trace line cannot carry unbounded payloads or credentials."""
+    if isinstance(value, dict):
+        return {key: _redact_for_trace(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_redact_for_trace(item) for item in value]
+    if isinstance(value, str):
+        if len(value) > TRACE_MAX_STR:
+            digest = hashlib.sha256(value.encode("utf-8", "replace")).hexdigest()
+            return f"<truncated {len(value)} chars sha256={digest}>"
+        return value
+    if isinstance(value, (int, float, bool)) or value is None:
+        return value
+    return f"<{type(value).__name__}>"
+
 DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 DEFAULT_NEMOTRON_MODEL = "stepfun-ai/step-5-preview"
 VISION_FALLBACK_MODELS = [
@@ -181,20 +215,47 @@ class NemotronClient:
                 self._last_request_ts = time.monotonic()
                 self.api_requests_count += 1
                 attempted = True
+                request_started = time.monotonic()
                 try:
                     status, body = fetch_bytes(url, timeout=timeout,
                                                max_bytes=2 * 1024 * 1024, deadline=self.deadline,
                                                headers=headers, data=data, method="POST", authenticated=True)
                 except NetworkError:
                     status, body = 503, b""
+                result: Any = None
                 if 200 <= status < 300:
                     try:
                         result = json.loads(body)
                         if isinstance(result, dict):
-                            return result
+                            status = 200
+                        else:
+                            status = 502
                     except (ValueError, UnicodeError, RecursionError):
-                        pass
-                    status = 502
+                        status = 502
+                trace_path = os.environ.get("NAVAROUTE_AI_TRACE_PATH", "").strip()
+                if trace_path:
+                    response_text = body.decode("utf-8", "replace")
+                    truncated = len(response_text) > TRACE_MAX_RESPONSE_TEXT
+                    record = {
+                        "ts": round(time.time(), 3),
+                        "request_index": self.api_requests_count,
+                        "model": cur_model,
+                        "attempt": attempt,
+                        "status": status,
+                        "duration_ms": round((time.monotonic() - request_started) * 1000.0, 1),
+                        "request_bytes": len(data),
+                        "response_bytes": len(body),
+                        "request_sha256": hashlib.sha256(data).hexdigest(),
+                        "response_sha256": hashlib.sha256(body).hexdigest(),
+                        "request": _redact_for_trace(cur_payload),
+                        "response_text": response_text[:TRACE_MAX_RESPONSE_TEXT] + ("<truncated>" if truncated else ""),
+                    }
+                    try:
+                        _write_trace_line(trace_path, record)
+                    except OSError:
+                        logger.warning("AI trace record could not be written")
+                if 200 <= status < 300 and isinstance(result, dict):
+                    return result
                 logger.warning("NVIDIA API attempt failed (HTTP %d)", status)
                 if status not in (429, 500, 502, 503, 504) or attempt == max_retries:
                     break

@@ -34,3 +34,4 @@ xray*
 *.exe
 *.zip
 *.db.bak*
+ai_trace*.jsonl

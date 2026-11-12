@@ -1,5 +1,7 @@
+import hashlib
 import json
 import os
+import tempfile
 from unittest.mock import patch
 
 from src.discovery.nemotron_client import NemotronClient
@@ -101,3 +103,43 @@ class TestNemotronDefault(OfflineDiscoveryTestCase):
         image_payload = json.loads(transport.call_args_list[1].kwargs["data"])
         self.assertEqual(image_payload["model"], "moonshotai/kimi-k2.6")
         self.assertNotIn("reasoning_effort", image_payload)
+
+
+class TestNemotronTrace(OfflineDiscoveryTestCase):
+    @patch('src.discovery.nemotron_client.time.monotonic', return_value=0)
+    def test_trace_file_is_local_jsonl_bounded_and_key_free(self, _clock):
+        path = self.root / "ai_trace.jsonl"
+        with patch.dict(os.environ, {"NAVAROUTE_AI_TRACE_PATH": str(path)}), \
+                patch("src.discovery.nemotron_client.fetch_bytes", return_value=completion("public result")):
+            client = NemotronClient(api_key="synthetic-key-do-not-leak")
+            client.configure_cycle(max_attempts=5, deadline=30)
+            self.assertEqual(client.complete("A" * 5000), "public result")
+        lines = path.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(len(lines), 1)
+        record = json.loads(lines[0])
+        self.assertEqual(record["status"], 200)
+        self.assertEqual(record["model"], "stepfun-ai/step-5-preview")
+        expected_marker = "<truncated 5000 chars sha256=" + hashlib.sha256(b"A" * 5000).hexdigest() + ">"
+        self.assertEqual(record["request"]["messages"][1]["content"], expected_marker)
+        body = json.loads(record["response_text"])
+        self.assertEqual(body["choices"][0]["message"]["content"], "public result")
+        serialized = lines[0]
+        for forbidden in ("synthetic-key-do-not-leak", "Authorization", "Bearer"):
+            self.assertNotIn(forbidden, serialized)
+
+    @patch('src.discovery.nemotron_client.time.monotonic', return_value=0)
+    def test_env_unset_writes_nothing_and_call_is_transparent(self, _clock):
+        with patch("src.discovery.nemotron_client.fetch_bytes", return_value=completion("public result")):
+            client = NemotronClient(api_key="synthetic-key")
+            client.configure_cycle(max_attempts=5, deadline=30)
+            self.assertEqual(client.complete("public query"), "public result")
+        self.assertFalse((self.root / "ai_trace.jsonl").exists())
+
+    @patch('src.discovery.nemotron_client.time.monotonic', return_value=0)
+    def test_trace_write_failure_never_breaks_the_api_path(self, _clock):
+        missing_dir = self.root / "absent" / "ai_trace.jsonl"
+        with patch.dict(os.environ, {"NAVAROUTE_AI_TRACE_PATH": str(missing_dir)}), \
+                patch("src.discovery.nemotron_client.fetch_bytes", return_value=completion("public result")):
+            client = NemotronClient(api_key="synthetic-key")
+            client.configure_cycle(max_attempts=5, deadline=30)
+            self.assertEqual(client.complete("public query"), "public result")
