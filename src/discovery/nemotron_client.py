@@ -256,7 +256,7 @@ class NemotronClient:
                         logger.warning("AI trace record could not be written")
                 if 200 <= status < 300 and isinstance(result, dict):
                     return result
-                logger.warning("NVIDIA API attempt failed (HTTP %d)", status)
+                logger.warning("NVIDIA API attempt failed (HTTP %d, response_bytes=%d)", status, len(body))
                 if status not in (429, 500, 502, 503, 504) or attempt == max_retries:
                     break
                 try:
