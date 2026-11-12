@@ -166,6 +166,14 @@ def _run(args: argparse.Namespace) -> int:
     )
     successful_sources = sum(1 for s in stats if s.success)
     if not successful_sources or not raw_nodes:
+        # Privacy-safe census: error strings carry fixed literals/type names only, never URLs.
+        failure_kinds: dict[str, int] = {}
+        for item in stats:
+            if not item.success:
+                kind = item.error or "unknown"
+                failure_kinds[kind] = failure_kinds.get(kind, 0) + 1
+        for kind, count in sorted(failure_kinds.items(), key=lambda pair: (-pair[1], pair[0])):
+            safe_print(f"      failure category: {kind} x{count}")
         raise ValueError("No usable source yield; previous publication retained")
     safe_print(
         f"      Fetched {len(raw_nodes)} raw nodes & {len(json_configs)} JSON configs "
