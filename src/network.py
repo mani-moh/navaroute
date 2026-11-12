@@ -304,9 +304,9 @@ class _Connection(http.client.HTTPConnection):
                 self.sock = ssl.create_default_context().wrap_socket(self.sock, server_hostname=self.host)
                 self.watched_socket = self.sock
             self.sock.settimeout(_remaining(self.deadline))
-        except (OSError, http.client.HTTPException):
+        except (OSError, http.client.HTTPException) as exc:
             self.close()
-            raise NetworkError("HTTP connection failed") from None
+            raise NetworkError("HTTP connection failed") from exc
         except ValueError:
             self.close()
             raise
@@ -410,7 +410,7 @@ def fetch_bytes(url: str, *, timeout: float = 20.0, max_bytes: int,
         except (OSError, http.client.HTTPException) as exc:
             if isinstance(exc, NetworkError):
                 raise
-            raise NetworkError("HTTP transport failed") from None
+            raise NetworkError("HTTP transport failed") from exc
         except ValueError:
             raise
         finally:

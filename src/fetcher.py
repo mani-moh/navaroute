@@ -116,6 +116,10 @@ def _report_url(url: str) -> str:
 
 def _report_error(exc: Exception) -> str:
     if isinstance(exc, NetworkError):
+        # Cause chain carries fixed stdlib class names only, never URLs or addresses.
+        cause = exc.__cause__
+        if cause is not None:
+            return f"{exc} ({type(cause).__name__})"
         return str(exc)
     if isinstance(exc, urllib.error.URLError) and exc.reason == "Connection refused":
         return "Connection refused"
