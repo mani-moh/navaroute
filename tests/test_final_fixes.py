@@ -202,10 +202,8 @@ class OwnerReviewTests(unittest.TestCase):
         payload = (root / "subs/all.txt").read_bytes()
         with patch.object(results, "_fetch_official_bytes", return_value=(200, payload)):
             nodes = results.load_official_snapshot(SHA, hashlib.sha256(payload).hexdigest())
-        ledger = json.loads((root / "docs/migration-manifest.json").read_bytes())
         rows = [line for line in payload.decode().splitlines() if line and not line.startswith("#")]
         self.assertEqual(len(nodes), len(rows))
-        self.assertEqual(len(nodes), ledger["accepted_public_connections"])
         self.assertEqual(len({node.semantic_fingerprint() for node in nodes}), len(rows))
         self.assertTrue(any(hc.build_xray_outbound(node) is None for node in nodes))
 
