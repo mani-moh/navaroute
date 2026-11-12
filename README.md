@@ -8,6 +8,8 @@ NavaRoute aggregates public proxy connections, validates complete connection ide
 
 Canonical repository: **`mani-moh/navaroute`**, default branch: **`master`**. The repository rename, protected owner-results setup and remote acceptance are release checks owned by the coordinator; these links describe the intended canonical destination, not proof it is already available.
 
+Prefer to explore interactively? **[NavaRoute Pipeline Explorer](https://mani-moh.github.io/navaroute/explorer/)** — a section-by-section walkthrough (pipeline, automation, repo anatomy, feed catalog, trust boundaries), with snapshot figures refreshed live from this README. Source under [`docs/explorer`](docs/explorer/) and [`docs/superpowers`](docs/superpowers/) in this repository.
+
 Every GitHub Actions job ends with a shared privacy-safe run summary (checkout/final commit identities, job result, commits and per-file line deltas since checkout, tracked working-tree changes, new untracked paths and the publication outcome) written to the job's step-summary page and log; it never includes file contents, credentials, tokens or local paths.
 
 ## Public subscription formats
