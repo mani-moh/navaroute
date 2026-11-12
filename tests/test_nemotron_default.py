@@ -12,9 +12,10 @@ class TestNemotronDefault(OfflineDiscoveryTestCase):
     def test_text_candidates_keep_default_or_override_first_without_duplicates(self, transport, _clock):
         cases = [
             ({}, None, [
-                "nvidia/nemotron-3-ultra-550b-a55b",
+                "stepfun-ai/step-5-preview",
                 "moonshotai/kimi-k2.6",
                 "mistralai/mistral-large-4-1t-a52b",
+                "nvidia/nemotron-3-ultra-550b-a55b",
                 "nvidia/nemotron-3.5-super-vl-120b-a12b",
             ]),
             ({"NVIDIA_MODEL": " moonshotai/kimi-k2.6 "}, None, [

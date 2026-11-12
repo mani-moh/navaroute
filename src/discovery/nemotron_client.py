@@ -18,7 +18,7 @@ from src.parsers import extract_nodes_from_content
 logger = logging.getLogger(__name__)
 
 DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
-DEFAULT_NEMOTRON_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
+DEFAULT_NEMOTRON_MODEL = "stepfun-ai/step-5-preview"
 VISION_FALLBACK_MODELS = [
     "moonshotai/kimi-k2.6",
     "mistralai/mistral-large-4-1t-a52b",
