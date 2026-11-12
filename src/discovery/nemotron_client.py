@@ -160,6 +160,11 @@ class NemotronClient:
         for cur_model in models_to_try:
             cur_payload = dict(payload)
             cur_payload["model"] = cur_model
+            # reasoning_effort=high is verified only for Step 5 Preview; never send it to other models.
+            if cur_model == DEFAULT_NEMOTRON_MODEL:
+                cur_payload["reasoning_effort"] = "high"
+            else:
+                cur_payload.pop("reasoning_effort", None)
             data = json.dumps(cur_payload).encode("utf-8")
             for attempt in range(1, max_retries + 1):
                 try:
