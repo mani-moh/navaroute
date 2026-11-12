@@ -36,6 +36,18 @@ def _write_trace_line(path: str, record: dict) -> None:
         os.close(fd)
 
 
+def _network_error_token(exc: NetworkError) -> str:
+    """Fixed-token descriptor for logs: class names and errno ints only, never message text."""
+    def part(e: BaseException) -> str:
+        code = getattr(e, "errno", None)
+        return f"{type(e).__name__}:{code}" if isinstance(code, int) else type(e).__name__
+    token = part(exc)
+    cause = exc.__cause__
+    if cause is not None:
+        token += ">" + part(cause)
+    return token
+
+
 def _redact_for_trace(value: Any) -> Any:
     """Bound every field so a trace line cannot carry unbounded payloads or credentials."""
     if isinstance(value, dict):
@@ -222,7 +234,7 @@ class NemotronClient:
                                                headers=headers, data=data, method="POST", authenticated=True)
                 except NetworkError as exc:
                     status, body = 503, b""
-                    transport_error = str(exc)
+                    transport_error = _network_error_token(exc)
                 else:
                     transport_error = ""
                 result: Any = None
