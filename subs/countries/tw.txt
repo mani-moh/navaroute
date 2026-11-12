@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRXIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:58:11.590663+00:00
+# snapshot-time: 2026-11-12T23:18:28.355587+00:00
 
-ss://2022-blake3-aes-128-gcm:b7I6g7l7fJhBaMInJ%2Bzkzw%3D%3D@amasoid.ddns.net:14514#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20155ms
+ss://2022-blake3-aes-128-gcm:b7I6g7l7fJhBaMInJ%2Bzkzw%3D%3D@amasoid.ddns.net:14514#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20232ms
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAiIiwgInRscyI6ICJ0bHMiLCAiYWxwbiI6ICIiLCAic25pIjogIjdkYmE4MWZjM2EwYi5veWxmbXh6LmNuIiwgInBhdGgiOiAiLyIsICJob3N0IjogIjdkYmE4MWZjM2EwYi5veWxmbXh6LmNuIiwgInBzIjogIlvwn4e58J+HvCBUV10gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiN2RiYTgxZmMzYTBiLm95bGZteHouY24iLCAicG9ydCI6IDQ0MywgImlkIjogImQ5MGU0MDc3LWJjN2UtNDE0ZC1hNjUwLTcwYmYxYmFhZTRkNiJ9
 trojan://i99Cef@211.20.156.191:28150?sni=download.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://i99Cef@211.20.156.191:28121?sni=ctldl.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -37,7 +37,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1&sni=103.115.109.49#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&sni=127.0.0.1&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3Aarshiacomplus-extractor
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.taipeicitygovernment.kiev.ua:8443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:54387?security=reality&flow=xtls-rprx-vision&fp=qq&pbk=qqb-vrDIPSrFIithw497zM-LmGUEcTo-dqAjhHi6kyY&sid=f810&sni=api.adidas.com#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 trojan://i99Cef@211.20.156.191:28123?sni=ctldl.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJwYXRoIjogIi8iLCAidGxzIjogInRscyIsICJob3N0IjogIiIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HufCfh7wgVFddIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogImRlZTIzMDlkYjRzZTNnNXNkczM1ZzRzM2RnLm95bGZteHouY24iLCAicG9ydCI6IDQ0MywgImlkIjogImQ5MGU0MDc3LWJjN2UtNDE0ZC1hNjUwLTcwYmYxYmFhZTRkNiJ9
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MmNiMjBiNi0xOWQxLTQ5ZjMtODg3Yi04MDEzMzFlOTMzNjk@118.170.234.61:10041#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
@@ -57,7 +56,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiZjRjMmQyYy01MDQ4LTRkYTAtODA1My02ZmIxOWFkZmY
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1&sni=https%3A%2F%2Ft.me%2Foneclickvpnkeys#%5Bsource-claimed%5D%20%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 trojan://6e1b9a65-884f-3aa9-9469-bf6ec0f08610@220.128.128.151:3462?security=tls&sni=a03.taipeicitygovernment.cn.ua&allowInsecure=1#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan%20%7C%20src%3A0xradikal-all
 vless://c1c04450-bf71-4049-ad0c-9cf6d94d9f1f@59.125.69.22:443?security=tls&fp=chrome&sni=tse1.mm.bing.net&type=ws&headerType=none&host=tse1.mm.bing.net&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
-vless://06e177f7-240d-4687-bd85-235505801a5e@60.248.219.54:443?security=tls&sni=ty986gfazs.cainiaohub.xyz&type=ws&headerType=none&host=ty986gfazs.cainiaohub.xyz&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
+vless://06e177f7-240d-4687-bd85-235505801a5e@60.248.219.54:443?security=tls&sni=ty986gfazs.cainiaohub.xyz&type=ws&headerType=none&host=ty986gfazs.cainiaohub.xyz&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3Amahankenway-freedom
 trojan://i99Cef@211.20.156.191:28155?sni=download.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJhZmx6enVsLm1laXF1YW5rb25namlhbi5jb20iLCAibmV0IjogIndzIiwgInBhdGgiOiAiLzU2NGRmYTIwLyIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICIiLCAidiI6ICIyIiwgInBzIjogIlvwn4e58J+HvCBUV10gVk1lc3Mtd3MgfCBzcmM6bGFsYXRpbmFodWItbWluZXJhbCIsICJhZGQiOiAiYWZsenp1bC5tZWlxdWFua29uZ2ppYW4uY29tIiwgInBvcnQiOiA1MjUxMiwgImlkIjogIjM0MmJhY2ZkLTJiOGYtM2Y0OS1hMTZlLTQzOWRiNWIwYjlkNSJ9
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@160.187.100.109:443?insecure=1&security=tls&sni=vpn-tw-002.fastervpn.world#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
@@ -73,7 +72,6 @@ trojan://6e1b9a65-884f-3aa9-9469-bf6ec0f08610@60.250.80.31:3462?security=tls&sni
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@60.250.152.230:8443?type=tcp&security=tls&sni=official.taipeicitygovernment.ivano-frankivsk.ua&allowInsecure=1&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://7b06d22a8a7c764f@211.72.35.156:3389?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&security=tls&sni=vpn-tw-002.fastervpn.world&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:5462#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS%20%7C%20src%3Apeasoft-nomorewalls
 trojan://7ac49a893e0bd10c@60.249.3.226:3389?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInNuaSI6ICIiLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInNjeSI6ICJhdXRvIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HufCfh7wgVFddIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogImRlZTIzMDlkYjQ5NDRjMjQ4YjZkNDY3MmM2NjQxZTI1Lm95bGZteHouY24iLCAicG9ydCI6IDQ0MywgImlkIjogImQ5MGU0MDc3LWJjN2UtNDE0ZC1hNjUwLTcwYmYxYmFhZTRkNiJ9
 trojan://i99Cef@211.20.156.191:28122?sni=ctldl.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -112,7 +110,6 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.taipeicitygovernment.com.ua:8443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://8b475d9e868e43e0@211.72.35.157:3389?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozOGI4YzljOS1iODM5LTRkYWMtYjc3NC05NzAyOGIxMjFhMTM@118.170.245.15:10018#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:5463?type=tcp&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=8kZm9gW7saiRPuqXppCTlOAx_dIsqZUbNOBERMvMDVw&sid=be33ecc1975c&sni=api.adidas.com#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.taipeicitygovernment.biz.ua:8443?security=tls#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan%20%7C%20src%3Amahankenway-freedom
 trojan://3febb05ea76a940f@60.249.3.125:3389?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://223c2f69-6b95-4555-9f68-14b14d72b7ea@220.130.58.136:35501?type=tcp&security=tls&sni=green2.cdntencentmusic.com&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
@@ -122,7 +119,6 @@ hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&s
 trojan://6e1b9a65-884f-3aa9-9469-bf6ec0f08610@101.3.47.51:443?type=tcp&security=tls#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://i99Cef@211.20.156.191:28147?sni=download.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vless://431fe973-a43a-4fac-bf83-2a772e0d0625@60.249.101.17:10000?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:5463#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS%20%7C%20src%3Apeasoft-nomorewalls
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1&security=tls&sni=https%3A%2F%2Ft.me%2Foneclickvpnkeys#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.taipeicitygovernment.cn.ua:8443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.taipeicitygovernment.net.ua:8443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
@@ -204,7 +200,6 @@ trojan://b5a21d2a-6208-4e23-91ab-c2423c2ae362@tw2.microsoft-orgwly.vip:443?type=
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkY2JjOTk1MS1mMDg3LTQ4ZDktYTA0Yy04NzUwMGJiMGVmNGI@1.170.45.2:10109#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
 trojan://6e1b9a65-884f-3aa9-9469-bf6ec0f08610@a06.taipeicitygovernment.dp.ua:3462?sni=45.32.28.232&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@60.249.35.37:2377#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3Alalatinahub-mineral
-vless://58543a42-b17d-4cc8-8b54-b5465ebaae89@35.206.207.63:443?encryption=none&security=reality&flow=xtls-rprx-vision&type=tcp&sni=dl.google.com&fp=chrome&pbk=IKnqw4_9CFdnsaLq4kMNhNzub69F3rzCowYNiXbWgTU&sid=ba50b4f2#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 trojan://i99Cef@211.20.156.191:28169?sni=ctldl.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAidHlwZSI6ICJub25lIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi8iLCAiaG9zdCI6ICI2NTQxNjg0MTYzNTU0NDEuZDZmNTRoZDFqLmNjIiwgInRscyI6ICJ0bHMiLCAic2tpcC1jZXJ0LXZlcmlmeSI6IHRydWUsICJwcyI6ICJb8J+HufCfh7wgVFddIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjY1NDE2ODQxNjM1NTQ0MS5kNmY1NGhkMWouY2MiLCAicG9ydCI6IDQ0MywgImlkIjogImVjZGMzMDNkLWJjYmYtNDEyOS1iYzAyLWRkNjc3MDNmNzA4MSJ9
 vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:54387?security=reality&encryption=none&pbk=qqb-vrDIPSrFIithw497zM-LmGUEcTo-dqAjhHi6kyY&headerType=none&fp=qq&type=tcp&flow=xtls-rprx-vision&sni=api.adidas.com&sid=f810#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran
@@ -226,7 +221,7 @@ hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&s
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&sni=127.0.0.1#%5Bsource-claimed%5D%20%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 trojan://6e1b9a65-884f-3aa9-9469-bf6ec0f08610@taifo03a.kbservice.club:443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZDJmMTc4OS1iNzllLTQ5NzYtOTkyNy05NzY2ODRmZDBjMmU@118.170.206.50:10005#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
-vless://c1c04450-bf71-4049-ad0c-9cf6d94d9f1f@60.248.219.78:443?allowInsecure=1&sni=ty986gfazs.cainiaohub.xyz&type=ws&host=ty986gfazs.cainiaohub.xyz&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530security%3Dtls#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3Apeasoft-nomorewalls
+vless://c1c04450-bf71-4049-ad0c-9cf6d94d9f1f@60.248.219.78:443?allowInsecure=1&sni=ty986gfazs.cainiaohub.xyz&type=ws&host=ty986gfazs.cainiaohub.xyz&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530security%3Dtls#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3Aheliataromi-confighub-mixed
 vless://c1c04450-bf71-4049-ad0c-9cf6d94d9f1f@60.248.219.53:443?security=tls&fp=chrome&sni=ty986gfazs.cainiaohub.xyz&type=ws&headerType=none&host=ty986gfazs.cainiaohub.xyz&path=%2F81574b6b-c9d7-44a0-b83d-dad56e8cb530#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 trojan://i99Cef@211.20.156.191:28152?sni=download.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://i99Cef@211.20.156.191:28119?sni=download.windowsupdate.com&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all

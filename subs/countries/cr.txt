@@ -1,12 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIENSIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:58:11.590663+00:00
+# snapshot-time: 2026-11-12T23:18:28.355587+00:00
 
 trojan://bpb-trojan@190.93.244.202:443?path=%2Ftr%3Fed&security=tls&host=fcspring.ggff.net&type=ws&sni=fcspring.ggff.net#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20Trojan-ws%20%7C%20src%3A0xradikal-all
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:52549#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS%20%7C%20src%3Apeasoft-nomorewalls
 trojan://humanity@190.93.245.148:443?path=%2Fassignment&security=tls&insecure=0&host=www.pleadcourt.org&type=ws&allowInsecure=0&sni=www.pleadcourt.org#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20Trojan-ws%20%7C%20src%3A0xradikal-all
-vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:52549?security=reality&flow=xtls-rprx-vision&fp=ios&pbk=CIS3STK15LH3cVRA0Xjy95HkIQ7aFuVy0IEL_B7l8Vo&sid=4925f29fc9b0&sni=api.adidas.com#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
-vless://9443badf-414f-4b12-b19a-7cc2c7431163@190.93.244.47:8443?path=%2Fman&security=tls&encryption=none&host=moz.ar-marz.fun&fp=firefox&type=ws&sni=moz.ar-marz.fun#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-ws%20%7C%20src%3Amahankenway-freedom
 vless://9443badf-414f-4b12-b19a-7cc2c7431163@190.93.247.95:8443?path=%2Fman&security=tls&encryption=none&insecure=0&host=moz.ar-marz.fun&fp=chrome&type=ws&allowInsecure=0&sni=moz.ar-marz.fun#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://9443badf-414f-4b12-b19a-7cc2c7431163@190.93.244.47:8443?path=%2F%3FTELEGRAM--MARAMBASHI--MARAMBASHI--MARAMBASHI--MARAMBASHI%3Fed%3D2560&security=tls&encryption=none&insecure=0&host=moz.ar-marz.fun&fp=chrome&type=ws&allowInsecure=0&sni=moz.ar-marz.fun#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://9a5e7b1c-bf39-4b1f-891f-ac87824ee38f@23.95.72.244:52549?security=reality&encryption=none&pbk=CIS3STK15LH3cVRA0Xjy95HkIQ7aFuVy0IEL_B7l8Vo&headerType=none&fp=ios&type=tcp&flow=xtls-rprx-vision&sni=api.adidas.com&sid=4925f29fc9b0#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
