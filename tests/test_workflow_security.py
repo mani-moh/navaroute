@@ -211,7 +211,7 @@ class TestWorkflowContracts(unittest.TestCase):
         self.assertNotIn("paths:", text)
         self.assertNotIn("branches:", text)
         self.assertIn("python scripts/public_git.py check", text)
-        self.assertIn('fetch-depth: 1', text)
+        self.assertIn('fetch-depth: 2', text)
         self.assertIn('persist-credentials: false', text)
 
     def test_scheduled_writers_share_gates_and_fail_closed_on_master(self):
@@ -236,6 +236,102 @@ class TestWorkflowContracts(unittest.TestCase):
             self.assertIn("persist-credentials: false", text)
             self.assertNotIn("pull-requests: write", text)
             self.assertNotIn("write-all", text)
+
+
+class TestWorkflowSummaryContracts(unittest.TestCase):
+    WORKFLOWS = ("ci.yml", "update-subs.yml", "daily-deep-discovery.yml")
+    ALLOWED_ACTIONS = (
+        "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+        "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+    )
+
+    def texts(self):
+        return {name: (ROOT / ".github/workflows" / name).read_text(encoding="utf-8") for name in self.WORKFLOWS}
+
+    def test_every_job_ends_with_always_summary_and_captured_baseline(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                self.assertIn("RUN_START_SHA=$(git rev-parse HEAD)", text)
+                summary_step = text[text.rindex("- name: Workflow run summary"):]
+                self.assertIn("if: always()", summary_step)
+                self.assertIn("shell: bash", summary_step)
+                self.assertIn("RUN_STATUS: ${{ job.status }}", summary_step)
+                self.assertIn("scripts/workflow_summary.py", summary_step)
+                self.assertIn("GITHUB_STEP_SUMMARY", summary_step)
+                self.assertIn("no repository details were collected", summary_step)
+                self.assertNotIn("- name:", summary_step[summary_step.index("run: |") + 6:],
+                                 "summary step must be the final step of the job")
+
+    def test_capture_step_follows_checkout_and_precedes_summary(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                capture = text.index("RUN_START_SHA=$(git rev-parse HEAD)")
+                checkout = text.index("uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262")
+                summary = text.rindex("scripts/workflow_summary.py")
+                self.assertGreater(capture, checkout)
+                self.assertGreater(summary, capture)
+
+    def test_capture_and_summary_steps_run_under_bash(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                self.assertIn("shell: bash", text.split("- name: Capture run start SHA")[1].split("- name:")[0])
+                summary_step = text[text.rindex("- name: Workflow run summary"):]
+                self.assertIn("shell: bash", summary_step)
+
+    def test_checkout_or_setup_failure_gets_self_contained_shell_fallback(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                summary_step = text[text.rindex("- name: Workflow run summary"):]
+                self.assertIn("command -v python3", summary_step)
+                self.assertIn("[ -f scripts/workflow_summary.py ]", summary_step)
+                self.assertIn("print_fallback", summary_step)
+                self.assertIn("tee -a \"$GITHUB_STEP_SUMMARY\"", summary_step)
+
+    def test_only_ci_uses_fetch_depth_two_and_writers_stay_at_zero(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                if name == "ci.yml":
+                    self.assertEqual(text.count("fetch-depth:"), 1)
+                    self.assertIn("fetch-depth: 2", text)
+                else:
+                    self.assertNotIn("fetch-depth: 2", text)
+                    self.assertIn("fetch-depth: 0", text)
+
+    def test_ci_keeps_two_fetch_depth_and_no_triggers_or_permissions_added(self):
+        text = self.texts()["ci.yml"]
+        self.assertIn('fetch-depth: 2', text)
+        self.assertNotIn("paths:", text)
+        self.assertNotIn("branches:", text)
+        self.assertNotIn("cron:", text)
+        self.assertIn("contents: read", text)
+        self.assertIn("not-applicable", text)
+
+    def test_writers_keep_full_history_cron_concurrency_master_only_and_record_publication(self):
+        for name, cron in (("update-subs.yml", "0 */6 * * *"), ("daily-deep-discovery.yml", "0 2 * * *")):
+            text = self.texts()[name]
+            with self.subTest(workflow=name):
+                self.assertIn(f'cron: "{cron}"', text)
+                self.assertIn("fetch-depth: 0", text)
+                self.assertIn("group: navaroute-git-writer", text)
+                self.assertIn("github.ref == 'refs/heads/master'", text)
+                self.assertIn("RUN_PUBLICATION=pushed", text)
+                self.assertIn("RUN_PUBLICATION=no-changes", text)
+                self.assertIn("RUN_PUBLICATION=failed", text)
+
+    def test_no_new_actions_secrets_or_boundaries_are_introduced(self):
+        for name, text in self.texts().items():
+            with self.subTest(workflow=name):
+                uses = [line.split("uses:", 1)[1].strip() for line in text.splitlines() if "uses:" in line]
+                self.assertTrue(uses, "expected the two pinned actions to remain")
+                for action in uses:
+                    bare = action.split(" #", 1)[0]
+                    self.assertIn(bare, self.ALLOWED_ACTIONS)
+                self.assertNotIn("Iran", text)
+                self.assertNotIn("iran", text)
+                self.assertNotIn("migration", text.lower())
+                for line in text.splitlines():
+                    if "secrets." in line:
+                        self.assertRegex(line, r"secrets\.(GITHUB_TOKEN|NVIDIA_API_KEY)\b")
 
 
 if __name__ == "__main__":

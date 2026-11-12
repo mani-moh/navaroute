@@ -16,8 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
         with:
-          fetch-depth: 1
+          fetch-depth: 2
           persist-credentials: false
+      - name: Capture run start SHA
+        shell: bash
+        run: echo "RUN_START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
         with:
@@ -28,3 +31,34 @@ jobs:
         run: python -m compileall -q src scripts tests
       - name: Run unit and integration tests
         run: python -m unittest discover -s tests -v
+      - name: Workflow run summary
+        if: always()
+        shell: bash
+        env:
+          RUN_STATUS: ${{ job.status }}
+          RUN_PUBLICATION: not-applicable
+        run: |
+          set +e
+          PY=""
+          if command -v python3 >/dev/null 2>&1; then
+            PY=python3
+          elif command -v python >/dev/null 2>&1; then
+            PY=python
+          fi
+          if [ -n "$PY" ] && [ -f scripts/workflow_summary.py ]; then
+            "$PY" scripts/workflow_summary.py
+          else
+            print_fallback() {
+              echo "## NavaRoute workflow run summary"
+              echo ""
+              echo "- Job result: $(printf '%s' "${RUN_STATUS:-unknown}" | tr -cd '[:alpha:]-')"
+              echo "- Checkout or setup did not complete, or the summary script is unavailable; no repository details were collected."
+              echo "- Publication outcome: $(printf '%s' "${RUN_PUBLICATION:-not recorded}" | tr -cd '[:alpha:]-')"
+            }
+            if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+              print_fallback | tee -a "$GITHUB_STEP_SUMMARY"
+            else
+              print_fallback
+            fi
+          fi
+          exit 0

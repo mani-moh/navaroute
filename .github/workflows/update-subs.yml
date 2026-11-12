@@ -34,6 +34,9 @@ jobs:
           ref: master
           fetch-depth: 0
           persist-credentials: false
+      - name: Capture run start SHA
+        shell: bash
+        run: echo "RUN_START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
       - name: Set up Python
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
         with:
@@ -71,7 +74,43 @@ jobs:
           python scripts/public_git.py check --staged
           if git diff --staged --quiet; then
             echo "No public updates to commit"
+            echo "RUN_PUBLICATION=no-changes" >> "$GITHUB_ENV"
           else
             git commit -m "chore(auto): refresh NavaRoute public subscriptions"
-            python scripts/public_git.py push
+            if python scripts/public_git.py push; then
+              echo "RUN_PUBLICATION=pushed" >> "$GITHUB_ENV"
+            else
+              echo "RUN_PUBLICATION=failed" >> "$GITHUB_ENV"
+              exit 1
+            fi
           fi
+      - name: Workflow run summary
+        if: always()
+        shell: bash
+        env:
+          RUN_STATUS: ${{ job.status }}
+        run: |
+          set +e
+          PY=""
+          if command -v python3 >/dev/null 2>&1; then
+            PY=python3
+          elif command -v python >/dev/null 2>&1; then
+            PY=python
+          fi
+          if [ -n "$PY" ] && [ -f scripts/workflow_summary.py ]; then
+            "$PY" scripts/workflow_summary.py
+          else
+            print_fallback() {
+              echo "## NavaRoute workflow run summary"
+              echo ""
+              echo "- Job result: $(printf '%s' "${RUN_STATUS:-unknown}" | tr -cd '[:alpha:]-')"
+              echo "- Checkout or setup did not complete, or the summary script is unavailable; no repository details were collected."
+              echo "- Publication outcome: $(printf '%s' "${RUN_PUBLICATION:-not recorded}" | tr -cd '[:alpha:]-')"
+            }
+            if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+              print_fallback | tee -a "$GITHUB_STEP_SUMMARY"
+            else
+              print_fallback
+            fi
+          fi
+          exit 0
