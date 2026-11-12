@@ -25,6 +25,8 @@ class WireSocket:
         self.read_sizes = []
 
     def settimeout(self, timeout):
+        if self.closed:
+            raise OSError(socket.EBADF, "operation on a closed socket")
         self.timeout = timeout
 
     def bind(self, address):

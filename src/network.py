@@ -395,6 +395,9 @@ def fetch_bytes(url: str, *, timeout: float = 20.0, max_bytes: int,
                 raise NetworkError("Unsupported response content encoding")
             body = bytearray()
             while True:
+                sock = connection.sock  # live only for keep-alive responses; None after Connection: close detach
+                if sock is not None:
+                    sock.settimeout(_remaining(end))
                 chunk = result.read1(min(65536, max_bytes + 1 - len(body)))
                 _remaining(end)
                 if not chunk:

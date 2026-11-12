@@ -266,7 +266,7 @@ def _fetch_official_bytes(url: str) -> tuple[int, bytes]:
     try:
         conn.connect()
         conn.request("GET", parsed.path, headers={"Host": host, "Connection": "close", "Accept-Encoding": "identity"})
-        transport = conn.sock
+        # getresponse() closes the socket object for Connection: close; the response keeps the descriptor.
         response = conn.getresponse()
         _remaining(deadline)
         if response.status != 200:
@@ -279,7 +279,6 @@ def _fetch_official_bytes(url: str) -> tuple[int, bytes]:
             raise IranResultsError("Invalid or oversized official response framing")
         body = bytearray()
         while True:
-            transport.settimeout(_remaining(deadline))
             chunk = response.read1(min(65536, MAX_SNAPSHOT_BYTES + 1 - len(body)))
             _remaining(deadline)
             if not chunk:
