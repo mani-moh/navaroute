@@ -3,9 +3,6 @@ name: Update NavaRoute Subscriptions
 on:
   schedule:
     - cron: "0 */6 * * *"
-  push:
-    paths:
-      - ".github/workflows/update-subs.yml"
   workflow_dispatch:
     inputs:
       run_healthcheck:
