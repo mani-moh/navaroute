@@ -231,5 +231,35 @@ class FetcherAggregateTests(unittest.TestCase):
         self.assertTrue(all(stat.success for stat in stats))
 
 
+class ReportErrorTokenContractTests(unittest.TestCase):
+    """The empty-yield census renders stat.error verbatim; pin that it stays token-only."""
+
+    def test_every_reachable_error_label_is_url_free(self):
+        import urllib.error
+
+        from src.fetcher import _report_error
+
+        cases = [
+            NetworkError("DNS resolution failed"),
+            NetworkError("DNS deadline exceeded"),
+            NetworkError("HTTP connection failed"),
+            NetworkError("HTTP transport failed"),
+            NetworkError("HTTP transport failed"),  # already covered; belt and braces
+            NetworkError("Network timeout"),
+            NetworkError("Redirect limit exceeded"),
+            NetworkError("Unsupported response content encoding"),
+            urllib.error.URLError("Connection refused"),
+            urllib.error.URLError("custom reason that could embed a URL https://leak.example/x?token=leak"),
+            ValueError("arbitrary structured data / some/path?u=1"),
+            RuntimeError("arbitrary token=leak"),
+        ]
+        for exc in cases:
+            label = _report_error(exc)
+            self.assertLessEqual(len(label), 200)
+            self.assertRegex(label, r"^[A-Za-z0-9()_.: -]+$")
+            for forbidden in ("/", "?", "%", "@", "=", "\\", "\n", "leak"):
+                self.assertNotIn(forbidden, label)
+
+
 if __name__ == "__main__":
     unittest.main()
