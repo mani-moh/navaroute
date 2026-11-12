@@ -235,11 +235,12 @@ class DiscoveryStateManager:
         return self.state
 
     def add_candidates(self, candidates: list[str]) -> None:
-        """Adds new candidate channels, sanitizing handles and boosting proxy-relevant scores."""
+        """Update mentions without moving waiting work; prioritize only new admissions."""
         visited = set(self.state.get("visited_channels", []))
         rejected = set(self.state.get("rejected_channels", []))
         queue = self.state.setdefault("candidate_queue", [])
         scores = self.state.setdefault("candidate_scores", {})
+        admitted = []
 
         for raw in candidates:
             handle = normalize_channel_handle(raw)
@@ -252,11 +253,10 @@ class DiscoveryStateManager:
             is_new = handle not in scores
             bonus = 5 if (is_new and any(kw in handle for kw in PROXY_HANDLE_KEYWORDS)) else 0
             scores[handle] = scores.get(handle, 0) + 1 + bonus
-            if handle not in queue:
-                queue.append(handle)
+            if handle not in queue and handle not in admitted:
+                admitted.append(handle)
 
-        # Sort queue by priority score (descending)
-        queue.sort(key=lambda h: scores.get(h, 1), reverse=True)
+        queue.extend(sorted(admitted, key=lambda h: scores[h], reverse=True))
 
     def record_rejected_channels(self, handles: list[str]) -> None:
         """Permanently ignores handles identified as spam/off-topic across future runs."""
@@ -316,7 +316,7 @@ class DiscoveryStateManager:
         return [s["handle"] for s in active_tg[:limit] if "handle" in s]
 
     def pop_next_candidates(self, limit: int = 5, exclude: set[str] = frozenset()) -> list[str]:
-        """Pops up to `limit` candidates with highest mention score."""
+        """Pop waiting work in order, excluding handles already attempted this cycle."""
         queue = self.state.setdefault("candidate_queue", [])
         if not queue:
             return []

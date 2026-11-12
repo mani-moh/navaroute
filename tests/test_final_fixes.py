@@ -214,6 +214,71 @@ class ChannelReviewTests(OfflineDiscoveryTestCase):
     def agent(self, seeds=()):
         return DiscoveryAgent(state_file="data/state.json", initial_seeds=list(seeds), nemotron_client=NemotronClient(api_key=""))
 
+    def test_candidate_admission_preserves_waiting_order_for_empty_and_known_mentions(self):
+        manager = DiscoveryStateManager("data/state.json")
+        manager.state["candidate_queue"] = ["untouched", "proxyhigh", "proxylast"]
+        manager.state["candidate_scores"] = {"untouched": 1, "proxyhigh": 6, "proxylast": 6}
+        for candidates, high_score in (([], 6), (["@ProxyHigh", "https://t.me/s/ProxyHigh"], 8)):
+            with self.subTest(candidates=candidates):
+                manager.add_candidates(candidates)
+                manager.save()
+                manager = DiscoveryStateManager("data/state.json")
+                self.assertEqual(manager.state["candidate_queue"], ["untouched", "proxyhigh", "proxylast"])
+                self.assertEqual(manager.state["candidate_scores"], {"untouched": 1, "proxyhigh": high_score, "proxylast": 6})
+
+    def test_new_admission_batch_has_priority_only_behind_existing_waiting_work(self):
+        manager = DiscoveryStateManager("data/state.json")
+        manager.state["candidate_queue"] = ["untouched", "proxyhigh"]
+        manager.state["candidate_scores"] = {"untouched": 1, "proxyhigh": 20, "seenagain": 3}
+        manager.state["visited_channels"] = ["visitedproxy"]
+        manager.state["rejected_channels"] = ["rejectedproxy"]
+        manager.add_candidates(["chana", "seenagain", "freshproxy", "chanb", "chana", "tieproxy",
+                                "proxyhigh", "visitedproxy", "rejectedproxy", "joinchat", "contestchan", "bad?token=x"])
+        manager.save()
+        reloaded = DiscoveryStateManager("data/state.json")
+        self.assertEqual(reloaded.state["candidate_queue"], ["untouched", "proxyhigh", "freshproxy", "tieproxy", "seenagain", "chana", "chanb"])
+        self.assertEqual(reloaded.state["candidate_scores"], {"untouched": 1, "proxyhigh": 21, "seenagain": 4,
+                         "chana": 2, "freshproxy": 6, "chanb": 1, "tieproxy": 6})
+
+    def test_parsed_deep_page_timeouts_do_not_starve_unequal_score_sixth_across_twelve_reloads(self):
+        for mention in ("", " @proxyhigh"):
+            with self.subTest(mention=mention):
+                handles = ["proxyhigh", "proxyone", "proxytwo", "proxythree", "proxyfour", "proxyfive"]
+                agent = self.agent()
+                agent.state_manager.state["candidate_queue"] = list(handles)
+                agent.state_manager.state["candidate_scores"] = dict.fromkeys(handles[:5], 6) | {"proxyfive": 1}
+                agent.state_manager.save()
+                first_pages, deep_pages, queues = [], [], []
+                def page(handle, before_id=None):
+                    if before_id is None:
+                        first_pages.append(handle)
+                        post = 1 if handle == "proxyfive" else 100
+                        return f'<div data-post="{handle}/{post}">none{mention}</div>'
+                    self.assertEqual(before_id, 100)
+                    deep_pages.append(handle)
+                    agent.tg_scraper.last_outcome = "retryable"
+                    return None
+                for cycle in range(12):
+                    agent = self.agent()
+                    before = len(first_pages)
+                    with patch.object(agent, "_expand_queries_via_nemotron"), patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=page):
+                        agent.run_cycle(max_channels=1, max_time_seconds=30)
+                    reloaded = DiscoveryStateManager("data/state.json")
+                    self.assertEqual(len(first_pages) - before, 1)
+                    self.assertEqual(set(reloaded.state["candidate_queue"]) | set(reloaded.state["visited_channels"]), set(handles))
+                    self.assertEqual(len(reloaded.state["candidate_queue"]), len(set(reloaded.state["candidate_queue"])))
+                    self.assertTrue(all(reloaded.get_channel_oldest_post_id(handle) is None for handle in handles[:5]))
+                    queues.append(reloaded.state["candidate_queue"])
+                self.assertEqual(first_pages, handles + handles[:5] + ["proxyhigh"])
+                self.assertEqual(deep_pages, handles[:5] + handles[:5] + ["proxyhigh"])
+                self.assertEqual(queues[4], ["proxyfive", "proxyhigh", "proxyone", "proxytwo", "proxythree", "proxyfour"])
+                self.assertEqual(queues[-1], ["proxyone", "proxytwo", "proxythree", "proxyfour", "proxyhigh"])
+                self.assertEqual(reloaded.state["visited_channels"], ["proxyfive"])
+                self.assertEqual(reloaded.state["sources_metadata"]["proxyfive"]["oldest_post_id"], 1)
+                self.assertEqual(reloaded.state["candidate_scores"], dict.fromkeys(handles[1:5], 6) | {"proxyhigh": 15 if mention else 6, "proxyfive": 1})
+                for path in ("data/state.json", "sources.discovered.json", "DISCOVERY.md"):
+                    Path(path).unlink(missing_ok=True)
+
     def test_failed_child_survives_changed_channel_body_and_real_checkpoint_reload(self):
         parent, child = "https://t.me/s/proxychan", "https://example.com/sub.txt"
         agent = self.agent(["proxychan"])
