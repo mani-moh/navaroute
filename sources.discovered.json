@@ -201,30 +201,6 @@
       "enabled": true
     },
     {
-      "id": "sub-af4fdd5607",
-      "name": "Web Mined (https://raw.githubusercontent....)",
-      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/refs/heads/main/lowest.txt#ArashOnline-Lowest",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "auto-discovered",
-        "web-mined"
-      ],
-      "enabled": true
-    },
-    {
-      "id": "sub-0dc7c33c7e",
-      "name": "Web Mined (https://raw.githubusercontent....)",
-      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/refs/heads/main/chains.json#ArashOnline-Chain",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "auto-discovered",
-        "web-mined"
-      ],
-      "enabled": true
-    },
-    {
       "id": "sub-bd860a1115",
       "name": "Web Mined (https://molido-sub.hidooch980....)",
       "url": "https://molido-sub.hidooch980.workers.dev/sub/1",
