@@ -220,8 +220,11 @@ class NemotronClient:
                     status, body = fetch_bytes(url, timeout=timeout,
                                                max_bytes=2 * 1024 * 1024, deadline=self.deadline,
                                                headers=headers, data=data, method="POST", authenticated=True)
-                except NetworkError:
+                except NetworkError as exc:
                     status, body = 503, b""
+                    transport_error = str(exc)
+                else:
+                    transport_error = ""
                 result: Any = None
                 if 200 <= status < 300:
                     try:
@@ -256,7 +259,7 @@ class NemotronClient:
                         logger.warning("AI trace record could not be written")
                 if 200 <= status < 300 and isinstance(result, dict):
                     return result
-                logger.warning("NVIDIA API attempt failed (HTTP %d, response_bytes=%d)", status, len(body))
+                logger.warning("NVIDIA API attempt failed (HTTP %d, response_bytes=%d, transport_error=%s)", status, len(body), transport_error or "-")
                 if status not in (429, 500, 502, 503, 504) or attempt == max_retries:
                     break
                 try:
