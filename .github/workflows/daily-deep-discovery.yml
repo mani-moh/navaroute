@@ -3,6 +3,9 @@ name: NavaRoute Daily Extended Discovery
 on:
   schedule:
     - cron: "0 2 * * *"
+  push:
+    paths:
+      - ".github/workflows/daily-deep-discovery.yml"
   workflow_dispatch:
     inputs:
       max_api_requests:
