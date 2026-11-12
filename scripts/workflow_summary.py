@@ -9,7 +9,9 @@ logs. Missing or shallow checkout history is reported as unavailable
 instead of being guessed; exit code is always 0 so a summary failure can
 never fail the job it describes.
 """
+import importlib.util
 import os
+from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import sys
@@ -20,8 +22,56 @@ SAFE_TOKEN_RE = re.compile(r"[a-z0-9][a-z0-9._-]{0,59}")
 STATUS_VALUES = ("success", "failure", "cancelled")
 MAX_ENTRIES = 50
 MAX_PATH = 200
-# Characters that are structural in Markdown or unsafe in any shell paste.
+# Characters that are structural in Markdown, C0/C1 control ranges, and bidi override/isolate ranges.
 BAD_PATH_CHARS = '`*_[]()<>|\\'
+
+
+def _minimal_private_path(path):
+    # Only used if the shared public_git classifier cannot be imported (e.g. partial checkout).
+    parts = PurePosixPath(path).parts
+    lower = [part.lower() for part in parts]
+    name = lower[-1] if lower else ""
+    if not parts or path.startswith("/"):
+        return True
+    private_dirs = ("local_subs", "private_subs", "iran-results", "iran-tested", "iran-verification",
+                    ".superpowers", "__pycache__", ".pytest_cache", ".venv", "venv", ".cache", "http_cache", "cache")
+    if any(part in private_dirs for part in lower):
+        return True
+    if name.startswith(".env") and path != ".env.example":
+        return True
+    if any(part.startswith("sources.private.") for part in lower):
+        return True
+    return any(re.search(r"\.db(?:$|[.-])|\.sqlite|\.(?:pyc|pyo|exe|zip|bak)$", part) for part in lower)
+
+
+def _load_private_classifier():
+    try:
+        sibling = Path(__file__).resolve().parent / "public_git.py"
+        spec = importlib.util.spec_from_file_location("public_git", sibling)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.private_path
+    except Exception:
+        return _minimal_private_path
+
+
+_PRIVATE_PATH = _load_private_classifier()
+
+
+def is_printable_path(text):
+    if "\ufffd" in text:
+        return False
+    return not _PRIVATE_PATH(text)
+
+
+def omitted_line(count):
+    return f"- ({count} private path{'s' if count != 1 else ''} omitted)"
+
+
+def _unsafe_char(ch):
+    code = ord(ch)
+    return (ch in BAD_PATH_CHARS or code < 32 or code == 127 or (0x80 <= code <= 0x9F)
+            or (0x202A <= code <= 0x202E) or (0x2066 <= code <= 0x2069))
 
 
 def git_stdout(*args):
@@ -34,14 +84,14 @@ def git_stdout(*args):
 
 def safe_path(raw):
     text = raw.decode("utf-8", "replace")
-    if len(text) > MAX_PATH:
-        text = text[:MAX_PATH] + "…(truncated)"
-    cleaned = "".join("_" if (ch in BAD_PATH_CHARS or ord(ch) < 32 or ord(ch) == 127) else ch for ch in text)
+    cleaned = "".join("_" if _unsafe_char(ch) else ch for ch in text)
+    if len(cleaned) > MAX_PATH:
+        cleaned = cleaned[:MAX_PATH] + "…(truncated)"
     return ("./" + cleaned) if cleaned.startswith("-") else cleaned
 
 
 def parse_numstat(data):
-    entries, total_added, total_deleted, files = [], 0, 0, 0
+    entries, total_added, total_deleted, omitted = [], 0, 0, 0
     for chunk in data.split(b"\0"):
         if not chunk:
             continue
@@ -49,7 +99,9 @@ def parse_numstat(data):
         if len(parts) != 3:
             continue
         raw_added, raw_deleted, raw_path = parts
-        files += 1
+        if not is_printable_path(raw_path.decode("utf-8", "replace")):
+            omitted += 1
+            continue
         if raw_added == b"-":  # binary
             entries.append((None, None, safe_path(raw_path)))
             continue
@@ -61,7 +113,7 @@ def parse_numstat(data):
         total_added += added
         total_deleted += deleted
         entries.append((added, deleted, safe_path(raw_path)))
-    return entries, total_added, total_deleted, files
+    return entries, total_added, total_deleted, len(entries), omitted
 
 
 def delta_section(title, data, unavailable_reason=None):
@@ -69,15 +121,17 @@ def delta_section(title, data, unavailable_reason=None):
     if unavailable_reason is not None:
         lines.append(f"- unavailable ({unavailable_reason})")
         return lines
-    entries, total_added, total_deleted, files = parse_numstat(data or b"")
+    entries, total_added, total_deleted, files, omitted = parse_numstat(data or b"")
     if not entries:
-        lines.append("- none")
+        lines.append(omitted_line(omitted) if omitted else "- none")
         return lines
     shown = entries[:MAX_ENTRIES]
     for added, deleted, path in shown:
         lines.append(f"- `{path}` (binary)" if added is None else f"- `{path}` (+{added}/-{deleted})")
     if len(entries) > len(shown):
         lines.append(f"- … and {len(entries) - len(shown)} more (truncated)")
+    if omitted:
+        lines.append(omitted_line(omitted))
     lines.append(f"Total: +{total_added}/-{total_deleted} across {files} file{'s' if files != 1 else ''}")
     return lines
 
@@ -124,15 +178,24 @@ def untracked_section():
     data = git_stdout("ls-files", "--others", "--exclude-standard", "-z", "--")
     if data is None:
         return ["New untracked paths: unavailable (git could not list untracked files)"]
-    paths = [safe_path(chunk) for chunk in data.split(b"\0") if chunk]
+    paths, omitted = [], 0
+    for chunk in data.split(b"\0"):
+        if not chunk:
+            continue
+        if not is_printable_path(chunk.decode("utf-8", "replace")):
+            omitted += 1
+            continue
+        paths.append(safe_path(chunk))
     lines = ["New untracked paths:"]
     if not paths:
-        lines.append("- none")
+        lines.append(omitted_line(omitted) if omitted else "- none")
         return lines
     for path in paths[:MAX_ENTRIES]:
         lines.append(f"- `{path}`")
     if len(paths) > MAX_ENTRIES:
         lines.append(f"- … and {len(paths) - MAX_ENTRIES} more (truncated)")
+    if omitted:
+        lines.append(omitted_line(omitted))
     return lines
 
 
@@ -172,7 +235,9 @@ def collect():
     if boundary:
         lines.extend(delta_section("Files changed since checkout:", None, boundary))
     elif start_sha and head_sha:
-        lines.extend(delta_section("Files changed since checkout:", git_stdout("diff", "--numstat", "-z", "--no-renames", start_sha, "HEAD", "--")))
+        files_data = git_stdout("diff", "--numstat", "-z", "--no-renames", start_sha, "HEAD", "--")
+        reason = None if files_data is not None else "git could not compute the diff for the range (command failed or timed out)"
+        lines.extend(delta_section("Files changed since checkout:", files_data, reason))
     elif not start_sha:
         lines.extend(delta_section("Files changed since checkout:", None, "checkout baseline was not captured"))
     else:
@@ -183,13 +248,17 @@ def collect():
         lines.append("Incoming change (HEAD vs its parent):")
         lines.append("- unavailable (HEAD has no parent in local history)")
     else:
-        lines.extend(delta_section("Incoming change (HEAD vs its parent):", git_stdout("diff", "--numstat", "-z", "--no-renames", "HEAD^", "HEAD", "--")))
+        incoming_data = git_stdout("diff", "--numstat", "-z", "--no-renames", "HEAD^", "HEAD", "--")
+        reason = None if incoming_data is not None else "git could not compute the incoming diff (command failed or timed out)"
+        lines.extend(delta_section("Incoming change (HEAD vs its parent):", incoming_data, reason))
     lines.append("")
     if head_sha is None:
         lines.append("Tracked working-tree changes:")
         lines.append("- unavailable (final HEAD unavailable)")
     else:
-        lines.extend(delta_section("Tracked working-tree changes:", git_stdout("diff", "--numstat", "-z", "--no-renames", "HEAD", "--")))
+        working_data = git_stdout("diff", "--numstat", "-z", "--no-renames", "HEAD", "--")
+        reason = None if working_data is not None else "git could not compute the working-tree diff (command failed or timed out)"
+        lines.extend(delta_section("Tracked working-tree changes:", working_data, reason))
     lines.append("")
     lines.extend(untracked_section())
     return lines
@@ -204,14 +273,21 @@ def main():
         lines = ["## NavaRoute workflow run summary", "", f"- Job result: {status}",
                  "- Repository details could not be collected (internal error)."]
     text = "\n".join(lines) + "\n"
-    sys.stdout.write(text)
+    try:
+        sys.stdout.write(text)
+    except Exception:
+        # Job log already shows the failure; the summary step must never fail its job.
+        pass
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         try:
             with open(summary_path, "a", encoding="utf-8") as handle:
                 handle.write(text)
         except OSError:
-            sys.stdout.write("Step summary file was not writable; summary printed above only.\n")
+            try:
+                sys.stdout.write("Step summary file was not writable; summary could not be printed above.\n")
+            except Exception:
+                pass
     return 0
 
 

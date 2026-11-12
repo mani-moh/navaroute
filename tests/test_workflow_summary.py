@@ -269,6 +269,161 @@ class WorkflowSummaryFixture(unittest.TestCase):
         self.assertIn("Final HEAD SHA: unavailable", out)
 
 
+class FaultInjectionTests(unittest.TestCase):
+    """Deterministic fault injection for the git-failure boundary (F1)."""
+
+    def setUp(self):
+        self.assertTrue(SCRIPT.is_file(), "shared workflow summary script missing")
+        self._tmp = tempfile.TemporaryDirectory()
+        self.repo = Path(self._tmp.name) / "repo"
+        self.repo.mkdir()
+        self.assertEqual(git(self.repo, "init", "-q").returncode, 0)
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def _load_module(self):
+        spec = importlib.util.spec_from_file_location("workflow_summary", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def _run_with_failing_git(self, fail_on):
+        for number in range(2):
+            write_file(self.repo, f"subs/feed{number}.txt", b"x\n")
+            commit_all(self.repo, f"fixture {number}")
+        start = head(self.repo)
+        write_file(self.repo, "subs/feed0.txt", b"x\ny\n")
+        commit_all(self.repo, "bot")
+        baseline = git(self.repo, "rev-parse", "HEAD~1").stdout.decode().strip()
+        self.assertEqual(git(self.repo, "rev-parse", "--verify", "--quiet", baseline + "^{commit}").returncode, 0)
+        module = self._load_module()
+        real_git_stdout = module.git_stdout
+
+        def fake_git_stdout(*args):
+            if args and args[0] == fail_on:
+                return None
+            return real_git_stdout(*args)
+
+        env = dict(os.environ)
+        for key in ("RUN_START_SHA", "RUN_STATUS", "RUN_PUBLICATION", "GITHUB_STEP_SUMMARY"):
+            env.pop(key, None)
+        env.update(RUN_START_SHA=baseline, RUN_STATUS="success")
+        previous = os.getcwd()
+        os.chdir(self.repo)
+        try:
+            with mock.patch.object(module, "git_stdout", side_effect=fake_git_stdout), \
+                 mock.patch.dict(os.environ, env, clear=True), \
+                 contextlib.redirect_stdout(io.StringIO()) as out:
+                code = module.main()
+        finally:
+            os.chdir(previous)
+        return code, out.getvalue()
+
+    @staticmethod
+    def _section(text, heading):
+        start = text.index(heading)
+        end = text.index("\n\n", start)
+        return text[start:end]
+
+    def test_failed_since_checkout_diff_reports_unavailable_not_none(self):
+        code, out = self._run_with_failing_git("diff")
+        self.assertEqual(code, 0)
+        for heading in ("Files changed since checkout:", "Tracked working-tree changes:", "Incoming change (HEAD vs its parent):"):
+            section = self._section(out, heading)
+            self.assertIn("unavailable", section)
+            self.assertNotIn("- none", section)
+
+
+class TruncationMarkerTests(unittest.TestCase):
+    def test_truncated_marker_survives_markdown_sanitization(self):
+        spec = importlib.util.spec_from_file_location("workflow_summary", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        safe = module.safe_path((b"a" * 250) + b".txt")
+        self.assertIn("truncated", safe)
+        self.assertNotIn("_truncated_", safe)
+
+
+class PrivatePathFilterTests(WorkflowSummaryFixture):
+    def test_private_named_untracked_paths_never_printed_but_counted(self):
+        start = self.commit_repo()
+        write_file(self.repo, "iran-results/probe.txt", b"probe\n")
+        write_file(self.repo, "local_subs/leak.txt", b"leak\n")
+        write_file(self.repo, "public-feed.txt", b"public\n")
+        code, out = run_summary(self.repo, RUN_START_SHA=start, RUN_STATUS="success")
+        self.assertEqual(code, 0)
+        self.assertNotIn("iran-results", out)
+        self.assertNotIn("local_subs", out)
+        self.assertIn("public-feed.txt", out)
+        self.assertIn("omitted", out)
+
+    def test_private_named_committed_paths_never_printed(self):
+        start = self.commit_repo()
+        write_file(self.repo, "iran-results/stage.txt", b"stage\n")
+        write_file(self.repo, "sources.private.txt", b"private\n")
+        write_file(self.repo, "data/secret.db", b"db\n")
+        write_file(self.repo, "subs/public.txt", b"public\n")
+        commit_all(self.repo, "bot")
+        code, out = run_summary(self.repo, RUN_START_SHA=start, RUN_STATUS="success")
+        self.assertEqual(code, 0)
+        self.assertNotIn("iran-results", out)
+        self.assertNotIn("sources.private", out)
+        self.assertNotIn("secret.db", out)
+        self.assertIn("subs/public.txt", out)
+        self.assertIn("omitted", out)
+
+    def test_private_named_tracked_working_tree_paths_never_printed(self):
+        self.commit_repo()
+        write_file(self.repo, "iran-results/tracked.txt", b"one\n")
+        commit_all(self.repo, "fixture private file")
+        start = head(self.repo)
+        write_file(self.repo, "iran-results/tracked.txt", b"two\n")
+        code, out = run_summary(self.repo, RUN_START_SHA=start, RUN_STATUS="success")
+        self.assertEqual(code, 0)
+        self.assertNotIn("iran-results", out)
+        self.assertIn("omitted", out)
+
+    def test_bidi_and_c1_controls_are_neutralized(self):
+        spec = importlib.util.spec_from_file_location("workflow_summary", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        samples = ["a\u202ab.txt", "a\u202eb.txt", "a\u202cb.txt", "a\u2066b.txt", "a\u2069b.txt", "a\u0085b.txt", "a\u009fb.txt"]
+        for sample in samples:
+            with self.subTest(sample=sample):
+                safe = module.safe_path(sample.encode())
+                for ch in "\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069\u0085\u009f":
+                    self.assertNotIn(ch, safe)
+
+
+class StdoutFailureTests(WorkflowSummaryFixture):
+    def test_broken_stdout_cannot_fail_the_summary_step(self):
+        start = self.commit_repo()
+        target = self.summary_file()
+        env = dict(os.environ)
+        for key in ("RUN_START_SHA", "RUN_STATUS", "RUN_PUBLICATION", "GITHUB_STEP_SUMMARY"):
+            env.pop(key, None)
+        env.update(RUN_START_SHA=start, RUN_STATUS="failure", GITHUB_STEP_SUMMARY=str(target))
+        previous = os.getcwd()
+        os.chdir(self.repo)
+        try:
+            spec = importlib.util.spec_from_file_location("workflow_summary", SCRIPT)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+
+            def exploding_write(data):
+                raise OSError("stdout unavailable")
+
+            with mock.patch.dict(os.environ, env, clear=True), \
+                 mock.patch("sys.stdout", new=type("ExplodingStdout", (), {"write": staticmethod(exploding_write)})()):
+                code = module.main()
+        finally:
+            os.chdir(previous)
+        self.assertEqual(code, 0)
+        self.assertTrue(target.is_file())
+        self.assertIn("NavaRoute workflow run summary", target.read_text(encoding="utf-8"))
+
+
 class SanitizeUnitTests(unittest.TestCase):
     def test_path_sanitizer_neutralizes_control_and_markdown_characters(self):
         spec = importlib.util.spec_from_file_location("workflow_summary", SCRIPT)
