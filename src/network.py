@@ -366,9 +366,8 @@ def fetch_bytes(url: str, *, timeout: float = 20.0, max_bytes: int,
                     wire_headers["Proxy-Authorization"] = connection.proxy[2]
             connection.sock.settimeout(_remaining(end))
             connection.request(method, path, body=data, headers=wire_headers)
-            connection.sock.settimeout(_remaining(end))
-            # Retain the socket even if getresponse detaches it for Connection: close.
-            transport = connection.sock
+            # getresponse() closes the socket object when the response has Connection: close;
+            # the response's file object retains the detached descriptor, so never touch the socket again.
             result = connection.getresponse()
             _remaining(end)
             if result.status in (301, 302, 303, 307, 308):
@@ -396,7 +395,6 @@ def fetch_bytes(url: str, *, timeout: float = 20.0, max_bytes: int,
                 raise NetworkError("Unsupported response content encoding")
             body = bytearray()
             while True:
-                transport.settimeout(_remaining(end))
                 chunk = result.read1(min(65536, max_bytes + 1 - len(body)))
                 _remaining(end)
                 if not chunk:
