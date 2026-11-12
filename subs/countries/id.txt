@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIElEIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:32:38.245724+00:00
+# snapshot-time: 2026-11-12T20:58:11.590663+00:00
 
 trojan://idc117okt@103.176.78.153:443?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIlRubVhQSUZWd2Z2eUZadmYudi4zZG5zLnZpcCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvd3Mtdm1lc3MiLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eu8J+HqSBJRF0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiVG5tWFBJRlZ3ZnZ5Rlp2Zi52LjNkbnMudmlwIiwgInBvcnQiOiA0NDMsICJpZCI6ICJiNjY0Y2MzNi00ODk2LTQ1NGItYmI5Yy0xMzc3Yzc2MTc2ZGUifQ==

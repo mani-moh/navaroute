@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": 1794293722,
+  "last_updated": 1794517064,
   "queries_executed": [
     "site:t.me \"vless://\" reality",
     "site:t.me \"vmess://\" OR \"trojan://\" iran",
@@ -31,7 +31,14 @@
     "site:t.me \"فیلترشکن\" \"vless reality\" \"vmess\" \"trojan\" \"hysteria2\" \"رایگان\" \"کانال تلگرام\" \"اشتراک\" \"بدون لاگ\"",
     "gh:vless-reality-vmess-trojan-hysteria2-free-subscription",
     "gh:censorship-bypass-proxy-configs-daily-update",
-    "gh:iran-china-russia-circumvention-tools-collection"
+    "gh:iran-china-russia-circumvention-tools-collection",
+    "\"free proxy list\" \"socks5\" \"elite\" \"updated\"",
+    "\"public proxy\" \"api\" \"json\" \"github\"",
+    "\"proxy pool\" \"auto update\" \"github\" \"free\"",
+    "\"clash config\" \"subscription\" \"public\" \"free\"",
+    "\"shadowsocks\" \"free nodes\" \"public\" \"list\"",
+    "gh:gh:proxy-list",
+    "gh:gh:proxy-pool"
   ],
   "candidate_queue": [
     "configexbot",
@@ -261,7 +268,11 @@
     "xstack",
     "fert3retujnbc",
     "sino",
-    "sohrabcontents"
+    "sohrabcontents",
+    "self",
+    "viewer",
+    "p4g5",
+    "mentioned"
   ],
   "candidate_scores": {
     "configshub": 1,
@@ -892,7 +903,11 @@
     "fert3retujnbc": 1,
     "sino": 1,
     "sohrabcontents": 1,
-    "configexbot": 6
+    "configexbot": 6,
+    "self": 1,
+    "viewer": 1,
+    "p4g5": 1,
+    "mentioned": 1
   },
   "visited_channels": [
     "configshub",
@@ -1156,7 +1171,25 @@
     "https://raw.githubusercontent.com/mohammadghaffary/abc-configs-free-vpn-proxy-list/main/sub.txt",
     "https://raw.githubusercontent.com/mohammadghaffary/abc-configs-free-vpn-proxy-list/main/configs.txt",
     "https://raw.githubusercontent.com/mohammadghaffary/abc-configs-free-vpn-proxy-list/main/All_Configs_Sub.txt",
-    "https://raw.githubusercontent.com/mohammadghaffary/abc-configs-free-vpn-proxy-list/main/sub"
+    "https://raw.githubusercontent.com/mohammadghaffary/abc-configs-free-vpn-proxy-list/main/sub",
+    "https://raw.githubusercontent.com/dh-orko/Help-me-get-rid-of-unhumans/master/sub.txt",
+    "https://raw.githubusercontent.com/dh-orko/Help-me-get-rid-of-unhumans/master/configs.txt",
+    "https://raw.githubusercontent.com/dh-orko/Help-me-get-rid-of-unhumans/master/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/dh-orko/Help-me-get-rid-of-unhumans/master/sub",
+    "https://raw.githubusercontent.com/jaityron/new-pac-wiki/master/sub.txt",
+    "https://raw.githubusercontent.com/jaityron/new-pac-wiki/master/configs.txt",
+    "https://raw.githubusercontent.com/jaityron/new-pac-wiki/master/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/jaityron/new-pac-wiki/master/sub",
+    "https://raw.githubusercontent.com/dh-orko/Help-me-get-rid-of-unhumans/master/README.md",
+    "https://raw.githubusercontent.com/Alvin9999/pac2/master/%E5%9B%BE%E6%A0%87.PNG",
+    "https://raw.githubusercontent.com/Alvin9999/pac2/master/shenyun003.jpg",
+    "https://raw.githubusercontent.com/Alvin9999/pac2/master/1.JPG",
+    "https://raw.githubusercontent.com/Alvin9999/pac2/master/2.JPG",
+    "https://raw.githubusercontent.com/jaityron/new-pac-wiki/master/README.md",
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/sub.txt",
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/configs.txt",
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/sub"
   ],
   "sources_metadata": {
     "gh-731be4b5c4": {
@@ -3501,6 +3534,28 @@
       "oldest_post_id": 140
     }
   },
-  "last_run_api_requests": 23,
-  "total_api_requests": 23
+  "last_run_api_requests": 5,
+  "total_api_requests": 28,
+  "pending_queries": [
+    "gh:gh:free-proxy"
+  ],
+  "pending_children": {
+    "gh:gh:free-proxy": [
+      {
+        "kind": "page",
+        "url": "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/README.md"
+      }
+    ],
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/README.md": [
+      {
+        "kind": "subscription",
+        "url": "https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js)"
+      }
+    ]
+  },
+  "pending_pages": [
+    "https://raw.githubusercontent.com/rramatchandran/big-o-performance-java/master/README.md"
+  ],
+  "external_attempt_order": {},
+  "image_results": {}
 }

@@ -1,11 +1,10 @@
-# NavaRoute historical public discovery snapshot
+# 🛰️ Autonomous Subscription Discovery Leaderboard
 
-> Retained historical public discovery metadata, not a new crawl or current-health ranking.
-> Snapshot source: `cfbb8793f81ea6fcefc90c511ebd786c47082766`, unchanged public records at migration base `2ef74d6`.
-> No model calls, crawl, OCR or node health probes were run during the offline migration. The historical counts and upstream links below are not fresh measurements.
+> Real-time ranking of auto-discovered proxy feeds, Telegram channels, and aggregators
+> *Updated automatically by NavaRoute Autonomous Agent (powered by NVIDIA NIM Frontier AI: Kimi K2.6 / Mistral Large 4 / Nemotron)*
 
-**Last Sync:** `2026-11-10 06:55:22 UTC`  
-**Total Channels Scanned:** `243` | **Pending Queue:** `231` | **Active Discovered Feeds:** `49` | **Current Node Yield:** `9198`
+**Last Sync:** `2026-11-12 20:57:44 UTC`  
+**Total Channels Scanned:** `243` | **Pending Queue:** `232` | **Active Discovered Feeds:** `47` | **Current Node Yield:** `9166`
 
 ## 🏆 Top Discovered Channels & Subscription Feeds
 
@@ -44,9 +43,9 @@
 
 ## 🧭 Discovery Queue & Exploration Horizon
 
-- Channels waiting for deep-inspection in next cycle: **231**
-- Unique query patterns synthesized: **30**
-- NVIDIA Nemotron API calls (last run / cumulative): **23** / **23**
+- Channels waiting for deep-inspection in next cycle: **232**
+- Unique query patterns synthesized: **37**
+- NVIDIA Nemotron API calls (last run / cumulative): **5** / **28**
 
 ---
-*NavaRoute retains these historical records; scheduled discovery may later replace them with an actual dated cycle.*
+*Automated intelligence powered by NavaRoute Pipeline*

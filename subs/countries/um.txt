@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFVNIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:32:38.245724+00:00
+# snapshot-time: 2026-11-12T20:58:11.590663+00:00
 
 vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.93:8880?mode=gun&security=none&encryption=none&type=grpc#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 vless://ea6b9b08-94d1-4213-8f30-f1788dd64978@40.160.230.180:443?path=%2Flinkws&security=tls&encryption=none&host=maxnetvipap-cloud-us180.maxnetservices.online&type=ws&sni=maxnetvipap-cloud-us180.maxnetservices.online#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-ws%20%7C%20src%3Aelf2017spring-configshub

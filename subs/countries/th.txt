@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRIIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:32:38.245724+00:00
+# snapshot-time: 2026-11-12T20:58:11.590663+00:00
 
 vless://3c52e091-6714-4915-949f-2149fe69951b@116.206.124.228:80?encryption=none&type=ws&host=aIs.SpEeDtEsT.nEt&path=%2Fws&security=none#%5B%F0%9F%87%B9%F0%9F%87%AD%20TH%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIm5vbmUiLCAicGF0aCI6ICIiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HufCfh60gVEhdIFZNZXNzLW5vbmUgfCBzcmM6ZGVsdGEta3JvbmVja2VyLWFsbCIsICJhZGQiOiAiMTE5LjQ2LjUxLjQ1IiwgInBvcnQiOiAzNzUxNSwgImlkIjogIjliNzZiYzMxLTE3YTUtNDQ1NC05MzRhLThkNWZiNjAyY2Q3MCJ9

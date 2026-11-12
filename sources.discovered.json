@@ -25,19 +25,6 @@
       "enabled": true
     },
     {
-      "id": "tg-configshub",
-      "name": "Telegram @configshub",
-      "url": "https://t.me/s/configshub",
-      "verified_upstream": false,
-      "format": "telegram_web",
-      "tags": [
-        "auto-discovered",
-        "telegram",
-        "iran"
-      ],
-      "enabled": true
-    },
-    {
       "id": "tg-freev2rays",
       "name": "Telegram @freev2rays",
       "url": "https://t.me/s/freev2rays",

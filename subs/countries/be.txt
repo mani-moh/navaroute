@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEJFIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:32:38.245724+00:00
+# snapshot-time: 2026-11-12T20:58:11.590663+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInJlbmRlcmVyLXN0cmVhbS0yLTYyLm1pcnJhLm5vdyIsICJwYXRoIjogIi9hcGkvdjEvZ3B1LXN0cmVhbS9zb2NrZXQiLCAidGxzIjogInRscyIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+Hp/Cfh6ogQkVdIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM1LjI0MS4xNzIuMjI0IiwgInBvcnQiOiA0NDMsICJpZCI6ICJkYjUwYTIwZS03ZmY1LTRlNzAtOTQ4Zi0xN2NjOWNhN2MxNTQifQ==
 vless://ce698f0c-a8ec-474a-b5d8-3be8032deeb8@146.103.118.189:443?encryption=none&type=ws&security=tls&path=%2F574ck-finland&host=nl2.574ck.xyz&sni=nl2.574ck.xyz&fp=firefox#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
@@ -28,6 +28,7 @@ ss://YWVzLTI1Ni1nY206eDIzWjRMR2tHRGtUaFo5S2F6NERVUlFw@185.232.21.53:40093#%5B%F0
 ss://YWVzLTI1Ni1nY206eDIzWjRMR2tHRGtUaFo5S2F6NERVUlFw@37.120.236.147:40093#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpHIXlCd1BXSDNWYW8@193.9.114.34:805#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vmess://eyJ2IjogIjIiLCAidHlwZSI6ICJub25lIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi9hcGkvdjEvZ3B1LXN0cmVhbS9zb2NrZXQiLCAiaG9zdCI6ICJyZW5kZXJlci1zdHJlYW0tMi02Mi5taXJyYS5ub3ciLCAidGxzIjogInRscyIsICJwcyI6ICJb8J+Hp/Cfh6ogQkVdIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjE5Mi43MS4yNDkuMTg2IiwgInBvcnQiOiA0NDMsICJpZCI6ICJkYjUwYTIwZS03ZmY1LTRlNzAtOTQ4Zi0xN2NjOWNhN2MxNTQifQ==
+vless://ce698f0c-a8ec-474a-b5d8-3be8032deeb8@146.103.118.189:443?path=%2F574ck-finland&security=tls&encryption=none&insecure=0&host=nl2.574ck.xyz&fp=chrome&type=ws&allowInsecure=0&sni=nl2.574ck.xyz#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20VLESS-ws%20%7C%20src%3Abarry-far-all
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJyZW5kZXJlci1zdHJlYW0tMi02Mi5taXJyYS5ub3ciLCAibmV0IjogIndzIiwgInBhY2tldEVuY29kaW5nIjogInh1ZHAiLCAicGF0aCI6ICIvYXBpL3YxL2dwdS1zdHJlYW0vc29ja2V0IiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJyZW5kZXJlci1zdHJlYW0tMi02Mi5taXJyYS5ub3ciLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4en8J+HqiBCRV0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMTkyLjcxLjI0OS4xODYiLCAicG9ydCI6IDQ0MywgImlkIjogImRiNTBhMjBlLTdmZjUtNGU3MC05NDhmLTE3Y2M5Y2E3YzE1NCJ9
 vless://75c5f51b-d548-4eab-a26e-aa10fc3dbc7b@147.93.173.45:10444?security=reality&type=tcp&sni=video.yandex.ru&fp=safari&flow=xtls-rprx-vision&sid=8debcf36f1cc69ff&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&encryption=none#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 vless://75c5f51b-d548-4eab-a26e-aa10fc3dbc7b@147.93.173.45:10444?security=reality&type=tcp&sni=video.yandex.ru&fp=safari&flow=xtls-rprx-vision&sid=8debcf36f1cc69ff&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub

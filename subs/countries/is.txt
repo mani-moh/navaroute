@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIElTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T20:32:38.245724+00:00
+# snapshot-time: 2026-11-12T20:58:11.590663+00:00
 
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.228:10889?type=tcp&security=tls&sni=web.max&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.169:10889?type=tcp&security=tls&sni=ya.ru&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
