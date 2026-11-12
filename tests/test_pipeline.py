@@ -543,6 +543,14 @@ class TestMainPipeline(unittest.TestCase):
                 self.assertEqual((path / "all.txt").read_bytes(), b"complete previous generation")
                 self.assertNotIn("private", output.getvalue())
 
+    def test_failure_message_identifies_safe_function_and_line_without_exception_text(self):
+        with tempfile.TemporaryDirectory() as scratch, patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+             patch("src.main.fetch_all_sources", side_effect=ValueError("private rejected input")), \
+             contextlib.redirect_stdout(output := io.StringIO()):
+            self.assertNotEqual(main(["--output-dir", scratch, "--no-healthcheck", "--no-docs"]), 0)
+        self.assertRegex(output.getvalue(), r"Pipeline failed \(ValueError at <[^\r\n>]+>:[0-9]+\); publication stopped\.")
+        self.assertNotIn("private rejected input", output.getvalue())
+
     def test_partial_source_failure_keeps_valid_peers_and_truthful_empty_reachable(self):
         with tempfile.TemporaryDirectory() as scratch, \
              patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \

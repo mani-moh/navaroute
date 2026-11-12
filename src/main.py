@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 import time
+import traceback
+from pathlib import Path
 from typing import Any
 
 from src.categorizer import publish_subscriptions
@@ -117,7 +120,12 @@ def main(argv: list[str] | None = None) -> int:
         return _run(args)
     except Exception as exc:
         # Exception messages can contain source URLs, credentials or core logs.
-        safe_print(f"Pipeline failed ({type(exc).__name__}); publication stopped. Any interrupted persistence must recover before the next run.")
+        frames = traceback.extract_tb(exc.__traceback__)
+        source_root = Path(__file__).resolve().parent
+        frame = next((frame for frame in reversed(frames) if Path(frame.filename).resolve(strict=False).is_relative_to(source_root)), frames[-1] if frames else None)
+        function = re.sub(r"[^A-Za-z0-9_.<>-]", "_", frame.name if frame else "unknown")[:80] or "unknown"
+        line = frame.lineno if frame else 0
+        safe_print(f"Pipeline failed ({type(exc).__name__} at <{function}>:{line}); publication stopped. Any interrupted persistence must recover before the next run.")
         return 1
 
 
