@@ -67,6 +67,7 @@ def response(body=b"ok", status=200, headers=b""):
 
 class WireFixture(unittest.TestCase):
     def setUp(self):
+        network.clear_dns_cache()
         self.stack = contextlib.ExitStack()
         self.addCleanup(self.stack.close)
         system = {key: os.environ[key] for key in ("SystemRoot", "WINDIR", "TEMP", "TMP") if key in os.environ}
@@ -127,6 +128,26 @@ class NetworkTests(WireFixture):
         self.assertEqual(len(self.resolutions), 1)
         self.assertEqual(self.sockets[0].connected, ("8.8.8.8", 80))
         self.assertIn(b"Host: public.example\r\n", self.sockets[0].sent)
+
+    def test_dns_cache_reuses_validated_answer_without_a_second_lookup(self):
+        self.assertEqual(self.fetch(), (200, b"ok"))
+        self.responses = [response()]
+        self.assertEqual(self.fetch(), (200, b"ok"))
+        self.assertEqual(self.resolutions, [("public.example", 80)])
+
+    def test_dns_cache_never_stores_a_security_rejection(self):
+        with self.assertRaises(ValueError):
+            self.fetch("http://mixed.example/")
+        self.answers["mixed.example"] = ["8.8.8.8"]
+        self.responses = [response()]
+        self.assertEqual(self.fetch("http://mixed.example/"), (200, b"ok"))
+
+    def test_dns_cache_clear_forces_a_fresh_lookup(self):
+        self.assertEqual(self.fetch(), (200, b"ok"))
+        network.clear_dns_cache()
+        self.responses = [response()]
+        self.assertEqual(self.fetch(), (200, b"ok"))
+        self.assertEqual(self.resolutions, [("public.example", 80), ("public.example", 80)])
 
     def test_rebound_connected_peer_is_closed_before_http(self):
         sock = WireSocket(response(), peer=("127.0.0.1", 80))

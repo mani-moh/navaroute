@@ -28,6 +28,10 @@ CORE_FIXTURE = str(Path(tempfile.gettempdir()) / "navaroute-nonexistent-fixture-
 
 
 class TestHealthcheck(unittest.TestCase):
+    def setUp(self):
+        from src.network import clear_dns_cache
+        clear_dns_cache()
+
     def test_socket_rejects_private_without_connect_and_records_real_kind(self):
         from src import healthcheck as hc
         for address in ("127.0.0.1", "192.168.1.1", "192.0.2.1", "::1"):
@@ -42,6 +46,26 @@ class TestHealthcheck(unittest.TestCase):
         self.assertFalse(nodes[1].passed_healthcheck)
         self.assertEqual(nodes[1].healthcheck_kind, "untested")
         self.assertIsNone(nodes[1].latency_ms)
+
+    def test_healthcheck_sample_keeps_priority_and_rotates_the_rest(self):
+        from src.healthcheck import select_healthcheck_sample
+        priority = ProxyNode("trojan", "1.1.1.1", 443, "priority", is_verified_source=True)
+        rest = [ProxyNode(scheme, "1.1.1.1", 443, f"{scheme}-{i}")
+                for scheme in ("vless", "vmess") for i in range(6)]
+        nodes = rest + [priority]
+        sample = select_healthcheck_sample(nodes, 4, sample_seed=0)
+        self.assertEqual(sample[0], priority)
+        self.assertEqual({n.scheme for n in sample[1:]}, {"vless", "vmess"})
+        # A different seed picks a different slice of the same population.
+        rotated = select_healthcheck_sample(nodes, 4, sample_seed=3)
+        self.assertEqual(rotated[0], priority)
+        self.assertNotEqual([n.credential for n in sample[1:]], [n.credential for n in rotated[1:]])
+        # Single-protocol, seed 0: the old take-the-first order is kept.
+        single = [ProxyNode("vless", "1.1.1.1", 443, f"n{i}") for i in range(5)]
+        self.assertEqual([n.credential for n in select_healthcheck_sample(single, 2, sample_seed=0)], ["n0", "n1"])
+        self.assertEqual(select_healthcheck_sample(single, 10), single)
+        with self.assertRaises(ValueError):
+            select_healthcheck_sample(single, 2, sample_seed=-1)
 
     def test_faithful_trojan_tls_vmess_grpc_and_supported_settings(self):
         trojan = build_xray_outbound(ProxyNode("trojan", "public.example", 443, "public"))
@@ -213,6 +237,10 @@ class TestHealthcheck(unittest.TestCase):
         self.assertEqual(outbound["streamSettings"]["tlsSettings"]["serverName"], "public.example")
         self.assertEqual(outbound["streamSettings"]["wsSettings"]["headers"]["Host"], "public.example:443")
         self.assertEqual(node.semantic_fingerprint(), original)
+        # The first phase cached 1.1.1.1; drop it so the rebinding
+        # resolver below is actually consulted.
+        from src.network import clear_dns_cache
+        clear_dns_cache()
         with patch("src.network.socket.getaddrinfo", return_value=[(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("127.0.0.1", 443))]), \
              patch.object(hc.subprocess, "Popen", side_effect=AssertionError("private core dial")):
             with self.assertRaises(ValueError):

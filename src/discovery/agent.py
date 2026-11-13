@@ -726,17 +726,26 @@ class DiscoveryAgent:
             order = self.state_manager.state.setdefault("external_attempt_order", {})
             self.state_manager.state["external_attempt_order"] = order = {key: value for key, value in order.items() if key in discovered}
             external.sort(key=lambda item: (order.get(item[0], 0), self.state_manager.state["sources_metadata"].get(item[0], {}).get("last_checked", 0)))
-            for key, source in external[:5] if max_channels else []:
-                if not self._can_work():
-                    break
-                order[key] = max(order.values(), default=0) + 1
-                count = self.probe_sub_url(source["url"])
-                # Only a discovered source may be dropped for probing
-                # empty; a curated source that fails once stays listed.
-                if count == 0 and source.get("origin", "discovered") == "discovered":
-                    discovered.pop(key)
-                if count is not None:
-                    self.state_manager.record_external_source(key, key, count, source["url"])
+            # Probe the bounded external set concurrently: the probes are
+            # network-bound and independent, and probe_sub_url only touches
+            # thread-safe state (the visited-URL lock, the per-URL probe
+            # cache). All mutations of the run's own structures stay in
+            # this thread, in the probes' original order.
+            targets = external[:5] if max_channels else []
+            if targets and self._can_work():
+                import concurrent.futures
+                with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(targets))) as pool:
+                    probed = list(pool.map(lambda item: (item[0], item[1], self.probe_sub_url(item[1]["url"])), targets))
+                for key, source, count in probed:
+                    if not self._can_work() and count is None:
+                        continue
+                    order[key] = max(order.values(), default=0) + 1
+                    # Only a discovered source may be dropped for probing
+                    # empty; a curated source that fails once stays listed.
+                    if count == 0 and source.get("origin", "discovered") == "discovered":
+                        discovered.pop(key)
+                    if count is not None:
+                        self.state_manager.record_external_source(key, key, count, source["url"])
             while checked < max_channels and self._can_work():
                 batch = self.state_manager.pop_next_candidates(min(5, max_channels - checked), exclude=attempted)
                 if not batch:

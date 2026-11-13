@@ -197,6 +197,10 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
 
 
 class TestDnsRetry(unittest.TestCase):
+    def setUp(self):
+        from src.network import clear_dns_cache
+        clear_dns_cache()
+
     def test_transient_dns_failure_is_retried_then_succeeds(self):
         calls = {"n": 0}
 

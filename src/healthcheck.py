@@ -379,10 +379,58 @@ def probe_node_xray(node: ProxyNode, xray_bin: str, timeout: float = 4.0,
     return 0 in result.passed, result.passed.get(0)
 
 
+def select_healthcheck_sample(nodes: list[ProxyNode], max_nodes: int, sample_seed: int = 0) -> list[ProxyNode]:
+    """Pick the nodes a run actually tests, rotating the non-priority slice.
+
+    Priority nodes (verified upstream, Iran-related, reality, confighub)
+    are always tested first, in order. The remaining budget is filled by
+    a round-robin across protocols, with each protocol's list rotated by
+    ``sample_seed`` so successive runs (main passes the UTC day number)
+    test a different slice of the 60k+ nodes instead of the same first
+    1,500 every time. With seed 0 the selection matches the old
+    take-the-first behaviour for single-protocol lists.
+    """
+    if type(sample_seed) is not int or sample_seed < 0:
+        raise ValueError("Invalid healthcheck sample seed")
+    if max_nodes >= len(nodes):
+        return list(nodes)
+    priority_ids = {id(n) for n in nodes
+                    if n.is_verified_source or n.is_iran_related() or n.is_reality() or "confighub" in n.tags}
+    priority = [n for n in nodes if id(n) in priority_ids]
+    if len(priority) >= max_nodes:
+        return priority[:max_nodes]
+    rest = [n for n in nodes if id(n) not in priority_ids]
+    by_scheme: dict[str, list[ProxyNode]] = {}
+    for node in rest:
+        by_scheme.setdefault(node.scheme, []).append(node)
+    rotated = {}
+    for scheme, group in by_scheme.items():
+        start = sample_seed % len(group)
+        rotated[scheme] = group[start:] + group[:start]
+    needed = max_nodes - len(priority)
+    picked: list[ProxyNode] = []
+    indexes = {scheme: 0 for scheme in rotated}
+    while len(picked) < needed:
+        progressed = False
+        for scheme in sorted(rotated):
+            if len(picked) >= needed:
+                break
+            index = indexes[scheme]
+            if index < len(rotated[scheme]):
+                picked.append(rotated[scheme][index])
+                indexes[scheme] = index + 1
+                progressed = True
+        if not progressed:
+            break
+    return priority + picked
+
+
 def check_nodes_health(nodes: list[ProxyNode], max_nodes: int = 1500, concurrency: int = 64, timeout: float = 3.5,
                        xray_bin: str | None = None, use_xray: bool = False, batch_size: int = 48,
-                       rounds: int = 1, test_urls: list[str] | None = None) -> dict:
+                       rounds: int = 1, test_urls: list[str] | None = None, sample_seed: int = 0) -> dict:
     validate_limits(max_nodes, concurrency, timeout, batch_size, rounds)
+    if type(sample_seed) is not int or sample_seed < 0:
+        raise ValueError("Invalid healthcheck sample seed")
     for node in nodes:
         node.passed_healthcheck = False
         node.latency_ms = None
@@ -400,7 +448,7 @@ def check_nodes_health(nodes: list[ProxyNode], max_nodes: int = 1500, concurrenc
         supported = [n for n in ordered if build_xray_outbound(n) is not None]
         unsupported = len(nodes) - len(supported)
         unsupported_fingerprints = {n.semantic_fingerprint() for n in nodes if build_xray_outbound(n) is None}
-        target = supported[:max_nodes]
+        target = select_healthcheck_sample(supported, max_nodes, sample_seed)
         # Validate every selected public DNS answer before any core is started; never re-resolve for dial.
         prepared = [prepare_public_outbound(n, timeout) for n in target]
         latencies = {i: [] for i in range(len(target))}
@@ -438,7 +486,7 @@ def check_nodes_health(nodes: list[ProxyNode], max_nodes: int = 1500, concurrenc
             node.healthcheck_kind = "socket"
             node.healthchecked_at = utc_now()
         with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as pool:
-            list(pool.map(worker, ordered[:max_nodes]))
+            list(pool.map(worker, select_healthcheck_sample(ordered, max_nodes, sample_seed)))
     tested = sum(n.healthcheck_kind != "untested" for n in nodes)
     passed = sum(n.passed_healthcheck for n in nodes)
     return {"tested": tested, "passed": passed, "failed": tested - passed, "unsupported": unsupported,

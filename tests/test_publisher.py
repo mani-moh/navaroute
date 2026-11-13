@@ -175,7 +175,9 @@ class TestPublisher(unittest.TestCase):
         def fail_late(path, target):
             if Path(target).is_relative_to(self.out) or Path(target) == self.root / "STATUS.md":
                 projections.append(target)
-                if len(projections) == 8:
+                # Incremental publishing projects only changed feeds
+                # (3rd projection here is all_base64.txt), so fail early.
+                if len(projections) == 3:
                     raise OSError("late projection error")
             return original(path, target)
         with patch.object(Path, "replace", new=fail_late), self.assertRaises(OSError):
@@ -384,6 +386,43 @@ class TestPublisher(unittest.TestCase):
         self.assertEqual(generated.utcoffset().total_seconds(), 0)
         self.assertIn(timestamp, self.readme.read_text(encoding="utf-8"))
         self.assertIn(timestamp, (self.root / "STATUS.md").read_text(encoding="utf-8"))
+
+    def test_unchanged_feeds_are_not_rewritten_on_a_later_run(self):
+        report: dict = {}
+        self.publish(snapshot_time=HISTORICAL, publish_report=report)
+        feeds_before = {key: value for key, value in self.bytes().items() if key.startswith("feeds/")}
+        self.publish(snapshot_time="2025-06-07T08:09:10+00:00", publish_report=report)
+        feeds_after = {key: value for key, value in self.bytes().items() if key.startswith("feeds/")}
+        self.assertEqual(feeds_after, feeds_before)
+        self.assertGreater(report["skipped_files"], 0)
+        self.assertGreater(report["skipped_bytes"], 0)
+        # Docs still regenerate with the new run timestamp; only the
+        # feed files keep the timestamp of their last content change.
+        self.assertIn("2025-06-07T08:09:10+00:00", self.readme.read_text(encoding="utf-8"))
+
+    def test_unchanged_country_feeds_are_skipped_not_deleted(self):
+        nodes = [self.node(str(i), country_code="DE") for i in range(5)]
+        nodes += [self.node(str(i), country_code="FR") for i in range(5, 10)]
+        self.publish(nodes, snapshot_time=HISTORICAL)
+        de_before = (self.out / "countries/de.txt").read_bytes()
+        fr_before = (self.out / "countries/fr.txt").read_bytes()
+        # Same nodes, later run: country feeds must survive untouched,
+        # not be treated as stale files to delete or as missing stages.
+        self.publish(nodes, snapshot_time="2025-06-07T08:09:10+00:00")
+        self.assertEqual((self.out / "countries/de.txt").read_bytes(), de_before)
+        self.assertEqual((self.out / "countries/fr.txt").read_bytes(), fr_before)
+
+    def test_changed_feed_is_rewritten_while_unchanged_ones_are_skipped(self):
+        self.publish([self.node("only", scheme="trojan")], snapshot_time=HISTORICAL)
+        trojan_before = (self.out / "protocols/trojan.txt").read_bytes()
+        all_before = (self.out / "all.txt").read_bytes()
+        report: dict = {}
+        self.publish([self.node("only", scheme="trojan"), self.node("extra", scheme="vless")],
+                     snapshot_time="2025-06-07T08:09:10+00:00", publish_report=report)
+        self.assertEqual((self.out / "protocols/trojan.txt").read_bytes(), trojan_before)
+        self.assertNotEqual((self.out / "all.txt").read_bytes(), all_before)
+        self.assertGreater(report["skipped_files"], 0)
+        self.assertLess(report["written_files"], len(self.bytes()))
 
     def test_recovery_includes_old_docs_even_if_next_run_disables_doc_updates(self):
         self.publish()

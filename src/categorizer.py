@@ -66,6 +66,22 @@ def _owned_feed(key: str) -> bool:
             and re.fullmatch(r"countries/[a-z]{2}", stem) is not None)
 
 
+def _feed_body(key: str, content: str) -> str:
+    """The part of a feed file that identifies its content.
+
+    Plain feeds carry a header (profile title, update interval,
+    snapshot time) above a blank line; only the body below it is the
+    node set. Base64 feeds and the serverless fragment have no header,
+    so the whole content is the body. Comparing bodies lets a second
+    run skip files whose configs did not change, even though the
+    snapshot timestamp in the header would differ.
+    """
+    if key.endswith("_base64.txt") or key.endswith(".json"):
+        return content
+    _, separator, body = content.partition("\n\n")
+    return body if separator else content
+
+
 def _target(key: str, out: Path, docs: bool) -> Path:
     if key.startswith("feed/") and _owned_feed(key[5:]):
         target = out / key[5:]
@@ -150,14 +166,19 @@ def _recover(transaction: Path, out: Path, docs: bool) -> None:
     _cleanup_transaction(transaction)
 
 
-def _project(rendered: dict[str, str], out: Path, docs: bool, transaction: Path) -> None:
+def _project(rendered: dict[str, str], out: Path, docs: bool, transaction: Path, skip: frozenset | None = None) -> None:
+    skipped = skip or frozenset()
     old_countries = []
     countries = out / "countries"
     _plain_path(countries)
     if countries.exists():
+        # Only country files no longer in this generation are deletion
+        # targets; a file that is still rendered (even when skipped as
+        # unchanged) must not be re-added to the projection keys.
         old_countries = [f"feed/countries/{p.name}" for p in countries.glob("*.txt")
-                         if _owned_feed(f"countries/{p.name}")]
-    keys = sorted(set(rendered) | set(old_countries))
+                         if _owned_feed(f"countries/{p.name}")
+                         and f"feed/countries/{p.name}" not in rendered]
+    keys = sorted((set(rendered) - skipped) | set(old_countries))
     targets = {key: _target(key, out, docs) for key in keys}
     previous_bytes = sum(p.stat().st_size for p in targets.values() if p.exists())
     if previous_bytes > MAX_GENERATION_BYTES or any(p.exists() and p.stat().st_size > MAX_ENCODED_BYTES for p in targets.values()):
@@ -166,6 +187,8 @@ def _project(rendered: dict[str, str], out: Path, docs: bool, transaction: Path)
     with tempfile.TemporaryDirectory(prefix=f".{out.name}.stage-", dir=out.parent) as directory:
         stage = Path(directory)
         for key, content in rendered.items():
+            if key in skipped:
+                continue
             path = stage / "new" / key
             path.parent.mkdir(parents=True, exist_ok=True)
             atomic_write_text(path, content)
@@ -225,6 +248,7 @@ def publish_subscriptions(
     nodes: list[ProxyNode], json_configs: list[dict], stats: list[SourceStats],
     output_dir: str = "subs", update_docs: bool = True, *,
     healthcheck_ran: bool = False, snapshot_time: str | None = None,
+    publish_report: dict | None = None,
 ) -> dict[str, int]:
     """Publish a bounded complete generation; true healthcheck_ran attests this run's observations.
 
@@ -351,6 +375,28 @@ def publish_subscriptions(
         body = "\n".join(selected)
         rendered[f"feed/{name}.txt"] = header + body + ("\n" if selected else "")
         rendered[f"feed/{name}_base64.txt"] = base64.b64encode(body.encode("utf-8")).decode("ascii")
+    # Incremental publishing: a feed whose node body is identical to
+    # the file already on disk is left untouched (its header keeps the
+    # timestamp of when that content was generated). Only changed
+    # feeds go through the staging transaction, which is what makes a
+    # no-change run nearly free instead of rewriting ~170 MB.
+    skipped: set[str] = set()
+    for key in list(rendered):
+        if not key.startswith("feed/") or not _owned_feed(key[5:]):
+            continue
+        try:
+            target = _target(key, out, docs)
+        except ValueError:
+            continue
+        if not target.exists():
+            continue
+        try:
+            existing = target.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            continue
+        if _feed_body(key, existing) == _feed_body(key, rendered[key]):
+            skipped.add(key)
+            rendered[key] = existing
     if docs:
         root_relative = quote(out.relative_to(REPOSITORY_ROOT).as_posix(), safe="/")
         repo_url = f"https://raw.githubusercontent.com/{detect_repo_slug()}/{DEFAULT_BRANCH}/{root_relative}"
@@ -368,5 +414,9 @@ def publish_subscriptions(
         total_bytes += retained_size + 1 + len(generated.encode("utf-8"))
         rendered["doc/README.md"] = readme[:start] + "\n" + generated + readme[end:]
         rendered["doc/STATUS.md"] = _status(stats, len(public), len(reachable), healthcheck_ran, timestamp, MAX_GENERATION_BYTES - total_bytes)
-    _project(rendered, out, docs, transaction)
+    _project(rendered, out, docs, transaction, skip=frozenset(skipped))
+    if publish_report is not None:
+        publish_report["written_files"] = len(rendered) - len(skipped)
+        publish_report["skipped_files"] = len(skipped)
+        publish_report["skipped_bytes"] = sum(len(rendered[key].encode("utf-8")) for key in skipped)
     return counts
