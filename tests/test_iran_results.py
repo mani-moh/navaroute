@@ -193,6 +193,53 @@ class TestOwnerAuthority(IranFixture):
         self.assertNotIn("NVIDIA_API_KEY", kw["env"])
 
 
+class TestApiTransport(IranFixture):
+    def test_gh_api_rejects_non_canonical_endpoints(self):
+        for path in ("", "repos/other/repo", "repos/mani-moh/navaroute/issues", "user bad", "repos/mani-moh/navaroute/../secret"):
+            with self.subTest(path=path), self.assertRaises(self.results.IranResultsError):
+                self.results.gh_api(path)
+
+    def test_gh_api_rejects_non_json_and_non_object_responses(self):
+        for raw in (b"not json", b"42", b'"just a string"'):
+            with self.subTest(raw=raw), patch.object(self.results, "_command", return_value=raw), \
+                 self.assertRaises(self.results.IranResultsError):
+                self.results.gh_api("user")
+
+    def test_pages_rejects_non_list_and_oversized_inventories(self):
+        with patch.object(self.results, "gh_api", return_value={"not": "a list"}), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results._pages("collaborators?affiliation=all")
+        with patch.object(self.results, "gh_api", return_value=[{}] * 101), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results._pages("collaborators?affiliation=all")
+        with patch.object(self.results, "gh_api", return_value=[{}] * 100), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results._pages("collaborators?affiliation=all")
+
+    def test_content_rejects_non_file_and_bad_base64(self):
+        for data in ({"type": "dir", "encoding": "base64", "content": "aGVsbG8="},
+                     {"type": "file", "encoding": "utf-8", "content": "aGVsbG8="},
+                     {"type": "file", "encoding": "base64", "content": "!!!not-base64!!!"}):
+            with self.subTest(data=data), patch.object(self.results, "gh_api", return_value=data), \
+                 self.assertRaises(self.results.IranResultsError):
+                self.results._content("subs/all.txt", SHA)
+
+    def test_command_failure_branches_are_bounded_errors(self):
+        from unittest.mock import MagicMock
+        def popen(argv, **kw):
+            proc = MagicMock()
+            proc.stdout = io.BytesIO(b"{}")
+            proc.wait.return_value = 1
+            proc.poll.return_value = 0
+            return proc
+        with patch("src.iran_results.subprocess.Popen", side_effect=popen), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results.gh_api("user")
+        with patch("src.iran_results.subprocess.Popen", side_effect=OSError("synthetic spawn failure")), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results.gh_api("user")
+
+
 class TestDirectPublication(IranFixture):
     def setUp(self):
         super().setUp()

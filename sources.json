@@ -2028,6 +2028,153 @@
         "iran"
       ],
       "enabled": true
+    },
+    {
+      "id": "vestranet-mix-b64",
+      "name": "VestraNet Mix Base64",
+      "url": "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/subscriptions/mix-base64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Full mix of all protocols, base64.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "morpheus-best",
+      "name": "Morpheus Best",
+      "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/best.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Measurement-verified best 2000 configs from a meta-aggregator (aggregator of aggregators: value is verification and ranking, not new raw nodes).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "morpheus-iran",
+      "name": "Morpheus Iran",
+      "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/iran.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Iran-focused bundle (REALITY, XTLS, Hysteria2, TUIC). Iran-focused. Meta-aggregator: value is verification and ranking.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "morpheus-hysteria2",
+      "name": "Morpheus Hysteria2",
+      "url": "https://raw.githubusercontent.com/morpheusadam/v2ray-config/main/subs/bundles/hysteria2.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hysteria2-only bundle from a measurement-verified meta-aggregator.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nyeinkokoaung-sub1",
+      "name": "NyeinKokoAung Sub1",
+      "url": "https://raw.githubusercontent.com/nyeinkokoaung404/V2ray-Configs/main/Sub1.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "collector-ui-configs",
+      "name": "Collector UI Configs",
+      "url": "https://raw.githubusercontent.com/alirezauser67-coder/collector-UI/refs/heads/main/configs.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Independent harvester of configs hosted on free deployment platforms, end-to-end checked alive.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "matinghanbari-hysteria2",
+      "name": "MatinGhanbari Hysteria2",
+      "url": "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/filtered/subs/hysteria2.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hysteria2-only filtered feed.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "telegavpn-all-b64",
+      "name": "TelegaVPN All Base64",
+      "url": "https://codeberg.org/telegavpn/free-vpn-keys/raw/branch/main/sub/base64/all.txt",
+      "description": "Auto-discovered public subscription from codeberg.org. Small independently Xray-probed pool (base64).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "codeberg",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "v2raycollector-tcp-shatel",
+      "name": "v2rayCollector TCP Shatel",
+      "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/tcp-shatel.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. TCP-tested Shatel ISP pool; adds 2316 nodes beyond the existing url-shatel tier. Iran-focused.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "v2raycollector-tcp-cloudzy",
+      "name": "v2rayCollector TCP Cloudzy",
+      "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/tcp-cloudzy.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. TCP-tested Cloudzy ISP pool; adds 2452 nodes beyond the existing speed-cloudzy tier. Iran-focused.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "iran"
+      ],
+      "enabled": true
     }
   ]
 }

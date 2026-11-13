@@ -130,6 +130,26 @@ class FetcherLocalTests(unittest.TestCase):
             _fetch_url("data/bad.txt")
         self.assertNotIn("secret", str(error.exception))
 
+    def test_oversized_registry_is_fatal(self):
+        with Path("sources.json").open("wb") as stream:
+            stream.truncate(33554433)
+        with self.assertRaises(ValueError):
+            load_sources()
+
+    def test_missing_discovered_registry_is_skipped_not_fatal(self):
+        Path("sources.json").write_text(json.dumps({"sources": [{"id": "only", "url": "https://public.example/a"}]}), encoding="utf-8")
+        self.assertEqual([source.id for source in load_sources()], ["only"])
+
+    def test_non_string_url_is_rejected(self):
+        for bad in (None, 123, b"http://public.example/feed"):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                _fetch_url(bad)
+
+    def test_unresolvable_cache_path_is_unsafe(self):
+        (self.root / "data" / "feed.txt").write_text("synthetic", encoding="utf-8")
+        with patch.object(Path, "resolve", side_effect=OSError("synthetic resolution failure")), self.assertRaises(ValueError):
+            _fetch_url("data/feed.txt")
+
     def test_malformed_middle_registry_row_does_not_drop_valid_peers(self):
         rows = [{"id": "first", "url": "https://public.example/a"}, {"url": "missing id"},
                 None, {"id": "last", "url": "https://public.example/b"}]
@@ -167,7 +187,62 @@ class FetcherLocalTests(unittest.TestCase):
             load_sources()
 
 
+class FetcherTelegramTests(unittest.TestCase):
+    URI1 = "vless://00112233-4455-6677-8899-aabbccddeeff@8.8.8.8:443?security=tls"
+    URI2 = "vless://11112233-4455-6677-8899-aabbccddeeff@1.1.1.1:443?security=tls"
+
+    def test_telegram_pagination_follows_one_page_back(self):
+        page1 = self.URI1 + " <a href=\"?before=123\">older</a>"
+        def transport(url, timeout):
+            return (200, self.URI2) if "before=" in url else (200, page1)
+        source = SourceConfig("tg", "TG", "https://t.me/s/chan", format="telegram_web")
+        with patch("src.fetcher._fetch_url", side_effect=transport):
+            nodes, _, stats = fetch_source(source)
+        self.assertTrue(stats.success)
+        self.assertEqual({n.address for n in nodes}, {"8.8.8.8", "1.1.1.1"})
+
+    def test_telegram_pagination_failure_keeps_first_page(self):
+        page1 = self.URI1 + " <a href=\"?before=123\">older</a>"
+        def transport(url, timeout):
+            if "before=" in url:
+                raise NetworkError("synthetic page-two failure")
+            return 200, page1
+        source = SourceConfig("tg", "TG", "https://t.me/s/chan", format="telegram_web")
+        with patch("src.fetcher._fetch_url", side_effect=transport):
+            nodes, _, stats = fetch_source(source)
+        self.assertTrue(stats.success)
+        self.assertEqual([n.address for n in nodes], ["8.8.8.8"])
+
+    def test_telegram_pagination_non_2xx_second_page_is_ignored(self):
+        page1 = self.URI1 + " <a href=\"?before=123\">older</a>"
+        def transport(url, timeout):
+            return (404, "") if "before=" in url else (200, page1)
+        source = SourceConfig("tg", "TG", "https://t.me/s/chan", format="telegram_web")
+        with patch("src.fetcher._fetch_url", side_effect=transport):
+            nodes, _, stats = fetch_source(source)
+        self.assertTrue(stats.success)
+        self.assertEqual([n.address for n in nodes], ["8.8.8.8"])
+
+
 class FetcherAggregateTests(unittest.TestCase):
+    def test_empty_source_list_returns_empty_results(self):
+        self.assertEqual(fetch_all_sources([]), ([], [], []))
+
+    def test_worker_exception_becomes_a_failed_stat_not_a_crash(self):
+        sources = [SourceConfig("ok", "OK", "http://public.example/ok"),
+                   SourceConfig("boom", "Boom", "http://public.example/boom")]
+        def explode(source, timeout):
+            if source.id == "boom":
+                raise RuntimeError("synthetic worker failure")
+            return [], [], __import__("src.models", fromlist=["SourceStats"]).SourceStats(
+                source_id=source.id, name=source.name, url="http://public.example/ok", success=True)
+        with patch("src.fetcher.fetch_source", side_effect=explode):
+            _, _, stats = fetch_all_sources(sources, max_workers=1)
+        failed = [stat for stat in stats if stat.source_id == "boom"]
+        self.assertEqual(len(failed), 1)
+        self.assertFalse(failed[0].success)
+        self.assertIn("RuntimeError", failed[0].error or "")
+
     def test_aggregate_cap_is_fatal_and_cancels_queued_sources(self):
         release = threading.Event()
         futures = []
@@ -229,6 +304,28 @@ class FetcherAggregateTests(unittest.TestCase):
         self.assertEqual(len(nodes), 2)
         self.assertEqual(len(stats), 2)
         self.assertTrue(all(stat.success for stat in stats))
+
+
+class ReportUrlTests(unittest.TestCase):
+    def test_report_url_keeps_explicit_port_and_strips_query(self):
+        from src.fetcher import _report_url
+        self.assertEqual(_report_url("https://public.example:8443/feed?token=secret#frag"),
+                         "https://public.example:8443/feed")
+        self.assertEqual(_report_url("data/feed.txt"), "local cache")
+        self.assertEqual(_report_url("not a url"), "invalid source URL")
+        self.assertEqual(_report_url("http://[::1"), "invalid source URL")
+
+
+class ReportErrorCauseTests(unittest.TestCase):
+    def test_network_error_cause_renders_errno_and_name_only(self):
+        from src.fetcher import _report_error
+        chained = NetworkError("DNS resolution failed")
+        chained.__cause__ = OSError(111, "Connection refused")
+        self.assertEqual(_report_error(chained), "DNS resolution failed (ConnectionRefusedError:111)")
+        chained.__cause__ = ValueError("arbitrary token=leak")
+        label = _report_error(chained)
+        self.assertEqual(label, "DNS resolution failed (ValueError)")
+        self.assertNotIn("leak", label)
 
 
 class ReportErrorTokenContractTests(unittest.TestCase):
