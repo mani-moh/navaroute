@@ -119,6 +119,50 @@ def _download_image_as_data_uri(image_url: str, timeout: float = 12, deadline: f
         return ""
 
 
+def _extract_text_content(res: Any) -> Optional[str]:
+    """Best-effort assistant text from a chat-completions response dict.
+
+    Returns None when the response carries no usable text: no choices, a
+    choice without a message, null/non-string content, or a content parts
+    list with no text parts. A parts list (OpenAI-compatible shape) is
+    joined from its text parts. An empty string is returned as-is; callers
+    decide whether blank text counts as usable.
+    """
+    if not isinstance(res, dict):
+        return None
+    choices = res.get("choices")
+    if not isinstance(choices, list) or not choices:
+        return None
+    choice = choices[0]
+    if not isinstance(choice, dict):
+        return None
+    message = choice.get("message")
+    if not isinstance(message, dict):
+        return None
+    content = message.get("content")
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = [
+            part.get("text")
+            for part in content
+            if isinstance(part, dict) and part.get("type") == "text" and isinstance(part.get("text"), str)
+        ]
+        return "".join(parts)
+    return None
+
+
+def _has_usable_text(res: Any) -> bool:
+    """True when a response dict carries assistant text, even an empty string.
+
+    An empty string is a valid "no result" answer, not a failed attempt:
+    the image-analysis test pins that completion("") returns "" without
+    burning retries. Only missing/null/non-text content is unusable — that
+    is the Nov 13 run 43469835592 failure (HTTP 200, content null).
+    """
+    return _extract_text_content(res) is not None
+
+
 class DiscoveryBudgetExceeded(RuntimeError):
     """Normal cycle stop; callers checkpoint unfinished work, not a failed source."""
 
@@ -256,6 +300,13 @@ class NemotronClient:
                 models_to_try = [DEFAULT_OPENROUTER_MODEL]
 
         attempted = False
+        # The last HTTP 200 that carried no usable text, and whether every
+        # failed attempt was that kind of empty reply. A run of only empty
+        # replies degrades to an empty answer (skipped prompt) instead of
+        # killing the pipeline; any real transport/HTTP failure keeps the
+        # loud DiscoveryAPIError below.
+        empty_result: Optional[dict[str, Any]] = None
+        empty_only = True
         # Fallback-worthy unless the request itself was malformed (400).
         # Real Nov 13 log: 6x HTTP 503 BrokenPipe + 1x HTTP 404, no DNS line
         # at all. A 404 for one model must not block trying the other
@@ -303,6 +354,7 @@ class NemotronClient:
                 else:
                     transport_error = ""
                 result: Any = None
+                empty_reply = False
                 if 200 <= status < 300:
                     try:
                         result = json.loads(body)
@@ -312,6 +364,23 @@ class NemotronClient:
                             status = 502
                     except (ValueError, UnicodeError, RecursionError):
                         status = 502
+                    # A 200 with no usable assistant text is a failed
+                    # attempt, not a successful call. Real Nov 13 log:
+                    # run 43469835592 died at _response_text:456 because
+                    # OpenRouter returned HTTP 200 with null content (the
+                    # model spent its token budget on reasoning and returned
+                    # nothing). That raise sat outside every retry loop and
+                    # killed the whole pipeline, discarding the run's work.
+                    # Downgrade it to a 502 so the attempt retries with
+                    # backoff and then falls back to the next model, exactly
+                    # like any other bad-gateway-style failure.
+                    if status == 200 and isinstance(result, dict) and not _has_usable_text(result):
+                        logger.warning("Discovery API returned no usable text content (provider=%s, model=%s)", provider, cur_model)
+                        empty_reply = True
+                        empty_result = result
+                        status = 502
+                if not empty_reply:
+                    empty_only = False
                 trace_path = os.environ.get("NAVAROUTE_AI_TRACE_PATH", "").strip()
                 if trace_path:
                     response_text = body.decode("utf-8", "replace")
@@ -355,6 +424,11 @@ class NemotronClient:
                 break
         self._last_failure_transport_only = transport_only and attempted
         self._last_failure_fallback_worthy = fallback_worthy and attempted
+        if empty_only and empty_result is not None:
+            # Every attempt returned HTTP 200 with no usable text. Hand the
+            # empty reply back so complete()/analyze_image() degrade it to
+            # an empty answer (skipped prompt) instead of failing the run.
+            return empty_result
         raise DiscoveryAPIError("Discovery API attempts failed")
 
     def _call_api(
@@ -445,16 +519,21 @@ class NemotronClient:
             payload["response_format"] = {"type": "json_object"}
 
         res = self._call_api(payload, fallback_models=TEXT_FALLBACK_MODELS)
-        return self._response_text(res)
+        try:
+            return self._response_text(res)
+        except DiscoveryAPIError:
+            # _call_api already retried and fell back to the next model; a
+            # reply that stays empty is a skipped prompt, not a reason to
+            # kill the run. Provider outages still raise from _call_api
+            # above and fail loudly, as designed.
+            return ""
 
     @staticmethod
     def _response_text(res: Any) -> str:
-        if not isinstance(res, dict) or not isinstance(res.get("choices"), list) or not res["choices"]:
+        text = _extract_text_content(res)
+        if text is None:
             raise DiscoveryAPIError("Invalid NVIDIA API response")
-        choice = res["choices"][0]
-        if not isinstance(choice, dict) or not isinstance(choice.get("message"), dict) or not isinstance(choice["message"].get("content"), str):
-            raise DiscoveryAPIError("Invalid NVIDIA API response")
-        return choice["message"]["content"].strip()
+        return text.strip()
 
     def complete_json(
         self,
@@ -553,7 +632,13 @@ class NemotronClient:
         }
 
         res = self._call_api(payload, fallback_models=VISION_FALLBACK_MODELS)
-        text = self._response_text(res)
+        try:
+            text = self._response_text(res)
+        except DiscoveryAPIError:
+            # Same as complete(): a reply that stays empty after retries
+            # and fallback is a skipped image, not a dead run. The outcome
+            # stays "retryable" so the agent moves on from this channel.
+            return ""
         if text and len(text.encode("utf-8")) <= 65536:
             self.last_image_outcome = "success"
             nodes, _ = extract_nodes_from_content(text, SourceConfig("ocr", "Public OCR", image_url))

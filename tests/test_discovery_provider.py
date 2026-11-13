@@ -147,6 +147,76 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
         models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
         self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3)
 
+    @staticmethod
+    def _null_content():
+        # Real Nov 13 run 43469835592: HTTP 200 with null content — the
+        # model spent its token budget on reasoning and returned nothing.
+        return 200, json.dumps({"choices": [{"message": {"role": "assistant", "content": None}}]}).encode()
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_null_content_200_is_retried_on_same_model(self, transport, _sleep, _clock):
+        transport.side_effect = [self._null_content(), completion("second try")]
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertEqual(client.complete("public query"), "second try")
+        models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
+        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 2)
+        self.assertEqual(client.api_requests_count, 2)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_null_content_on_default_model_falls_back_to_router(self, transport, _sleep, _clock):
+        transport.side_effect = [self._null_content()] * 3 + [completion("router result")]
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertEqual(client.complete("public query"), "router result")
+        models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
+        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"])
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_persistent_null_content_degrades_to_empty_not_a_crash(self, transport, _sleep, _clock):
+        # Every attempt empty on both models: complete() returns "" (the
+        # agent skips that prompt) instead of killing the whole run.
+        transport.side_effect = [self._null_content()] * 6
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertEqual(client.complete("public query"), "")
+        models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
+        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3)
+        self.assertEqual(client.api_requests_count, 6)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_null_content_mixed_with_real_failure_still_raises(self, transport, _sleep, _clock):
+        # Empty replies on the default model, then a real 503 on the router:
+        # that is a provider failure, not a skipped prompt, so it raises.
+        transport.side_effect = [self._null_content()] * 3 + [(503, b"")] * 3
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            with self.assertRaises(RuntimeError):
+                client.complete("public query")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_content_parts_list_is_joined(self, transport, _clock):
+        parts = (200, json.dumps({"choices": [{"message": {"role": "assistant", "content": [
+            {"type": "text", "text": "hello "}, {"type": "text", "text": "world"}]}}]}).encode())
+        transport.return_value = parts
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertEqual(client.complete("public query"), "hello world")
+
     @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
