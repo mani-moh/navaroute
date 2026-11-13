@@ -437,6 +437,9 @@ class DriverFeedTests(unittest.TestCase):
                 self.assertEqual(driver.main(["--webapi-dir", str(base)]), 0)
             self.assertIn("webapi log [SpeedtestService]: core failed to start", out.getvalue())
             self.assertIn("untested 1", out.getvalue())
+            self.assertIn("testable 1/1", out.getvalue())
+            self.assertIn("operations right after start", out.getvalue())
+            self.assertIn("webapi log entries fetched: 1", out.getvalue())
             self.assertTrue((base / "tier1_all.txt").exists())
 
     def test_count_delays_separates_passed_failed_and_untested(self):

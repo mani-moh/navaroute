@@ -80,7 +80,15 @@ def push():
                GIT_CONFIG_VALUE_0="AUTHORIZATION: basic " + base64.b64encode(("x-access-token:" + token).encode()).decode(),
                GIT_TERMINAL_PROMPT="0")
     for attempt in range(5):
-        git("pull", "--rebase", "origin", "master", env=env)
+        try:
+            git("pull", "--rebase", "origin", "master", env=env)
+        except ValueError:
+            # A failed pull/rebase must stop before any push, so a
+            # conflict stays visible for a human instead of being
+            # rebased over. The message is generic by design: git's own
+            # diagnostics can carry private paths/content and are never
+            # printed (see tests/test_workflow_security.py).
+            raise ValueError("Pull/rebase failed; no push attempted; local commits retained") from None
         result = subprocess.run(["git", "push", "origin", "HEAD:master"], capture_output=True, env=env, timeout=GIT_TIMEOUT_SECONDS)
         if result.returncode == 0:
             print("Public master commit pushed without force.")
@@ -101,8 +109,12 @@ def main(argv=None):
         else:
             push()
         return 0
-    except (ValueError, OSError, UnicodeError, subprocess.SubprocessError):
-        print("ERROR: public Git gate/writer failed; matching content and Git diagnostics suppressed; local commits/conflicts retained.")
+    except (ValueError, OSError, UnicodeError, subprocess.SubprocessError) as exc:
+        # Only the generic exception text is shown: no ValueError in
+        # this module embeds file contents, and git's own diagnostics
+        # are never printed (see tests/test_workflow_security.py).
+        # str(TimeoutExpired) is just the command and timeout, no output.
+        print(f"ERROR: public Git gate/writer failed: {exc} (matching content suppressed; local commits/conflicts retained).")
         return 1
 
 
