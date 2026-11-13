@@ -242,6 +242,11 @@ class ClientTests(unittest.TestCase):
 
 
 class ClientLaunchTests(unittest.TestCase):
+    def test_pinned_webapi_urls_use_the_real_asset_names(self):
+        from src.pattn_client import PINNED_WEBAPI_LINUX_URL, PINNED_WEBAPI_URL
+        self.assertTrue(PINNED_WEBAPI_URL.endswith("7.25.6-P40/PattN-windows-64-WebAPI.zip"))
+        self.assertTrue(PINNED_WEBAPI_LINUX_URL.endswith("7.25.6-P40/PattN-linux-64-WebAPI.zip"))
+
     def test_generate_api_key_is_random_and_nonempty(self):
         from src.pattn_client import generate_api_key
         first, second = generate_api_key(), generate_api_key()

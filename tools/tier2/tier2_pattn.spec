@@ -10,7 +10,7 @@ by adding the repo root to pathex. Built on a Windows runner by
 import os
 from pathlib import Path
 
-REPO_ROOT = Path(SPECPATH).parent.parent.parent
+REPO_ROOT = Path(SPECPATH).parent.parent
 
 block_cipher = None
 
