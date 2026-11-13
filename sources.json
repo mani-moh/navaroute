@@ -2381,6 +2381,63 @@
         "github"
       ],
       "enabled": true
+    },
+    {
+      "id": "barabama-merged",
+      "name": "Barabama Merged",
+      "url": "https://raw.githubusercontent.com/Barabama/FreeNodes/main/nodes/merged.txt",
+      "description": "Merged collector pool aggregating several public node lists (clashnode, freeclashnode, jichangx and others); 5,552 parsed nodes (2,840 VLESS, 973 SS, 792 Hysteria2, 543 Trojan, 401 VMess, 2 TUIC, 1 WireGuard). Large uncurated pool - nodes are listed, not verified working.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "aggregator"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "free18-v",
+      "name": "Free18 V",
+      "url": "https://raw.githubusercontent.com/free18/v2ray/main/v.txt",
+      "description": "Base64 subscription blob, auto-updated; 427 parsed nodes (235 VLESS, 106 Trojan, 86 VMess).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "hakurouken-public",
+      "name": "HakurouKen Public",
+      "url": "https://raw.githubusercontent.com/HakurouKen/free-node/main/public",
+      "description": "Plain-text node list (file named public), mostly Shadowsocks; 188 parsed nodes (155 SS, 30 Trojan, 3 VMess).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "snakem982-v2ray",
+      "name": "Snakem982 V2Ray",
+      "url": "https://raw.githubusercontent.com/snakem982/proxypool/main/source/v2ray-2.txt",
+      "description": "Base64 subscription blob; 56 parsed nodes (40 VLESS, 12 SS, 2 VMess, 1 Trojan, 1 Hysteria2).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
     }
   ]
 }
