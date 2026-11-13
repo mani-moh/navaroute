@@ -2384,6 +2384,77 @@
         "github"
       ],
       "enabled": true
+    },
+    {
+      "id": "shabane-merged",
+      "name": "Shabane Merged",
+      "url": "https://raw.githubusercontent.com/shabane/kamaji/master/hub/merged.txt",
+      "description": "Large merged aggregator hub combining many public node lists; 23,357 parsed nodes (15,218 VLESS, 4,667 SS, 2,386 Trojan, 1,085 VMess, 1 Hysteria2). Big uncurated pool - nodes are listed, not verified working; heavy overlap with other sources expected.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "aggregator"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "pasimand-config",
+      "name": "Pasimand Config",
+      "url": "https://raw.githubusercontent.com/Pasimand/v2ray-config-agg/main/config.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 385 parsed nodes (328 VLESS, 25 Trojan, 16 VMess, 15 SS, 1 Hysteria2).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "hidashimora-11",
+      "name": "Hidashimora 11",
+      "url": "https://raw.githubusercontent.com/Hidashimora/free-vpn-anti-rkn/main/configs/11.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 130 parsed nodes (85 SS, 27 VLESS, 10 VMess, 8 Trojan).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "electron-dumpr",
+      "name": "Electron Dumpr",
+      "url": "https://raw.githubusercontent.com/electron-v2ray/Telegram-Config-Dumpr/main/config.txt",
+      "description": "Telegram-harvested config dump; 100 parsed nodes (79 VLESS, 14 SS, 5 VMess, 2 Trojan).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nikita-26",
+      "name": "Nikita 26",
+      "url": "https://raw.githubusercontent.com/nikita29a/FreeProxyList/main/mirror/26.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 64 parsed nodes (61 VLESS, 3 Hysteria2).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
     }
   ]
 }
