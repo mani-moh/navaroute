@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class TestSourcesRegistry(unittest.TestCase):
     def test_sources_json_valid_and_clean(self):
-        """Verify the unified sources.json: 60 curated + 82 discovered sources."""
+        """Verify the unified sources.json: 60 curated + 92 discovered sources."""
         sources_path = BASE_DIR / "sources.json"
         assert sources_path.exists(), "sources.json must exist"
 
@@ -36,9 +36,9 @@ class TestSourcesRegistry(unittest.TestCase):
         data = json.loads(content)
         assert "sources" in data
         sources_list = data["sources"]
-        assert len(sources_list) == 142, f"Expected 142 public sources, found {len(sources_list)}"
+        assert len(sources_list) == 152, f"Expected 152 public sources, found {len(sources_list)}"
         assert sum(1 for s in sources_list if s.get("origin") == "curated") == 60
-        assert sum(1 for s in sources_list if s.get("origin") == "discovered") == 82
+        assert sum(1 for s in sources_list if s.get("origin") == "discovered") == 92
 
         ids = set()
         for s in sources_list:
