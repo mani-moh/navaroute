@@ -85,6 +85,24 @@ def wait_for_delays(client: PattnClient, expected: int, timeout: int,
     return client.profiles()
 
 
+def count_delays(profiles: list[dict]) -> dict[str, int]:
+    """How many profiles passed (Delay > 0), failed (Delay -1), or were
+    never actually tested (Delay 0 / missing). The untested count is the
+    tell-tale for a WebAPI that did not test at all: a run with many
+    failures and zero untested tested genuinely dead configs, while a
+    run with many untested never got a real answer."""
+    counts = {"passed": 0, "failed": 0, "untested": 0}
+    for profile in profiles:
+        delay = profile.get("Delay")
+        if isinstance(delay, int) and delay > 0:
+            counts["passed"] += 1
+        elif delay == -1:
+            counts["failed"] += 1
+        else:
+            counts["untested"] += 1
+    return counts
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--webapi-dir", required=True, help="extracted P40 WebAPI directory")
@@ -175,8 +193,10 @@ def main(argv: list[str] | None = None) -> int:
         (SUBS_DIR / f"tier1_{group}.txt").write_text(plain, encoding="utf-8")
         (SUBS_DIR / f"tier1_{group}_base64.txt").write_text(encoded, encoding="utf-8")
     passed_count = len(passed_this_run)
+    delay_counts = count_delays(profiles)
     print(f"tier1: tested {len(tested)}, passed {passed_count}, "
           f"failed {len(tested) - passed_count}, "
+          f"untested {delay_counts['untested']}, "
           f"blocked-in-variants {report['totals']['github_blocked']}, "
           f"variant sizes: " + ", ".join(f"{g}={len(v)}" for g, v in variants.items()))
     return 0
