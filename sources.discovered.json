@@ -738,6 +738,55 @@
         "iran"
       ],
       "enabled": true
+    },
+    {
+      "id": "tg-proxymtprotoir",
+      "name": "Telegram @proxymtprotoir (public configs retained)",
+      "url": "https://t.me/s/proxymtprotoir",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-givevpn",
+      "name": "Telegram @givevpn (public configs retained)",
+      "url": "https://t.me/s/givevpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-vpn_click",
+      "name": "Telegram @vpn_click (public configs retained)",
+      "url": "https://t.me/s/vpn_click",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nemotron-vision-ocr",
+      "name": "Retained public deep-page and OCR configs",
+      "url": "data/discovered_ocr_configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "retained-public",
+        "vision-ocr"
+      ],
+      "enabled": true
     }
   ]
 }

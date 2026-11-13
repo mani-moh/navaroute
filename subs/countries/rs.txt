@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFJTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
 vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@rs5.univesalsrv.com:443?mode=gun&security=reality&encryption=none&pbk=X8mPYnsoTd8QCnvFZKSy7VvpSn_nrt_NWJkCUJhFCyE&fp=chrome&type=grpc&serviceName=gw.v1.ObjectService&sid=4872856d5489c37d#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@150.40.126.21:443?encryption=none&type=grpc&security=reality&sni=rs3.univesalsrv.com&fp=firefox&pbk=gHDoSWGWMVZKWNKONWHw-Cpl0-bdI6GaKusgJIQ-vWQ&sid=35d05b666e2c6cdf&authority=%2Ft.me%2FV2rayBaaz&serviceName=edge.v2.FeedService&mode=gun#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

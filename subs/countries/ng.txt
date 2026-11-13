@@ -1,12 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIE5HIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
-vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.196.149.80:443?security=reality&flow=xtls-rprx-vision&pbk=ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE&sid=42426c882c5fcd41&fp=chrome&sni=7aa271t.es1.h1clayd.click&type=tcp&headerType=none&host=7aa271t.es1.h1clayd.click&path=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%2096ms
 vless://c33275fd-a4fa-470d-90e4-55da39d849a8@104.26.6.35:80?type=ws&encryption=none&flow=&host=de.tawana.cf.panbehpanel.ir&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
 trojan://d9064589-74af-432a-9390-5d8a9da281bf@sclass-c2.catcat321.com:20051?allowInsecure=0&sni=hk.catxstar.com#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20Trojan%20%7C%20src%3Asub-757c8dc370
 vless://fb1d2d8a-d9bd-496f-9d5f-f179cbd00123@p2real1.greewebservices.ir:1310?security=reality&encryption=none&pbk=xQnXh5EfPDhcEBB7rRiLca33GYrMEeUa35domLL_yA8&headerType=none&fp=ios&type=tcp&sni=play.googleapis.com&sid=9b60d3#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://a5ecffc2-6c54-4b08-9ea7-e9e14f8caadb@mirinday385.dpdns.org:8082?path=%2Fam3rum&security=tls&alpn=h2%2Chttp%2F1.1%2Ch3&encryption=none&insecure=0&fp=chrome&type=httpupgrade&allowInsecure=0&sni=mirinday385.dpdns.org#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-httpupgrade%20%7C%20src%3Afarid-karimi-vless-iran
+vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.196.149.80:443?security=reality&flow=xtls-rprx-vision&pbk=ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE&sid=42426c882c5fcd41&fp=chrome&sni=7aa271t.es1.h1clayd.click&type=tcp&headerType=none&host=7aa271t.es1.h1clayd.click&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vless://fb1d2d8a-d9bd-496f-9d5f-f179cbd00123@p2real33.greewebservices.ir:1330?security=reality&encryption=none&pbk=xQnXh5EfPDhcEBB7rRiLca33GYrMEeUa35domLL_yA8&headerType=none&fp=ios&type=tcp&sni=play.googleapis.com&sid=9b60d3#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://901c1ed2-be44-4c97-843e-7bcdcce28e04@usa.amosh.sbs:2053?mode=auto&path=%2F&security=tls&alpn=h2%2Chttp%2F1.1%2Ch3&encryption=none&extra=%7B%22mode%22%3A%22auto%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D&insecure=0&host=usa.amosh.sbs&fp=chrome&type=xhttp&allowInsecure=0&sni=usa.amosh.sbs#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-xhttp%20%7C%20src%3Afarid-karimi-vless-iran
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-b1.catcat321.com:20051?sni=hk.catxstar.com&allowInsecure=0&type=tcp#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20Trojan-tcp%20%7C%20src%3Asub-757c8dc370

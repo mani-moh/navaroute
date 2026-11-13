@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEhZU1RFUklBMg==
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
 hysteria2://BWAFlp8g53@hys28.wba-pn.ru:443?insecure=1&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Aarshiacomplus-extractor
 hysteria2://96ab5cd282733fd4c312a61f972f330a@vp3.yysyy.online:443?sni=vp3.yysyy.online&insecure=1#%5B%F0%9F%87%AF%F0%9F%87%B5%20JP%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
@@ -327,12 +327,12 @@ hysteria2://github.com%2FAlvin9999-newpac%2Ffanqiang@62.210.7.139:60111?insecure
 hysteria2://Yet-Another-Public-Config-1@206.71.158.37:35200?insecure=1&sni=YAPC-1.afshin.ir&obfs=salamander&obfs-password=Yet-Another-Public-Config-1&path=%2F#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=t.me#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://Yet-Another-Public-Config-1@206.71.158.37:36300?obfs=salamander&obfs-password=Yet-Another-Public-Config-1&sni=YAPC-1.afshin.ir#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Aelf2017spring-configshub
-hysteria2://YV1sd3tfCZngTtnvRmy7@206.189.229.48:443?sni=www.microsoft.com&insecure=1&obfs=salamander&obfs-password=ZuPf4OcXKvotJdDxlTus#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-44b9f6e67e
+hysteria2://YV1sd3tfCZngTtnvRmy7@206.189.229.48:443?sni=www.microsoft.com&insecure=1&obfs=salamander&obfs-password=ZuPf4OcXKvotJdDxlTus#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-7d81eb5a60
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.29:443?insecure=1&security=tls&sni=https%3A%2F%2Ft.me%2Fwangcai2%D1%80%D2%B9%D2%AF%D2%B9%D2%AF#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 hysteria2://maintell@152.70.237.123:2053?insecure=1&security=tls#%5B%F0%9F%87%B0%F0%9F%87%B7%20KR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 hysteria2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&security=tls&sni=google.com#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 hysteria2://6da2c981-8c77-4340-bda3-93399b7aea26@store.blog-forme.ru:443?insecure=1&sni=store.blog-forme.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
-hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-fefad9d43b
+hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-7d81eb5a60
 hysteria2://YwuvGJk36B@filtercheebyha.arshiacomplus.dpdns.org:2083?security=tls&obfs=salamander&obfs-password=khameniiko%40smad%40ret&insecure=1&sni=kotlet.arshiacomplus.dpdns.org#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Aelf2017spring-configshub
 hysteria2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@46.229.243.137:8443?sni=grape-turbo-fr.roxa.org&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Aarshiacomplus-extractor
 hysteria2://3d7634af8cb2c6cb4bac1c0efad8b43d@152.67.200.82:50160?insecure=1&security=tls&sni=152-67-200-82.liao.kdns.fr#%5B%F0%9F%87%B0%F0%9F%87%B7%20KR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub

@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENGIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
 vless://f667a096-5231-4cfb-8759-92bb32473139@77.91.68.70:55983?security=reality&encryption=none&pbk=nWQ7b9l9X6N3PrXLgIzOvMM8iSYrqjVHEb9ikWxqYSg&headerType=&type=tcp&sni=yahoo.com&sid=0e#%5B%F0%9F%87%A8%F0%9F%87%AB%20CF%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://30f2d443-af46-4dd6-83c9-b5e17299ebd2@104.18.36.24:443?path=%2Fproxyip%3Dzani.yaemiko.ggff.net%2F%3F%2FShadowProxy66&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&host=carlotta.shoorekeeper.cloudns.org&fp=chrome&type=ws&sni=carlotta.shoorekeeper.cloudns.org#%5B%F0%9F%87%A8%F0%9F%87%AB%20CF%5D%20VLESS-ws%20%7C%20src%3Aelf2017spring-configshub

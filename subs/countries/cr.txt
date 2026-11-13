@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENSIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
 trojan://bpb-trojan@190.93.244.202:443?path=%2Ftr%3Fed&security=tls&host=fcspring.ggff.net&type=ws&sni=fcspring.ggff.net#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20Trojan-ws%20%7C%20src%3A0xradikal-all
 trojan://humanity@190.93.245.148:443?path=%2Fassignment&security=tls&insecure=0&host=www.pleadcourt.org&type=ws&allowInsecure=0&sni=www.pleadcourt.org#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20Trojan-ws%20%7C%20src%3A0xradikal-all

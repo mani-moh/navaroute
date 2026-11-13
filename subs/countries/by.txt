@@ -1,10 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIEJZIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
-vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?encryption=none&host=178.172.227.124&path=%2Fvless&security=none&type=ws#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20115ms
-vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:14430?security=none&type=ws&path=%2Fvless&host=178.172.227.228&packetEncoding=xudp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20117ms
-vless://8cef7621-c6f0-486e-b51d-59c30c5b0b25@95.128.71.79:14430?encryption=none&host=95.128.71.79&path=%2Fvless&security=none&type=ws#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20117ms
+vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:14430?security=none&type=ws&path=%2Fvless&host=178.172.227.228&packetEncoding=xudp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20155ms
+vless://8cef7621-c6f0-486e-b51d-59c30c5b0b25@95.128.71.79:14430?encryption=none&host=95.128.71.79&path=%2Fvless&security=none&type=ws#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20155ms
+vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?encryption=none&host=178.172.227.124&path=%2Fvless&security=none&type=ws#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20156ms
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJob3N0IjogImludGVybmV0LmxpZmUuY29tLmJ5IiwgIm5ldCI6ICJ0Y3AiLCAicGF0aCI6ICIvIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogImh0dHAiLCAidiI6ICIyIiwgInBzIjogIlvwn4en8J+HviBCWV0gVk1lc3MtdGNwIHwgc3JjOml0c3llYmVraGUtcHNnLW1peCIsICJhZGQiOiAiNS4xNjEuMTU2LjE5NiIsICJwb3J0IjogNDQzLCAiaWQiOiAiZDIwZTM4ZWYtMWE0ZC00MDA5LWEwMGQtMmYwZDQ0ZTNjNjVhIn0=
 vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?sni=178.172.227.124&type=ws&host=178.172.227.124&path=%2Fvless#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3Apeasoft-nomorewalls
 vless://eb071647-72a6-46be-8e89-ff3d228d52f6@by.cdn.titun.su:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=by.cdn.titun.su&fp=chrome&security=reality&pbk=0L6FE1vTechnKhN9LxFgmcDzqGVIfEQz8ZBGfvzKGzg&sid=cad317b20db4aad2&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral

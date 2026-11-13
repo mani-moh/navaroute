@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIE1EIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:07:47.765795+00:00
+# snapshot-time: 2026-11-13T14:55:21.643926+00:00
 
-vless://f8cb3c89-32af-4255-bebc-d90aad175069@217.156.123.33:443?type=grpc&security=reality&fp=firefox&pbk=pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ&sid=27350908de933e09&sni=mda.kosmosapp.net&mode=gun&serviceName=neurex#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20124ms
+vless://f8cb3c89-32af-4255-bebc-d90aad175069@217.156.123.33:443?type=grpc&security=reality&fp=firefox&pbk=pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ&sid=27350908de933e09&sni=mda.kosmosapp.net&mode=gun&serviceName=neurex#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20172ms
 vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@89.35.14.34:443?mode=gun&security=reality&encryption=none&pbk=99MRki6b93wC-hhDHe9yq3IXE3KtPGw4RkFAnpI-8gg&fp=chrome&type=grpc&serviceName=app.v1.PushService&sni=md5.univesalsrv.com&sid=aa9884f2982b7d3c#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpNNmFKN2U0STI5NVdGcDRXWWZ3YjFv@80.71.157.175:38211#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://0f11b72f-1af1-4f0a-b992-87a8241d9213@143.246.204.21:443?mode=auto&amp%3Bpath=%2Fassets%2F1117b6ce&amp%3Bsecurity=reality&amp%3Bencryption=none&amp%3Bpbk=YEyZf6GvVcUG2VJnxyWOJQd8_ORz0n8Tw8Hs417OPxo&amp%3Bfp=chrome&amp%3Btype=xhttp&amp%3Bsni=packages.gitlab.com&amp%3Bsid=5b524cdb28b6824a#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS%20%7C%20src%3Aheliataromi-confighub-mixed
