@@ -40,3 +40,6 @@ xray*
 *.zip
 *.db.bak*
 ai_trace*.jsonl
+
+# Generated public-site build output (built by CI, never committed)
+site/
