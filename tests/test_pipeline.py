@@ -175,6 +175,152 @@ class TestHealthcheck(unittest.TestCase):
         self.assertEqual(fixture.connected, ("1.1.1.1", 443))
         self.assertTrue(fixture.closed)
 
+
+class TestHealthcheckOutbound(unittest.TestCase):
+    def test_vless_flow_and_encryption_validation(self):
+        for params in ({"encryption": "aes-128-gcm"}, {"flow": "xtls-rprx-origin"},
+                       {"flow": "xtls-rprx-vision", "type": "ws", "security": "tls"},
+                       {"flow": "xtls-rprx-vision", "type": "tcp", "security": "none"}):
+            with self.subTest(params=params):
+                self.assertIsNone(build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid", params=params)))
+        vision = build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid",
+                                               params={"flow": "xtls-rprx-vision", "type": "tcp", "security": "tls"}))
+        self.assertEqual(vision["settings"]["vnext"][0]["users"][0]["flow"], "xtls-rprx-vision")
+
+    def test_vmess_scy_and_ss_transport_validation(self):
+        self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid", params={"scy": "aes-256-gcm"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("ss", "1.1.1.1", 443, "aes-256-gcm:pass", params={"type": "ws"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("ss", "1.1.1.1", 443, "aes-256-gcm:pass", params={"security": "tls"})))
+
+    def test_shadowsocks_methods_and_missing_password(self):
+        ss = build_xray_outbound(ProxyNode("ss", "1.1.1.1", 443, "aes-256-gcm:secret"))
+        self.assertEqual(ss["protocol"], "shadowsocks")
+        self.assertEqual(ss["settings"]["servers"][0]["method"], "aes-256-gcm")
+        for credential in ("rc4-md5:secret", "aes-256-gcm:", "aes-256-gcm"):
+            with self.subTest(credential=credential):
+                self.assertIsNone(build_xray_outbound(ProxyNode("ss", "1.1.1.1", 443, credential)))
+
+    def test_sni_fingerprint_and_allow_insecure(self):
+        self.assertIsNone(build_xray_outbound(ProxyNode("trojan", "1.1.1.1", 443, "public",
+                                                        params={"sni": "not a hostname!"})))
+        reality = build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid", params={
+            "security": "reality", "pbk": "public-key", "sid": "short", "spx": "/", "fp": "firefox"}))
+        self.assertEqual(reality["streamSettings"]["realitySettings"]["publicKey"], "public-key")
+        self.assertEqual(reality["streamSettings"]["realitySettings"]["fingerprint"], "firefox")
+        self.assertIsNone(build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid",
+                                                        params={"security": "reality"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid",
+                                                        params={"security": "reality", "pbk": "public-key"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("trojan", "1.1.1.1", 443, "public",
+                                                        params={"allowInsecure": "maybe"})))
+        insecure = build_xray_outbound(ProxyNode("trojan", "1.1.1.1", 443, "public",
+                                                 params={"allowInsecure": "true"}))
+        self.assertTrue(insecure["streamSettings"]["tlsSettings"]["allowInsecure"])
+
+    def test_ws_host_path_and_httpupgrade_settings(self):
+        self.assertIsNone(build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid",
+                                                        params={"type": "ws", "host": "bad\thost"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid",
+                                                        params={"type": "ws", "path": "no-leading-slash"})))
+        upgrade = build_xray_outbound(ProxyNode("vless", "1.1.1.1", 443, "uuid",
+                                                params={"type": "httpupgrade", "host": "cdn.example", "path": "/up"}))
+        self.assertEqual(upgrade["streamSettings"]["httpupgradeSettings"], {"path": "/up", "host": "cdn.example"})
+
+    def test_grpc_mode_validation_and_multi(self):
+        self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid",
+                                                        params={"type": "grpc", "mode": "auto"})))
+        self.assertIsNone(build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid",
+                                                        params={"type": "grpc", "serviceName": "bad\nname"})))
+        multi = build_xray_outbound(ProxyNode("vmess", "1.1.1.1", 443, "uuid",
+                                              params={"type": "grpc", "serviceName": "svc", "mode": "multi"}))
+        self.assertTrue(multi["streamSettings"]["grpcSettings"]["multiMode"])
+
+    def test_prepare_pins_httpupgrade_host_to_resolved_authority(self):
+        from src import healthcheck as hc
+        node = ProxyNode("vless", "public.example", 443, "uuid", params={"type": "httpupgrade", "path": "/up"})
+        answers = [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", 443))]
+        with patch.object(hc, "_resolve", return_value=answers):
+            outbound = hc.prepare_public_outbound(node)
+        self.assertEqual(outbound["streamSettings"]["httpupgradeSettings"]["host"], "public.example:443")
+        self.assertEqual(outbound["settings"]["vnext"][0]["address"], "93.184.216.34")
+
+    def test_wait_ports_and_stop_owned_branches(self):
+        from src import healthcheck as hc
+        exited = MagicMock()
+        exited.poll.return_value = 0
+        self.assertFalse(hc._wait_ports_listening([25001], exited, timeout=.1))
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        listener.bind(("127.0.0.1", 0))
+        listener.listen(1)
+        try:
+            running = MagicMock()
+            running.poll.return_value = None
+            self.assertTrue(hc._wait_ports_listening([listener.getsockname()[1]], running, timeout=2))
+            self.assertFalse(hc._wait_ports_listening([25001], running, timeout=.1))
+        finally:
+            listener.close()
+        done = MagicMock()
+        done.poll.return_value = 0
+        hc._stop_owned(done)
+        done.wait.assert_called_once_with(timeout=1.5)
+        done.terminate.assert_not_called()
+        stubborn = MagicMock()
+        stubborn.poll.return_value = None
+        stubborn.terminate.side_effect = OSError("synthetic terminate failure")
+        hc._stop_owned(stubborn)
+        stubborn.kill.assert_called_once()
+        self.assertEqual(stubborn.wait.call_count, 1)
+
+    def test_probe_rejects_unsupported_policy_endpoint(self):
+        from src import healthcheck as hc
+        with self.assertRaises(ValueError):
+            hc._probe_http_via_local_proxy(25000, test_url="https://evil.example/generate_204")
+
+    def test_run_xray_startup_and_mid_probe_exit_are_infrastructure(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        outbound = build_xray_outbound(node)
+        checked = MagicMock()
+        checked.returncode = 0
+        with patch.object(hc.subprocess, "run", return_value=checked), \
+             patch.object(hc.subprocess, "Popen", side_effect=OSError("synthetic core spawn failure")), \
+             self.assertRaises(hc.CoreInfrastructureError):
+            hc._run_xray_items([(0, outbound)], CORE_FIXTURE, 5.0, hc.HEALTHCHECK_TEST_URLS[0], 1)
+        proc = MagicMock()
+        proc.poll.return_value = 0
+        with patch.object(hc.subprocess, "run", return_value=checked), \
+             patch.object(hc.subprocess, "Popen", return_value=proc), \
+             patch.object(hc, "_wait_ports_listening", return_value=True), \
+             patch.object(hc, "_probe_http_via_local_proxy", return_value=(True, 5.0)), \
+             self.assertRaises(hc.CoreInfrastructureError):
+            hc._run_xray_items([(0, outbound)], CORE_FIXTURE, 5.0, hc.HEALTHCHECK_TEST_URLS[0], 1)
+
+    def test_batch_rejects_bad_url_and_prepared_none_is_unsupported(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        with self.assertRaises(ValueError):
+            hc.probe_batch_xray([node], CORE_FIXTURE, test_url="https://evil.example/generate_204")
+        result = hc.probe_batch_xray([node], CORE_FIXTURE, prepared=[None])
+        self.assertEqual(result.unsupported, {0})
+        self.assertEqual(result.passed, {})
+
+    def test_probe_node_xray_passthrough_and_sample_priority_cap(self):
+        from src import healthcheck as hc
+        node = ProxyNode("trojan", "1.1.1.1", 443, "public")
+        with patch.object(hc, "probe_batch_xray", return_value=hc.BatchResult({0: 12.5}, {0}, set())):
+            self.assertEqual(hc.probe_node_xray(node, CORE_FIXTURE), (True, 12.5))
+        priority = [ProxyNode("trojan", "1.1.1.1", 443, f"p{i}", is_verified_source=True) for i in range(3)]
+        self.assertEqual([n.credential for n in hc.select_healthcheck_sample(priority, 2)], ["p0", "p1"])
+
+    def test_check_nodes_health_rejects_bad_seed_and_bad_probe_url(self):
+        from src import healthcheck as hc
+        with self.assertRaises(ValueError):
+            hc.check_nodes_health([], sample_seed=-1)
+        with self.assertRaises(ValueError):
+            hc.check_nodes_health([], use_xray=True, xray_bin=CORE_FIXTURE,
+                                  test_urls=["https://evil.example/generate_204"])
+
     def test_https_204_only_with_verified_context_and_no_proxy_env(self):
         from src import healthcheck as hc
         from tests.test_network import WireSocket

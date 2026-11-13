@@ -13,7 +13,14 @@ from urllib.parse import parse_qs, urlsplit
 from src.discovery.agent import DiscoveryAgent, load_local_dotenv
 from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
-from src.discovery.state_manager import DiscoveryStateManager, normalize_channel_handle, read_public_text
+from src.discovery.state_manager import (
+    DiscoveryStateManager,
+    bounded_image_results,
+    normalize_channel_handle,
+    read_public_text,
+    serialize_state,
+    validate_state,
+)
 from src.fetcher import fetch_source, load_sources
 from src.network import NetworkError
 from src.parsers import parse_proxy_uri
@@ -321,6 +328,108 @@ class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
             path.write_text(json.dumps({"version": 1, field: [owner], "pending_children": {owner: [child]}}), encoding="utf-8")
             with self.assertRaises(ValueError):
                 DiscoveryStateManager(str(path))
+
+
+class TestDiscoveryStateValidation(OfflineDiscoveryTestCase):
+    def valid_metadata_entry(self, **overrides):
+        entry = {"handle": "chan", "last_checked": 1, "last_nodes_yield": 0, "total_nodes_yield": 0,
+                 "checks_count": 1, "is_active": True, "sub_url": "https://t.me/s/chan"}
+        entry.update(overrides)
+        return entry
+
+    def test_bounded_image_results_rejects_non_text(self):
+        for bad in ("not a dict", {"k": 123}, {123: "v"}):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                bounded_image_results(bad)
+        self.assertEqual(normalize_channel_handle(123), "")
+
+    def test_serialize_state_second_byte_limit_fires(self):
+        from src.discovery import state_manager
+        state = {"version": 1, "image_results": {"a" * 64: URI}}
+        with patch.object(state_manager, "STATE_MAX_BYTES", 200), \
+             patch.object(state_manager, "bounded_image_results", side_effect=lambda results, max_bytes: results), \
+             self.assertRaises(ValueError):
+            serialize_state(state)
+
+    def test_bounded_checkpoint_read_rejects_oversize_and_bad_encoding(self):
+        path = self.root / "checkpoint.txt"
+        path.write_bytes(b"x" * 11)
+        with self.assertRaises(ValueError):
+            read_public_text(path, max_bytes=10)
+        path.write_bytes(b"\xff\xfe invalid")
+        with self.assertRaises(ValueError):
+            read_public_text(path)
+
+    def test_validate_state_rejects_each_bad_section(self):
+        cases = [
+            {"queries_executed": [123]},
+            {"queries_executed": ["bad\nquery"]},
+            {"queries_executed": ["https://example.com"]},
+            {"pending_pages": ["data/discovered_ocr_configs.txt"]},
+            {"external_attempt_order": {"bad key!": 1}},
+            {"external_attempt_order": {"good": -1}},
+            {"last_updated": -1},
+            {"total_api_requests": "many"},
+            {"sources_metadata": "not a dict"},
+            {"sources_metadata": {"bad key!": {}}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(checks_count=-1)}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(is_active="yes")}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(handle="bad handle!")}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(retained_fingerprints=["not-a-hash"])}},
+            {"image_results": {"zz": "x"}},
+            {"image_results": {"a" * 64: "not a uri"}},
+        ]
+        for bad in cases:
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                validate_state(dict({"version": 1}, **bad))
+
+    def test_rejected_channels_drop_from_queue_and_forget_visited_url(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.add_candidates(["chana", "chanb"])
+        manager.record_rejected_channels(["chana", "spamchan"])
+        self.assertEqual(manager.state["rejected_channels"], ["chana", "spamchan"])
+        self.assertNotIn("chana", manager.state["candidate_queue"])
+        manager.record_visited_url("https://example.com/readme.md")
+        self.assertTrue(manager.is_url_visited("https://example.com/readme.md"))
+        manager.forget_visited_url("https://example.com/readme.md")
+        self.assertFalse(manager.is_url_visited("https://example.com/readme.md"))
+
+    def test_pending_children_guard_record_visited_url_and_query(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        url = "https://example.com/sub.txt"
+        manager.state["pending_children"] = {url: [{"kind": "subscription", "url": url}]}
+        with self.assertRaises(ValueError):
+            manager.record_visited_url(url)
+        manager.state["pending_children"] = {"free v2ray": [{"kind": "page", "url": "https://example.com/x"}]}
+        with self.assertRaises(ValueError):
+            manager.record_query("free v2ray")
+
+    def test_visited_url_list_truncates_to_recent_5000(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.state["visited_urls"] = [f"https://example.com/{i}" for i in range(5000)]
+        self.assertTrue(manager.is_url_visited("https://example.com/0"))
+        manager.record_visited_url("https://example.com/new")
+        self.assertEqual(len(manager.state["visited_urls"]), 5000)
+        self.assertFalse(manager.is_url_visited("https://example.com/0"))
+        self.assertTrue(manager.is_url_visited("https://example.com/new"))
+
+    def test_record_visited_empty_handle_noop_pending_guard_and_queue_removal(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.record_visited("", 1, True)
+        self.assertEqual(manager.state.get("visited_channels", []), [])
+        manager.state["pending_children"] = {"https://t.me/s/chan": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with self.assertRaises(ValueError):
+            manager.record_visited("chan", 1, True)
+        manager.state["pending_children"] = {}
+        manager.add_candidates(["chan"])
+        manager.record_visited("chan", 1, True)
+        self.assertNotIn("chan", manager.state["candidate_queue"])
+        self.assertIn("chan", manager.state["visited_channels"])
+
+    def test_record_external_source_falls_back_to_source_id_label(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.record_external_source("src-id", "bad name!", 5, "https://example.com/sub.txt")
+        self.assertEqual(manager.state["sources_metadata"]["src-id"]["handle"], "src-id")
 
 
 class TestScrapers(OfflineDiscoveryTestCase):
