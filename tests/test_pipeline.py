@@ -571,7 +571,7 @@ class TestFetcherAndLoader(unittest.TestCase):
             sources_path=str(BASE_DIR / "sources.json"),
             discovered_sources_path="non_existent_discovered.json",
         )
-        self.assertEqual(len(sources), 166)
+        self.assertEqual(len(sources), 170)
 
     @patch("src.fetcher._fetch_url")
     def test_fetch_source_success_and_error(self, mock_fetch):
