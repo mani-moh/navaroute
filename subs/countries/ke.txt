@@ -1,0 +1,9 @@
+#profile-title: base64:TmF2YVJvdXRlIEtFIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
+#profile-update-interval: 6
+# snapshot-time: 2026-11-13T23:25:55.958354+00:00
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@62.12.116.66:990#%5B%F0%9F%87%B0%F0%9F%87%AA%20KE%5D%20SS%20%7C%20src%3Acoldwater-all
+vless://77605116-fc3d-4d30-827b-da4338cca255@102.214.69.105:19938?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=amazon.com&pbk=_nqSXF5ujl6eQd687N9Q3ClknW8BEQmI4vO2dFpS2l8&sid=2adf17&spx=%2F#%5B%F0%9F%87%B0%F0%9F%87%AA%20KE%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@62.12.116.66:989#%5B%F0%9F%87%B0%F0%9F%87%AA%20KE%5D%20SS%20%7C%20src%3Acoldwater-all
+vless://243ff879-b317-4430-894e-767a131db2ca@104.22.30.97:80?encryption=none&security=none&sni=tr1-vless.ctunnel.xyz&type=ws&host=www.iranserver.com.127.0.0.1.%D0%B2%D0%BE%D1%81%D1%82%D0%B5%D0%B9control.%E8%BE%B2%E9%81%94%E6%87%B2.wonkacapitano.buzz.&path=%2Fvless%23t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNprot-me-DarkVPNprot-me-DarkVPNprot-me-DarkVPNprot-me-DarkVPNprot-me-DarkVPNpro%3Fed%3D2048#%5B%F0%9F%87%B0%F0%9F%87%AA%20KE%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIxMjcwLjAuMS5kbDMu54OP5YWL54i+5ouv5pWR6IGW6KqV6ICB5Lq66Zu75b2xLnnRgNC60LXQu9GM0L/QsNGB0LDQtdGCY9Cw0L3RgtGDLtGE0LjQu9GM0LwudXJrZWwu54OP5YWL54i+5pWR5o+0LndvbmthY2FwaXRhbm8uYnV6ei4iLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3ZtZXNzIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIiIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh7Dwn4eqIEtFXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxMDQuMjIuMzAuOTciLCAicG9ydCI6IDgwLCAiaWQiOiAiMmFjNGUyNjktMTU3Ni00ZjQxLThjMGQtNjI0MmUzYzVmZDhjIn0=

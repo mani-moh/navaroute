@@ -1,0 +1,11 @@
+#profile-title: base64:TmF2YVJvdXRlIE1PIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
+#profile-update-interval: 6
+# snapshot-time: 2026-11-13T23:25:55.958354+00:00
+
+trojan://ZRYSly2IRuFlgpZCaep3Ey3DDXqTDczO04aeC8F36OjaYSCABnA573wN8xxK9S@45.64.22.55:443?security=tls&sni=httah.freetrade.link#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7e70223b-f331-41d5-9313-02b8d2df2885@krhtybay.catcat321.com:20068?allowInsecure=1&peer=hk.catxstar.com&sni=hk.catxstar.com#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
+trojan://Z3YS0KxB8u5jgp736e834y3DaXwSOYzxlFDFqpNCaalDA9CEIRceZOCAnR2yTS@45.64.22.55:443?security=tls&sni=reooec.freetrade.link#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan%20%7C%20src%3Aalirewa-config
+trojan://d9064589-74af-432a-9390-5d8a9da281bf@Sclass-C1.catcat321.com:20069?sni=hk.catxstar.com&allowInsecure=1&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
+trojan://NqYpxKxB8A5jnDaISe834lAOaTwEOYzCeSD7CSZyFa0C3ypcR2F9XD3ug36lZR@45.64.22.55:443?security=tls&sni=pbvre.freetrade.link#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan%20%7C%20src%3Ashabane-merged
+vless://49af75d4-31d0-4322-b425-630be07030e1@140.248.171.91:80?type=ws&encryption=none&flow=&host=fdsgszd.global.ssl.fastly.net&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
+trojan://Z3YS0KxB8u5jgp736e834y3DaXwSOYzxlFDFqpNCaalDA9CEIRceZOCAnR2yTS@45.64.22.23:443?security=tls&sni=reooec.freetrade.link#%5B%F0%9F%87%B2%F0%9F%87%B4%20MO%5D%20Trojan%20%7C%20src%3Aargh73-sub475

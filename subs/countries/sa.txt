@@ -1,19 +1,26 @@
 #profile-title: base64:TmF2YVJvdXRlIFNBIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T14:55:21.643926+00:00
+# snapshot-time: 2026-11-13T23:25:55.958354+00:00
 
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24851#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Alalatinahub-mineral
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29463#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-vless://e332f028-d343-5b44-8016-b3130f39e133@81.208.170.142:1500?sni=www.ebay.com&type=grpc&fp=chrome&security=tls#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-grpc%20%7C%20src%3Aermaozi-get-subscribe
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24851#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29463#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+vless://e332f028-d343-5b44-8016-b3130f39e133@81.208.170.142:1500?sni=www.ebay.com&type=grpc&fp=chrome&security=tls#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-grpc%20%7C%20src%3Aautomergepublicnodes-list
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2OTFlYWZkZmZkOWE4MWUw@154.205.134.155:11651#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29464#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29464#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.119:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24854#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
+trojan://humanity@185.246.217.148:443?sni=www.cordweave.com&type=ws&path=%2Fassignment#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
+trojan://humanity@213.165.55.4:443?sni=www.cordweave.com&type=ws&path=%2Fassignment&host=www.cordweave.com#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
+trojan://sI0wl1bvYlSXu2RsMSAtAIMM@starlink-sa.251313.xyz:443?sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3YmM4ZWVmZmQwMzI1MTQx@154.205.134.251:11201#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://sGLzG6kUwBpZd73sW0nq@81.208.170.142:1500?type=grpc&encryption=none&sni=www.ebay.com&fp=chrome&security=reality&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MzhiYjA1ZWFiMzVhZGVj@163.171.207.11:19688#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MzhiYjA1ZWFiMzVhZGVj@163.171.207.11:19688#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+vless://e332f028-d343-5b44-8016-b3130f39e133@81.208.170.142:1500?encryption=none&security=reality&sni=www.ebay.com&fp=chrome&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&type=grpc&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Av2raycollector-tcp-shatel
+hysteria2://8d320b07-26fc-4a58-9ef8-e443fbd1f056@jd1.mangshe.xyz:2056?security=tls&insecure=1&sni=jd1.mangshe.xyz#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24852#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://sGLzG6kUwBpZd73sW0nq@81.208.170.142:1500?type=grpc&encryption=none&flow=&sni=www.ebay.com&fp=chrome&security=reality&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 vless://6338c01a-310e-42c3-bf4f-2a20e161054b@213.165.56.102:443?security=reality&encryption=none&pbk=A_bQLZE6D32TJUdAf9doQTPaTUXyJjPXLSklplG4V1g&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=freede.aiage.work&sid=57e7977c9011061c#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24853#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29462#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29461#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29462#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29461#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.229:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
