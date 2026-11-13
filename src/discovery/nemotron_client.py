@@ -67,27 +67,30 @@ DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 DEFAULT_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_NEMOTRON_MODEL = "stepfun-ai/step-5-preview"
 # OpenRouter is OpenAI-compatible at the same /chat/completions path.
-# Default OpenRouter model (2026-11-13, Ryan's choice): Inkling 2 Small
-# (free) from Thinking Machines Lab — $0 per token, 1M context, released
-# 2026-11-09. Free-tier rate limits apply (20 req/min, 50 req/day unless
-# $10+ credits were ever bought, then 1,000/day), and it does not enforce
-# response_format, so JSON output is not guaranteed. stepfun-ai/step-5-preview
-# is NVIDIA-only and is never sent to OpenRouter.
-DEFAULT_OPENROUTER_MODEL = "thinkingmachines/inkling-2-small:free"
+# Default OpenRouter model, picked 2026-11-13 by the deterministic daily
+# selector (workspace scripts/select_openrouter_model.py; code ranks, the
+# AI only reviews the pick): NVIDIA Nemotron 3.5 Super VL (free) — $0 per
+# token, 1M context, text+image+video input, structured outputs, and
+# verified answering plain API calls 7/7 days (independent daily tracker).
+# It covers all four discovery jobs (text extraction, judging, queries,
+# vision/OCR) in one model. Free-tier limits: 20 req/min, 1,000 req/day
+# on this account ($10+ credits bought). stepfun-ai/step-5-preview is
+# NVIDIA-only and is never sent to OpenRouter.
+DEFAULT_OPENROUTER_MODEL = "nvidia/nemotron-3.5-super-vl:free"
+# OpenRouter's free router: picks an available free model for the request
+# (and filters for features the request needs, e.g. image understanding).
+# It is the backup model for both text and vision calls. It is NOT gated
+# the way thinkingmachines/* :free models are (agentic harnesses only).
+OPENROUTER_FREE_ROUTER = "openrouter/free"
 APPROVED_BASE_URLS = {
     "nvidia": DEFAULT_NVIDIA_BASE_URL,
     "openrouter": DEFAULT_OPENROUTER_BASE_URL,
 }
 VISION_FALLBACK_MODELS = [
-    "moonshotai/kimi-k2.6",
-    "mistralai/mistral-large-4-1t-a52b",
-    "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    OPENROUTER_FREE_ROUTER,
 ]
 TEXT_FALLBACK_MODELS = [
-    "moonshotai/kimi-k2.6",
-    "mistralai/mistral-large-4-1t-a52b",
-    "nvidia/nemotron-3-ultra-550b-a55b",
-    "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    OPENROUTER_FREE_ROUTER,
 ]
 
 
@@ -134,6 +137,8 @@ class NemotronClient:
     as an automatic fallback: if the primary provider fails (transport,
     503 BrokenPipe, or a 404 for a model), _call_api retries once on the
     fallback provider before giving up. No other origin is ever accepted.
+    From OpenRouter there is no cross-provider fallback: its model list
+    already ends at the free router, and no NVIDIA model currently works.
     """
 
     def __init__(
@@ -241,10 +246,12 @@ class NemotronClient:
         for fm in (fallback_models or []):
             if fm not in models_to_try:
                 models_to_try.append(fm)
-        # stepfun-ai/step-5-preview and nvidia/* models are NVIDIA-only;
-        # never send them to OpenRouter.
+        # Only stepfun-ai/step-5-preview is NVIDIA-only; never send it to
+        # OpenRouter. (An earlier version also dropped every nvidia/* id,
+        # which wrongly excluded OpenRouter-hosted Nemotron :free models —
+        # including the default model itself.)
         if provider == "openrouter":
-            models_to_try = [m for m in models_to_try if m != DEFAULT_NEMOTRON_MODEL and not m.startswith("nvidia/")]
+            models_to_try = [m for m in models_to_try if m != DEFAULT_NEMOTRON_MODEL]
             if not models_to_try:
                 models_to_try = [DEFAULT_OPENROUTER_MODEL]
 
@@ -264,6 +271,11 @@ class NemotronClient:
                 cur_payload["reasoning_effort"] = "high"
             else:
                 cur_payload.pop("reasoning_effort", None)
+            # The free router picks a model at request time; a routed model
+            # may not support the reasoning object, and a 400 there is not
+            # fallback-worthy, so never send reasoning to the router.
+            if cur_model == OPENROUTER_FREE_ROUTER:
+                cur_payload.pop("reasoning", None)
             data = json.dumps(cur_payload).encode("utf-8")
             for attempt in range(1, max_retries + 1):
                 try:
@@ -358,6 +370,10 @@ class NemotronClient:
         resolves, routes and catalogues independently. Fallback runs only when
         its key is configured, only when the failure was not a malformed
         request (400), and still counts against the same API budget.
+        There is no cross-provider fallback FROM OpenRouter: its model list
+        already ends at the free router, and no NVIDIA model currently works
+        (stepfun-ai/step-5-preview 404s), so that attempt would only burn a
+        request on a 404.
         """
         if not self.is_available():
             logger.warning("NemotronClient: no discovery API key is configured.")
@@ -375,6 +391,10 @@ class NemotronClient:
             if not self.fallback_api_key or not self.fallback_api_key.strip():
                 raise
             if not self.budget_remaining():
+                raise
+            # No cross-provider fallback from OpenRouter (see docstring):
+            # the model list already ends at the free router.
+            if self.provider == "openrouter":
                 raise
             logger.warning("Discovery primary provider failed; trying fallback provider")
             fallback_payload = dict(payload)
@@ -396,6 +416,10 @@ class NemotronClient:
         if not self.is_available():
             return ""
 
+        # Reasoning tokens share the max_tokens budget on OpenRouter, so a
+        # high reasoning effort needs headroom for the answer itself.
+        if self.provider == "openrouter":
+            max_tokens = max(max_tokens, 4096)
         payload = {
             "model": self.model,
             "messages": [
@@ -405,6 +429,13 @@ class NemotronClient:
             "temperature": temperature,
             "max_tokens": max_tokens,
         }
+        if self.provider == "openrouter" and self.model == DEFAULT_OPENROUTER_MODEL:
+            # Best reasoning: high effort on the vetted default model only.
+            # (An env/explicit model override gets no reasoning object, so
+            # a model without reasoning support cannot 400 here. Never sent
+            # to the free router either — see _call_api_on_provider — and
+            # never to NVIDIA, which uses reasoning_effort instead.)
+            payload["reasoning"] = {"effort": "high"}
 
         res = self._call_api(payload, fallback_models=TEXT_FALLBACK_MODELS)
         return self._response_text(res)
