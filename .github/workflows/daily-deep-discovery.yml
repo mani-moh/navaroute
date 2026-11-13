@@ -50,10 +50,27 @@ jobs:
         run: python scripts/public_git.py check
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Preflight discovery DNS
+        # Diagnoses the Nov 13 failure mode without failing the run: prints
+        # only host + ok/fail + answer count, never IPs, keys, or URLs.
+        shell: bash
+        run: |
+          set +e
+          python3 - <<'PY'
+          import socket
+          for host in ("integrate.api.nvidia.com", "openrouter.ai", "html.duckduckgo.com", "t.me", "api.github.com"):
+              try:
+                  answers = socket.getaddrinfo(host, 443, type=socket.SOCK_STREAM)
+                  print(f"{host}: ok answers={len(answers)}")
+              except Exception as exc:
+                  print(f"{host}: fail {type(exc).__name__}")
+          PY
+          echo "Preflight done (failures here are diagnostic only; discovery still runs)"
       - name: Run requested discovery
         shell: bash
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           MAX_REQS: ${{ inputs.max_api_requests }}
           MAX_TIME: ${{ inputs.max_time_seconds }}
           MAX_CHANS: ${{ inputs.max_channels }}
@@ -67,6 +84,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
