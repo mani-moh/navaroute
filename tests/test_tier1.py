@@ -317,14 +317,27 @@ class ClientLaunchTests(unittest.TestCase):
         with patch.object(client, "_request", side_effect=PattnError("gone")):
             client.stop_speedtest()  # swallows the error; a stopped test is fine
 
-    def test_speedtest_running_reads_status(self):
+    def test_speedtest_running_reads_operations_not_status(self):
+        # GET /api/operations returns a plain list of names; "speedtest"
+        # is present while a test runs. /api/status carries no operations
+        # field, so reading it always said False (run 43491830408).
         client = PattnClient(api_key="k")
-        with patch.object(client, "status", return_value={"operations": [{"kind": "speedtest", "state": "running"}]}):
+        with patch.object(client, "_request", return_value=["speedtest", "core"]):
             self.assertTrue(client.speedtest_running())
-        with patch.object(client, "status", return_value={"operations": []}):
+            self.assertEqual(client.operations(), ["speedtest", "core"])
+        with patch.object(client, "_request", return_value=["core"]):
             self.assertFalse(client.speedtest_running())
-        with patch.object(client, "status", side_effect=PattnError("down")):
+        with patch.object(client, "_request", return_value="not a list"):
+            self.assertEqual(client.operations(), [])
+        with patch.object(client, "_request", side_effect=PattnError("down")):
             self.assertFalse(client.speedtest_running())
+
+    def test_envelope_refusal_raises(self):
+        from src.pattn_client import _envelope
+        with self.assertRaises(PattnError):
+            _envelope({"success": False, "code": "speedtest_busy"})
+        self.assertEqual(_envelope({"success": True, "data": [1]}), [1])
+        self.assertEqual(_envelope({"data": {"ok": True}}), {"ok": True})
 
     def test_wait_for_speedtest_returns_and_times_out(self):
         client = PattnClient(api_key="k")
