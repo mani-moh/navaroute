@@ -2175,6 +2175,82 @@
         "iran"
       ],
       "enabled": true
+    },
+    {
+      "id": "igareck-vless-full",
+      "name": "Igareck Vless Full",
+      "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Health-checked VLESS list for use outside Russia (BLACK list), refreshed every 1-2h with reachability/latency/speed checks; 250 parsed nodes.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "health-checked",
+        "vless"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "igareck-ss-all",
+      "name": "Igareck SS All",
+      "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_SS+All_RUS.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Health-checked Shadowsocks + mixed-protocol list for use outside Russia (BLACK list), same 1-2h checked collection; 29 parsed nodes (mostly VMess).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "health-checked",
+        "ss"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "pawdroid-sub-en",
+      "name": "Pawdroid Sub En",
+      "url": "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/static/sub_en",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. English variant of the Pawdroid free-servers list (hand speed-tested, refreshed every 6h); base64 blob, 20 parsed nodes.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "gfpcom-trojan",
+      "name": "GFPCom Trojan",
+      "url": "https://raw.githubusercontent.com/wiki/gfpcom/free-proxy-list/lists/trojan.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hourly-updated raw Trojan proxy list from the GetFreeProxy aggregator; 23,738 parsed nodes - large uncurated pool, nodes untested until the pipeline healthcheck.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "trojan"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "gfpcom-ss",
+      "name": "GFPCom SS",
+      "url": "https://raw.githubusercontent.com/wiki/gfpcom/free-proxy-list/lists/ss.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hourly-updated raw Shadowsocks proxy list from the GetFreeProxy aggregator; 13,049 parsed nodes - large uncurated pool, nodes untested until the pipeline healthcheck.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "ss"
+      ],
+      "enabled": true
     }
   ]
 }
