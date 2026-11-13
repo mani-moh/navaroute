@@ -18,6 +18,12 @@ from src.models import (
     flag_to_country_code,
 )
 from src.parsers import (
+    _address,
+    _extract_nodes_from_xray_json,
+    _mapped_settings,
+    _node,
+    _stream_params,
+    _unquote,
     detect_country,
     extract_nodes_from_content,
     parse_proxy_uri,
@@ -263,6 +269,107 @@ class TestParsers(unittest.TestCase):
             credential="uuid",
         )
         assert normal_node.has_special_parameters() is False
+
+
+class TestParserBranches(unittest.TestCase):
+    def test_address_validation_branches(self):
+        self.assertFalse(_address(""))
+        self.assertFalse(_address("a[b"))
+        self.assertFalse(_address("fe80::1::2"))
+        self.assertFalse(_address("ho%st"))
+        self.assertTrue(_address("example.com"))
+        self.assertTrue(_address("2001:db8::1"))
+        self.assertIsNone(parse_proxy_uri("vless://uuid@:443"))
+        self.assertIsNone(parse_proxy_uri("vless://uuid@a[b:443"))
+        self.assertIsNone(parse_proxy_uri(123))
+
+    def test_unquote_malformed_escape(self):
+        with self.assertRaises(ValueError):
+            _unquote("a%zz")
+        with self.assertRaises(ValueError):
+            _unquote("100%")
+
+    def test_node_credential_branches(self):
+        self.assertIsNone(_node("ss", "host", 443, "nopassword", {}, "r", None))
+        self.assertIsNone(_node("tuic", "host", 443, "user:", {}, "r", None))
+        self.assertIsNotNone(_node("ss", "host", 443, "user:pass", {}, "r", None))
+
+    def test_endpoint_ipv6_and_default_port_branches(self):
+        self.assertIsNone(parse_proxy_uri("vless://uuid@[::1:443"))
+        self.assertIsNone(parse_proxy_uri("vless://uuid@[::1]x:443"))
+        self.assertIsNone(parse_proxy_uri("vless://uuid@::1"))
+        node = parse_proxy_uri("trojan://pass@host")
+        self.assertIsNotNone(node)
+        self.assertEqual(node.port, 443)
+
+    def test_vmess_json_branches(self):
+        self.assertIsNone(parse_proxy_uri("vmess://!!!"))
+        self.assertIsNone(parse_proxy_uri("vmess://" + base64.b64encode(b"[1, 2]").decode()))
+        data = {"v": 1, "add": "h", "port": 443, "id": "uuid"}
+        self.assertIsNone(parse_proxy_uri("vmess://" + base64.b64encode(json.dumps(data).encode()).decode()))
+        data = {"alpn": 5, "add": "h", "port": 443, "id": "uuid"}
+        self.assertIsNone(parse_proxy_uri("vmess://" + base64.b64encode(json.dumps(data).encode()).decode()))
+
+    def test_shadowsocks_and_standard_uri_branches(self):
+        self.assertIsNone(parse_proxy_uri("ss://" + base64.b64encode(b"justcredentials").decode()))
+        self.assertIsNone(parse_proxy_uri("ss://dXNlcjpwYXNz@host:8388/path"))
+        self.assertIsNone(parse_proxy_uri("vless://host:443"))
+
+    def test_stream_params_branches(self):
+        with self.assertRaises(ValueError):
+            _stream_params("x")
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "quic"})
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "tcp", "security": "reality2"})
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "tcp", "security": "tls", "tlsSettings": {"serverName": 5}})
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "tcp", "security": "tls", "tlsSettings": {"alpn": []}})
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "tcp", "tcpSettings": {"bad": 1}})
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "tcp", "tcpSettings": {"header": {"type": "http"}}})
+        params = _stream_params({"network": "tcp", "tcpSettings": {"header": {"type": "none"}}})
+        self.assertEqual(params.get("headerType"), "none")
+        with self.assertRaises(ValueError):
+            _stream_params({"network": "ws", "wsSettings": {"bad": 1}})
+        params = _stream_params({"network": "xhttp", "xhttpSettings": {"path": "/x", "mode": "stream-one"}})
+        self.assertEqual(params, {"type": "xhttp", "path": "/x", "mode": "stream-one"})
+
+    def test_mapped_settings_type_errors(self):
+        with self.assertRaises(ValueError):
+            _mapped_settings({"serverName": 5}, {"serverName": ("sni", str)})
+        with self.assertRaises(ValueError):
+            _mapped_settings({"alpn": [1]}, {"alpn": ("alpn", list)})
+
+    def _xray_config(self, protocol, servers, tag="test"):
+        key = "vnext" if protocol in ("vless", "vmess") else "servers"
+        return {"outbounds": [{"protocol": protocol, "settings": {key: servers}, "tag": tag}]}
+
+    def test_xray_json_skip_branches(self):
+        src = SourceConfig(id="json-src", name="JSON", url="http://json", format="xray_json")
+        # vless server with an extra key is skipped.
+        config = self._xray_config("vless", [{"address": "1.2.3.4", "port": 443, "users": [{"id": "uuid"}], "extra": 1}])
+        self.assertEqual(_extract_nodes_from_xray_json([config], src), [])
+        # vmess user with a negative alterId is skipped.
+        config = self._xray_config("vmess", [{"address": "1.2.3.4", "port": 443, "users": [{"id": "uuid", "alterId": -1}]}])
+        self.assertEqual(_extract_nodes_from_xray_json([config], src), [])
+        # trojan server with an extra key is skipped.
+        config = self._xray_config("trojan", [{"address": "1.2.3.4", "port": 443, "password": "pw", "extra": 1}])
+        self.assertEqual(_extract_nodes_from_xray_json([config], src), [])
+        # shadowsocks with a method containing ':' is skipped.
+        config = self._xray_config("shadowsocks", [{"address": "1.2.3.4", "port": 443, "password": "pw", "method": "bad:method"}])
+        self.assertEqual(_extract_nodes_from_xray_json([config], src), [])
+        # shadowsocks with a plugin containing ';' is skipped.
+        config = self._xray_config("shadowsocks", [{"address": "1.2.3.4", "port": 443, "password": "pw",
+                                                    "method": "aes-128-gcm", "plugin": "bad;plugin"}])
+        self.assertEqual(_extract_nodes_from_xray_json([config], src), [])
+        # Positive control: a valid vless server still yields a node.
+        config = self._xray_config("vless", [{"address": "1.2.3.4", "port": 443, "users": [{"id": "9f8e7d6c-5b4a-3210-9876-543210fedcba"}]}])
+        nodes = _extract_nodes_from_xray_json([config], src)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0].address, "1.2.3.4")
 
 
 class TestContentExtraction(unittest.TestCase):
