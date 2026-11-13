@@ -8,7 +8,7 @@ import threading
 import sys
 import time
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from src import network
 
@@ -466,6 +466,118 @@ class NetworkTests(WireFixture):
             network.connect_public(("public.example", 80), timeout=1.0)
         self.assertEqual(len(created), 1)
         self.assertTrue(created[0].closed)
+
+
+class NetworkBranches(WireFixture):
+    def test_dns_cache_expiry_evicts_entry(self):
+        network._dns_cache_put("public.example", 80, True, [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("8.8.8.8", 80))])
+        key = ("public.example", 80, True)
+        network._DNS_CACHE[key] = (0.0, network._DNS_CACHE[key][1])
+        self.assertIsNone(network._dns_cache_get("public.example", 80, True))
+        self.assertNotIn(key, network._DNS_CACHE)
+
+    def test_dns_cache_evicts_oldest_when_full(self):
+        for i in range(network._DNS_CACHE_MAX_ENTRIES):
+            network._dns_cache_put(f"h{i}.example", 80, True, [])
+        network._dns_cache_put("overflow.example", 80, True, [])
+        self.assertEqual(len(network._DNS_CACHE), network._DNS_CACHE_MAX_ENTRIES)
+        self.assertNotIn(("h0.example", 80, True), network._DNS_CACHE)
+        self.assertIn(("overflow.example", 80, True), network._DNS_CACHE)
+
+    def test_public_ip_and_approved_url_validation(self):
+        with self.assertRaises(ValueError):
+            network._public_ip("not-an-ip")
+        with self.assertRaises(ValueError):
+            network.approved_public_url("https://localhost/x")
+
+    def test_resolve_once_capacity_exceeded(self):
+        slots = Mock()
+        slots.acquire.return_value = False
+        with patch.object(network, "_DNS_SLOTS", slots):
+            with self.assertRaises(network.NetworkError):
+                network._resolve_once("public.example", 80, network._end(20.0))
+
+    @patch("src.network.time.sleep")
+    def test_resolve_retries_transient_dns_failures_three_times(self, sleep):
+        with patch("socket.getaddrinfo", side_effect=OSError("synthetic resolver failure")) as resolver:
+            with self.assertRaises(network.NetworkError):
+                network._resolve("public.example", 80, network._end(20.0))
+        self.assertEqual(resolver.call_count, 3)
+
+    def test_resolve_once_rejects_non_stream_and_scoped_addresses(self):
+        with patch("socket.getaddrinfo", return_value=[(socket.AF_INET, socket.SOCK_DGRAM, 0, "", ("8.8.8.8", 80))]):
+            with self.assertRaises(ValueError):
+                network._resolve_once("public.example", 80, network._end(20.0))
+        with patch("socket.getaddrinfo", return_value=[(socket.AF_INET6, socket.SOCK_STREAM, 0, "", ("fe80::1%eth0", 443))]):
+            with self.assertRaises(ValueError):
+                network._resolve_once("public.example", 443, network._end(20.0), public=False)
+
+    def test_resolve_rejects_bad_port_and_cached_shape(self):
+        with self.assertRaises(ValueError):
+            network._resolve("public.example", 0, network._end(20.0))
+        with self.assertRaises(ValueError):
+            network._resolve("public.example", True, network._end(20.0))
+        network._DNS_CACHE[("public.example", 80, True)] = (
+            time.monotonic() + 60, [(socket.AF_UNIX, socket.SOCK_STREAM, 0, "", ("x", 80))])
+        with self.assertRaises(ValueError):
+            network._resolve("public.example", 80, network._end(20.0))
+        network._DNS_CACHE[("public.example", 80, False)] = (
+            time.monotonic() + 60, [(socket.AF_INET6, socket.SOCK_STREAM, 0, "", ("fe80::1%eth0", 80))])
+        with self.assertRaises(ValueError):
+            network._resolve("public.example", 80, network._end(20.0), public=False)
+
+    def test_connect_public_rejects_non_tuple(self):
+        with self.assertRaises(ValueError):
+            network.connect_public("public.example:443")
+
+    def test_proxy_policy_branches(self):
+        with patch.dict(os.environ, {"http_proxy": "http://exa mple.com"}):
+            with self.assertRaises(ValueError):
+                network._proxy("http")
+        with patch.dict(os.environ, {"http_proxy": "http://example.com:0"}):
+            with self.assertRaises(ValueError):
+                network._proxy("http")
+
+    def test_chunk_size_framing_branches(self):
+        for wire in (b"zz", b"zz\r\n"):
+            resp = network._Response.__new__(network._Response)
+            resp.fp = io.BytesIO(wire)
+            resp.framing_bytes = 0
+            with self.subTest(wire=wire), self.assertRaises(network.NetworkError):
+                resp._read_next_chunk_size()
+
+    def test_expire_tolerates_shutdown_failures(self):
+        plain = Mock()
+        plain.shutdown.side_effect = OSError("synthetic")
+        no_shutdown = Mock(spec=["close"])
+        for sock in (plain, no_shutdown):
+            conn = network._Connection.__new__(network._Connection)
+            conn.watched_socket = sock
+            conn._expire()
+            sock.close.assert_called_once()
+
+    def test_fetch_headers_validation(self):
+        with self.assertRaises(ValueError):
+            self.fetch(headers="x")
+        with self.assertRaises(ValueError):
+            self.fetch(headers={"X-Test": "€"})
+
+    def test_proxy_authorization_header_on_plain_http(self):
+        proxy = WireSocket(response())
+        with patch.dict(os.environ, {"http_proxy": "http://user:pass@127.0.0.1:9999"}), \
+                patch("socket.socket", return_value=proxy):
+            self.assertEqual(self.fetch(), (200, b"ok"))
+        self.assertIn(b"Proxy-Authorization: Basic dXNlcjpwYXNz\r\n", proxy.sent)
+
+    def test_redirect_without_location_is_rejected(self):
+        self.responses = [response(status=301)]
+        with self.assertRaises(network.NetworkError):
+            self.fetch()
+
+    def test_redirect_chain_is_bounded(self):
+        self.responses = [response(status=301, headers=b"Location: http://public.example/feed\r\n") for _ in range(6)]
+        with self.assertRaises(network.NetworkError):
+            self.fetch()
 
 
 if __name__ == "__main__":
