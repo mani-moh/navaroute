@@ -158,7 +158,15 @@ def main(argv: list[str] | None = None) -> int:
         due_uris = [entry["uri"] for entry in due]
         sent = client.import_profiles(due_uris)
         print(f"tier1: imported {sent} profiles (WebAPI {PINNED_WEBAPI_VERSION})")
+        imported = client.profiles()
+        testable = sum(1 for p in imported if p.get("CanTest") is not False)
+        core_types: dict[str, int] = {}
+        for p in imported:
+            core = str(p.get("CoreType") or "?")
+            core_types[core] = core_types.get(core, 0) + 1
+        print(f"tier1: imported profiles testable {testable}/{len(imported)}, core types {core_types}")
         client.start_speedtest()
+        print(f"tier1: operations right after start: {client.operations()}")
         profiles = wait_for_delays(client, sent, args.speedtest_timeout)
     finally:
         stop_webapi(process)
@@ -197,8 +205,11 @@ def main(argv: list[str] | None = None) -> int:
     delay_counts = count_delays(profiles)
     if delay_counts["untested"]:
         # The speedtest service logs its failures server-side only; print
-        # them so the next run's log shows why nothing was tested.
-        for entry in client.logs(limit=50, filter_text="speedtest"):
+        # the recent lines unfiltered (the filter semantics are
+        # unverified) so the next run's log shows why nothing was tested.
+        fetched = client.logs(limit=50)
+        print(f"tier1: webapi log entries fetched: {len(fetched)}")
+        for entry in fetched:
             message = entry.get("Message")
             if isinstance(message, str) and message:
                 print(f"tier1: webapi log [{entry.get('Source', '?')}]: {message[:300]}")
