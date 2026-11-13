@@ -11,9 +11,24 @@ from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
 from src.discovery.agent import DiscoveryAgent, load_local_dotenv
-from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
+from src.discovery.nemotron_client import (
+    DiscoveryAPIError,
+    DiscoveryBudgetExceeded,
+    NemotronClient,
+    _download_image_as_data_uri,
+    _network_error_token,
+    _redact_for_trace,
+    _write_trace_line,
+)
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
-from src.discovery.state_manager import DiscoveryStateManager, normalize_channel_handle, read_public_text
+from src.discovery.state_manager import (
+    DiscoveryStateManager,
+    bounded_image_results,
+    normalize_channel_handle,
+    read_public_text,
+    serialize_state,
+    validate_state,
+)
 from src.fetcher import fetch_source, load_sources
 from src.network import NetworkError
 from src.parsers import parse_proxy_uri
@@ -233,6 +248,160 @@ class TestNemotronClient(OfflineDiscoveryTestCase):
         manager.save()
 
 
+class TestNemotronClientBranches(OfflineDiscoveryTestCase):
+    def client(self, limit=500, seconds=30, **kwargs):
+        client = NemotronClient(api_key="synthetic-key", **kwargs)
+        client.configure_cycle(max_attempts=limit, deadline=seconds)
+        return client
+
+    def test_trace_helpers_redact_token_and_chmod_failure(self):
+        err = NetworkError("x")
+        err.__cause__ = OSError(111, "refused")
+        self.assertEqual(_network_error_token(err), "NetworkError>ConnectionRefusedError:111")
+        self.assertTrue(_redact_for_trace("x" * 5000).startswith("<truncated 5000 chars sha256="))
+        self.assertEqual(_redact_for_trace(object()), "<object>")
+        self.assertEqual(_redact_for_trace(3), 3)
+        path = str(self.root / "trace.jsonl")
+        with patch("src.discovery.nemotron_client.os.chmod", side_effect=OSError("synthetic chmod failure")):
+            _write_trace_line(path, {"a": 1})
+        self.assertIn('"a":1', Path(path).read_text(encoding="utf-8"))
+
+    def test_image_download_mime_and_status_branches(self):
+        self.assertEqual(_download_image_as_data_uri("data/discovered_ocr_configs.txt"), "")
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(404, b"")):
+            self.assertEqual(_download_image_as_data_uri("https://example.com/a.png"), "")
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"\xff\xd8\xff" + b"x" * 10)):
+            self.assertTrue(_download_image_as_data_uri("https://example.com/a.jpg").startswith("data:image/jpeg;base64,"))
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"RIFF1234WEBP" + b"x" * 10)):
+            self.assertTrue(_download_image_as_data_uri("https://example.com/a.webp").startswith("data:image/webp;base64,"))
+
+    def test_init_and_cycle_validation(self):
+        for kwargs in ({"provider": "bogus"}, {"timeout": 0}, {"timeout": float("inf")}):
+            with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                NemotronClient(api_key="x", **kwargs)
+        with self.assertRaises(ValueError):
+            self.client().configure_cycle(max_attempts=0, deadline=1)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    def test_wait_second_budget_check(self, sleep, _clock):
+        client = self.client(limit=2, seconds=30)
+        client.api_requests_count = 1
+        def sleep_then_exhaust(seconds):
+            client.api_requests_count = 2
+        sleep.side_effect = sleep_then_exhaust
+        with self.assertRaises(DiscoveryBudgetExceeded):
+            client._wait(0.01)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_provider_call_configures_cycle_when_unset(self, transport, _clock):
+        transport.return_value = completion("ok")
+        client = NemotronClient(api_key="synthetic-key")
+        self.assertIsNone(client.deadline)
+        self.assertEqual(client.complete("hi"), "ok")
+        self.assertIsNotNone(client.deadline)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_stepfun_only_falls_back_to_default_model(self, transport, _clock):
+        transport.return_value = completion("done")
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter", model="stepfun-ai/step-5-preview")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        self.assertEqual(client.complete("hi"), "done")
+        sent = json.loads(transport.call_args.kwargs["data"])
+        # The NVIDIA-only model is dropped; the free router is tried instead.
+        self.assertEqual(sent["model"], "openrouter/free")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    def test_wait_exhaustion_after_attempt_is_api_error(self, transport, sleep, _clock):
+        client = self.client(limit=10, seconds=30)
+        with patch.object(client, "_wait", side_effect=[None, None, DiscoveryBudgetExceeded("synthetic")]):
+            with self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+        self.assertEqual(transport.call_count, 1)
+
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    @patch("src.discovery.nemotron_client.time.sleep")
+    def test_deadline_expiry_after_attempt_is_api_error(self, transport, sleep):
+        client = self.client(limit=10, seconds=30)
+        clock = [0] * 13 + [100] * 20
+        with patch("src.discovery.nemotron_client.time.monotonic", side_effect=lambda: clock.pop(0) if clock else 100):
+            with self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_non_json_200_becomes_502(self, transport, sleep, _clock):
+        client = self.client(limit=10, seconds=30)
+        for body in (b"[1, 2]", b"not json"):
+            transport.return_value = (200, body)
+            with self.subTest(body=body), self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+
+    def test_call_api_without_key_returns_none(self):
+        self.assertIsNone(NemotronClient(api_key="")._call_api({"model": "x"}))
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    def test_fallback_blocked_when_budget_exhausted(self, transport, sleep, _clock):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-nv", provider="nvidia")
+        client.configure_cycle(max_attempts=1, deadline=30)
+        # One retry only, so the provider loop ends (not the mid-loop budget
+        # wait) with fallback_worthy set — then the exhausted budget blocks it.
+        with self.assertRaises(DiscoveryAPIError):
+            client._call_api({"model": client.model, "messages": [{"role": "user", "content": "hi"}]}, max_retries=1)
+        self.assertEqual(transport.call_count, 1)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_empty_model_list_uses_default_model(self, transport, _clock):
+        transport.return_value = completion("done")
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter", model="stepfun-ai/step-5-preview")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        result = client._call_api_on_provider("openrouter", client.base_url, client.api_key,
+                                              {"model": "stepfun-ai/step-5-preview", "messages": []})
+        self.assertIsNotNone(result)
+        sent = json.loads(transport.call_args.kwargs["data"])
+        self.assertEqual(sent["model"], "nvidia/nemotron-3.5-super-vl:free")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_default_model_gets_reasoning_and_json_object(self, transport, _clock):
+        transport.return_value = completion('{"a": 1}')
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        self.assertEqual(client.complete_json("hi"), {"a": 1})
+        sent = json.loads(transport.call_args.kwargs["data"])
+        self.assertEqual(sent["reasoning"], {"effort": "high"})
+        self.assertEqual(sent["response_format"], {"type": "json_object"})
+        self.assertEqual(sent["model"], "nvidia/nemotron-3.5-super-vl:free")
+
+    def test_response_text_validation(self):
+        for bad in ({}, {"choices": []}, {"choices": [{"message": {"content": 123}}]}, {"choices": [{"message": {}}]}):
+            with self.subTest(bad=bad), self.assertRaises(DiscoveryAPIError):
+                NemotronClient._response_text(bad)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_complete_json_empty_fence_and_outer_braces(self, transport, _clock):
+        self.assertIsNone(NemotronClient(api_key="").complete_json("hi"))
+        self.assertEqual(NemotronClient(api_key="").analyze_image("https://example.com/a.png"), "")
+        client = self.client()
+        transport.return_value = completion("```\n{\"a\": 1}\n```")
+        self.assertEqual(client.complete_json("hi"), {"a": 1})
+        transport.return_value = completion("prefix {not json} suffix")
+        self.assertIsNone(client.complete_json("hi"))
+
+
 class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
     def test_valid_state_priority_and_roundtrip(self):
         path = self.root / "state.json"
@@ -321,6 +490,373 @@ class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
             path.write_text(json.dumps({"version": 1, field: [owner], "pending_children": {owner: [child]}}), encoding="utf-8")
             with self.assertRaises(ValueError):
                 DiscoveryStateManager(str(path))
+
+
+class TestDiscoveryStateValidation(OfflineDiscoveryTestCase):
+    def valid_metadata_entry(self, **overrides):
+        entry = {"handle": "chan", "last_checked": 1, "last_nodes_yield": 0, "total_nodes_yield": 0,
+                 "checks_count": 1, "is_active": True, "sub_url": "https://t.me/s/chan"}
+        entry.update(overrides)
+        return entry
+
+    def test_bounded_image_results_rejects_non_text(self):
+        for bad in ("not a dict", {"k": 123}, {123: "v"}):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                bounded_image_results(bad)
+        self.assertEqual(normalize_channel_handle(123), "")
+
+    def test_serialize_state_second_byte_limit_fires(self):
+        from src.discovery import state_manager
+        state = {"version": 1, "image_results": {"a" * 64: URI}}
+        with patch.object(state_manager, "STATE_MAX_BYTES", 200), \
+             patch.object(state_manager, "bounded_image_results", side_effect=lambda results, max_bytes: results), \
+             self.assertRaises(ValueError):
+            serialize_state(state)
+
+    def test_bounded_checkpoint_read_rejects_oversize_and_bad_encoding(self):
+        path = self.root / "checkpoint.txt"
+        path.write_bytes(b"x" * 11)
+        with self.assertRaises(ValueError):
+            read_public_text(path, max_bytes=10)
+        path.write_bytes(b"\xff\xfe invalid")
+        with self.assertRaises(ValueError):
+            read_public_text(path)
+
+    def test_validate_state_rejects_each_bad_section(self):
+        cases = [
+            {"queries_executed": [123]},
+            {"queries_executed": ["bad\nquery"]},
+            {"queries_executed": ["https://example.com"]},
+            {"pending_pages": ["data/discovered_ocr_configs.txt"]},
+            {"external_attempt_order": {"bad key!": 1}},
+            {"external_attempt_order": {"good": -1}},
+            {"last_updated": -1},
+            {"total_api_requests": "many"},
+            {"sources_metadata": "not a dict"},
+            {"sources_metadata": {"bad key!": {}}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(checks_count=-1)}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(is_active="yes")}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(handle="bad handle!")}},
+            {"sources_metadata": {"chan": self.valid_metadata_entry(retained_fingerprints=["not-a-hash"])}},
+            {"image_results": {"zz": "x"}},
+            {"image_results": {"a" * 64: "not a uri"}},
+        ]
+        for bad in cases:
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                validate_state(dict({"version": 1}, **bad))
+
+    def test_rejected_channels_drop_from_queue_and_forget_visited_url(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.add_candidates(["chana", "chanb"])
+        manager.record_rejected_channels(["chana", "spamchan"])
+        self.assertEqual(manager.state["rejected_channels"], ["chana", "spamchan"])
+        self.assertNotIn("chana", manager.state["candidate_queue"])
+        manager.record_visited_url("https://example.com/readme.md")
+        self.assertTrue(manager.is_url_visited("https://example.com/readme.md"))
+        manager.forget_visited_url("https://example.com/readme.md")
+        self.assertFalse(manager.is_url_visited("https://example.com/readme.md"))
+
+    def test_pending_children_guard_record_visited_url_and_query(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        url = "https://example.com/sub.txt"
+        manager.state["pending_children"] = {url: [{"kind": "subscription", "url": url}]}
+        with self.assertRaises(ValueError):
+            manager.record_visited_url(url)
+        manager.state["pending_children"] = {"free v2ray": [{"kind": "page", "url": "https://example.com/x"}]}
+        with self.assertRaises(ValueError):
+            manager.record_query("free v2ray")
+
+    def test_visited_url_list_truncates_to_recent_5000(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.state["visited_urls"] = [f"https://example.com/{i}" for i in range(5000)]
+        self.assertTrue(manager.is_url_visited("https://example.com/0"))
+        manager.record_visited_url("https://example.com/new")
+        self.assertEqual(len(manager.state["visited_urls"]), 5000)
+        self.assertFalse(manager.is_url_visited("https://example.com/0"))
+        self.assertTrue(manager.is_url_visited("https://example.com/new"))
+
+    def test_record_visited_empty_handle_noop_pending_guard_and_queue_removal(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.record_visited("", 1, True)
+        self.assertEqual(manager.state.get("visited_channels", []), [])
+        manager.state["pending_children"] = {"https://t.me/s/chan": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with self.assertRaises(ValueError):
+            manager.record_visited("chan", 1, True)
+        manager.state["pending_children"] = {}
+        manager.add_candidates(["chan"])
+        manager.record_visited("chan", 1, True)
+        self.assertNotIn("chan", manager.state["candidate_queue"])
+        self.assertIn("chan", manager.state["visited_channels"])
+
+    def test_record_external_source_falls_back_to_source_id_label(self):
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.record_external_source("src-id", "bad name!", 5, "https://example.com/sub.txt")
+        self.assertEqual(manager.state["sources_metadata"]["src-id"]["handle"], "src-id")
+
+
+class TestDiscoveryAgentBranches(OfflineDiscoveryTestCase):
+    def agent(self, seeds=None, key=""):
+        return DiscoveryAgent(state_file=str(self.root / "data/state.json"), discovered_sources_file=str(self.root / "sources.discovered.json"), leaderboard_file=str(self.root / "DISCOVERY.md"), initial_seeds=seeds or [], nemotron_client=NemotronClient(api_key=key))
+
+    @contextmanager
+    def crawl(self, agent, pages=PAGE):
+        with patch.object(agent, "_expand_queries_via_nemotron"), patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=pages if isinstance(pages, list) else None, return_value=pages) as fetch:
+            yield fetch
+
+    def test_retain_stops_when_budget_runs_out_mid_cache(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", side_effect=[True, False]), self.assertRaises(DiscoveryBudgetExceeded):
+            agent._retain(URI + "\n" + URI, "https://example.com/sub.txt")
+        self.assertEqual(len(agent._retained), 1)
+
+    def test_parse_retained_rejects_too_many_or_invalid_lines(self):
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._parse_retained("\n".join(["x"] * 401))
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._parse_retained("not a uri")
+
+    def test_journal_targets_rejects_conflicting_paths(self):
+        agent = self.agent()
+        agent._checkpoint_paths = {"cache": Path("data/discovered_ocr_configs.txt"),
+                                   "registry": Path("data/discovered_ocr_configs.txt")}
+        with self.assertRaises(ValueError):
+            agent._journal_targets()
+
+    def test_validate_generation_rejects_shape_size_retained_and_state(self):
+        base = {"cache": None, "registry": None, "state": None, "leaderboard": None}
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation({"cache": None})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="x" * (8 * 1024 * 1024 + 1)))
+        retained_registry = json.dumps({"sources": [{"id": "retained", "name": "Retained",
+                                                     "url": "data/discovered_ocr_configs.txt"}]})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="", registry=retained_registry))
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, state="{bad"))
+        entry = {"handle": "chan", "last_checked": 1, "last_nodes_yield": 0, "total_nodes_yield": 0,
+                 "checks_count": 1, "is_active": True, "sub_url": "https://t.me/s/chan",
+                 "retained_fingerprints": ["a" * 64]}
+        state = json.dumps({"version": 1, "sources_metadata": {"chan": entry}})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="", state=state))
+
+    def test_probe_sub_url_budget_cache_status_and_deadline_branches(self):
+        agent = self.agent()
+        with self.assertRaises(ValueError):
+            agent.probe_sub_url("data/discovered_ocr_configs.txt")
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/sub.txt"))
+        agent._cycle_probed_urls["https://example.com/cached.txt"] = 5
+        self.assertEqual(agent.probe_sub_url("https://example.com/cached.txt"), 5)
+        with patch.object(agent, "_can_work", side_effect=[True, False]), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/deadline.txt"))
+        with patch("src.discovery.agent.fetch_bytes", create=True, return_value=(500, b"")):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/error.txt"))
+        with patch.object(agent, "_can_work", side_effect=[True, True, False]), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/late.txt"))
+
+    def test_consider_url_budget_invalid_and_existing_branches(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._consider_url("https://example.com/sub.txt", {}, set()))
+        self.assertFalse(agent._consider_url("not a url", {}, set()))
+        self.assertFalse(agent._consider_url("data/discovered_ocr_configs.txt", {}, set()))
+        self.assertFalse(agent._consider_url("https://example.com/sub.txt", {}, {"https://example.com/sub.txt"}))
+
+    def test_pending_child_urls_skip_invalid_duplicates_and_local(self):
+        agent = self.agent()
+        self.assertEqual(agent._pending_child_urls(["not a url", "https://example.com/a.txt"], {}, set()),
+                         ["https://example.com/a.txt"])
+        self.assertEqual(agent._pending_child_urls(["https://example.com/a.txt", "https://example.com/a.txt",
+                                                    "data/discovered_ocr_configs.txt"], {}, set()),
+                         ["https://example.com/a.txt"])
+
+    def test_analyze_webpage_invalid_local_and_no_budget_branches(self):
+        agent = self.agent()
+        self.assertTrue(agent._analyze_webpage_via_nemotron("not a url", {}, set()))
+        self.assertTrue(agent._analyze_webpage_via_nemotron("data/discovered_ocr_configs.txt", {}, set()))
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron("https://example.com/page", {}, set()))
+
+    def test_analyze_webpage_replay_then_budget_and_retryable(self):
+        agent = self.agent()
+        url = "https://example.com/page"
+        agent.state_manager.state["pending_children"] = {url: []}
+        with patch.object(agent, "_can_work", side_effect=[True, False]):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+        agent.state_manager.state["pending_children"] = {}
+        agent.web_scraper.last_outcome = "retryable"
+        with patch.object(agent.web_scraper, "fetch_text_snippet", return_value="snippet"):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+
+    def test_analyze_webpage_bad_llm_shape_returns_none(self):
+        agent = self.agent(key="synthetic")
+        url = "https://example.com/page"
+        content = "https://raw.githubusercontent.com/user/repo/main/sub.txt"
+        agent.web_scraper.last_page_content = content
+        agent.web_scraper.last_outcome = "ok"
+        with patch.object(agent.web_scraper, "fetch_text_snippet", return_value=content), \
+             patch.object(agent.nemotron, "complete_json", return_value="not a dict"):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+
+    def test_filter_candidates_early_return_bad_shape_and_rejection(self):
+        agent = self.agent()
+        self.assertEqual(agent._filter_candidates_via_nemotron([]), [])
+        self.assertEqual(agent._filter_candidates_via_nemotron(["proxychan"]), ["proxychan"])
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.nemotron, "complete_json", return_value="bad shape"):
+            self.assertEqual(agent._filter_candidates_via_nemotron(["spammy"]), ["spammy"])
+        with patch.object(agent.nemotron, "complete_json", return_value={"keep": []}):
+            self.assertEqual(agent._filter_candidates_via_nemotron(["proxychan", "spammy"]), ["proxychan"])
+        self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
+
+    def test_expand_queries_budget_branches(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._expand_queries_via_nemotron({}))
+        agent.state_manager.state["pending_pages"] = ["https://t.me/s/chanone", "https://t.me/s/chantwo"]
+        with patch.object(agent, "_can_work", side_effect=[True, True, False]):
+            agent._expand_queries_via_nemotron({})
+        self.assertIn("chanone", agent.state_manager.state["candidate_queue"])
+
+    def test_expand_queries_github_loop_budget_return(self):
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent, "_can_work", side_effect=[True] * 5 + [False]):
+            agent._expand_queries_via_nemotron({})
+
+    def test_expand_queries_github_incomplete_children_continue(self):
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["pending_queries"] = ["gh:free v2ray"]
+        agent.state_manager.state["pending_children"] = {
+            "gh:free v2ray": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent.web_scraper, "search_github", return_value=[]), \
+             patch.object(agent, "_consider_url", return_value=None):
+            agent._expand_queries_via_nemotron({})
+        self.assertNotIn("gh:free v2ray", agent.state_manager.state["queries_executed"])
+
+    def test_expand_queries_github_complete_then_budget_returns(self):
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["pending_queries"] = ["gh:free v2ray"]
+        agent.state_manager.state["pending_children"] = {
+            "gh:free v2ray": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent, "_consider_url", return_value=True), \
+             patch.object(agent, "_can_work", side_effect=[True] * 7 + [False]):
+            agent._expand_queries_via_nemotron({})
+        self.assertNotIn("gh:free v2ray", agent.state_manager.state["queries_executed"])
+
+    def test_process_channel_budget_branches(self):
+        page100 = '<div data-post="proxychan/100">' + URI + '</div>'
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page100), \
+             patch.object(agent, "_can_work", side_effect=[True, False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page100), \
+             patch.object(agent, "_can_work", side_effect=[True] * 3 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+
+    def test_process_channel_second_fetch_retryable_and_dead(self):
+        page100 = '<div data-post="proxychan/100">' + URI + '</div>'
+        for outcome, want in (("retryable", False), ("dead", True)):
+            agent = self.agent()
+            agent.tg_scraper.last_outcome = outcome
+            with patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=[page100, ""]):
+                self.assertEqual(agent._process_channel("proxychan", {}, set(), False), want)
+            if want:
+                # oldest_post_id 1 is stored but the getter treats 1 as "start from latest".
+                self.assertEqual(agent.state_manager.state["sources_metadata"]["proxychan"]["oldest_post_id"], 1)
+
+    def test_process_channel_forgets_visited_url_when_sub_urls_found(self):
+        agent = self.agent()
+        url = "https://t.me/s/proxychan"
+        agent.state_manager.record_visited_url(url)
+        page = '<div data-post="proxychan/1">' + URI + ' https://raw.githubusercontent.com/user/repo/main/sub.txt</div>'
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            discovered = {}
+            self.assertTrue(agent._process_channel("proxychan", discovered, set(), False))
+        self.assertIn("tg-proxychan", discovered)
+        self.assertTrue(agent.state_manager.is_url_visited(url))
+
+    def test_process_channel_image_loop_budget_and_final_budget(self):
+        img_page = '<div data-post="proxychan/100"><img src="https://cdn.telegram.org/file/abc.jpg"></div>'
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=[img_page, img_page]), \
+             patch.object(agent, "_can_work", side_effect=[True] * 4 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+        page = '<div data-post="proxychan/1">' + URI + ' https://raw.githubusercontent.com/user/repo/main/sub.txt</div>'
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())), \
+             patch.object(agent, "_can_work", side_effect=[True] * 8 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+
+    def test_save_checkpoint_journal_present_and_project_failure_recovers(self):
+        agent = self.agent()
+        (self.root / "data/discovery_checkpoint.json").write_text("{}", encoding="utf-8")
+        with self.assertRaises(OSError):
+            agent._save_checkpoint({}, [])
+        (self.root / "data/discovery_checkpoint.json").unlink()
+        with patch.object(agent, "_project_generation", side_effect=OSError("synthetic project failure")), \
+             patch.object(agent, "_recover_checkpoint", side_effect=OSError("synthetic recovery failure")), \
+             self.assertRaises(OSError):
+            agent._save_checkpoint({}, [])
+        self.assertTrue((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_run_cycle_recovers_checkpoint_and_rejects_retained_without_cache(self):
+        agent = self.agent()
+        with patch.object(agent, "_recover_checkpoint", return_value=True):
+            self.assertEqual(agent.run_cycle(max_channels=0), [])
+        (self.root / "sources.discovered.json").write_text(json.dumps(
+            {"sources": [{"id": "retained", "name": "Retained", "url": "data/discovered_ocr_configs.txt"}]}), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            self.agent().run_cycle(max_channels=0)
+
+    def test_run_cycle_external_loop_breaks_on_budget(self):
+        (self.root / "sources.discovered.json").write_text(json.dumps(
+            {"sources": [{"id": "ext", "name": "Ext", "url": "https://example.com/sub.txt"}]}), encoding="utf-8")
+        agent = self.agent()
+        with patch.object(agent, "_expand_queries_via_nemotron"), \
+             patch.object(agent, "_can_work", side_effect=[True, False, False]):
+            result = agent.run_cycle(max_channels=1)
+        self.assertIn("ext", {s["id"] for s in result})
+        self.assertEqual(agent.state_manager.state["external_attempt_order"], {})
+
+    def test_run_cycle_budget_exhaustion_is_caught_not_fatal(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent), patch.object(agent, "_retain", side_effect=DiscoveryBudgetExceeded("synthetic budget")):
+            self.assertIsInstance(agent.run_cycle(max_channels=1), list)
+
+    def test_load_local_dotenv_and_run_cli(self):
+        from src.discovery.agent import load_local_dotenv, run_cli
+        (self.root / ".env").write_text("# comment\n\nNOEQUALS\nNEW_KEY=hello\nQUOTED=\"world\"\nQUOTED2='single'\n", encoding="utf-8")
+        with patch.dict(os.environ, {"NEW_KEY": "keep"}, clear=False):
+            load_local_dotenv()
+            self.assertEqual(os.environ["NEW_KEY"], "keep")
+        with patch.dict(os.environ, {}, clear=True):
+            load_local_dotenv()
+            self.assertEqual(os.environ["NEW_KEY"], "hello")
+            self.assertEqual(os.environ["QUOTED"], "world")
+            self.assertEqual(os.environ["QUOTED2"], "single")
+        load_local_dotenv(str(self.root / "nope.env"))
+        with patch.object(DiscoveryAgent, "run_cycle", return_value=[]):
+            self.assertEqual(run_cli(["--max-channels", "0"]), 0)
+
+    def test_queue_children_limit_is_enforced(self):
+        agent = self.agent()
+        agent.state_manager.state["pending_children"] = {
+            f"https://example.com/p{i}": [{"kind": "page", "url": f"https://example.com/c{i}"}] for i in range(5000)}
+        with self.assertRaises(ValueError):
+            agent._queue_children("https://example.com/parent", ["https://example.com/new.txt"], "page", {}, set())
 
 
 class TestScrapers(OfflineDiscoveryTestCase):

@@ -417,5 +417,317 @@ class TestProtectedCheckout(IranFixture):
                     self.results.verify_tester_checkout(root, SHA, "c" * 40)
 
 
+class TestCommandPayloadAndCleanup(IranFixture):
+    def test_gh_api_payload_reaches_bounded_command_input(self):
+        from unittest.mock import MagicMock
+        calls = []
+        def popen(argv, **kw):
+            calls.append((argv, kw))
+            proc = MagicMock()
+            proc.stdout = io.BytesIO(b'{}')
+            proc.wait.return_value = 0
+            proc.poll.return_value = 0
+            return proc
+        with patch("src.iran_results.subprocess.Popen", side_effect=popen):
+            self.assertEqual(self.results.gh_api("user", method="POST", payload={"x": 1}), {})
+        argv, kw = calls[0]
+        self.assertIn("--input", argv)
+        self.assertIn("-", argv)
+        self.assertIsNot(kw["stdin"], subprocess.DEVNULL)
+
+    def test_command_unreadable_response_and_cleanup_failure(self):
+        from unittest.mock import MagicMock
+        proc = MagicMock()
+        proc.stdout = MagicMock()
+        proc.stdout.read.side_effect = OSError("synthetic read failure")
+        proc.wait.return_value = 0
+        proc.poll.return_value = 0
+        with patch("src.iran_results.subprocess.Popen", return_value=proc), self.assertRaises(self.results.IranResultsError):
+            self.results.gh_api("user")
+        proc2 = MagicMock()
+        proc2.stdout = io.BytesIO(b'{}')
+        proc2.wait.return_value = 0
+        proc2.poll.return_value = None
+        proc2.kill.side_effect = OSError("synthetic kill failure")
+        with patch("src.iran_results.subprocess.Popen", return_value=proc2), self.assertRaises(self.results.IranResultsError):
+            self.results.gh_api("user")
+
+
+class TestOwnerAuthorityBranches(IranFixture):
+    def authorize_with(self, edit):
+        responses = owner_responses()
+        edit(responses)
+        with patch.object(self.results, "gh_api", side_effect=lambda path, **kw: responses[path]):
+            return self.results.authorize_owner(attest_access_reviewed=True)
+
+    def test_attestation_and_branch_protection_mismatch(self):
+        with self.assertRaises(self.results.IranResultsError):
+            self.results.authorize_owner(attest_access_reviewed=False)
+        with self.assertRaises(self.results.IranResultsError):
+            self.authorize_with(lambda r: r["repos/mani-moh/navaroute/branches/iran-results"].update(protected=False))
+
+    def test_ruleset_bypass_and_codeowners_mismatch(self):
+        def ruleset(r):
+            r["repos/mani-moh/navaroute/rulesets?includes_parents=true&per_page=100&page=1"] = [{"id": 7}]
+            r["repos/mani-moh/navaroute/rulesets/7"] = {"bypass_actors": [{"actor": "x"}]}
+        with self.assertRaises(self.results.IranResultsError):
+            self.authorize_with(ruleset)
+        def codeowners(r):
+            key = f"repos/mani-moh/navaroute/contents/.github/CODEOWNERS?ref={SHA}"
+            r[key] = {"type": "file", "encoding": "base64", "content": base64.b64encode(b"* @someone-else\n").decode()}
+        with self.assertRaises(self.results.IranResultsError):
+            self.authorize_with(codeowners)
+
+    def test_incomplete_response_truncated_tree_and_behind_source(self):
+        with patch.object(self.results, "gh_api", return_value={}), self.assertRaises(self.results.IranResultsError):
+            self.results.authorize_owner(attest_access_reviewed=True)
+        with patch.object(self.results, "gh_api", return_value={"truncated": True, "tree": []}), self.assertRaises(self.results.IranResultsError):
+            self.results._tree(SHA)
+        with patch.object(self.results, "gh_api", return_value={"status": "behind"}), self.assertRaises(self.results.IranResultsError):
+            self.results.verify_source_commit(SHA)
+
+
+class TestProtectedCheckoutBranches(IranFixture):
+    def build_root(self, tmp):
+        root = Path(tmp).resolve()
+        contents = {"src/__init__.py": b"", "src/iran_results.py": b"# reviewed\n",
+                    "scripts/test_iran_reachability.py": b"# reviewed\n", "scripts/check_from_iran.ps1": b"# reviewed\n",
+                    ".github/CODEOWNERS": b"* @mani-moh\n"}
+        rows = []
+        for path, content in contents.items():
+            file = root / path
+            file.parent.mkdir(parents=True, exist_ok=True)
+            file.write_bytes(content)
+            rows.append({"path": path, "mode": "100644", "type": "blob",
+                         "sha": self.results.git_blob_sha(content)})
+        return root, contents, rows
+
+    def verify(self, root, rows, command, api):
+        from types import SimpleNamespace
+        modules = {"src": SimpleNamespace(__file__=str(root / "src/__init__.py")),
+                   "src.iran_results": SimpleNamespace(__file__=str(root / "src/iran_results.py"))}
+        with patch.object(self.results, "_command", side_effect=command), patch.object(self.results, "gh_api", side_effect=api), \
+             patch.object(self.results.sys, "modules", modules):
+            return self.results.verify_tester_checkout(root, SHA, "c" * 40)
+
+    def standard(self, root, rows, ls_tree=None, head=None):
+        def command(argv, **kw):
+            if "--show-toplevel" in argv:
+                return str(root).encode()
+            if "--abbrev-ref" in argv:
+                return b"HEAD"
+            if "rev-parse" in argv:
+                return (head or SHA).encode()
+            if "status" in argv:
+                return b""
+            if "ls-tree" in argv:
+                lines = ls_tree if ls_tree is not None else [f"100644 blob {row['sha']}\t{row['path']}" for row in rows]
+                return "\n".join(lines).encode()
+            raise AssertionError(argv)
+        def api(path, **kw):
+            if "/compare/" in path:
+                return {"status": "ahead"}
+            if "/trees/" in path:
+                return {"truncated": False, "tree": copy.deepcopy(rows)}
+            raise AssertionError(path)
+        return command, api
+
+    def test_head_mismatch_is_pinned_checkout_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, rows = self.build_root(tmp)
+            command, api = self.standard(root, rows, head="b" * 40)
+            with self.assertRaises(self.results.IranResultsError):
+                self.verify(root, rows, command, api)
+
+    def test_non_blob_tree_entry_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, rows = self.build_root(tmp)
+            command, api = self.standard(root, rows, ls_tree=["040000 tree " + "c" * 40 + "\tsrc/foo.py"])
+            with self.assertRaises(self.results.IranResultsError):
+                self.verify(root, rows, command, api)
+
+    def test_symlinked_tester_file_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, rows = self.build_root(tmp)
+            outside = Path(tmp) / "outside.py"
+            outside.write_bytes(b"# outside\n")
+            sha = self.results.git_blob_sha(b"# outside\n")
+            (root / "src/foo.py").symlink_to(outside)
+            remote = [{"path": "src/foo.py", "mode": "100644", "type": "blob", "sha": sha}]
+            command, api = self.standard(root, remote, ls_tree=[f"100644 blob {sha}\tsrc/foo.py"])
+            with self.assertRaises(self.results.IranResultsError):
+                self.verify(root, remote, command, api)
+
+
+class TestOfficialSnapshot(IranFixture):
+    URL = "https://raw.githubusercontent.com/mani-moh/navaroute/" + SHA + "/subs/all.txt"
+
+    def test_fetch_non_200_and_oversize_body(self):
+        from unittest.mock import MagicMock
+        response = MagicMock()
+        response.status = 404
+        conn = MagicMock()
+        conn.getresponse.return_value = response
+        conn.timer = None
+        with patch("src.iran_results._Connection", return_value=conn):
+            self.assertEqual(self.results._fetch_official_bytes(self.URL), (404, b""))
+        response.status = 200
+        response.getheader.side_effect = lambda name, default=None: {"Content-Encoding": "identity"}.get(name)
+        response.read1.side_effect = lambda n: b"x" * n
+        with patch("src.iran_results._Connection", return_value=conn), self.assertRaises(self.results.IranResultsError):
+            self.results._fetch_official_bytes(self.URL)
+
+    def test_load_snapshot_candidate_limit_no_candidates_and_transport_failure(self):
+        import hashlib
+        uri = "trojan://public-fixture@1.1.1.1:443#Public"
+        body = (uri + "\n").encode() * 3
+        digest = hashlib.sha256(body).hexdigest()
+        with patch.object(self.results, "_fetch_official_bytes", return_value=(200, body)), \
+             patch.object(self.results, "MAX_CANDIDATES", 2), self.assertRaises(self.results.IranResultsError):
+            self.results.load_official_snapshot(SHA, digest)
+        body = b"# comment\n\n"
+        digest = hashlib.sha256(body).hexdigest()
+        with patch.object(self.results, "_fetch_official_bytes", return_value=(200, body)), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results.load_official_snapshot(SHA, digest)
+        with patch.object(self.results, "_fetch_official_bytes", side_effect=OSError("synthetic download failure")), \
+             self.assertRaises(self.results.IranResultsError):
+            self.results.load_official_snapshot(SHA, DIGEST)
+
+
+class TestInspectCore(IranFixture):
+    def test_oversize_core_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "core"
+            with path.open("wb") as stream:
+                stream.truncate(512 * 1024 * 1024 + 1)
+            with self.assertRaises(self.results.IranResultsError):
+                self.results.inspect_core(str(path))
+
+    def test_fake_core_version_success_unsupported_and_temp_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "xray"
+            path.write_text("#!/bin/sh\nif [ \"$1\" = \"version\" ]; then echo \"Xray 25.10.15\"; fi\nexit 0\n", encoding="utf-8")
+            path.chmod(0o755)
+            info = self.results.inspect_core(str(path))
+            self.assertEqual(info["version"], "Xray 25.10.15")
+            self.assertEqual(len(info["sha256"]), 64)
+            path.write_text("#!/bin/sh\necho \"not xray\"\nexit 0\n", encoding="utf-8")
+            with self.assertRaises(self.results.IranResultsError):
+                self.results.inspect_core(str(path))
+            path.write_bytes(b"x")
+            with patch("src.iran_results.tempfile.TemporaryDirectory", side_effect=OSError("synthetic temp failure")), \
+                 self.assertRaises(self.results.IranResultsError):
+                self.results.inspect_core(str(path))
+
+
+class TestManifestBranches(IranFixture):
+    def test_utc_evidence_date_rejects_non_text(self):
+        for bad in (123, "x" * 41):
+            with self.subTest(bad=bad), self.assertRaises(self.results.IranResultsError):
+                self.results._utc(bad)
+
+    def test_counts_latency_and_structure_branches(self):
+        m = copy.deepcopy(self.manifest)
+        m["counts"].update(tested=-1)
+        with self.assertRaises(self.results.IranResultsError):
+            self.results.validate_manifest(m, self.nodes, source_sha=SHA, source_digest=DIGEST)
+        m = copy.deepcopy(self.manifest)
+        m["observations"][0].update(status="failed")
+        m["counts"].update(passed=0, failed=1)
+        with self.assertRaises(self.results.IranResultsError):
+            self.results.validate_manifest(m, self.nodes, source_sha=SHA, source_digest=DIGEST)
+        with self.assertRaises(self.results.IranResultsError):
+            self.results.validate_manifest(self.manifest, None, source_sha=SHA, source_digest=DIGEST)
+
+
+class TestRenderLimits(IranFixture):
+    def test_render_result_file_byte_limits(self):
+        with patch.object(self.results, "MAX_FILE_BYTES", 10), self.assertRaises(self.results.IranResultsError):
+            self.results.render_result_files(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST)
+        with patch.object(self.results, "MAX_FILE_BYTES", 100), self.assertRaises(self.results.IranResultsError):
+            self.results.render_result_files(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST)
+
+
+class TestPublishConfirmations(TestDirectPublication):
+    def publish_with(self, api):
+        with patch.object(self.results, "authorize_owner", return_value={"head": SHA}), \
+             patch.object(self.results, "verify_tester_checkout"), patch.object(self.results, "gh_api", side_effect=api):
+            return self.results.publish_results(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST,
+                captured_head=SHA, attest_access_reviewed=True)
+
+    def tree_api(self, files, state):
+        def api(path, *, method="GET", payload=None):
+            prefix = "repos/mani-moh/navaroute/git/"
+            if path.startswith(prefix + "trees/"):
+                return {"sha": "d" * 40, "truncated": False, "tree": [{"path": p, "mode": "100644", "type": "blob", "sha": self.results.git_blob_sha(t.encode())} for p, t in state["files"].items()]}
+            raise AssertionError(path)
+        return api
+
+    def test_idempotent_reference_change_is_not_confirmed(self):
+        files = self.results.render_result_files(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST)
+        state = {"files": files}
+        reads = {"n": 0}
+        def api(path, *, method="GET", payload=None):
+            prefix = "repos/mani-moh/navaroute/git/"
+            if path == prefix + "ref/heads/iran-results":
+                reads["n"] += 1
+                return {"object": {"sha": SHA if reads["n"] == 1 else "e" * 40}}
+            return self.tree_api(files, state)(path, method=method, payload=payload)
+        with self.assertRaises(self.results.IranResultsError):
+            self.publish_with(api)
+
+    def test_created_commit_mismatch_is_not_published(self):
+        files = self.results.render_result_files(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST)
+        state = {"head": SHA, "files": {}}
+        def api(path, *, method="GET", payload=None):
+            prefix = "repos/mani-moh/navaroute/git/"
+            if path == prefix + "ref/heads/iran-results":
+                return {"object": {"sha": state["head"]}}
+            if path.startswith(prefix + "trees/"):
+                return {"sha": "d" * 40, "truncated": False, "tree": [{"path": p, "mode": "100644", "type": "blob", "sha": self.results.git_blob_sha(t.encode())} for p, t in state["files"].items()]}
+            if path == prefix + "blobs":
+                return {"sha": self.results.git_blob_sha(base64.b64decode(payload["content"]))}
+            if path == prefix + "trees":
+                state["files"] = files
+                return {"sha": "d" * 40}
+            if path == prefix + "commits" and method == "POST":
+                return {"sha": "c" * 40}
+            if path.startswith(prefix + "commits/"):
+                return {"tree": {"sha": "f" * 40}}
+            raise AssertionError(path)
+        with self.assertRaises(self.results.IranResultsError):
+            self.publish_with(api)
+
+    def test_concurrent_update_and_published_reference_change(self):
+        for changed_at_read in (2, 4):
+            files = self.results.render_result_files(self.manifest, self.nodes, source_sha=SHA, source_digest=DIGEST)
+            state = {"head": SHA, "files": {}}
+            reads = {"n": 0}
+            def api(path, *, method="GET", payload=None, _reads=reads, _state=state, _changed=changed_at_read):
+                prefix = "repos/mani-moh/navaroute/git/"
+                if path == prefix + "ref/heads/iran-results":
+                    _reads["n"] += 1
+                    return {"object": {"sha": {1: SHA, 2: SHA, 3: "c" * 40}.get(_reads["n"], "e" * 40) if _reads["n"] != _changed else "e" * 40}}
+                if path.startswith(prefix + "trees/"):
+                    return {"sha": "d" * 40, "truncated": False, "tree": [{"path": p, "mode": "100644", "type": "blob", "sha": self.results.git_blob_sha(t.encode())} for p, t in _state["files"].items()]}
+                if path == prefix + "blobs":
+                    return {"sha": self.results.git_blob_sha(base64.b64decode(payload["content"]))}
+                if path == prefix + "trees":
+                    _state["files"] = files
+                    return {"sha": "d" * 40}
+                if path == prefix + "commits" and method == "POST":
+                    return {"sha": "c" * 40}
+                if path.startswith(prefix + "commits/"):
+                    return {"tree": {"sha": "d" * 40}}
+                if path == prefix + "refs/heads/iran-results":
+                    self.assertIs(payload["force"], False)
+                    _state["head"] = "c" * 40
+                    return {"object": {"sha": "c" * 40}}
+                raise AssertionError(path)
+            with self.subTest(changed_at_read=changed_at_read), self.assertRaises(self.results.IranResultsError):
+                self.publish_with(api)
+
+
 if __name__ == "__main__":
     unittest.main()
