@@ -57,19 +57,39 @@ class PattnError(ValueError):
     """The WebAPI refused or failed an operation."""
 
 
+def _normalize_keys(payload: object) -> object:
+    """Recursively capitalize the first letter of dict keys.
+
+    The WebAPI serializes JSON in camelCase (ASP.NET Core's default),
+    but this client and its callers use the PascalCase field names from
+    the PattN source (Delay, Protocol, CanTest, ...). Without this the
+    client read every profile's Delay as None and the tier-1 driver
+    concluded 200 profiles were untested when the server had in fact
+    tested them (run 43495662919). PascalCase keys are unchanged, so
+    the normalization is idempotent.
+    """
+    if isinstance(payload, dict):
+        return {key[:1].upper() + key[1:]: _normalize_keys(value)
+                for key, value in payload.items()}
+    if isinstance(payload, list):
+        return [_normalize_keys(item) for item in payload]
+    return payload
+
+
 def _envelope(payload: object) -> object:
     """Unwrap the ApiEnvelope {"data": ...} the WebAPI returns, if present.
 
     A dict with "success" explicitly False is a refused operation, even
     on HTTP 200, and raises instead of returning a useless payload.
+    Keys are normalized to PascalCase (see _normalize_keys).
     """
     if isinstance(payload, dict):
         if payload.get("success") is False:
             code = payload.get("code") or payload.get("messageKey") or "operation failed"
             raise PattnError(f"WebAPI refused the operation: {code}")
         if "data" in payload:
-            return payload["data"]
-    return payload
+            return _normalize_keys(payload["data"])
+    return _normalize_keys(payload)
 
 
 class PattnClient:
@@ -117,7 +137,8 @@ class PattnClient:
         if isinstance(result, str) and result:
             token = result
         elif isinstance(result, dict):
-            for key in ("token", "accessToken", "sessionId", "session"):
+            # Keys are PascalCase after _envelope normalization.
+            for key in ("Token", "AccessToken", "SessionId", "Session"):
                 if isinstance(result.get(key), str) and result[key]:
                     token = result[key]
                     break
@@ -237,12 +258,19 @@ def generate_api_key() -> str:
 
 def start_webapi(exe_path: Path, api_key: str, port: int = DEFAULT_PORT,
                  cwd: Path | None = None) -> subprocess.Popen:
-    """Start the WebAPI exe and wait for /api/health. Caller must stop it."""
+    """Start the WebAPI exe and wait for /api/health. Caller must stop it.
+
+    Runs with --foreground so the spawned process IS the server: the
+    default launcher mode spawns a detached background child, which
+    the driver cannot stop reliably and which died mid-test in local
+    reproduction (the driver then saw "connection refused" polling
+    /api/profiles).
+    """
     env = dict(os.environ)
     env["V2RAYN_WEB_API_KEY"] = api_key
     env.setdefault("ASPNETCORE_URLS", f"http://127.0.0.1:{port}")
     process = subprocess.Popen(
-        [str(exe_path)], env=env, cwd=str(cwd) if cwd else None,
+        [str(exe_path), "--foreground"], env=env, cwd=str(cwd) if cwd else None,
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     client = PattnClient(f"http://127.0.0.1:{port}", api_key)
     deadline = time.monotonic() + 120
