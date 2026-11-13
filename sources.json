@@ -2281,6 +2281,106 @@
         "ss"
       ],
       "enabled": true
+    },
+    {
+      "id": "lorenzazy7kenyon-v2ray-base64",
+      "name": "Lorenzazy7kenyon V2Ray Base64",
+      "url": "https://raw.githubusercontent.com/lorenzazy7kenyon/free-vpn-subscriptions/main/output/v2ray-base64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Mixed-protocol base64 blob (auto-updated); 648 parsed nodes (288 VLESS, 192 SS, 90 VMess, 42 Trojan, 36 Hysteria2).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "mhyrv-stash",
+      "name": "MHyrv V2Ray Stash",
+      "url": "https://raw.githubusercontent.com/mhyrv/v2ray-stash/main/output/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Self-updating mixed-protocol list; 299 parsed nodes (123 VLESS, 83 SS, 51 Trojan, 42 VMess).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "zikko-all",
+      "name": "ZikkO All",
+      "url": "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/sub/all.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Large uncurated collector pool, flagged honestly: 1,500 parsed nodes (1,193 VLESS, 160 SS, 107 Trojan, 40 VMess); size and freshness vary.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "large-pool"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "owenlee3-shadowrocket",
+      "name": "Owenlee3 Shadowrocket",
+      "url": "https://raw.githubusercontent.com/owenlee3/my-nodes/main/output/shadowrocket.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Self-updating mixed-protocol list; 123 parsed nodes (56 VLESS, 44 Trojan, 16 VMess, 7 SS).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nostalume-merged",
+      "name": "Nostalume Merged",
+      "url": "https://raw.githubusercontent.com/nostalume/FreeNodes/main/nodes/merged.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Bounded, deduplicated catalog with freshness/syntax admission; 91 parsed nodes (78 VMess, 13 VLESS).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "konatask-sub",
+      "name": "Konatask Sub",
+      "url": "https://raw.githubusercontent.com/konatask/nodepool/main/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hourly-updated list of tested working nodes; 67 parsed nodes (44 SS, 21 VLESS, 2 Trojan).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "speed-tested"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "andrejewild-sub",
+      "name": "Andrejewild Sub",
+      "url": "https://raw.githubusercontent.com/Andrejewild/happ-v2rayng-configs/main/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Small auto-updated mixed list; 20 parsed nodes (19 VLESS, 1 SS).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
     }
   ]
 }
