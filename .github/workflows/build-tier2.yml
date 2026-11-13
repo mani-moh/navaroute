@@ -1,0 +1,45 @@
+# Build the tier-2 owner-PC app (NavaRouteTier2.exe) with PyInstaller.
+#
+# Produces a single-file Windows exe from tools/tier2/tier2_pattn.py
+# (stdlib only; src/ is bundled via the spec's pathex) and uploads it
+# as a workflow artifact. Run on demand or on changes to tools/tier2/.
+name: Build Tier 2 App
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/tier2/**"
+      - "src/pattn_client.py"
+      - "src/tier1.py"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Build the exe
+        run: pyinstaller tools/tier2/tier2_pattn.spec
+
+      - name: Upload the exe
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4, verified action-pins.md
+        with:
+          name: NavaRouteTier2
+          path: dist/NavaRouteTier2.exe
+          if-no-files-found: error
