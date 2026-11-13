@@ -11,7 +11,15 @@ from unittest.mock import patch
 from urllib.parse import parse_qs, urlsplit
 
 from src.discovery.agent import DiscoveryAgent, load_local_dotenv
-from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient, _download_image_as_data_uri
+from src.discovery.nemotron_client import (
+    DiscoveryAPIError,
+    DiscoveryBudgetExceeded,
+    NemotronClient,
+    _download_image_as_data_uri,
+    _network_error_token,
+    _redact_for_trace,
+    _write_trace_line,
+)
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
 from src.discovery.state_manager import (
     DiscoveryStateManager,
@@ -238,6 +246,160 @@ class TestNemotronClient(OfflineDiscoveryTestCase):
         manager = DiscoveryStateManager(str(self.root / "state.json"))
         manager.state["image_results"] = client.image_results
         manager.save()
+
+
+class TestNemotronClientBranches(OfflineDiscoveryTestCase):
+    def client(self, limit=500, seconds=30, **kwargs):
+        client = NemotronClient(api_key="synthetic-key", **kwargs)
+        client.configure_cycle(max_attempts=limit, deadline=seconds)
+        return client
+
+    def test_trace_helpers_redact_token_and_chmod_failure(self):
+        err = NetworkError("x")
+        err.__cause__ = OSError(111, "refused")
+        self.assertEqual(_network_error_token(err), "NetworkError>ConnectionRefusedError:111")
+        self.assertTrue(_redact_for_trace("x" * 5000).startswith("<truncated 5000 chars sha256="))
+        self.assertEqual(_redact_for_trace(object()), "<object>")
+        self.assertEqual(_redact_for_trace(3), 3)
+        path = str(self.root / "trace.jsonl")
+        with patch("src.discovery.nemotron_client.os.chmod", side_effect=OSError("synthetic chmod failure")):
+            _write_trace_line(path, {"a": 1})
+        self.assertIn('"a":1', Path(path).read_text(encoding="utf-8"))
+
+    def test_image_download_mime_and_status_branches(self):
+        self.assertEqual(_download_image_as_data_uri("data/discovered_ocr_configs.txt"), "")
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(404, b"")):
+            self.assertEqual(_download_image_as_data_uri("https://example.com/a.png"), "")
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"\xff\xd8\xff" + b"x" * 10)):
+            self.assertTrue(_download_image_as_data_uri("https://example.com/a.jpg").startswith("data:image/jpeg;base64,"))
+        with patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"RIFF1234WEBP" + b"x" * 10)):
+            self.assertTrue(_download_image_as_data_uri("https://example.com/a.webp").startswith("data:image/webp;base64,"))
+
+    def test_init_and_cycle_validation(self):
+        for kwargs in ({"provider": "bogus"}, {"timeout": 0}, {"timeout": float("inf")}):
+            with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                NemotronClient(api_key="x", **kwargs)
+        with self.assertRaises(ValueError):
+            self.client().configure_cycle(max_attempts=0, deadline=1)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    def test_wait_second_budget_check(self, sleep, _clock):
+        client = self.client(limit=2, seconds=30)
+        client.api_requests_count = 1
+        def sleep_then_exhaust(seconds):
+            client.api_requests_count = 2
+        sleep.side_effect = sleep_then_exhaust
+        with self.assertRaises(DiscoveryBudgetExceeded):
+            client._wait(0.01)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_provider_call_configures_cycle_when_unset(self, transport, _clock):
+        transport.return_value = completion("ok")
+        client = NemotronClient(api_key="synthetic-key")
+        self.assertIsNone(client.deadline)
+        self.assertEqual(client.complete("hi"), "ok")
+        self.assertIsNotNone(client.deadline)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_stepfun_only_falls_back_to_default_model(self, transport, _clock):
+        transport.return_value = completion("done")
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter", model="stepfun-ai/step-5-preview")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        self.assertEqual(client.complete("hi"), "done")
+        sent = json.loads(transport.call_args.kwargs["data"])
+        # The NVIDIA-only model is dropped; the free router is tried instead.
+        self.assertEqual(sent["model"], "openrouter/free")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    def test_wait_exhaustion_after_attempt_is_api_error(self, transport, sleep, _clock):
+        client = self.client(limit=10, seconds=30)
+        with patch.object(client, "_wait", side_effect=[None, None, DiscoveryBudgetExceeded("synthetic")]):
+            with self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+        self.assertEqual(transport.call_count, 1)
+
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    @patch("src.discovery.nemotron_client.time.sleep")
+    def test_deadline_expiry_after_attempt_is_api_error(self, transport, sleep):
+        client = self.client(limit=10, seconds=30)
+        clock = [0] * 13 + [100] * 20
+        with patch("src.discovery.nemotron_client.time.monotonic", side_effect=lambda: clock.pop(0) if clock else 100):
+            with self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_non_json_200_becomes_502(self, transport, sleep, _clock):
+        client = self.client(limit=10, seconds=30)
+        for body in (b"[1, 2]", b"not json"):
+            transport.return_value = (200, body)
+            with self.subTest(body=body), self.assertRaises(DiscoveryAPIError):
+                client.complete("hi")
+
+    def test_call_api_without_key_returns_none(self):
+        self.assertIsNone(NemotronClient(api_key="")._call_api({"model": "x"}))
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(503, b""))
+    def test_fallback_blocked_when_budget_exhausted(self, transport, sleep, _clock):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-nv", provider="nvidia")
+        client.configure_cycle(max_attempts=1, deadline=30)
+        # One retry only, so the provider loop ends (not the mid-loop budget
+        # wait) with fallback_worthy set — then the exhausted budget blocks it.
+        with self.assertRaises(DiscoveryAPIError):
+            client._call_api({"model": client.model, "messages": [{"role": "user", "content": "hi"}]}, max_retries=1)
+        self.assertEqual(transport.call_count, 1)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_empty_model_list_uses_default_model(self, transport, _clock):
+        transport.return_value = completion("done")
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter", model="stepfun-ai/step-5-preview")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        result = client._call_api_on_provider("openrouter", client.base_url, client.api_key,
+                                              {"model": "stepfun-ai/step-5-preview", "messages": []})
+        self.assertIsNotNone(result)
+        sent = json.loads(transport.call_args.kwargs["data"])
+        self.assertEqual(sent["model"], "nvidia/nemotron-3.5-super-vl:free")
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_openrouter_default_model_gets_reasoning_and_json_object(self, transport, _clock):
+        transport.return_value = completion('{"a": 1}')
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-or"}, clear=False):
+            client = NemotronClient(api_key="synthetic-or", provider="openrouter")
+        client.configure_cycle(max_attempts=5, deadline=30)
+        self.assertEqual(client.complete_json("hi"), {"a": 1})
+        sent = json.loads(transport.call_args.kwargs["data"])
+        self.assertEqual(sent["reasoning"], {"effort": "high"})
+        self.assertEqual(sent["response_format"], {"type": "json_object"})
+        self.assertEqual(sent["model"], "nvidia/nemotron-3.5-super-vl:free")
+
+    def test_response_text_validation(self):
+        for bad in ({}, {"choices": []}, {"choices": [{"message": {"content": 123}}]}, {"choices": [{"message": {}}]}):
+            with self.subTest(bad=bad), self.assertRaises(DiscoveryAPIError):
+                NemotronClient._response_text(bad)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_complete_json_empty_fence_and_outer_braces(self, transport, _clock):
+        self.assertIsNone(NemotronClient(api_key="").complete_json("hi"))
+        self.assertEqual(NemotronClient(api_key="").analyze_image("https://example.com/a.png"), "")
+        client = self.client()
+        transport.return_value = completion("```\n{\"a\": 1}\n```")
+        self.assertEqual(client.complete_json("hi"), {"a": 1})
+        transport.return_value = completion("prefix {not json} suffix")
+        self.assertIsNone(client.complete_json("hi"))
 
 
 class TestDiscoveryStateManager(OfflineDiscoveryTestCase):
