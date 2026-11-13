@@ -248,6 +248,15 @@ class ClientLaunchTests(unittest.TestCase):
         self.assertTrue(PINNED_WEBAPI_URL.endswith("7.25.6-P40/PattN-windows-64-WebAPI.zip"))
         self.assertTrue(PINNED_WEBAPI_LINUX_URL.endswith("7.25.6-P40/PattN-linux-64-WebAPI.zip"))
 
+    def test_logs_returns_entries_and_tolerates_errors(self):
+        client = PattnClient(api_key="k")
+        with patch.object(client, "_request", return_value=[
+                {"Source": "SpeedtestService", "Message": "boom"}, "junk"]):
+            logs = client.logs(limit=5, filter_text="speedtest")
+        self.assertEqual(logs, [{"Source": "SpeedtestService", "Message": "boom"}])
+        with patch.object(client, "_request", side_effect=PattnError("down")):
+            self.assertEqual(client.logs(), [])
+
     def test_generate_api_key_is_random_and_nonempty(self):
         from src.pattn_client import generate_api_key
         first, second = generate_api_key(), generate_api_key()
@@ -396,6 +405,39 @@ class DriverFeedTests(unittest.TestCase):
         sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
         import tier1_pattn
         return tier1_pattn
+
+    def test_untested_run_prints_webapi_logs(self):
+        import io
+        from unittest.mock import MagicMock
+        driver = self._load_driver()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            (base / "all.txt").write_text(
+                "vless://11111111-1111-1111-1111-111111111111@1.2.3.4:443#test\n",
+                encoding="utf-8")
+            client = MagicMock()
+            client.profiles.return_value = [
+                {"IndexId": "1", "Protocol": "vless", "Address": "1.2.3.4",
+                 "Port": 443, "Delay": 0}]
+            client.import_profiles.return_value = 1
+            client.speedtest_running.return_value = False
+            client.logs.return_value = [
+                {"Source": "SpeedtestService", "Message": "core failed to start"}]
+            process = MagicMock()
+            with patch.object(driver, "SUBS_DIR", base), \
+                    patch.object(driver, "STATE_PATH", base / "state.json"), \
+                    patch.object(driver, "RESULTS_PATH", base / "results.json"), \
+                    patch.object(driver, "BLOCKED_PATH", base / "blocked.json"), \
+                    patch.object(driver, "find_webapi_exe", return_value=base / "v2rayN.WebAPI.exe"), \
+                    patch.object(driver, "start_webapi", return_value=process), \
+                    patch.object(driver, "PattnClient", return_value=client), \
+                    patch.object(driver, "stop_webapi"), \
+                    patch("time.sleep"), \
+                    patch("sys.stdout", new_callable=io.StringIO) as out:
+                self.assertEqual(driver.main(["--webapi-dir", str(base)]), 0)
+            self.assertIn("webapi log [SpeedtestService]: core failed to start", out.getvalue())
+            self.assertIn("untested 1", out.getvalue())
+            self.assertTrue((base / "tier1_all.txt").exists())
 
     def test_count_delays_separates_passed_failed_and_untested(self):
         driver = self._load_driver()

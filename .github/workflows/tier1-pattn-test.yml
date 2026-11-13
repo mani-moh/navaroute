@@ -35,6 +35,8 @@ jobs:
       - name: Check out
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
         with:
+          ref: master
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Python

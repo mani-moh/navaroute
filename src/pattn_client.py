@@ -182,6 +182,23 @@ class PattnClient:
         result = self._request("GET", "/api/operations")
         return [item for item in result if isinstance(item, str)] if isinstance(result, list) else []
 
+    def logs(self, limit: int = 50, filter_text: str | None = None) -> list[dict]:
+        """Recent WebAPI log lines (Timestamp, Source, Message).
+
+        The speedtest service logs its failures server-side only, so
+        when a run ends with profiles untested this is the only way to
+        see why. Returns [] on any error rather than failing the run.
+        """
+        path = f"/api/logs?limit={limit}"
+        if filter_text:
+            import urllib.parse
+            path += f"&filter={urllib.parse.quote(filter_text)}"
+        try:
+            result = self._request("GET", path)
+        except PattnError:
+            return []
+        return [entry for entry in result if isinstance(entry, dict)] if isinstance(result, list) else []
+
     def speedtest_running(self) -> bool:
         """True while a speed test is still in progress.
 
