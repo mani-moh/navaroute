@@ -1,8 +1,9 @@
 # NavaRoute Telegram bot
 
-Long-polling Telegram bot for owner controls. Stdlib only, no
-dependencies. Read-only commands work for anyone; running a workflow
-is owner-only and asks for confirmation first.
+Long-polling Telegram bot for owner controls, with an AWS Lambda
+webhook entrypoint. Stdlib only, no dependencies. Read-only commands
+work for anyone; running a workflow is owner-only and asks for
+confirmation first.
 
 Commands: `/start` (menu), `/status` (latest runs of the five
 workflows), `/feeds` (links page and feed links), `/help`.
@@ -60,13 +61,53 @@ systemctl --user enable --now navaroute-telegram-bot
 journalctl --user -u navaroute-telegram-bot -f   # logs
 ```
 
-## 5. Lambda migration note
+## 5. AWS Lambda (webhook) — the serverless home
 
-No hosting is baked in: this file is the whole bot. To move it to
-AWS Lambda later, keep `Bot`, `Config`, `TelegramApi` and
-`GitHubClient` as-is and add a small webhook entrypoint that builds
-a `Bot` from env, feeds one Telegram update JSON into
-`bot.handle_update(update)`, and returns. Switch the Telegram webhook
-with `setWebhook` to the Lambda function URL. Long polling and the
-webhook entrypoint must never run at the same time — Telegram returns
-409 while two pollers are active.
+The same bot code runs on Lambda via `lambda_handler.py`, which
+handles one Telegram webhook update per invocation. The VM polling
+service and the Lambda webhook must never run at the same time:
+Telegram returns 409 while two pollers are active, and updates would
+be split between them.
+
+**Stop the VM service first:**
+
+```sh
+systemctl --user stop navaroute-telegram-bot
+systemctl --user disable navaroute-telegram-bot
+```
+
+**Package and create the function:**
+
+```sh
+tools/telegram_bot/package_lambda.sh   # builds tools/telegram_bot/dist/navaroute-bot.zip
+```
+
+Create the function with runtime **Python 3.12**, handler
+`lambda_handler.handler`, timeout **30s**, memory **128 MB**, and
+upload the zip. Environment variables:
+
+| Variable | Required | Notes |
+| --- | --- | --- |
+| `TELEGRAM_BOT_TOKEN` | yes | same token as the VM service |
+| `TELEGRAM_OWNER_ID` | yes | same owner id as the VM service; triggers refuse everyone else |
+| `GITHUB_TOKEN` | yes | **required on Lambda** — there is no `gh` CLI there, so the subprocess fallback cannot work. Use a token with repo Actions read+write (a fine-grained PAT for `mani-moh/navaroute` and `mani-moh/feed-data`, or the existing `gh` token) |
+| `GITHUB_REPO` / `FEED_DATA_REPO` | no | defaults `mani-moh/navaroute` / `mani-moh/feed-data` |
+
+**Expose it and point Telegram at it:**
+
+1. Add a **Function URL** with auth type **NONE**. It is HTTPS and
+   free — no API Gateway is needed and there are no API Gateway
+   charges.
+2. Set the webhook (replace `<TOKEN>` and `<FUNCTION_URL>`):
+
+```sh
+curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=<FUNCTION_URL>"
+curl "https://api.telegram.org/bot<TOKEN>/getWebhookInfo"
+```
+
+`getWebhookInfo` should show the function URL and no
+`last_error_message`. Send `/start` to the bot to confirm it replies.
+
+**Going back:** to return to VM polling, delete the webhook first
+(`curl "https://api.telegram.org/bot<TOKEN>/deleteWebhook"`), then
+re-enable the systemd service from section 4.
