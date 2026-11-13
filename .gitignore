@@ -15,6 +15,11 @@ http_cache/
 data/*
 !data/discovery_state.json
 !data/discovered_ocr_configs.txt
+!data/healthcheck_history.json
+!data/tier1_state.json
+!data/tier1_results.json
+!data/github_blocked.json
+!data/iran_results.json
 .*.navaroute-*/
 
 # SDD scratch workspace
