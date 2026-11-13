@@ -1,0 +1,26 @@
+# NavaRoute Telegram bot (user systemd unit).
+#
+# Install:
+#   mkdir -p ~/.config/systemd/user
+#   cp tools/telegram_bot/navaroute-telegram-bot.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now navaroute-telegram-bot
+#
+# Edit ExecStart and WorkingDirectory below to point at your checkout.
+# The env file holds TELEGRAM_BOT_TOKEN / TELEGRAM_OWNER_ID (mode 600).
+
+[Unit]
+Description=NavaRoute Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /path/to/navaroute/tools/telegram_bot/bot.py
+WorkingDirectory=/path/to/navaroute
+EnvironmentFile=%h/.config/navaroute-telegram-bot/env
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
