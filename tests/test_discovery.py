@@ -183,6 +183,19 @@ class TestNemotronClient(OfflineDiscoveryTestCase):
         self.assertEqual(client.api_requests_count, 2)
         self.assertLessEqual(len(client.image_results), 400)
 
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
+    def test_image_persistent_null_content_is_retryable_empty(self, transport, _sleep, _clock):
+        # Null-content 200s on both models: analyze_image returns "" with
+        # the outcome left "retryable" instead of killing the run.
+        null = (200, json.dumps({"choices": [{"message": {"role": "assistant", "content": None}}]}).encode())
+        client = self.client(limit=10)
+        transport.side_effect = [(200, IMAGE)] + [null] * 6
+        self.assertEqual(client.analyze_image("https://cdn.telegram.org/public.png"), "")
+        self.assertEqual(client.last_image_outcome, "retryable")
+        self.assertEqual(client.api_requests_count, 6)
+
     @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"not an image"))
     def test_unknown_image_format_is_not_forwarded(self, transport):
         self.assertEqual(_download_image_as_data_uri("https://cdn.telegram.org/public.png"), "")
@@ -387,6 +400,12 @@ class TestNemotronClientBranches(OfflineDiscoveryTestCase):
 
     def test_response_text_validation(self):
         for bad in ({}, {"choices": []}, {"choices": [{"message": {"content": 123}}]}, {"choices": [{"message": {}}]}):
+            with self.subTest(bad=bad), self.assertRaises(DiscoveryAPIError):
+                NemotronClient._response_text(bad)
+
+    def test_response_text_non_dict_shapes_raise(self):
+        for bad in (None, "x", [], {"choices": ["x"]}, {"choices": [None]},
+                    {"choices": [{"message": "x"}]}, {"choices": [{"message": None}]}):
             with self.subTest(bad=bad), self.assertRaises(DiscoveryAPIError):
                 NemotronClient._response_text(bad)
 
