@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRVSUM=
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
 tuic://8a9905b7-801b-41af-bfc9-2034212770f6:8A9905B7-801B-41AF-BFC9-2034212770F6@tw3.dexlos.com:8080?sni=tw3.dexlos.com&alpn=h3&congestion_control=bbr#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral
 tuic://73bfcc1c-5814-5f2a-b43a-3ef6af011db8:73bfcc1c-5814-5f2a-b43a-3ef6af011db8@58.152.81.104:443?sni=54fb07dd-tk7400-toh6wi-jx5r.pccw3.hyhuawei.com&congestion_control=cubic&udp_relay_mode=native&alpn=h3#%5B%F0%9F%8C%90%20XX%5D%20TUIC%20%7C%20src%3Alalatinahub-mineral

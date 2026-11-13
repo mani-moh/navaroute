@@ -1,10 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIE1YIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
+trojan://5t6i121em5lkmsmk@149.104.87.125:15083?security=tls&sni=mx001.zestapp778.com&fp=firefox#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%2055ms
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?security=tls&headerType=none&fp=chrome&type=tcp&sni=connectwithtopemployersandfindidealjobs.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Agh-731be4b5c4
 trojan://5t6i121em5lkmsmk@149.104.87.33:15083?security=tls&fp=chrome&sni=mx001.zestapp778.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan%20%7C%20src%3Agh-731be4b5c4
 vless://e9a8144e-5237-488a-afb1-9ca3d8d54c80@mx001.zestapp778.com:19167?allowInsecure=0&sni=mx001.zestapp778.com&fp=chrome&security=tls#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS%20%7C%20src%3Aermaozi-get-subscribe
+trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?allowInsecure=0&sni=mx001.zestapp778.com&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Adelta-kronecker-all
 vless://39a390af-1f90-4c0e-89e4-4e2023732e4b@147.78.1.253:443?security=reality&encryption=none&pbk=TefL2KtNcNLPmUY8TKlu5pA7ffipqgmbBN6gpyzyklk&headerType=&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.apple.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 trojan://af4b064a9c39472fb34ad8b113acdc6b@154.205.152.109:443?sni=154.205.152.109&allowInsecure=1&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vless://b1c31d36-c6b5-414b-88d2-9e24e7bfcca3@131.196.252.66:443?security=tls&fp=chrome&sni=www.nihaoyun.top&type=ws&headerType=none&host=www.nihaoyun.top&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
@@ -18,13 +20,13 @@ vless://b1c31d36-c6b5-414b-88d2-9e24e7bfcca3@131.196.252.97:443?security=tls&fp=
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2NTFkZjVkYzhmZDA4ZDBj@38.60.224.37:11201#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?allowInsecure=1&sni=mx001.zestapp778.com&type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-vless://a6d20e79-d326-42c1-bc20-f4cecc6dc42d@45.134.9.133:8443?encryption=none&security=tls&sni=ul-mexico1.09vpn.com&allowInsecure=true&type=ws&path=%2Fvless%2F&packetEncoding=xudp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
+vless://39a390af-1f90-4c0e-89e4-4e2023732e4b@147.78.1.253:443?security=reality&amp%3Bencryption=none&amp%3Bpbk=TefL2KtNcNLPmUY8TKlu5pA7ffipqgmbBN6gpyzyklk&amp%3BheaderType=none&amp%3Bfp=chrome&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=www.apple.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://39a390af-1f90-4c0e-89e4-4e2023732e4b@147.78.1.253:443?security=reality&type=tcp&packetEncoding=xudp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&pbk=TefL2KtNcNLPmUY8TKlu5pA7ffipqgmbBN6gpyzyklk&encryption=none#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?sni=connectwithtopemployersandfindidealjobs.com&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=connectwithtopemployersandfindidealjobs.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIiIsICJwYXRoIjogIi8iLCAidGxzIjogIm5vbmUiLCAic25pIjogIiIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAibmFtZSI6ICJNWCDwn4ey8J+HvSB8IEBSYXlkaWthbHggfCA2M0M3MDkiLCAicHMiOiAiW/Cfh7Lwn4e9IE1YXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxMzEuMTk2LjI1Mi41OSIsICJwb3J0IjogMjA1MjEsICJpZCI6ICI1ODA5OTExYS1hMTZlLTQzZDMtOTBiMC0yYzk0Y2ZjMjAzNWUifQ==
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@147.78.1.230:989#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Alalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozMTVlYjNlMTYwY2YyNDMy@154.205.152.64:11201#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Asub-07d2577deb
-vless://a6d20e79-d326-42c1-bc20-f4cecc6dc42d@UL-Mexico1.09vpn.com:8443?type=ws&security=tls&sni=&host=&path=%2Fvless%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 trojan://humanity@131.196.254.151:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&fm=tlshello-0-len&insecure=0&host=www.volumerOot.coM.&fp=unsafe&type=ws&allowInsecure=0&sni=wWw.Volumeroot.cOm.#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-ws%20%7C%20src%3Aheliataromi-confighub-mixed
 vless://4c642cae-1a6d-4e51-a1c3-fa5892437aa3@216.238.92.231:443?type=ws&encryption=none&flow=&host=5465765525.ccfly.tech&path=%2F&security=tls&sni=5465765525.ccfly.tech#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
 trojan://humanity@131.196.254.151:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&fm=tlshello-0-len&insecure=0&host=www.pleadcourt.org&fp=unsafe&type=ws&allowInsecure=0&sni=www.pleadcourt.org#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-ws%20%7C%20src%3Aheliataromi-confighub-mixed

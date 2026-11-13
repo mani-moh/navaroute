@@ -1,9 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIE5PIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
 vless://7bd98eb6-5408-492c-a9f2-54776a68aeb6@141.227.166.78:35728?mode=gun&security=none&encryption=none&type=grpc&serviceName=ZEDMODEON-ZEDMODEON-ZEDMODEON-bia-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEONr%E2%99%A1ya#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1OTVITEYzZkhVdXcwTWNNNTF0cHZQeWdTSUIxdWY0RA@107.174.114.71:443#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20SS%20%7C%20src%3Alalatinahub-mineral
+vless://7565ccd4-f3d8-46fa-87a6-7b6c2006cf46@no.extra-solutions.ru:443?security=reality&encryption=none&pbk=HLKQ0JvyaZ16JNdl0pbEPkiVRYJDiZNzGz9prDMiw2s&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=no.extra-solutions.ru&sid=a1b2c3d4b5#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
 vless://84f66368-8a37-468e-ae95-5622255fd4db@217.170.199.132:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=azure.com&fp=chrome&security=reality&pbk=ckRcueERkPqqjZABwxqni_J_Nbb70Q6k5fEEUAjoImw&sid=&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-07d2577deb
 vless://75de6b1d-5180-41de-b2e8-471c99c3c780@141.227.166.177:37421?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=ZEDMODEON-ZEDMODEON-ZEDMODEON-bia-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 vless://3209ec50-2909-4972-83cb-93349f9d94fd@no-most.asbndx.com:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=no-most.asbndx.com&fp=chrome&security=reality&pbk=3y_BXj6smo8Fc8hrdw94yucA0_V-f8Q-1-WvgNZpsik&sid=0a77acf80000e11f&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral

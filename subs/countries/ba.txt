@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEJBIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
 vless://ccedb1b1-35f3-46d1-a85a-c699eef5f3e1@185.171.202.58:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=fran.scroogethebest.com&fp=chrome&security=reality&pbk=AYQOZFxjvHN-RIzKYEibwFiFsp03cdlWGdCmyFfuNVc&sid=4fa44664f6a566d3&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%A6%20BA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 vless://1c7fcc38-e6be-43c5-875f-b8de2516b9f2@5.182.38.91:17267?type=tcp&encryption=none&sni=yahoo.com&fp=chrome&security=reality&pbk=SnWZg6ORcQepuWLI1EVCTTVc4KyfDiGWR4o_CXCMhgk&sid=4ae260&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%A6%20BA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral

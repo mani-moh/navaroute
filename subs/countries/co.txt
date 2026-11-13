@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.226.194:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.208.150:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee

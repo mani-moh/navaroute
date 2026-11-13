@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIExVIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T05:33:33.384532+00:00
+# snapshot-time: 2026-11-13T14:07:47.765795+00:00
 
 trojan://humanity@188.42.145.180:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&insecure=0&host=www.volumeroot.com&type=ws&allowInsecure=0&sni=www.volumeroot.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20Trojan-ws%20%7C%20src%3Aheliataromi-confighub-mixed
 trojan://f42d1b0d-c398-43cb-be37-d739b1477a5d@107.189.3.96:443?type=tcp&security=tls&sni=joss.gpj4.web.id&path=%2F#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
