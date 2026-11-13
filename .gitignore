@@ -43,3 +43,6 @@ ai_trace*.jsonl
 
 # Generated public-site build output (built by CI, never committed)
 site/
+
+# Telegram bot Lambda packaging output (built locally, never committed)
+tools/telegram_bot/dist/
