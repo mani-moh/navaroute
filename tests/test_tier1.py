@@ -384,6 +384,12 @@ class DriverFeedTests(unittest.TestCase):
         import tier1_pattn
         return tier1_pattn
 
+    def test_count_delays_separates_passed_failed_and_untested(self):
+        driver = self._load_driver()
+        profiles = [{"Delay": 120}, {"Delay": -1}, {"Delay": 0}, {}, {"Delay": "fast"}]
+        self.assertEqual(driver.count_delays(profiles),
+                         {"passed": 1, "failed": 1, "untested": 3})
+
     def test_no_feeds_aborts(self):
         driver = self._load_driver()
         with TemporaryDirectory() as tmp:
