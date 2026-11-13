@@ -12,7 +12,7 @@ PUBLIC_FILES = {"README.md", "STATUS.md", "DISCOVERY.md", "sources.discovered.js
 FEEDS = r"(?:all|reachable|verified|top100|lite500|protocols/(?:vless|vmess|trojan|ss|hysteria2|tuic)|categories/(?:navaroute-special|pattn-special|iran-optimized|reality|cdn-ws-grpc|confighub|whitelist)|countries/[a-z]{2})(?:_base64)?\.txt"
 PRIVATE_DIRS = {"local_subs", "private_subs", "iran-results", "iran-tested", "iran-verification",
                 ".superpowers", "__pycache__", ".pytest_cache", ".venv", "venv", ".cache", "cache", "http_cache"}
-SECRET = re.compile(rb"nvapi-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}")
+SECRET = re.compile(rb"nvapi-[A-Za-z0-9_-]{10,}|sk-or-v1-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}")
 MAX_BLOB_BYTES = 128 * 1024 * 1024
 GIT_TIMEOUT_SECONDS = 120
 
@@ -55,7 +55,7 @@ def check(staged=False):
         changed = git("diff", "--cached", "--no-renames", "--name-only", "-z").decode("utf-8").split("\0")
         if any(not public_output(path) for path in filter(None, changed)):
             raise ValueError("Staged path outside explicit public output roles")
-    secrets = [os.environ[k].encode() for k in ("NVIDIA_API_KEY", "GITHUB_TOKEN") if os.environ.get(k)]
+    secrets = [os.environ[k].encode() for k in ("NVIDIA_API_KEY", "OPENROUTER_API_KEY", "GITHUB_TOKEN") if os.environ.get(k)]
     for path in paths:
         size = int(git("cat-file", "-s", ":" + path))
         if not 0 <= size <= MAX_BLOB_BYTES:

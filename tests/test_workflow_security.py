@@ -109,7 +109,7 @@ class TestPublicGit(unittest.TestCase):
         self.assertEqual(self.check({"README.md": b"ok"}, paths)[0], 0)
 
     def test_tokens_in_tracked_or_new_staged_blob_fail_without_matching_lines(self):
-        for token in ("nvapi-" + "A"*12, "ghp_" + "B"*22, "github_pat_" + "C"*24, "AKIA" + "D"*16):
+        for token in ("nvapi-" + "A"*12, "sk-or-v1-" + "A"*12, "ghp_" + "B"*22, "github_pat_" + "C"*24, "AKIA" + "D"*16):
             for staged in ((), ["subs/all.txt"]):
                 with self.subTest(kind=token.split("_")[0][:5], staged=bool(staged)):
                     result, output = self.check({"subs/all.txt": ("secret="+token).encode()}, staged)
@@ -331,7 +331,7 @@ class TestWorkflowSummaryContracts(unittest.TestCase):
                 self.assertNotIn("migration", text.lower())
                 for line in text.splitlines():
                     if "secrets." in line:
-                        self.assertRegex(line, r"secrets\.(GITHUB_TOKEN|NVIDIA_API_KEY)\b")
+                        self.assertRegex(line, r"secrets\.(GITHUB_TOKEN|NVIDIA_API_KEY|OPENROUTER_API_KEY)\b")
 
 
 if __name__ == "__main__":

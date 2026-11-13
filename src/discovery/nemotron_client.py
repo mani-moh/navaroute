@@ -64,7 +64,20 @@ def _redact_for_trace(value: Any) -> Any:
     return f"<{type(value).__name__}>"
 
 DEFAULT_NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
+DEFAULT_OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_NEMOTRON_MODEL = "stepfun-ai/step-5-preview"
+# OpenRouter is OpenAI-compatible at the same /chat/completions path.
+# Default OpenRouter model (2026-11-13, Ryan's choice): Inkling 2 Small
+# (free) from Thinking Machines Lab — $0 per token, 1M context, released
+# 2026-11-09. Free-tier rate limits apply (20 req/min, 50 req/day unless
+# $10+ credits were ever bought, then 1,000/day), and it does not enforce
+# response_format, so JSON output is not guaranteed. stepfun-ai/step-5-preview
+# is NVIDIA-only and is never sent to OpenRouter.
+DEFAULT_OPENROUTER_MODEL = "thinkingmachines/inkling-2-small:free"
+APPROVED_BASE_URLS = {
+    "nvidia": DEFAULT_NVIDIA_BASE_URL,
+    "openrouter": DEFAULT_OPENROUTER_BASE_URL,
+}
 VISION_FALLBACK_MODELS = [
     "moonshotai/kimi-k2.6",
     "mistralai/mistral-large-4-1t-a52b",
@@ -112,7 +125,16 @@ class DiscoveryAPIError(RuntimeError):
 
 
 class NemotronClient:
-    """Client for NVIDIA NIM Nemotron LLM/VLM API (OpenAI-compatible)."""
+    """Client for NVIDIA NIM / OpenRouter LLM API (OpenAI-compatible).
+
+    Provider selection, in order: explicit ``provider`` argument, the
+    ``DISCOVERY_PROVIDER`` env var (``nvidia`` / ``openrouter`` / ``auto``),
+    otherwise ``auto`` — OpenRouter is the default when its key is present,
+    otherwise NVIDIA. When both keys are present the other provider is kept
+    as an automatic fallback: if the primary provider fails (transport,
+    503 BrokenPipe, or a 404 for a model), _call_api retries once on the
+    fallback provider before giving up. No other origin is ever accepted.
+    """
 
     def __init__(
         self,
@@ -121,22 +143,36 @@ class NemotronClient:
         base_url: Optional[str] = None,
         timeout: int = 45,
         min_request_interval: float = 0.0,
+        provider: Optional[str] = None,
     ) -> None:
-        self.api_key = (
-            api_key
-            if api_key is not None
-            else os.environ.get("NVIDIA_API_KEY", "").strip()
-        )
-        self.model = (
-            model
-            if model is not None
-            else os.environ.get("NVIDIA_MODEL", DEFAULT_NEMOTRON_MODEL).strip()
-        )
-        self.base_url = (
-            base_url
-            if base_url is not None
-            else os.environ.get("NVIDIA_BASE_URL", DEFAULT_NVIDIA_BASE_URL).rstrip("/")
-        )
+        requested = (provider or os.environ.get("DISCOVERY_PROVIDER", "")).strip().lower()
+        if requested not in ("", "auto", "nvidia", "openrouter"):
+            raise ValueError("Invalid discovery provider")
+        nvidia_key = os.environ.get("NVIDIA_API_KEY", "").strip()
+        openrouter_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+        if requested in ("nvidia", "openrouter"):
+            self.provider = requested
+        elif openrouter_key:
+            self.provider = "openrouter"
+        else:
+            self.provider = "nvidia"
+        self.fallback_provider = "openrouter" if self.provider == "nvidia" else "nvidia"
+        self._provider_keys = {"nvidia": nvidia_key, "openrouter": openrouter_key}
+        self.api_key = api_key if api_key is not None else self._provider_keys[self.provider]
+        self.fallback_api_key = self._provider_keys[self.fallback_provider]
+        if self.provider == "openrouter":
+            default_model = os.environ.get("OPENROUTER_MODEL", DEFAULT_OPENROUTER_MODEL).strip() or DEFAULT_OPENROUTER_MODEL
+            default_base = os.environ.get("OPENROUTER_BASE_URL", DEFAULT_OPENROUTER_BASE_URL).rstrip("/") or DEFAULT_OPENROUTER_BASE_URL
+        else:
+            default_model = os.environ.get("NVIDIA_MODEL", DEFAULT_NEMOTRON_MODEL).strip() or DEFAULT_NEMOTRON_MODEL
+            default_base = os.environ.get("NVIDIA_BASE_URL", DEFAULT_NVIDIA_BASE_URL).rstrip("/") or DEFAULT_NVIDIA_BASE_URL
+        # An explicit model stays explicit, even across a provider fallback;
+        # the fallback then only runs if that model is in its fallback list.
+        self.model = model if model is not None else default_model
+        self.base_url = base_url.rstrip("/") if base_url is not None else default_base
+        self.fallback_base_url = APPROVED_BASE_URLS[self.fallback_provider]
+        if self.base_url not in APPROVED_BASE_URLS.values() or self.base_url != APPROVED_BASE_URLS[self.provider]:
+            raise ValueError("Unapproved discovery API origin")
         self.timeout = timeout
         self.min_request_interval = min_request_interval
         if (isinstance(timeout, bool) or not isinstance(timeout, (int, float)) or not math.isfinite(timeout) or timeout <= 0
@@ -171,43 +207,60 @@ class NemotronClient:
             raise DiscoveryBudgetExceeded("Discovery budget exhausted")
 
     def is_available(self) -> bool:
-        """Returns True if an API key is configured."""
+        """Returns True if an API key is configured for the primary provider."""
         return bool(self.api_key and self.api_key.strip())
 
-    def _call_api(
+    def _call_api_on_provider(
         self,
+        provider: str,
+        base_url: str,
+        api_key: str,
         payload: dict[str, Any],
         max_retries: int = 3,
         fallback_models: Optional[list[str]] = None,
     ) -> Optional[dict[str, Any]]:
-        """Executes an HTTP POST with pacing, exponential backoff, and model fallback."""
-        if not self.is_available():
-            logger.warning("NemotronClient: NVIDIA_API_KEY is not configured.")
-            return None
+        """One provider's attempts. Returns a result, or raises DiscoveryAPIError.
 
-        if self.base_url != DEFAULT_NVIDIA_BASE_URL:
-            raise ValueError("Unapproved NVIDIA API origin")
+        Sets ``self._last_failure_transport_only`` so _call_api knows whether
+        a provider fallback (different host, different DNS) is worth trying.
+        """
         if self.deadline is None:
             self.configure_cycle(max_attempts=500, deadline=time.monotonic() + self.timeout)
-        url = f"{self.base_url}/chat/completions"
+        url = f"{base_url}/chat/completions"
         headers = {
-            "Authorization": f"Bearer {self.api_key}",
+            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
             "User-Agent": "NavaRoute-Discovery/1.0",
         }
+        if provider == "openrouter":
+            headers["HTTP-Referer"] = "https://github.com/mani-moh/navaroute"
+            headers["X-Title"] = "NavaRoute-Discovery"
 
         primary_model = payload.get("model", self.model)
         models_to_try = [primary_model]
         for fm in (fallback_models or []):
             if fm not in models_to_try:
                 models_to_try.append(fm)
+        # stepfun-ai/step-5-preview and nvidia/* models are NVIDIA-only;
+        # never send them to OpenRouter.
+        if provider == "openrouter":
+            models_to_try = [m for m in models_to_try if m != DEFAULT_NEMOTRON_MODEL and not m.startswith("nvidia/")]
+            if not models_to_try:
+                models_to_try = [DEFAULT_OPENROUTER_MODEL]
 
         attempted = False
+        # Fallback-worthy unless the request itself was malformed (400).
+        # Real Nov 13 log: 6x HTTP 503 BrokenPipe + 1x HTTP 404, no DNS line
+        # at all. A 404 for one model must not block trying the other
+        # provider, whose catalogue differs; only a 400 is provider-independent.
+        fallback_worthy = False
+        transport_only = True
         for cur_model in models_to_try:
             cur_payload = dict(payload)
             cur_payload["model"] = cur_model
-            # reasoning_effort=high is verified only for Step 5 Preview; never send it to other models.
-            if cur_model == DEFAULT_NEMOTRON_MODEL:
+            # reasoning_effort=high is verified only for Step 5 Preview on NVIDIA;
+            # never send it to other models or to OpenRouter.
+            if provider == "nvidia" and cur_model == DEFAULT_NEMOTRON_MODEL:
                 cur_payload["reasoning_effort"] = "high"
             else:
                 cur_payload.pop("reasoning_effort", None)
@@ -217,12 +270,12 @@ class NemotronClient:
                     self._wait(max(0, self.min_request_interval - (time.monotonic() - self._last_request_ts)) if self._last_request_ts is not None else 0)
                 except DiscoveryBudgetExceeded:
                     if attempted:
-                        raise DiscoveryAPIError("NVIDIA API attempts failed within budget") from None
+                        raise DiscoveryAPIError("Discovery API attempts failed within budget") from None
                     raise
                 timeout = min(self.timeout, self.deadline - time.monotonic())
                 if timeout <= 0:
                     if attempted:
-                        raise DiscoveryAPIError("NVIDIA API attempts failed within budget")
+                        raise DiscoveryAPIError("Discovery API attempts failed within budget")
                     raise DiscoveryBudgetExceeded("Discovery budget exhausted")
                 self._last_request_ts = time.monotonic()
                 self.api_requests_count += 1
@@ -271,14 +324,66 @@ class NemotronClient:
                         logger.warning("AI trace record could not be written")
                 if 200 <= status < 300 and isinstance(result, dict):
                     return result
-                logger.warning("NVIDIA API attempt failed (HTTP %d, response_bytes=%d, transport_error=%s)", status, len(body), transport_error or "-")
+                if not transport_error:
+                    transport_only = False
+                if status != 400:
+                    fallback_worthy = True
+                logger.warning("Discovery API attempt failed (provider=%s, HTTP %d, response_bytes=%d, transport_error=%s)", provider, status, len(body), transport_error or "-")
                 if status not in (429, 500, 502, 503, 504) or attempt == max_retries:
                     break
                 try:
                     self._wait(attempt * (6 if status == 429 else 2))
                 except DiscoveryBudgetExceeded:
-                    raise DiscoveryAPIError("NVIDIA API attempts failed within budget") from None
-        raise DiscoveryAPIError("NVIDIA API attempts failed")
+                    raise DiscoveryAPIError("Discovery API attempts failed within budget") from None
+            # Transport failure (DNS, connect, TLS, broken pipe) is per-host,
+            # not per-model: trying the next model on the same dead host wastes
+            # budget and time. Stop this provider and let _call_api try the
+            # fallback host.
+            if transport_error:
+                break
+        self._last_failure_transport_only = transport_only and attempted
+        self._last_failure_fallback_worthy = fallback_worthy and attempted
+        raise DiscoveryAPIError("Discovery API attempts failed")
+
+    def _call_api(
+        self,
+        payload: dict[str, Any],
+        max_retries: int = 3,
+        fallback_models: Optional[list[str]] = None,
+    ) -> Optional[dict[str, Any]]:
+        """Primary provider first, then the other provider on provider failure.
+
+        The Nov 13 log was 6x HTTP 503 BrokenPipe + 1x HTTP 404 on NVIDIA,
+        with no DNS line at all. A different host fixes both: OpenRouter
+        resolves, routes and catalogues independently. Fallback runs only when
+        its key is configured, only when the failure was not a malformed
+        request (400), and still counts against the same API budget.
+        """
+        if not self.is_available():
+            logger.warning("NemotronClient: no discovery API key is configured.")
+            return None
+        self._last_failure_transport_only = False
+        self._last_failure_fallback_worthy = False
+        try:
+            return self._call_api_on_provider(
+                self.provider, self.base_url, self.api_key,
+                payload, max_retries=max_retries, fallback_models=fallback_models,
+            )
+        except DiscoveryAPIError:
+            if not getattr(self, "_last_failure_fallback_worthy", False):
+                raise
+            if not self.fallback_api_key or not self.fallback_api_key.strip():
+                raise
+            if not self.budget_remaining():
+                raise
+            logger.warning("Discovery primary provider failed; trying fallback provider")
+            fallback_payload = dict(payload)
+            if self.fallback_provider == "openrouter" and fallback_payload.get("model") == DEFAULT_NEMOTRON_MODEL:
+                fallback_payload["model"] = DEFAULT_OPENROUTER_MODEL
+            return self._call_api_on_provider(
+                self.fallback_provider, self.fallback_base_url, self.fallback_api_key,
+                fallback_payload, max_retries=max_retries, fallback_models=fallback_models,
+            )
 
     def complete(
         self,

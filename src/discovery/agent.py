@@ -753,7 +753,7 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
     client = NemotronClient(model=args.model)
     agent = DiscoveryAgent(nemotron_client=client)
     discovered = agent.run_cycle(max_channels=args.max_channels, max_time_seconds=args.max_time, max_api_requests=args.max_api_requests)
-    print(f"Discovery finished: {len(discovered)} sources ({client.api_requests_count} NVIDIA API attempts).")
+    print(f"Discovery finished: {len(discovered)} sources ({client.api_requests_count} discovery API attempts via {client.provider}).")
     return 0
 
 
