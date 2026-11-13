@@ -15,22 +15,15 @@ class TestNemotronDefault(OfflineDiscoveryTestCase):
         cases = [
             ({}, None, [
                 "stepfun-ai/step-5-preview",
-                "moonshotai/kimi-k2.6",
-                "mistralai/mistral-large-4-1t-a52b",
-                "nvidia/nemotron-3-ultra-550b-a55b",
-                "nvidia/nemotron-3.5-super-vl-120b-a12b",
+                "openrouter/free",
             ]),
             ({"NVIDIA_MODEL": " moonshotai/kimi-k2.6 "}, None, [
                 "moonshotai/kimi-k2.6",
-                "mistralai/mistral-large-4-1t-a52b",
-                "nvidia/nemotron-3-ultra-550b-a55b",
-                "nvidia/nemotron-3.5-super-vl-120b-a12b",
+                "openrouter/free",
             ]),
             ({"NVIDIA_MODEL": "moonshotai/kimi-k2.6"}, "mistralai/mistral-large-4-1t-a52b", [
                 "mistralai/mistral-large-4-1t-a52b",
-                "moonshotai/kimi-k2.6",
-                "nvidia/nemotron-3-ultra-550b-a55b",
-                "nvidia/nemotron-3.5-super-vl-120b-a12b",
+                "openrouter/free",
             ]),
         ]
         for environment, model, expected in cases:
@@ -73,7 +66,7 @@ class TestNemotronDefault(OfflineDiscoveryTestCase):
         self.assertEqual(client.complete("public query"), "public result")
         text_payloads = [json.loads(call.kwargs["data"]) for call in transport.call_args_list]
         self.assertEqual([p["model"] for p in text_payloads],
-                         ["stepfun-ai/step-5-preview", "moonshotai/kimi-k2.6"])
+                         ["stepfun-ai/step-5-preview", "openrouter/free"])
         self.assertEqual(text_payloads[0]["reasoning_effort"], "high")
         self.assertNotIn("reasoning_effort", text_payloads[1])
 
@@ -82,7 +75,7 @@ class TestNemotronDefault(OfflineDiscoveryTestCase):
         self.assertIn("vless://", client.analyze_image("https://cdn.telegram.org/public.png"))
         image_payloads = [json.loads(call.kwargs["data"]) for call in transport.call_args_list[1:]]
         self.assertEqual([p["model"] for p in image_payloads],
-                         ["stepfun-ai/step-5-preview", "moonshotai/kimi-k2.6"])
+                         ["stepfun-ai/step-5-preview", "openrouter/free"])
         self.assertEqual(image_payloads[0]["reasoning_effort"], "high")
         self.assertNotIn("reasoning_effort", image_payloads[1])
 
