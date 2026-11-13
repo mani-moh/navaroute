@@ -2512,6 +2512,90 @@
         "github"
       ],
       "enabled": true
+    },
+    {
+      "id": "hidashimora-20",
+      "name": "Hidashimora 20",
+      "url": "https://raw.githubusercontent.com/Hidashimora/free-vpn-anti-rkn/main/configs/20.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 281 parsed nodes (139 Trojan, 67 VLESS, 41 VMess, 34 Shadowsocks). Third batch file from the same repo as hidashimora-11/22.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tepo80-trojan",
+      "name": "Tepo80 Trojan",
+      "url": "https://raw.githubusercontent.com/tepo80/tepo80/main/trojan.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 25 parsed nodes, all Trojan.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nodefree-37",
+      "name": "Nodefree 37",
+      "url": "https://raw.githubusercontent.com/peacefish/nodefree/main/sub/list/37.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 2,752 parsed nodes (2,703 Trojan, 49 VMess). Large uncurated pool, flagged honestly.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sbornik-trojan-001",
+      "name": "Sbornik Trojan 001",
+      "url": "https://raw.githubusercontent.com/kort0881/sbornik-vless/main/trojan_001.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 751 parsed nodes, all Trojan. Large uncurated pool, flagged honestly.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "argh73-sub475",
+      "name": "Argh73 Sub475",
+      "url": "https://raw.githubusercontent.com/Argh73/VpnConfigCollector/main/Sub475.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 247 parsed nodes, all Trojan.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nikita-13",
+      "name": "Nikita 13",
+      "url": "https://raw.githubusercontent.com/nikita29a/FreeProxyList/main/mirror/13.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 76 parsed nodes (58 VLESS, 8 VMess, 6 Trojan, 4 Shadowsocks). Another mirror batch from the same repo as nikita-26.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
     }
   ]
 }
