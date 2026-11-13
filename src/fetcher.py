@@ -33,13 +33,22 @@ DEFAULT_HEADERS = {
 
 def load_sources(
     sources_path: str = "sources.json",
-    discovered_sources_path: str = "sources.discovered.json",
+    discovered_sources_path: str | None = "sources.discovered.json",
 ) -> list[SourceConfig]:
-    """Loads enabled sources from sources.json and sources.discovered.json."""
+    """Loads enabled sources from the unified sources.json.
+
+    The legacy second file (sources.discovered.json) is still read when it
+    exists and a path is given, for backward compatibility with older
+    checkouts and tests; in the repo itself it no longer exists and the
+    single sources.json carries every source with a description and origin.
+    """
     sources: list[SourceConfig] = []
     seen_ids: set[str] = set()
 
-    for path, discovered in ((Path(sources_path), False), (Path(discovered_sources_path), True)):
+    registry_paths: list[tuple[Path, bool]] = [(Path(sources_path), False)]
+    if discovered_sources_path is not None:
+        registry_paths.append((Path(discovered_sources_path), True))
+    for path, discovered in registry_paths:
         try:
             with path.open("rb") as stream:
                 content = stream.read(SOURCE_MAX_BYTES + 1)
@@ -57,7 +66,7 @@ def load_sources(
         for index, item in enumerate(data["sources"]):
             try:
                 cfg = SourceConfig.from_dict(item)
-                if discovered and "auto-discovered" not in cfg.tags:
+                if (discovered or cfg.origin == "discovered") and "auto-discovered" not in cfg.tags:
                     cfg.tags.append("auto-discovered")
                 if cfg.enabled and cfg.id not in seen_ids:
                     sources.append(cfg)

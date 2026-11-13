@@ -760,7 +760,7 @@ def write(path, text):
     if path.name == "state.json" and {after_state!r}:
         os._exit(73)
 with patch("src.network._resolve", forbidden), patch("src.discovery.agent.fetch_bytes", forbidden), patch("src.discovery.search_engine.fetch_bytes", forbidden), patch("src.discovery.nemotron_client.fetch_bytes", forbidden), patch("src.discovery.agent.atomic_write_text", write):
-    agent = DiscoveryAgent(state_file="data/state.json", initial_seeds=[], nemotron_client=__import__("src.discovery.nemotron_client", fromlist=["NemotronClient"]).NemotronClient(api_key=""))
+    agent = DiscoveryAgent(state_file="data/state.json", discovered_sources_file="sources.discovered.json", initial_seeds=[], nemotron_client=__import__("src.discovery.nemotron_client", fromlist=["NemotronClient"]).NemotronClient(api_key=""))
     agent._load_retained()
     agent._retain("\\n".join({URI!r}.replace("example.com", f"new{{i}}.example.com") for i in range(400)), "https://t.me/s/newproxy")
     agent._save_checkpoint({{"tg-oldproxy": {{"id":"tg-oldproxy", "url":"https://t.me/s/oldproxy"}}}}, [])
@@ -1147,7 +1147,8 @@ with patch("src.network._resolve", forbidden), patch("src.discovery.agent.fetch_
             {"state_file": "data/credentials.json"},
             {"state_file": ".env"},
             {"state_file": "src/discovery/state_manager.py"},
-            {"discovered_sources_file": "sources.json"},
+            # sources.json is NOT in this list anymore: it is the unified
+            # registry now, so pointing the registry at it is legitimate.
             {"discovered_sources_file": "local_subs/sources.discovered.json"},
             {"leaderboard_file": "test_DISCOVERY.md"},
             {"state_file": "data/test_agent_state.json"},

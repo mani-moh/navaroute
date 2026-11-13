@@ -1,7 +1,6 @@
 import hashlib
 import json
 import os
-import tempfile
 from unittest.mock import patch
 
 from src.discovery.nemotron_client import NemotronClient

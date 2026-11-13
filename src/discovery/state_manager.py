@@ -11,7 +11,9 @@ from src.network import approved_public_url
 from src.storage import atomic_write_text
 
 DEFAULT_STATE_FILE = "data/discovery_state.json"
-DEFAULT_DISCOVERY_SOURCES_FILE = "sources.discovered.json"
+# The unified source registry. Discovery appends new finds to this same
+# file; there is no second discovered-sources file anymore.
+DEFAULT_DISCOVERY_SOURCES_FILE = "sources.json"
 DEFAULT_LEADERBOARD_FILE = "DISCOVERY.md"
 STATE_MAX_BYTES = 8 * 1024 * 1024
 IMAGE_CACHE_MAX_BYTES = 2 * 1024 * 1024
@@ -270,8 +272,27 @@ class DiscoveryStateManager:
                 queue.remove(h)
 
     def is_url_visited(self, url: str) -> bool:
-        """Checks whether an external URL has already been probed or mined."""
-        return url in set(self.state.get("visited_urls", []))
+        """Checks whether an external URL has already been probed or mined.
+
+        The visited list is cached as a set instead of rebuilt on every
+        call; the cache is rebuilt when the list object or its length
+        changes, and invalidated whenever the state dict is replaced.
+        """
+        urls = self.state.get("visited_urls", [])
+        cache = getattr(self, "_visited_urls_cache", None)
+        if cache is None or cache[0] is not urls or cache[1] != len(urls):
+            cache = (urls, len(urls), set(urls))
+            self._visited_urls_cache = cache
+        return url in cache[2]
+
+    def forget_visited_url(self, url: str) -> None:
+        """Drops a URL from the visited set so it can be probed again."""
+        urls = self.state.get("visited_urls", [])
+        if url in urls:
+            urls.remove(url)
+            cache = getattr(self, "_visited_urls_cache", None)
+            if cache is not None:
+                cache[2].discard(url)
 
     def record_visited_url(self, url: str) -> None:
         """Records an external URL so future runs build incrementally without repeating checks."""
@@ -287,6 +308,11 @@ class DiscoveryStateManager:
             # Keep bounded to recent 5000 URLs
             if len(urls) > 5000:
                 self.state["visited_urls"] = urls[-5000:]
+            cache = getattr(self, "_visited_urls_cache", None)
+            if cache is not None:
+                cache[2].add(url)
+                if len(urls) > 5000:
+                    self._visited_urls_cache = (self.state["visited_urls"], len(self.state["visited_urls"]), set(self.state["visited_urls"]))
 
     def get_channel_oldest_post_id(self, raw_handle: str) -> Optional[int]:
         """Returns the deepest crawled post ID for a channel so re-mining resumes deeper."""

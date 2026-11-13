@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navaroute"
+version = "0.1.0"
+description = "Public proxy subscription aggregator"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# Gating set only: unused imports/variables and syntax errors (F, E9).
+# Full select ["E", "F", "W", "I", "B", "UP"] currently reports ~1,100
+# mostly stylistic findings (2026-11-13, ruff 0.17.5); widen the gate
+# incrementally once those are fixed, do not gate CI on them today.
+select = ["F", "E9"]
+
+[tool.coverage.run]
+source = ["src", "scripts"]
+omit = ["*/__pycache__/*"]
+
+[tool.coverage.report]
+show_missing = true

@@ -7,7 +7,7 @@ import re
 import subprocess
 import time
 
-PUBLIC_FILES = {"README.md", "STATUS.md", "DISCOVERY.md", "sources.discovered.json",
+PUBLIC_FILES = {"README.md", "STATUS.md", "DISCOVERY.md", "sources.json",
                 "data/discovery_state.json", "data/discovered_ocr_configs.txt"}
 FEEDS = r"(?:all|reachable|verified|top100|lite500|protocols/(?:vless|vmess|trojan|ss|hysteria2|tuic)|categories/(?:navaroute-special|pattn-special|iran-optimized|reality|cdn-ws-grpc|confighub|whitelist)|countries/[a-z]{2})(?:_base64)?\.txt"
 PRIVATE_DIRS = {"local_subs", "private_subs", "iran-results", "iran-tested", "iran-verification",

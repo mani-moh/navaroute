@@ -6,6 +6,7 @@ import io
 import json
 import re
 import urllib.parse
+from functools import lru_cache
 from html.parser import HTMLParser
 from typing import Any, Optional
 
@@ -43,6 +44,15 @@ def _check_candidate_count(count: int) -> None:
         raise ValueError(f"source exceeds {MAX_CONTENT_NODES} connection/config candidates")
 
 
+# One precompiled alternation over all country names (longest first, so
+# "UNITED STATES" wins over "USA" and multi-word names match whole).
+# Previously this was ~40 separately compiled re.search calls per node.
+_COUNTRY_NAME_RE = re.compile(
+    r"\b(" + "|".join(re.escape(name) for name in sorted(COUNTRY_NAMES_TO_ISO, key=len, reverse=True)) + r")\b"
+)
+
+
+@lru_cache(maxsize=8192)
 def detect_country(remark: str, host: str = "", sni: str = "") -> str:
     """Return an unambiguous source claim; host/SNI never establish geography."""
     formatted = re.findall(r"\[(?:🌐|[\U0001f1e6-\U0001f1ff]{2}) ([A-Z]{2})\]", remark)
@@ -55,9 +65,8 @@ def detect_country(remark: str, host: str = "", sni: str = "") -> str:
         if code in KNOWN_ISO_CODES:
             claims.add(code)
     upper = remark.upper()
-    for name, code in COUNTRY_NAMES_TO_ISO.items():
-        if re.search(r"\b" + re.escape(name) + r"\b", upper):
-            claims.add(code)
+    for name in _COUNTRY_NAME_RE.findall(upper):
+        claims.add(COUNTRY_NAMES_TO_ISO[name])
     explicit = re.findall(r"[\[(]\s*([A-Za-z]{2})\s*[\])]", remark)
     explicit += re.findall(r"(?:\||:|_|-)\s*([A-Za-z]{2})(?=\s*(?:\||:|_|-|$))", remark)
     claims.update(code.upper() for code in explicit if code.upper() in KNOWN_ISO_CODES)
@@ -333,12 +342,19 @@ def extract_nodes_from_content(content: str, source: SourceConfig) -> tuple[list
         if decoded and "://" in decoded:
             text = decoded
     nodes, candidates = [], 0
+    _b64_chars = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=_-")
     for line in io.StringIO(text):
         candidate_text = line
         if "://" not in line:
-            decoded = safe_b64decode(line.strip())
-            if decoded:
-                candidate_text = decoded
+            # Cheap pre-check before attempting a base64 decode: a real
+            # base64 line is at least a few chars, uses only the base64
+            # alphabet, and has a plausible length. Plain-text lines
+            # (the common case) skip the decode attempt entirely.
+            stripped = line.strip()
+            if len(stripped) >= 8 and set(stripped) <= _b64_chars:
+                decoded = safe_b64decode(stripped)
+                if decoded:
+                    candidate_text = decoded
         for match in URI_REGEX.finditer(candidate_text):
             candidates += 1
             _check_candidate_count(candidates)
