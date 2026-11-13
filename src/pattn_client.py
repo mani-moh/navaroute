@@ -17,7 +17,9 @@ Api/WebAuthEndpoints.cs):
   - GET  /api/profiles -> ProfileView list (IndexId, Remarks, Protocol,
        Address, Port, Delay in ms, -1 when the test failed, CanTest)
   - DELETE /api/speedtests                       (stop a running test)
-  - GET  /api/status                             (running operations)
+  - GET  /api/operations -> ["speedtest", ...]    (running operations;
+       "speedtest" is present while a speed test runs)
+  - GET  /api/status                             (core/profile snapshot)
   - POST /api/settings/regional-presets/Iran     (Iran preset, tier 2)
 
 Realping is an end-to-end HTTPS GET through the proxy to a generate_204
@@ -56,9 +58,17 @@ class PattnError(ValueError):
 
 
 def _envelope(payload: object) -> object:
-    """Unwrap the ApiEnvelope {"data": ...} the WebAPI returns, if present."""
-    if isinstance(payload, dict) and "data" in payload:
-        return payload["data"]
+    """Unwrap the ApiEnvelope {"data": ...} the WebAPI returns, if present.
+
+    A dict with "success" explicitly False is a refused operation, even
+    on HTTP 200, and raises instead of returning a useless payload.
+    """
+    if isinstance(payload, dict):
+        if payload.get("success") is False:
+            code = payload.get("code") or payload.get("messageKey") or "operation failed"
+            raise PattnError(f"WebAPI refused the operation: {code}")
+        if "data" in payload:
+            return payload["data"]
     return payload
 
 
@@ -163,14 +173,28 @@ class PattnClient:
         result = self._request("GET", "/api/status")
         return result if isinstance(result, dict) else {}
 
+    def operations(self) -> list[str]:
+        """Names of the operations currently running, e.g. ["speedtest"].
+
+        GET /api/operations returns a plain list of strings; "speedtest"
+        is present while a speed test runs, "core" while a core runs.
+        """
+        result = self._request("GET", "/api/operations")
+        return [item for item in result if isinstance(item, str)] if isinstance(result, list) else []
+
     def speedtest_running(self) -> bool:
-        """True while a speed test is still in progress (best effort)."""
+        """True while a speed test is still in progress.
+
+        Reads GET /api/operations (the only endpoint that reports it);
+        the /api/status snapshot carries no operations field, so guessing
+        from it always returned False and the tier-1 wait loop bailed
+        after 45 s while the test was still running (run 43491830408:
+        200 tested, 0 passed, 200 untested).
+        """
         try:
-            status = self.status()
+            return "speedtest" in self.operations()
         except PattnError:
             return False
-        text = json.dumps(status).lower()
-        return "speedtest" in text and ("running" in text or "busy" in text)
 
     def wait_for_speedtest(self, timeout: int = 5400, poll: int = 15) -> None:
         """Wait until no speed test is running (or the timeout expires)."""
