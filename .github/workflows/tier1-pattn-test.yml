@@ -46,7 +46,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $url = 'https://github.com/patterniha/PattN/releases/download/7.25.6-P40/v2rayN.WebAPI-windows-64.zip'
+          $url = 'https://github.com/patterniha/PattN/releases/download/7.25.6-P40/PattN-windows-64-WebAPI.zip'
           Invoke-WebRequest -Uri $url -OutFile webapi.zip
           Expand-Archive webapi.zip -DestinationPath webapi
           Get-ChildItem -Recurse webapi -Filter 'v2rayN.WebAPI.exe' | Select-Object -First 1 FullName
