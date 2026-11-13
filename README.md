@@ -21,6 +21,7 @@ Plain `.txt` feeds contain comment headers followed by one proxy URI per line. T
 | [all.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/all.txt) | All accepted, deduplicated public connections. Acceptance is not a working-credential claim. |
 | [lite500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/lite500.txt) | Up to 500 connections, sampled across protocol buckets. |
 | [reachable.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/reachable.txt) | Successful dated socket observations from that generation, not end-to-end tests. Empty if checks did not run or none succeeded. |
+| [active.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/active.txt) | Configs with a successful socket observation in the last 7 days, from the committed reachability history. Socket reachability only, not end-to-end or Iran-tested working. |
 | [top100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/top100.txt) | Up to 100 from the reachable pool, measured connection latency first, with deterministic ties; not throughput or streaming performance. |
 | [verified.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/verified.txt) | **Deprecated reachability mirror**, same URI rows as `reachable.txt`. The legacy filename does not mean credential or end-to-end verification. |
 

@@ -528,6 +528,120 @@ class TestPublisher(unittest.TestCase):
         self.assert_committed_role_recovery(KeyboardInterrupt("process interruption"))
 
 
+class TestHealthHistory(unittest.TestCase):
+    def setUp(self):
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        self.root = Path(scratch.name).resolve()
+        self.out = self.root / "feeds"
+        self.readme = self.root / "README.md"
+        self.readme.write_bytes(f"Maintained prose\r\n{START}\nold stats\n{END}\r\nSentinel prose\r\n".encode())
+        self.now = datetime.now(timezone.utc)
+        self.now_iso = self.now.isoformat()
+        self.history_path = self.root / "data" / "healthcheck_history.json"
+
+    def node(self, credential="public", scheme="trojan", **kwargs):
+        return ProxyNode(scheme, "public.example", 443, credential, **kwargs)
+
+    def publish(self, nodes=None, **kwargs):
+        with patch.object(publisher, "REPOSITORY_ROOT", self.root, create=True):
+            return publisher.publish_subscriptions(
+                [self.node()] if nodes is None else nodes, [],
+                kwargs.pop("stats", []), str(self.out), **kwargs)
+
+    def write_history(self, entries):
+        self.history_path.parent.mkdir(parents=True, exist_ok=True)
+        self.history_path.write_text(json.dumps({"version": 1, "entries": entries}), encoding="utf-8")
+
+    def test_missing_history_file_is_empty(self):
+        self.assertEqual(publisher.load_health_history(self.history_path), {})
+
+    def test_history_round_trip_is_sorted_and_versioned(self):
+        entries = {self.node("b").semantic_fingerprint(): self.now,
+                   self.node("a").semantic_fingerprint(): self.now}
+        publisher.save_health_history(self.history_path, entries)
+        self.assertEqual(publisher.load_health_history(self.history_path), entries)
+        raw = json.loads(self.history_path.read_text(encoding="utf-8"))
+        self.assertEqual(raw["version"], 1)
+        self.assertEqual(list(raw["entries"]), sorted(raw["entries"]))
+
+    def test_history_invalid_shapes_raise(self):
+        bad = [
+            "{not json",
+            json.dumps({"version": 2, "entries": {}}),
+            json.dumps({"version": 1}),
+            json.dumps({"version": 1, "entries": []}),
+            json.dumps({"version": 1, "entries": {"fp": 123}}),
+            json.dumps({"version": 1, "entries": {"fp": "not-a-time"}}),
+            json.dumps({"version": 1, "entries": {"fp": "2024-01-02T03:04:05"}}),
+            json.dumps({"version": 1, "entries": {"fp": "2024-01-02T03:04:05+03:00"}}),
+        ]
+        for payload in bad:
+            with self.subTest(payload=payload[:40]):
+                self.history_path.parent.mkdir(parents=True, exist_ok=True)
+                self.history_path.write_text(payload, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    publisher.load_health_history(self.history_path)
+        self.history_path.parent.mkdir(parents=True, exist_ok=True)
+        self.history_path.write_bytes(b"x" * (publisher.HEALTH_HISTORY_MAX_BYTES + 1))
+        with self.assertRaises(ValueError):
+            publisher.load_health_history(self.history_path)
+
+    def test_active_feed_comes_from_history_without_new_healthcheck(self):
+        from datetime import timedelta
+        recent = self.node("recent")
+        stale = self.node("stale")
+        self.write_history({
+            recent.semantic_fingerprint(): (self.now - timedelta(days=3)).isoformat(),
+            stale.semantic_fingerprint(): (self.now - timedelta(days=8)).isoformat(),
+        })
+        before = self.history_path.read_bytes()
+        counts = self.publish([recent, stale], healthcheck_ran=False, snapshot_time=self.now_iso,
+                              health_history_path=str(self.history_path))
+        self.assertEqual(counts["active.txt"], 1)
+        self.assertEqual(counts["active_base64.txt"], 1)
+        active = [line for line in (self.out / "active.txt").read_text(encoding="utf-8").splitlines()
+                  if line and not line.startswith("#")]
+        self.assertEqual(len(active), 1)
+        self.assertIn("recent", active[0])
+        # No new observations: the history file is left untouched.
+        self.assertEqual(self.history_path.read_bytes(), before)
+
+    def test_active_feed_merges_current_passes_and_prunes_stale(self):
+        from datetime import timedelta
+        current = self.node("current", passed_healthcheck=True, latency_ms=5,
+                            healthcheck_kind="socket", healthchecked_at=self.now_iso)
+        kept = self.node("kept")
+        stale = self.node("stale")
+        self.write_history({
+            kept.semantic_fingerprint(): (self.now - timedelta(days=3)).isoformat(),
+            stale.semantic_fingerprint(): (self.now - timedelta(days=8)).isoformat(),
+        })
+        counts = self.publish([current, kept, stale], healthcheck_ran=True, snapshot_time=self.now_iso,
+                              health_history_path=str(self.history_path))
+        self.assertEqual(counts["active.txt"], 2)
+        self.assertEqual(counts["reachable.txt"], 1)
+        saved = publisher.load_health_history(self.history_path)
+        self.assertEqual(set(saved), {current.semantic_fingerprint(), kept.semantic_fingerprint()})
+        self.assertEqual(saved[current.semantic_fingerprint()], self.now)
+
+    def test_active_feed_empty_without_history(self):
+        counts = self.publish(healthcheck_ran=False, snapshot_time=self.now_iso,
+                              health_history_path=str(self.history_path))
+        self.assertEqual(counts["active.txt"], 0)
+        self.assertEqual(counts["active_base64.txt"], 0)
+        self.assertEqual((self.out / "active_base64.txt").read_bytes(), b"")
+
+    def test_active_feed_appears_in_counts_and_docs(self):
+        counts = self.publish(healthcheck_ran=False, snapshot_time=self.now_iso,
+                              health_history_path=str(self.history_path))
+        self.assertIn("active.txt", counts)
+        self.assertIn("active_base64.txt", counts)
+        readme = self.readme.read_text(encoding="utf-8")
+        self.assertIn("active.txt", readme)
+        self.assertIn("socket reachable in the last 7 days: 0", readme)
+
+
 class TestPublisherBranches(unittest.TestCase):
     def setUp(self):
         scratch = tempfile.TemporaryDirectory()

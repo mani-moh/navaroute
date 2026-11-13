@@ -8,8 +8,8 @@ import subprocess
 import time
 
 PUBLIC_FILES = {"README.md", "STATUS.md", "DISCOVERY.md", "sources.json",
-                "data/discovery_state.json", "data/discovered_ocr_configs.txt"}
-FEEDS = r"(?:all|reachable|verified|top100|lite500|protocols/(?:vless|vmess|trojan|ss|hysteria2|tuic)|categories/(?:navaroute-special|pattn-special|iran-optimized|reality|cdn-ws-grpc|confighub|whitelist)|countries/[a-z]{2})(?:_base64)?\.txt"
+                "data/discovery_state.json", "data/discovered_ocr_configs.txt", "data/healthcheck_history.json"}
+FEEDS = r"(?:all|reachable|active|verified|top100|lite500|protocols/(?:vless|vmess|trojan|ss|hysteria2|tuic)|categories/(?:navaroute-special|pattn-special|iran-optimized|reality|cdn-ws-grpc|confighub|whitelist)|countries/[a-z]{2})(?:_base64)?\.txt"
 PRIVATE_DIRS = {"local_subs", "private_subs", "iran-results", "iran-tested", "iran-verification",
                 ".superpowers", "__pycache__", ".pytest_cache", ".venv", "venv", ".cache", "cache", "http_cache"}
 SECRET = re.compile(rb"nvapi-[A-Za-z0-9_-]{10,}|sk-or-v1-[A-Za-z0-9_-]{10,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}")

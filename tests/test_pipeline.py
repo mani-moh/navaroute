@@ -664,7 +664,8 @@ class TestMainPipeline(unittest.TestCase):
         with tempfile.TemporaryDirectory() as scratch, \
              patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
              patch("src.main.fetch_all_sources", return_value=([node], [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)])), \
-             patch("src.healthcheck.probe_node_socket", side_effect=fixture_socket):
+             patch("src.healthcheck.probe_node_socket", side_effect=fixture_socket), \
+             patch("src.categorizer.REPOSITORY_ROOT", Path(scratch) / "repo"):
             self.assertEqual(main(["--output-dir", scratch, "--healthcheck", "--no-docs"]), 0)
             self.assertEqual(attempts, [("socket.example", 8443, " custom ",
                 {"type": "ws", "security": "tls", "host": "cdn.example", "path": " /x/ ", "flow": ""})])
@@ -749,6 +750,7 @@ class TestMainPipeline(unittest.TestCase):
              patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
              patch("src.main.fetch_all_sources", return_value=(nodes, [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=3)])), \
              patch("src.healthcheck.probe_node_socket", side_effect=socket_fixture), \
+             patch("src.categorizer.REPOSITORY_ROOT", Path(scratch) / "repo"), \
              contextlib.redirect_stdout(io.StringIO()) as output:
             self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
             self.assertIn("1 nodes responsive", output.getvalue())
@@ -762,10 +764,11 @@ class TestMainPipeline(unittest.TestCase):
              patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
              patch("src.main.fetch_all_sources", return_value=([node], [], [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)])), \
              patch("src.healthcheck.probe_node_socket", return_value=(False, None)), \
+             patch("src.categorizer.REPOSITORY_ROOT", Path(scratch) / "repo"), \
              contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
             self.assertTrue((Path(scratch) / "all_base64.txt").read_bytes())
-            for name in ("reachable", "verified", "top100"):
+            for name in ("reachable", "verified", "top100", "active"):
                 self.assertEqual((Path(scratch) / f"{name}_base64.txt").read_bytes(), b"")
 
 
