@@ -16,6 +16,7 @@ from src.models import (
     SourceConfig,
     country_code_to_flag,
     flag_to_country_code,
+    health_observation_time,
 )
 from src.parsers import (
     _address,
@@ -370,6 +371,44 @@ class TestParserBranches(unittest.TestCase):
         nodes = _extract_nodes_from_xray_json([config], src)
         self.assertEqual(len(nodes), 1)
         self.assertEqual(nodes[0].address, "1.2.3.4")
+
+
+class TestModelBranches(unittest.TestCase):
+    def test_health_observation_time_invalid(self):
+        node = ProxyNode("vless", "public.example", 443, "uuid",
+                         healthcheck_kind="socket", healthchecked_at="garbage")
+        self.assertIsNone(health_observation_time(node))
+
+    def test_flag_to_country_code_branches(self):
+        self.assertIsNone(flag_to_country_code(""))
+        self.assertIsNone(flag_to_country_code("hello"))
+        self.assertEqual(flag_to_country_code("🇩🇪"), "DE")
+
+    def test_source_config_description_and_origin(self):
+        base = {"id": "x", "name": "N", "url": "http://example.com"}
+        with self.assertRaises(ValueError):
+            SourceConfig.from_dict({**base, "description": ""})
+        with self.assertRaises(ValueError):
+            SourceConfig.from_dict({**base, "origin": "bogus"})
+        config = SourceConfig.from_dict({**base, "description": "d", "origin": "curated"})
+        self.assertEqual(config.origin, "curated")
+
+    def test_format_remark_scheme_labels(self):
+        self.assertIn("WireGuard", ProxyNode("wireguard", "h", 443, "cred").format_remark())
+        self.assertIn("Shadowsocks", ProxyNode("shadowsocks", "h", 443, "cred").format_remark())
+
+    def test_to_uri_vmess_canonical_conflict(self):
+        node = ProxyNode("vmess", "h", 443, "uuid", params={"add": "x"})
+        with self.assertRaises(ValueError):
+            node.to_uri()
+
+    def test_to_uri_unsupported_and_credential_branches(self):
+        with self.assertRaises(ValueError):
+            ProxyNode("hy2", "h", 443, "cred").to_uri()
+        with self.assertRaises(ValueError):
+            ProxyNode("ss", "h", 443, "nopassword").to_uri()
+        with self.assertRaises(ValueError):
+            ProxyNode("tuic", "h", 443, "nouser").to_uri()
 
 
 class TestContentExtraction(unittest.TestCase):
