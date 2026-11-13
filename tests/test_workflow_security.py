@@ -103,9 +103,9 @@ class TestPublicGit(unittest.TestCase):
         self.assertNotIn("private-error-sentinel", output.getvalue())
 
     def test_final_staging_allows_only_exact_public_roles_including_deletions(self):
-        paths = ["subs/all.txt", "subs/all_base64.txt", "subs/reachable.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
+        paths = ["subs/all.txt", "subs/all_base64.txt", "subs/reachable.txt", "subs/active.txt", "subs/active_base64.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
                  "subs/categories/serverless-fragment.json", "subs/protocols/vmess.txt", "subs/countries/de.txt", "README.md", "STATUS.md", "DISCOVERY.md",
-                 "sources.json", "data/discovery_state.json", "data/discovered_ocr_configs.txt"]
+                 "sources.json", "data/discovery_state.json", "data/discovered_ocr_configs.txt", "data/healthcheck_history.json"]
         self.assertEqual(self.check({"README.md": b"ok"}, paths)[0], 0)
 
     def test_tokens_in_tracked_or_new_staged_blob_fail_without_matching_lines(self):
@@ -225,7 +225,7 @@ class TestWorkflowContracts(unittest.TestCase):
                 self.assertIn("python scripts/public_git.py check --staged", text)
                 self.assertLess(text.index("check --staged"), text.index("git commit"))
                 self.assertIn("python scripts/public_git.py push", text)
-                self.assertIn("git add -- subs/ README.md STATUS.md sources.json DISCOVERY.md data/discovery_state.json", text)
+                self.assertIn("git add -- subs/ README.md STATUS.md sources.json DISCOVERY.md data/discovery_state.json data/healthcheck_history.json", text)
                 for unsafe in ("git add data/", "git add .", "|| true", "|| echo", "[skip ci]", "--pattn-variants", "generate_pattn_variants", "Download Xray", "client", "pattn-git-writer"):
                     self.assertNotIn(unsafe, text)
 

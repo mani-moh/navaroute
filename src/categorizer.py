@@ -24,7 +24,11 @@ MAX_GENERATION_BYTES = 512 * 1024 * 1024
 STATS_START = "<!-- NAVAROUTE:STATS:START -->"
 STATS_END = "<!-- NAVAROUTE:STATS:END -->"
 PROTOCOLS = ("vless", "vmess", "trojan", "ss", "hysteria2", "tuic")
-CORE_FEEDS = ("all", "reachable", "verified", "top100", "lite500")
+CORE_FEEDS = ("all", "reachable", "active", "verified", "top100", "lite500")
+HEALTH_HISTORY_VERSION = 1
+HEALTH_HISTORY_WINDOW = timedelta(days=7)
+HEALTH_HISTORY_MAX_BYTES = 8 * 1024 * 1024
+HEALTH_HISTORY_FILENAME = "healthcheck_history.json"
 CATEGORIES = ("navaroute-special", "pattn-special", "iran-optimized", "reality",
               "cdn-ws-grpc", "confighub", "whitelist")
 PROTECTED_DIRECTORIES = {"data", "iran-results", "iran-tested", "iran-verification", "local_subs"}
@@ -244,11 +248,55 @@ def _status(stats: list[SourceStats], count: int, reachable: int, ran: bool, tim
     return _bounded_lines(rows(), max_bytes)
 
 
+def default_health_history_path() -> Path:
+    """The only cross-run health memory the pipeline keeps (data/, committed)."""
+    return REPOSITORY_ROOT / "data" / HEALTH_HISTORY_FILENAME
+
+
+def load_health_history(path: Path) -> dict[str, datetime]:
+    """Fingerprint -> last successful socket observation. A missing file is empty history.
+
+    Entries are SHA-256 fingerprints of already-public connections (the
+    same values that key the published feeds), never credentials or
+    evidence, so the file is safe to commit through the privacy gate.
+    """
+    if not path.exists():
+        return {}
+    if path.stat().st_size > HEALTH_HISTORY_MAX_BYTES:
+        raise ValueError("Health history exceeds size limit")
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise ValueError("Invalid health history") from exc
+    if not isinstance(data, dict) or data.get("version") != HEALTH_HISTORY_VERSION or not isinstance(data.get("entries"), dict):
+        raise ValueError("Invalid health history")
+    entries: dict[str, datetime] = {}
+    for fingerprint, timestamp in data["entries"].items():
+        if not isinstance(fingerprint, str) or not isinstance(timestamp, str):
+            raise ValueError("Invalid health history")
+        try:
+            parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError("Invalid health history") from exc
+        if parsed.utcoffset() != timedelta(0):
+            raise ValueError("Invalid health history")
+        entries[fingerprint] = parsed
+    return entries
+
+
+def save_health_history(path: Path, entries: dict[str, datetime]) -> None:
+    """Replace the history file atomically; entries are stored sorted by fingerprint."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {"version": HEALTH_HISTORY_VERSION,
+               "entries": {fp: ts.isoformat() for fp, ts in sorted(entries.items())}}
+    atomic_write_text(path, json.dumps(payload, ensure_ascii=False, sort_keys=True))
+
+
 def publish_subscriptions(
     nodes: list[ProxyNode], json_configs: list[dict], stats: list[SourceStats],
     output_dir: str = "subs", update_docs: bool = True, *,
     healthcheck_ran: bool = False, snapshot_time: str | None = None,
-    publish_report: dict | None = None,
+    publish_report: dict | None = None, health_history_path: str | None = None,
 ) -> dict[str, int]:
     """Publish a bounded complete generation; true healthcheck_ran attests this run's observations.
 
@@ -330,6 +378,20 @@ def publish_subscriptions(
 
     public.sort(key=ranking)
     reachable = [n for n in public if fingerprints[id(n)] in reachable_ids]
+    # Weekly-active history: fingerprints that passed a socket check in
+    # the last 7 days. This file is the only cross-run health memory the
+    # pipeline keeps; without it the active feed would only ever reflect
+    # the current run. It is written only when this run made new
+    # observations, so a healthcheck-free run never rewrites history.
+    history_path = Path(health_history_path) if health_history_path is not None else default_health_history_path()
+    history = load_health_history(history_path)
+    if healthcheck_ran:
+        for key in reachable_ids:
+            history[key] = context
+        history = {fp: ts for fp, ts in history.items() if ts >= context - HEALTH_HISTORY_WINDOW}
+        save_health_history(history_path, history)
+    cutoff = context - HEALTH_HISTORY_WINDOW
+    active = [n for n in public if (observed := history.get(fingerprints[id(n)])) is not None and observed >= cutoff]
     buckets = {proto: [n for n in public if n.scheme == proto] for proto in PROTOCOLS}
     lite = []
     for index in range(max(map(len, buckets.values()), default=0)):
@@ -340,6 +402,7 @@ def publish_subscriptions(
             break
     special = [n for n in public if n.has_special_parameters()]
     groups = [("all", "All Accepted Public Configs", public), ("reachable", "Socket Reachable", reachable),
+              ("active", "Socket Reachable in the Last 7 Days", active),
               ("verified", "Deprecated: reachability—not credential verified", reachable),
               ("top100", "Top 100 Socket Reachable — Latency First", reachable[:100]), ("lite500", "Lite 500 Protocol Balanced", lite),
               ("categories/navaroute-special", "Supplied Special Parameters — Not Generated or Bypass Tested", special),
@@ -402,9 +465,10 @@ def publish_subscriptions(
         repo_url = f"https://raw.githubusercontent.com/{detect_repo_slug()}/{DEFAULT_BRANCH}/{root_relative}"
         digest = hashlib.sha256(rendered["feed/all.txt"].encode("utf-8")).hexdigest()
         facts = [f"## {PROJECT_NAME} Generated Snapshot", "", f"Snapshot time: {timestamp}", f"all.txt SHA-256: `{digest}`", "",
-                 f"Accepted public nodes: {len(public)}; socket healthcheck ran: {str(healthcheck_ran).lower()}; socket reachable: {len(reachable)}.",
+                 f"Accepted public nodes: {len(public)}; socket healthcheck ran: {str(healthcheck_ran).lower()}; socket reachable: {len(reachable)}; socket reachable in the last 7 days: {len(active)}.",
                  "Reachability—not credential verified. Upstream labels and country/category labels are claims, not successful probes.",
                  "`verified.txt` is a deprecated reachable mirror. `categories/pattn-special.txt` is only a legacy raw-path mirror of supplied parameters.",
+                 "`active.txt` lists configs with a successful socket observation in the last 7 days; it is reachability history, not end-to-end verification.",
                  "Retired executable `categories/serverless-fragment.json` is `[]`.", "", "| Feed | Nodes |", "|---|---:|"]
         facts.extend(f"| [{key}]({repo_url}/{key}) | {count} |" for key, count in sorted(counts.items()))
         start = readme.index(STATS_START) + len(STATS_START)
