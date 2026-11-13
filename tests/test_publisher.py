@@ -526,3 +526,140 @@ class TestPublisher(unittest.TestCase):
 
     def test_committed_role_directory_process_interruption_keeps_manifest_until_healthy_recovery(self):
         self.assert_committed_role_recovery(KeyboardInterrupt("process interruption"))
+
+
+class TestPublisherBranches(unittest.TestCase):
+    def setUp(self):
+        scratch = tempfile.TemporaryDirectory()
+        self.addCleanup(scratch.cleanup)
+        self.root = Path(scratch.name).resolve()
+        self.out = self.root / "feeds"
+        self.readme = self.root / "README.md"
+        self.readme.write_bytes(f"Maintained prose\r\n{START}\nold stats\n{END}\r\nSentinel prose\r\n".encode())
+        (self.root / "STATUS.md").write_bytes(b"old status\r\n")
+        self.now = datetime.now(timezone.utc).isoformat()
+
+    def node(self, credential="public", scheme="trojan", **kwargs):
+        return ProxyNode(scheme, "public.example", 443, credential, **kwargs)
+
+    def _publish(self, nodes=None, **kwargs):
+        with patch.object(publisher, "REPOSITORY_ROOT", self.root, create=True):
+            return publisher.publish_subscriptions(
+                [self.node()] if nodes is None else nodes, kwargs.pop("json_configs", []),
+                kwargs.pop("stats", []), kwargs.pop("output_dir", str(self.out)), **kwargs)
+
+    def _transaction(self, manifest, staged=None):
+        txn = self.root / ".feeds.navaroute-publish"
+        txn.mkdir(parents=True, exist_ok=True)
+        (txn / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        for role, files in (staged or {}).items():
+            for key, size in files.items():
+                path = txn / role / key
+                path.parent.mkdir(parents=True, exist_ok=True)
+                with path.open("wb") as handle:
+                    handle.truncate(size)
+        return txn
+
+    def test_plain_path_rejects_links_and_special_files(self):
+        link = self.root / "link"
+        link.symlink_to(self.readme)
+        with self.assertRaises(ValueError):
+            publisher._plain_path(link)
+        fifo = self.root / "fifo"
+        os.mkfifo(fifo)
+        with self.assertRaises(ValueError):
+            publisher._plain_path(fifo)
+
+    def test_target_rejects_existing_directory(self):
+        (self.out / "all.txt").mkdir(parents=True)
+        with self.assertRaises(ValueError):
+            publisher._target("feed/all.txt", self.out, False)
+
+    def test_recovery_manifest_oversize_and_bad_shape(self):
+        txn = self.root / ".feeds.navaroute-publish"
+        txn.mkdir(parents=True, exist_ok=True)
+        (txn / "manifest.json").write_bytes(b"x" * (128 * 1024 + 1))
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+        (txn / "manifest.json").write_text(json.dumps({"state": "prepared"}), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+
+    def test_recovery_manifest_non_bool_and_bad_staged_file(self):
+        txn = self._transaction({"state": "prepared", "files": {"feed/all.txt": "yes"}})
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+        txn = self._transaction({"state": "prepared", "files": {"feed/all.txt": True}})
+        (txn / "new" / "feed" / "all.txt").mkdir(parents=True)
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+
+    def test_recovery_prepared_missing_old_file(self):
+        txn = self._transaction({"state": "prepared", "files": {"feed/all.txt": True}},
+                                {"new": {"feed/all.txt": 4}})
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+
+    def test_recovery_total_exceeds_generation_limit(self):
+        keys = ["feed/all.txt", "feed/reachable.txt", "feed/verified.txt", "feed/top100.txt",
+                "feed/lite500.txt", "feed/protocols/vless.txt", "feed/protocols/vmess.txt",
+                "feed/protocols/trojan.txt", "feed/protocols/ss.txt", "feed/protocols/hysteria2.txt",
+                "feed/protocols/tuic.txt"]
+        staged = {"new": {key: 100 * 1024 * 1024 for key in keys},
+                  "old": {key: 100 * 1024 * 1024 for key in keys}}
+        txn = self._transaction({"state": "prepared", "files": {key: True for key in keys}}, staged)
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+
+    def test_recovery_unexpected_file(self):
+        txn = self._transaction({"state": "committed", "files": {}})
+        (txn / "stray.txt").write_text("x", encoding="utf-8")
+        with self.assertRaises(ValueError):
+            publisher._recover(txn, self.out, False)
+
+    def test_recovery_prepared_new_file_unlinks_target(self):
+        self.out.mkdir(parents=True, exist_ok=True)
+        target = self.out / "all.txt"
+        target.write_text("stale", encoding="utf-8")
+        txn = self._transaction({"state": "prepared", "files": {"feed/all.txt": False}})
+        publisher._recover(txn, self.out, False)
+        self.assertFalse(target.exists())
+        self.assertFalse(txn.exists())
+
+    def test_previous_generation_exceeds_recovery_limits(self):
+        self.out.mkdir(parents=True, exist_ok=True)
+        with (self.out / "all.txt").open("wb") as handle:
+            handle.truncate(600 * 1024 * 1024)
+        txn = self.root / ".feeds.navaroute-publish"
+        with self.assertRaises(ValueError):
+            publisher._project({"feed/all.txt": "x"}, self.out, False, txn)
+
+    def test_bounded_lines_limit(self):
+        with self.assertRaises(ValueError):
+            publisher._bounded_lines(["x" * (64 * 1024 * 1024 + 1)])
+
+    def test_publish_input_validation(self):
+        with self.assertRaises(ValueError):
+            self._publish(json_configs=[1])
+        with self.assertRaises(ValueError):
+            self._publish(stats=["not-a-stat"])
+
+    def test_publish_rejects_repository_root_output(self):
+        with self.assertRaises(ValueError):
+            self._publish(output_dir=str(self.root))
+
+    def test_publish_readme_too_big(self):
+        with patch.object(publisher, "MAX_PLAIN_BYTES", 10):
+            with self.assertRaises(ValueError):
+                self._publish()
+
+    def test_publish_rejects_duplicate_nodes(self):
+        node = self.node()
+        with self.assertRaises(ValueError):
+            self._publish([node, node])
+
+    def test_unreadable_feed_is_rewritten_not_skipped(self):
+        self.out.mkdir(parents=True, exist_ok=True)
+        (self.out / "all.txt").write_bytes(b"\xff\xfe" * 10)
+        self._publish()
+        self.assertEqual((self.out / "all.txt").read_text(encoding="utf-8").splitlines()[0][:1], "#")
