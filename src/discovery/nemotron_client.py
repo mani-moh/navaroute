@@ -411,6 +411,7 @@ class NemotronClient:
         system_prompt: str = "You are an autonomous intelligence agent specialized in proxy configurations, network circumvention, and Telegram subscription discovery.",
         temperature: float = 0.6,
         max_tokens: int = 2048,
+        json_mode: bool = False,
     ) -> str:
         """Sends a text completion request and returns the assistant's text response."""
         if not self.is_available():
@@ -436,6 +437,12 @@ class NemotronClient:
             # to the free router either — see _call_api_on_provider — and
             # never to NVIDIA, which uses reasoning_effort instead.)
             payload["reasoning"] = {"effort": "high"}
+        if json_mode and self.provider == "openrouter" and self.model == DEFAULT_OPENROUTER_MODEL:
+            # Structured output on the vetted default model only: the
+            # model advertises structured_outputs, and a guaranteed JSON
+            # object means a request is never burned on a malformed reply.
+            # Never sent to the free router (a routed model may reject it).
+            payload["response_format"] = {"type": "json_object"}
 
         res = self._call_api(payload, fallback_models=TEXT_FALLBACK_MODELS)
         return self._response_text(res)
@@ -457,11 +464,17 @@ class NemotronClient:
         max_tokens: int = 2048,
     ) -> Optional[Any]:
         """Sends a prompt and parses the returned JSON structure."""
+        # No fallback retry here: a second attempt would burn a second
+        # budget request and convert a hard API failure into a budget
+        # exhaustion, which callers treat as a normal stop. Structured
+        # output is only sent to the vetted default model, which
+        # advertises structured_outputs, so a failure here is real.
         raw_text = self.complete(
             prompt=prompt,
             system_prompt=system_prompt,
             temperature=temperature,
             max_tokens=max_tokens,
+            json_mode=True,
         )
         if not raw_text:
             return None
@@ -502,6 +515,15 @@ class NemotronClient:
         if not self.is_available():
             return ""
 
+        # Check the cache by URL before downloading: the old code fetched
+        # up to 2MB and only then discovered the result was already known.
+        # The content hash is still checked after the download, so the
+        # same image served under a different URL reuses the result too.
+        url_hash = hashlib.sha256(image_url.encode("utf-8")).hexdigest()
+        if url_hash in self.image_results:
+            self.last_image_outcome = "success"
+            return self.image_results[url_hash]
+
         self._wait(0)
         prepared_url = _download_image_as_data_uri(image_url, deadline=self.deadline)
         if not prepared_url:
@@ -509,6 +531,9 @@ class NemotronClient:
         self._wait(0)
         image_hash = hashlib.sha256(prepared_url.encode("ascii")).hexdigest()
         if image_hash in self.image_results:
+            # Legacy entries were keyed by the downloaded bytes; migrate
+            # the hit onto the URL key so the next run skips the download.
+            self.image_results[url_hash] = self.image_results[image_hash]
             self.last_image_outcome = "success"
             return self.image_results[image_hash]
 
@@ -533,6 +558,8 @@ class NemotronClient:
             self.last_image_outcome = "success"
             nodes, _ = extract_nodes_from_content(text, SourceConfig("ocr", "Public OCR", image_url))
             # Persist only canonical public configs, not raw model output.
-            self.image_results[image_hash] = "\n".join(n.to_uri(include_formatted_remark=False) for n in nodes[:400])
+            result_text = "\n".join(n.to_uri(include_formatted_remark=False) for n in nodes[:400])
+            self.image_results[url_hash] = result_text
+            self.image_results[image_hash] = result_text
             self.image_results = bounded_image_results(self.image_results)
         return text

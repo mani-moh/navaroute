@@ -105,7 +105,7 @@ class TestPublicGit(unittest.TestCase):
     def test_final_staging_allows_only_exact_public_roles_including_deletions(self):
         paths = ["subs/all.txt", "subs/all_base64.txt", "subs/reachable.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
                  "subs/categories/serverless-fragment.json", "subs/protocols/vmess.txt", "subs/countries/de.txt", "README.md", "STATUS.md", "DISCOVERY.md",
-                 "sources.discovered.json", "data/discovery_state.json", "data/discovered_ocr_configs.txt"]
+                 "sources.json", "data/discovery_state.json", "data/discovered_ocr_configs.txt"]
         self.assertEqual(self.check({"README.md": b"ok"}, paths)[0], 0)
 
     def test_tokens_in_tracked_or_new_staged_blob_fail_without_matching_lines(self):
@@ -198,6 +198,7 @@ class TestPublicGit(unittest.TestCase):
 
 
 class TestWorkflowContracts(unittest.TestCase):
+    @unittest.skipUnless((ROOT / ".git").exists(), "needs a git checkout (tarball copies have no .git)")
     def test_generated_empty_feed_header_separator_is_valid_whitespace_only_for_subs(self):
         result = subprocess.run(["git", "check-attr", "whitespace", "--", "subs/top100.txt", "subs/reachable.txt", "README.md"],
                                 cwd=ROOT, capture_output=True, text=True, check=True)
@@ -224,7 +225,7 @@ class TestWorkflowContracts(unittest.TestCase):
                 self.assertIn("python scripts/public_git.py check --staged", text)
                 self.assertLess(text.index("check --staged"), text.index("git commit"))
                 self.assertIn("python scripts/public_git.py push", text)
-                self.assertIn("git add -- subs/ README.md STATUS.md sources.discovered.json DISCOVERY.md data/discovery_state.json", text)
+                self.assertIn("git add -- subs/ README.md STATUS.md sources.json DISCOVERY.md data/discovery_state.json", text)
                 for unsafe in ("git add data/", "git add .", "|| true", "|| echo", "[skip ci]", "--pattn-variants", "generate_pattn_variants", "Download Xray", "client", "pattn-git-writer"):
                     self.assertNotIn(unsafe, text)
 

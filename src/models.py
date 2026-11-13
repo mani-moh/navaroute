@@ -106,6 +106,12 @@ class SourceConfig:
     format: str = "auto"
     tags: list[str] = field(default_factory=list)
     enabled: bool = True
+    # Human-readable description of what the source publishes, and where
+    # it came from: "curated" (hand-added) or "discovered" (found by the
+    # discovery run). Both are optional for backward compatibility with
+    # older registry rows; the unified sources.json always sets them.
+    description: str = ""
+    origin: str = ""
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SourceConfig":
@@ -120,6 +126,10 @@ class SourceConfig:
         for key in ("enabled", "verified_upstream"):
             if key in data and not isinstance(data[key], bool):
                 raise ValueError(f"source {key} must be boolean")
+        if "description" in data and (not isinstance(data["description"], str) or not data["description"]):
+            raise ValueError("source description must be a nonempty string")
+        if "origin" in data and data["origin"] not in ("curated", "discovered"):
+            raise ValueError("source origin must be curated or discovered")
         tags = data.get("tags", [])
         if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag for tag in tags):
             raise ValueError("source tags must be a list of nonempty strings")
@@ -132,10 +142,12 @@ class SourceConfig:
             format=data.get("format", "auto"),
             tags=list(data.get("tags", [])),
             enabled=data.get("enabled", True),
+            description=data.get("description", ""),
+            origin=data.get("origin", ""),
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        result: dict[str, Any] = {
             "id": self.id,
             "name": self.name,
             "url": self.url,
@@ -144,6 +156,11 @@ class SourceConfig:
             "tags": self.tags,
             "enabled": self.enabled,
         }
+        if self.description:
+            result["description"] = self.description
+        if self.origin:
+            result["origin"] = self.origin
+        return result
 
 
 @dataclass
@@ -177,20 +194,59 @@ class ProxyNode:
     latency_ms: Optional[float] = None
     healthcheck_kind: str = "untested"
     healthchecked_at: Optional[str] = None
+    # Lazily computed fingerprint cache. Params are canonicalised on every
+    # assignment (see __setattr__), so the cache is only valid while the
+    # identity fields below are untouched; any assignment clears it.
+    _fingerprint_cache: Optional[str] = field(default=None, init=False, repr=False, compare=False)
+    # True when a direct params reassignment could not be canonicalised
+    # (conflicting / over-nested params). The raw value is kept, and the
+    # error surfaces lazily from fingerprint/to_uri, exactly as before:
+    # assignment itself must not raise, but the next operation on the
+    # node must. Construction (__post_init__) still raises eagerly.
+    _params_unclean: bool = field(default=False, init=False, repr=False, compare=False)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        if name == "params" and isinstance(value, dict):
+            scheme = self.__dict__.get("scheme", "")
+            try:
+                value = canonical_params(value, scheme)
+            except (ValueError, ConnectionLimitError):
+                object.__setattr__(self, "_params_unclean", True)
+            else:
+                object.__setattr__(self, "_params_unclean", False)
+        object.__setattr__(self, name, value)
+        if name in ("params", "scheme", "address", "port", "credential"):
+            object.__setattr__(self, "_fingerprint_cache", None)
 
     def __post_init__(self) -> None:
-        self.params = canonical_params(self.params, self.scheme)
+        # Construction raises eagerly on bad params (unlike reassignment).
+        object.__setattr__(self, "params", canonical_params(self.params, self.scheme))
+        object.__setattr__(self, "_params_unclean", False)
+
+    def _canonical_params_or_raise(self) -> dict[str, Any]:
+        """Params for an operation that must validate: canonicalise only
+        when a reassignment left them unclean, otherwise use them as-is."""
+        if self.__dict__.get("_params_unclean"):
+            return canonical_params(self.params, self.scheme)
+        return self.params
 
     def semantic_fingerprint(self) -> str:
         """Versioned identity of the complete connection, never its source/evidence labels."""
-        params = canonical_params(self.params, self.scheme)
+        cached = self.__dict__.get("_fingerprint_cache")
+        if cached is not None:
+            return cached
+        # self.params is already canonical (see __post_init__/__setattr__),
+        # so re-canonicalising here would just re-walk the whole tree.
+        params = dict(self._canonical_params_or_raise())
         for key in ("sni", "host"):
             if isinstance(params.get(key), str):
                 params[key] = params[key].lower()
         canonical_tuple = (FINGERPRINT_VERSION, self.scheme.lower(), self.address.lower().strip("[]"),
                            self.port, self.credential, params)
         canonical_str = json.dumps(canonical_tuple, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
-        return hashlib.sha256(canonical_str.encode("utf-8")).hexdigest()
+        fingerprint = hashlib.sha256(canonical_str.encode("utf-8")).hexdigest()
+        object.__setattr__(self, "_fingerprint_cache", fingerprint)
+        return fingerprint
 
     def has_special_parameters(self) -> bool:
         if any(k in self.params for k in ("fm", "dialMode", "dial_mode", "cs")):
@@ -202,7 +258,8 @@ class ProxyNode:
         return self.params.get("security") == "reality" or bool(self.params.get("pbk"))
 
     def has_web_transport(self) -> bool:
-        transport = canonical_params(self.params, self.scheme).get("type", "")
+        # self.params is already canonical; no need to re-walk it.
+        transport = self._canonical_params_or_raise().get("type", "")
         return isinstance(transport, str) and transport.lower() in ("ws", "grpc", "httpupgrade", "xhttp", "splithttp")
 
     def is_iran_related(self) -> bool:
@@ -269,7 +326,9 @@ class ProxyNode:
     def to_uri(self, include_formatted_remark: bool = True) -> str:
         """Serialize canonical fields. Reject shapes a scheme cannot represent losslessly."""
         target_remark = self.format_remark() if include_formatted_remark else self.remark
-        params = canonical_params(self.params, self.scheme)
+        # self.params is already canonical (see __post_init__/__setattr__),
+        # unless a reassignment left it unclean — then validate (raising).
+        params = self._canonical_params_or_raise()
         if self.scheme == "vmess":
             scalar_fields = {"v", "type", "security", "headerType", "host", "path", "sni", "fp", "scy", "serviceName"}
             if any(key in scalar_fields and not isinstance(value, str) for key, value in params.items()):

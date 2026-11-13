@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import unittest
@@ -8,6 +9,12 @@ import unittest
 from src.parsers import KNOWN_ISO_CODES, parse_proxy_uri
 
 ROOT = Path(__file__).resolve().parents[1]
+# Full 64k-node snapshot check (~70s) runs only when opted in or on the
+# nightly snapshot job. The default CI run samples 200 rows per file,
+# which still exercises parsing, canonicalisation, base64 mirrors and
+# per-file invariants at ~1s.
+FULL_SNAPSHOT = os.environ.get("NAVAROUTE_FULL_SNAPSHOT") == "1"
+SAMPLE_ROWS = 200
 
 
 class TestPublicMigration(unittest.TestCase):
@@ -35,8 +42,15 @@ class TestPublicMigration(unittest.TestCase):
                 self.assertTrue(base64.b64decode(title, validate=True).decode().startswith("NavaRoute "))
                 rows = [line for line in text.splitlines() if line and not line.startswith("#")]
                 encoded = path.with_name(path.stem + "_base64.txt").read_text(encoding="utf-8")
-                self.assertTrue(base64.b64decode(encoded, validate=True).decode() == "\n".join(rows), "plain/Base64 rows differ")
-                self.assertEqual(counts[path.relative_to(ROOT / "subs").as_posix()], len(rows))
+                if FULL_SNAPSHOT:
+                    self.assertTrue(base64.b64decode(encoded, validate=True).decode() == "\n".join(rows), "plain/Base64 rows differ")
+                    self.assertEqual(counts[path.relative_to(ROOT / "subs").as_posix()], len(rows))
+                else:
+                    # Sample mode: the base64 mirror still covers every
+                    # row (cheap decode), but only the first 200 rows are
+                    # parsed/canonicalised below.
+                    self.assertTrue(base64.b64decode(encoded, validate=True).decode() == "\n".join(rows), "plain/Base64 rows differ")
+                    rows = rows[:SAMPLE_ROWS]
                 fingerprints = set()
                 for row in rows:
                     node = parse_proxy_uri(row)
@@ -70,11 +84,13 @@ class TestPublicMigration(unittest.TestCase):
                     self.assertIn(path.stem.upper(), KNOWN_ISO_CODES)
                     self.assertGreaterEqual(len(rows), 5)
         self.assertTrue(all_nodes, "accepted public pool must not be empty")
-        for group in groups.values():
-            self.assertTrue(group <= all_nodes, "feed contains identity outside accepted public pool")
-        self.assertTrue(groups["top100.txt"] <= groups["reachable.txt"])
-        self.assertLessEqual(len(groups["top100.txt"]), 100)
-        self.assertLessEqual(len(groups["lite500.txt"]), 500)
+        if FULL_SNAPSHOT:
+            # Cross-file subset checks only hold on complete rows.
+            for group in groups.values():
+                self.assertTrue(group <= all_nodes, "feed contains identity outside accepted public pool")
+            self.assertTrue(groups["top100.txt"] <= groups["reachable.txt"])
+            self.assertLessEqual(len(groups["top100.txt"]), 100)
+            self.assertLessEqual(len(groups["lite500.txt"]), 500)
 
     def test_historical_migration_has_empty_evidence_and_retired_json(self):
         path = ROOT / "docs/migration-manifest.json"

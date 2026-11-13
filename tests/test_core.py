@@ -3,7 +3,6 @@ from __future__ import annotations
 import base64
 import io
 import json
-import subprocess
 import unittest
 import urllib.parse
 from dataclasses import replace
@@ -29,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class TestSourcesRegistry(unittest.TestCase):
     def test_sources_json_valid_and_clean(self):
-        """Verify sources.json has 60 valid public sources."""
+        """Verify the unified sources.json: 60 curated + 82 discovered sources."""
         sources_path = BASE_DIR / "sources.json"
         assert sources_path.exists(), "sources.json must exist"
 
@@ -37,7 +36,9 @@ class TestSourcesRegistry(unittest.TestCase):
         data = json.loads(content)
         assert "sources" in data
         sources_list = data["sources"]
-        assert len(sources_list) == 60, f"Expected 60 public sources, found {len(sources_list)}"
+        assert len(sources_list) == 142, f"Expected 142 public sources, found {len(sources_list)}"
+        assert sum(1 for s in sources_list if s.get("origin") == "curated") == 60
+        assert sum(1 for s in sources_list if s.get("origin") == "discovered") == 82
 
         ids = set()
         for s in sources_list:
@@ -45,7 +46,8 @@ class TestSourcesRegistry(unittest.TestCase):
             assert config.id, "Source must have an id"
             assert config.id not in ids, f"Duplicate source id: {config.id}"
             ids.add(config.id)
-            assert config.url.startswith("http"), f"Source {config.id} has invalid URL: {config.url}"
+            # One entry is the local retained-OCR cache, not a URL.
+            assert config.url.startswith("http") or config.url == "data/discovered_ocr_configs.txt", f"Source {config.id} has invalid URL: {config.url}"
             assert isinstance(config.tags, list)
 
 

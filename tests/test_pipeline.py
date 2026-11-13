@@ -4,11 +4,8 @@ import base64
 import contextlib
 import io
 import json
-import os
 import socket
 import tempfile
-import threading
-import time
 import unittest
 import urllib.error
 import urllib.parse
@@ -16,8 +13,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from src.categorizer import publish_subscriptions
-from src.dedup import deduplicate_nodes
-from src.fetcher import fetch_all_sources, fetch_source, load_sources
+from src.fetcher import fetch_source, load_sources
 from src.healthcheck import (
     build_xray_outbound,
     check_nodes_health,
@@ -353,7 +349,7 @@ class TestCategorizer(unittest.TestCase):
             )
         ]
 
-        counts = publish_subscriptions(
+        publish_subscriptions(
             nodes=all_nodes,
             json_configs=json_cfgs,
             stats=stats,
@@ -393,12 +389,13 @@ class TestCategorizer(unittest.TestCase):
 
 class TestFetcherAndLoader(unittest.TestCase):
     def test_load_sources_public(self):
-        # Test loading sources.json in isolation from dynamic discovered sources
+        # Test loading the unified sources.json in isolation (no legacy
+        # second file): 60 curated + 82 discovered sources.
         sources = load_sources(
             sources_path=str(BASE_DIR / "sources.json"),
             discovered_sources_path="non_existent_discovered.json",
         )
-        self.assertEqual(len(sources), 60)
+        self.assertEqual(len(sources), 142)
 
     @patch("src.fetcher._fetch_url")
     def test_fetch_source_success_and_error(self, mock_fetch):

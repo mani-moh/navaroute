@@ -17,14 +17,23 @@ class TestRepositoryInputs(unittest.TestCase):
         self.assertEqual({key: state[key] for key in saved}, saved)
         self.assertEqual(json.loads(serialize_state(state)), state)
 
-    def test_shipped_registries_load_every_enabled_public_source(self):
+    def test_shipped_unified_registry_loads_every_enabled_public_source(self):
+        # One registry: sources.json carries curated and discovered
+        # sources alike, each with a description and an origin.
+        rows = json.loads((ROOT / "sources.json").read_text(encoding="utf-8"))["sources"]
         expected_ids = set()
-        for filename in ("sources.json", "sources.discovered.json"):
-            rows = json.loads((ROOT / filename).read_text(encoding="utf-8"))["sources"]
-            for index, row in enumerate(rows):
-                with self.subTest(registry=filename, row=index):
-                    source = SourceConfig.from_dict(row)
-                    if source.enabled:
-                        expected_ids.add(source.id)
-        loaded = load_sources(str(ROOT / "sources.json"), str(ROOT / "sources.discovered.json"))
+        seen_urls = set()
+        for index, row in enumerate(rows):
+            with self.subTest(row=index):
+                source = SourceConfig.from_dict(row)
+                self.assertTrue(source.description, "every source needs a description")
+                self.assertIn(source.origin, ("curated", "discovered"))
+                self.assertNotIn(source.url, seen_urls, "duplicate source URL")
+                seen_urls.add(source.url)
+                if source.enabled:
+                    expected_ids.add(source.id)
+        self.assertEqual(len(expected_ids), len({row["id"] for row in rows if row.get("enabled", True)}))
+        loaded = load_sources(str(ROOT / "sources.json"))
         self.assertEqual({source.id for source in loaded}, expected_ids)
+        self.assertFalse((ROOT / "sources.discovered.json").exists(),
+                         "legacy second registry must not exist anymore")

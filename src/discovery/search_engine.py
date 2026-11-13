@@ -146,6 +146,10 @@ class WebSearchScraper:
         self.deadline: float | None = None
         self.last_outcome = "retryable"
         self.last_page_content = ""
+        # Per-query GitHub search cache: search_github and
+        # search_github_readmes are called with the same query in one
+        # expansion pass and used to hit the API twice.
+        self._github_cache: dict[str, list[tuple[str, str]]] = {}
 
     def _read(self, url: str, max_bytes: int = SOURCE_MAX_BYTES) -> str:
         self.last_outcome = "retryable"
@@ -188,6 +192,9 @@ class WebSearchScraper:
         return channels[:max_results], urls[:max_results]
 
     def _github_repositories(self, query: str, max_results: int) -> list[tuple[str, str]]:
+        cached = self._github_cache.get(query)
+        if cached is not None and len(cached) >= max_results:
+            return cached[:max_results]
         raw = self._read(f"https://api.github.com/search/repositories?q={quote_plus(query[:500])}&sort=updated", 2 * 1024 * 1024)
         try:
             data = json.loads(raw)
@@ -205,6 +212,7 @@ class WebSearchScraper:
                 repo = (name, quote(branch, safe=""))
                 if repo not in repos:
                     repos.append(repo)
+        self._github_cache[query] = repos
         return repos
 
     def search_github(self, query: str, max_results: int = 10) -> list[str]:

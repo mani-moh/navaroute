@@ -180,7 +180,7 @@ class WorkflowSummaryFixture(unittest.TestCase):
         self.assertNotIn("Commits since checkout (0):\n- none", out)
 
     def test_baseline_absent_from_history_is_reported_honestly(self):
-        start = self.commit_repo()
+        self.commit_repo()
         write_file(self.repo, "subs/all.txt", b"line1\nline2\nline3\n")
         commit_all(self.repo, "bot")
         code, out = run_summary(self.repo, RUN_START_SHA="0" * 40, RUN_STATUS="success")
@@ -204,7 +204,7 @@ class WorkflowSummaryFixture(unittest.TestCase):
         self.assertNotIn("Commits since checkout (1):", out)
 
     def test_option_like_start_sha_is_rejected_not_executed(self):
-        start = self.commit_repo()
+        self.commit_repo()
         for hostile in ("--help", "-d", "HEAD;id", "refs/heads/master"):
             with self.subTest(value=hostile):
                 code, out = run_summary(self.repo, RUN_START_SHA=hostile, RUN_STATUS="success")
@@ -292,7 +292,6 @@ class FaultInjectionTests(unittest.TestCase):
         for number in range(2):
             write_file(self.repo, f"subs/feed{number}.txt", b"x\n")
             commit_all(self.repo, f"fixture {number}")
-        start = head(self.repo)
         write_file(self.repo, "subs/feed0.txt", b"x\ny\n")
         commit_all(self.repo, "bot")
         baseline = git(self.repo, "rev-parse", "HEAD~1").stdout.decode().strip()

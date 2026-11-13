@@ -4,6 +4,8 @@
       "id": "patterniha-free",
       "name": "Patterniha Free",
       "url": "https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt",
+      "description": "Free proxy configs from Patterniha Free (raw.githubusercontent.com). Upstream verifies its configs before publishing.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -17,6 +19,8 @@
       "id": "0xradikal-verified",
       "name": "0xRadikal Verified",
       "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs.txt",
+      "description": "Free proxy configs from 0xRadikal Verified (raw.githubusercontent.com). Upstream verifies its configs before publishing.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -28,6 +32,8 @@
       "id": "itsyebekhe-psg-mix",
       "name": "ItsYebekhe PSG Mix",
       "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/mix",
+      "description": "Free proxy configs from ItsYebekhe PSG Mix (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -39,6 +45,8 @@
       "id": "delta-kronecker-all",
       "name": "Delta Kronecker All",
       "url": "https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/all_configs.txt",
+      "description": "Free proxy configs from Delta Kronecker All (github.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -50,6 +58,8 @@
       "id": "mahsanet-mtn",
       "name": "MahsaNet MTN",
       "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mtn/sub_1.txt",
+      "description": "Free proxy configs from MahsaNet MTN (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -62,6 +72,8 @@
       "id": "whitedns-base64",
       "name": "WhiteDNS Base64",
       "url": "https://raw.githubusercontent.com/iampedii/whitedns-sub/refs/heads/main/base64.txt",
+      "description": "Free proxy configs from WhiteDNS Base64 (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -74,6 +86,8 @@
       "id": "openproxylist-raw",
       "name": "OpenProxyList Raw",
       "url": "https://openproxylist.com/v2ray/rawlist/text",
+      "description": "Free proxy configs from OpenProxyList Raw (openproxylist.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -85,6 +99,8 @@
       "id": "4n0nymou3-tested",
       "name": "4n0nymou3 Tested",
       "url": "https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs_tested.txt",
+      "description": "Free proxy configs from 4n0nymou3 Tested (raw.githubusercontent.com). Upstream verifies its configs before publishing.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -96,6 +112,8 @@
       "id": "roosterkid-openproxylist",
       "name": "RoosterKid OpenProxyList",
       "url": "https://raw.githubusercontent.com/roosterkid/openproxylist/main/V2RAY_RAW.txt",
+      "description": "Free proxy configs from RoosterKid OpenProxyList (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -107,6 +125,8 @@
       "id": "whitedns-cf",
       "name": "WhiteDNS CF",
       "url": "https://raw.githubusercontent.com/iampedii/whitedns-sub/refs/heads/main/cloudflare-base64.txt",
+      "description": "Free proxy configs from WhiteDNS CF (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -120,6 +140,8 @@
       "id": "arshiacomplus-extractor",
       "name": "ArshiaComPlus Extractor",
       "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/refs/heads/main/mix/sub.html",
+      "description": "Free proxy configs from ArshiaComPlus Extractor (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "html",
       "tags": [
@@ -131,6 +153,8 @@
       "id": "shadowexception-vpn",
       "name": "ShadowException VPN",
       "url": "https://raw.githubusercontent.com/ShadowException/VPN/refs/heads/main/configs/VPN-cat",
+      "description": "Free proxy configs from ShadowException VPN (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -142,6 +166,8 @@
       "id": "zieng2-wl",
       "name": "Zieng2 Whitelist",
       "url": "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt",
+      "description": "Free proxy configs from Zieng2 Whitelist (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -154,6 +180,8 @@
       "id": "v2freehub-sub",
       "name": "V2FreeHub Sub",
       "url": "https://raw.githubusercontent.com/v2FreeHub/v2hub-configs/refs/heads/main/Sub-AutoUpdate",
+      "description": "Free proxy configs from V2FreeHub Sub (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -165,6 +193,8 @@
       "id": "prominbro-212",
       "name": "ProminBro 212",
       "url": "https://raw.githubusercontent.com/prominbro/sub/refs/heads/main/212.txt",
+      "description": "Free proxy configs from ProminBro 212 (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -176,6 +206,8 @@
       "id": "mahdi0024-proxycollector",
       "name": "Mahdi0024 ProxyCollector",
       "url": "https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt",
+      "description": "Free proxy configs from Mahdi0024 ProxyCollector (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -188,6 +220,8 @@
       "id": "luxxuria-speed-tested",
       "name": "Luxxuria Speed Tested",
       "url": "https://raw.githubusercontent.com/luxxuria/harvester/refs/heads/main/speed_tested.txt",
+      "description": "Free proxy configs from Luxxuria Speed Tested (raw.githubusercontent.com). Upstream verifies its configs before publishing.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -199,6 +233,8 @@
       "id": "barry-far-all",
       "name": "Barry Far All",
       "url": "https://raw.githubusercontent.com/barry-far/V2ray-config/main/All_Configs_Sub.txt",
+      "description": "Free proxy configs from Barry Far All (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -210,6 +246,8 @@
       "id": "epodonios-all",
       "name": "Epodonios All",
       "url": "https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt",
+      "description": "Free proxy configs from Epodonios All (github.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -221,6 +259,8 @@
       "id": "ebrasha-all",
       "name": "EbraSha All",
       "url": "https://raw.githubusercontent.com/ebrasha/free-v2ray-public-list/refs/heads/main/V2Ray-Config-By-EbraSha-All-Type.txt",
+      "description": "Free proxy configs from EbraSha All (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -232,6 +272,8 @@
       "id": "matinghanbari-all",
       "name": "MatinGhanbari All",
       "url": "https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/all_sub.txt",
+      "description": "Free proxy configs from MatinGhanbari All (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -243,6 +285,8 @@
       "id": "solispirit-all",
       "name": "SoliSpirit All",
       "url": "https://raw.githubusercontent.com/SoliSpirit/v2ray-configs/refs/heads/main/all_configs.txt",
+      "description": "Free proxy configs from SoliSpirit All (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -254,6 +298,8 @@
       "id": "ripaojiedian-freenode",
       "name": "Ripaojiedian Freenode",
       "url": "https://raw.githubusercontent.com/ripaojiedian/freenode/main/sub",
+      "description": "Free proxy configs from Ripaojiedian Freenode (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -265,6 +311,8 @@
       "id": "pawdroid-free-servers",
       "name": "Pawdroid Free Servers",
       "url": "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub",
+      "description": "Free proxy configs from Pawdroid Free Servers (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -276,6 +324,8 @@
       "id": "leon406-subcrawler-vless",
       "name": "Leon406 SubCrawler Vless",
       "url": "https://raw.githubusercontent.com/Leon406/SubCrawler/main/sub/share/vless",
+      "description": "Free proxy configs from Leon406 SubCrawler Vless (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -287,6 +337,8 @@
       "id": "ermaozi-get-subscribe",
       "name": "Ermaozi Get Subscribe",
       "url": "https://raw.githubusercontent.com/ermaozi/get_subscribe/main/subscribe/v2ray.txt",
+      "description": "Free proxy configs from Ermaozi Get Subscribe (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -298,6 +350,8 @@
       "id": "peasoft-nomorewalls",
       "name": "Peasoft NoMoreWalls",
       "url": "https://raw.githubusercontent.com/peasoft/NoMoreWalls/master/list.txt",
+      "description": "Free proxy configs from Peasoft NoMoreWalls (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -309,6 +363,8 @@
       "id": "hncgs-homayoun",
       "name": "HnCgs Homayoun",
       "url": "https://raw.githubusercontent.com/HnCgs/HomayounConfigs/refs/heads/main/configs.txt",
+      "description": "Free proxy configs from HnCgs Homayoun (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -320,6 +376,8 @@
       "id": "patterniha-serverless",
       "name": "Patterniha Serverless",
       "url": "https://raw.githubusercontent.com/patterniha/Serverless-for-Iran/refs/heads/main/Subscription/Serverless-for-Iran.json",
+      "description": "Free proxy configs from Patterniha Serverless (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "xray_json",
       "tags": [
@@ -335,6 +393,8 @@
       "id": "kahrobas-bot",
       "name": "Kahrobas Bot",
       "url": "https://bot.kahrobas.shop/sub.txt",
+      "description": "Free proxy configs from Kahrobas Bot (bot.kahrobas.shop). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -347,6 +407,8 @@
       "id": "shima800-alwaysconnected",
       "name": "Shima800 AlwaysConnected",
       "url": "https://gist.githubusercontent.com/shima800/26d85acb40c118a1cb72e1ad297ebe31/raw/5d5d49a125e9d34760fb8a8fa869f98711d2564d/AlwaysConnected.txt",
+      "description": "Free proxy configs from Shima800 AlwaysConnected (gist.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -359,6 +421,8 @@
       "id": "farid-karimi-mixed-iran",
       "name": "Farid Karimi Mixed Iran",
       "url": "https://raw.githubusercontent.com/Farid-Karimi/Config-Collector/main/mixed_iran.txt",
+      "description": "Free proxy configs from Farid Karimi Mixed Iran (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -371,6 +435,8 @@
       "id": "farid-karimi-vless-iran",
       "name": "Farid Karimi Vless Iran",
       "url": "https://raw.githubusercontent.com/Farid-Karimi/Config-Collector/main/vless_iran.txt",
+      "description": "Free proxy configs from Farid Karimi Vless Iran (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -384,6 +450,8 @@
       "id": "theconfigs-hcaptcha",
       "name": "TheConfigs Hcaptcha",
       "url": "https://raw.githubusercontent.com/TheConfigs/hcaptcha-configs/main/hcaptchaCONFIGS.txt",
+      "description": "Free proxy configs from TheConfigs Hcaptcha (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -396,6 +464,8 @@
       "id": "masir-sefid",
       "name": "Masir Sefid",
       "url": "https://raw.githubusercontent.com/masir-sefid/Sub/main/Telegram-Channel-@Masir_Sefid.txt",
+      "description": "Free proxy configs from Masir Sefid (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -409,6 +479,8 @@
       "id": "mahankenway-freedom",
       "name": "MahanKenway Freedom",
       "url": "https://raw.githubusercontent.com/MahanKenway/Freedom-V2Ray/main/configs/mix_sub.txt",
+      "description": "Free proxy configs from MahanKenway Freedom (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -421,6 +493,8 @@
       "id": "miladtahanian-mixed-iran",
       "name": "MiladTahanian Mixed Iran",
       "url": "https://raw.githubusercontent.com/miladtahanian/Config-Collector/main/mixed_iran.txt",
+      "description": "Free proxy configs from MiladTahanian Mixed Iran (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -433,6 +507,8 @@
       "id": "igareck-vless-rus",
       "name": "Igareck Vless Rus",
       "url": "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/BLACK_VLESS_RUS_mobile.txt",
+      "description": "Free proxy configs from Igareck Vless Rus (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -446,6 +522,8 @@
       "id": "free1zona-keyfreetee",
       "name": "Free1Zona Keyfreetee",
       "url": "https://raw.githubusercontent.com/free1zona/Keyfreetee/refs/heads/main/razlo4ka7",
+      "description": "Free proxy configs from Free1Zona Keyfreetee (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -458,6 +536,8 @@
       "id": "ewecrow78-whitelist1",
       "name": "Ewecrow78 Whitelist1",
       "url": "https://raw.githubusercontent.com/ewecrow78-gif/whitelist1/main/list.txt",
+      "description": "Free proxy configs from Ewecrow78 Whitelist1 (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -470,6 +550,8 @@
       "id": "peweza-publicsub",
       "name": "Peweza PublicSub",
       "url": "https://raw.githubusercontent.com/peweza/PUBLICSUB/refs/heads/main/PewezaVPNPubSUB",
+      "description": "Free proxy configs from Peweza PublicSub (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -481,6 +563,8 @@
       "id": "4n0nymou3-all",
       "name": "4n0nymou3 All",
       "url": "https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs.txt",
+      "description": "Free proxy configs from 4n0nymou3 All (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -492,6 +576,8 @@
       "id": "blueknight-sub",
       "name": "BlueKnight Sub",
       "url": "https://raw.githubusercontent.com/BlueKnightNet/blueknight_net-sub-link/refs/heads/blue-knight-net/BlueKnight.txt",
+      "description": "Free proxy configs from BlueKnight Sub (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -504,6 +590,8 @@
       "id": "0xradikal-all",
       "name": "0xRadikal All",
       "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt",
+      "description": "Free proxy configs from 0xRadikal All (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -515,6 +603,8 @@
       "id": "itsyebekhe-psg-cdn",
       "name": "ItsYebekhe PSG CDN",
       "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/subscriptions/xray/cdn",
+      "description": "Free proxy configs from ItsYebekhe PSG CDN (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -528,6 +618,8 @@
       "id": "delta-kronecker-patt",
       "name": "Delta Kronecker Patt",
       "url": "https://raw.githubusercontent.com/Delta-Kronecker/V2ray-Config/refs/heads/main/config/patt/all.txt",
+      "description": "Free proxy configs from Delta Kronecker Patt (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -543,6 +635,8 @@
       "id": "delta-kronecker-frag-json",
       "name": "Delta Kronecker Frag JSON",
       "url": "https://raw.githubusercontent.com/Delta-Kronecker/V2ray-Config/refs/heads/main/config/farg/all_configs.json",
+      "description": "Free proxy configs from Delta Kronecker Frag JSON (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "xray_json",
       "tags": [
@@ -557,6 +651,8 @@
       "id": "mahsanet-frag-json",
       "name": "MahsaNet Frag JSON",
       "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/fragment/fakehost_ws80.json",
+      "description": "Free proxy configs from MahsaNet Frag JSON (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "xray_json",
       "tags": [
@@ -571,6 +667,8 @@
       "id": "mahsanet-mci",
       "name": "MahsaNet MCI",
       "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mci/sub_1.txt",
+      "description": "Free proxy configs from MahsaNet MCI (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -584,6 +682,8 @@
       "id": "tg-configshub-main",
       "name": "Telegram ConfigsHUB Main",
       "url": "https://t.me/s/ConfigsHUB",
+      "description": "Public Telegram channel @ConfigsHUB, read via its web preview for proxy configs.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "telegram_web",
       "tags": [
@@ -597,6 +697,8 @@
       "id": "tg-configshub-2",
       "name": "Telegram ConfigsHUB 2",
       "url": "https://t.me/s/ConfigsHUB2",
+      "description": "Public Telegram channel @ConfigsHUB2, read via its web preview for proxy configs.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "telegram_web",
       "tags": [
@@ -610,6 +712,8 @@
       "id": "tg-configshub-plus",
       "name": "Telegram ConfigsHub Plus",
       "url": "https://t.me/s/ConfigsHubPlus",
+      "description": "Public Telegram channel @ConfigsHubPlus, read via its web preview for proxy configs.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "telegram_web",
       "tags": [
@@ -623,6 +727,8 @@
       "id": "tg-proxyshub",
       "name": "Telegram ProxysHUB",
       "url": "https://t.me/s/ProxysHUB",
+      "description": "Public Telegram channel @ProxysHUB, read via its web preview for proxy configs.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "telegram_web",
       "tags": [
@@ -636,6 +742,8 @@
       "id": "alirzza9-configshub-iran",
       "name": "Alirzza9 ConfigsHUB Iran",
       "url": "https://raw.githubusercontent.com/alirzza9/ConfigsHUB-VLESS/main/sub/vless-for-iran-plain.txt",
+      "description": "Free proxy configs from Alirzza9 ConfigsHUB Iran (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -650,6 +758,8 @@
       "id": "alirzza9-configshub-all",
       "name": "Alirzza9 ConfigsHUB All",
       "url": "https://raw.githubusercontent.com/alirzza9/ConfigsHUB-VLESS/main/sub/vless-all-plain.txt",
+      "description": "Free proxy configs from Alirzza9 ConfigsHUB All (raw.githubusercontent.com). Upstream verifies its configs before publishing.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -663,6 +773,8 @@
       "id": "heliataromi-confighub-mixed",
       "name": "HeliaTaromi ConfigHub Mixed",
       "url": "https://raw.githubusercontent.com/heliataromi/ConfigHub/subscription/mixed.txt",
+      "description": "Free proxy configs from HeliaTaromi ConfigHub Mixed (raw.githubusercontent.com). Iran-focused.",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -675,6 +787,8 @@
       "id": "elf2017spring-configshub",
       "name": "Elf2017Spring ConfigsHub",
       "url": "https://raw.githubusercontent.com/elf2017spring/ConfigsHub/main/All_Configs_Sub.txt",
+      "description": "Free proxy configs from Elf2017Spring ConfigsHub (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -686,6 +800,8 @@
       "id": "nirevil-vless",
       "name": "NiREvil Vless",
       "url": "https://raw.githubusercontent.com/NiREvil/vless/main/sub/sub.txt",
+      "description": "Free proxy configs from NiREvil Vless (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
+      "origin": "curated",
       "verified_upstream": true,
       "format": "auto",
       "tags": [
@@ -699,6 +815,8 @@
       "id": "lalatinahub-mineral",
       "name": "LalatinaHub Mineral",
       "url": "https://raw.githubusercontent.com/LalatinaHub/Mineral/master/result/nodes",
+      "description": "Free proxy configs from LalatinaHub Mineral (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
@@ -710,10 +828,1204 @@
       "id": "freefq-free",
       "name": "FreeFQ Free",
       "url": "https://raw.githubusercontent.com/freefq/free/master/v2",
+      "description": "Free proxy configs from FreeFQ Free (raw.githubusercontent.com).",
+      "origin": "curated",
       "verified_upstream": false,
       "format": "auto",
       "tags": [
         "global"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "gh-731be4b5c4",
+      "name": "GitHub Auto (cyrusalbert/ArashOnline)",
+      "url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/main/configs.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "gh-c964add1d0",
+      "name": "GitHub Auto (0xAKIRAVX/DNC-VPN)",
+      "url": "https://raw.githubusercontent.com/0xAKIRAVX/DNC-VPN/main/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-freev2rays",
+      "name": "Telegram @freev2rays",
+      "url": "https://t.me/s/freev2rays",
+      "description": "Public Telegram channel @freev2rays, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2rayngvpn",
+      "name": "Telegram @v2rayngvpn",
+      "url": "https://t.me/s/v2rayngvpn",
+      "description": "Public Telegram channel @v2rayngvpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2ray_outlineir",
+      "name": "Telegram @v2ray_outlineir",
+      "url": "https://t.me/s/v2ray_outlineir",
+      "description": "Public Telegram channel @v2ray_outlineir, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2rayng_config",
+      "name": "Telegram @v2rayng_config",
+      "url": "https://t.me/s/v2rayng_config",
+      "description": "Public Telegram channel @v2rayng_config, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-07d2577deb",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/all.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-4e6407a342",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/vless.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-27c82f8d87",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/vmess.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-shadowsocksm",
+      "name": "Telegram @shadowsocksm",
+      "url": "https://t.me/s/shadowsocksm",
+      "description": "Public Telegram channel @shadowsocksm, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-vlessconfig",
+      "name": "Telegram @vlessconfig",
+      "url": "https://t.me/s/vlessconfig",
+      "description": "Public Telegram channel @vlessconfig, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2ray_collector",
+      "name": "Telegram @v2ray_collector",
+      "url": "https://t.me/s/v2ray_collector",
+      "description": "Public Telegram channel @v2ray_collector, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-88996eae66",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-660b258b53",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.b64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-f9f6bdd1a3",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/configs.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-bd860a1115",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/1",
+      "description": "Auto-discovered public subscription from molido-sub.hidooch980.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-4c90398a42",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/2",
+      "description": "Auto-discovered public subscription from molido-sub.hidooch980.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-44b9f6e67e",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/3",
+      "description": "Auto-discovered public subscription from molido-sub.hidooch980.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-fefad9d43b",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/4",
+      "description": "Auto-discovered public subscription from molido-sub.hidooch980.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-7d81eb5a60",
+      "name": "Web Mined (https://molido-sub.hidooch980....)",
+      "url": "https://molido-sub.hidooch980.workers.dev/sub/5",
+      "description": "Auto-discovered public subscription from molido-sub.hidooch980.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-f2dad2649c",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrtat/vless-collector/main/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-b89814e6b1",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrtat/vless-collector/main/vless.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-35e01e956f",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/miraali1372/mirsub/main/subscription.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-42814a7c1e",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrdad-tat/vless-collector/main/sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-58a1baede7",
+      "name": "Web Mined (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/mehrdad-tat/vless-collector/main/vless.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "web-mined"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-a6e4299a7f",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/ss.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-56dfd72e36",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mr-Meshky/vify/main/configs/trojan.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-proxyarc",
+      "name": "Telegram @proxyarc",
+      "url": "https://t.me/s/proxyarc",
+      "description": "Public Telegram channel @proxyarc, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-2d73dec8b5",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/BlueKnightNet/subtemp/refs/heads/blue-knight-net/s",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-blueknight_net",
+      "name": "Telegram @blueknight_net",
+      "url": "https://t.me/s/blueknight_net",
+      "description": "Public Telegram channel @blueknight_net, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-757c8dc370",
+      "name": "Discovered Sub (https://sub.shadowproxy66.work...)",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/736218dc-3cdf-4e93-bb5b-1d726418e43e",
+      "description": "Auto-discovered public subscription from sub.shadowproxy66.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-42245810b7",
+      "name": "Discovered Sub (https://sub.shadowproxy66.work...)",
+      "url": "https://sub.shadowproxy66.workers.dev/sub/e298329f-2274-4b24-8d7c-84183c77dba8",
+      "description": "Auto-discovered public subscription from sub.shadowproxy66.workers.dev.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-shadowproxy66",
+      "name": "Telegram @shadowproxy66",
+      "url": "https://t.me/s/shadowproxy66",
+      "description": "Public Telegram channel @shadowproxy66, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-xsfilterrnet",
+      "name": "Telegram @xsfilterrnet",
+      "url": "https://t.me/s/xsfilterrnet",
+      "description": "Public Telegram channel @xsfilterrnet, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-hamedvpns",
+      "name": "Telegram @hamedvpns",
+      "url": "https://t.me/s/hamedvpns",
+      "description": "Public Telegram channel @hamedvpns, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2rayng_fast",
+      "name": "Telegram @v2rayng_fast",
+      "url": "https://t.me/s/v2rayng_fast",
+      "description": "Public Telegram channel @v2rayng_fast, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-configwireguard",
+      "name": "Telegram @configwireguard",
+      "url": "https://t.me/s/configwireguard",
+      "description": "Public Telegram channel @configwireguard, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-persianvpnhub",
+      "name": "Telegram @persianvpnhub",
+      "url": "https://t.me/s/persianvpnhub",
+      "description": "Public Telegram channel @persianvpnhub, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-698e7b993b",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/FRAGMENT",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-c5924ffe90",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/Movaghat",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-free2config",
+      "name": "Telegram @free2config",
+      "url": "https://t.me/s/free2config",
+      "description": "Public Telegram channel @free2config, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-mamad1vpn",
+      "name": "Telegram @mamad1vpn",
+      "url": "https://t.me/s/mamad1vpn",
+      "description": "Public Telegram channel @mamad1vpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-mtproxy22_v2ray",
+      "name": "Telegram @mtproxy22_v2ray",
+      "url": "https://t.me/s/mtproxy22_v2ray",
+      "description": "Public Telegram channel @mtproxy22_v2ray, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-free1_vpn",
+      "name": "Telegram @free1_vpn",
+      "url": "https://t.me/s/free1_vpn",
+      "description": "Public Telegram channel @free1_vpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-flyv2ray",
+      "name": "Telegram @flyv2ray",
+      "url": "https://t.me/s/flyv2ray",
+      "description": "Public Telegram channel @flyv2ray, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2cnf",
+      "name": "Telegram @v2cnf",
+      "url": "https://t.me/s/v2cnf",
+      "description": "Public Telegram channel @v2cnf, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-farazv2ray",
+      "name": "Telegram @farazv2ray",
+      "url": "https://t.me/s/farazv2ray",
+      "description": "Public Telegram channel @farazv2ray, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2ray1_ng",
+      "name": "Telegram @v2ray1_ng",
+      "url": "https://t.me/s/v2ray1_ng",
+      "description": "Public Telegram channel @v2ray1_ng, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-server01012",
+      "name": "Telegram @server01012",
+      "url": "https://t.me/s/server01012",
+      "description": "Public Telegram channel @server01012, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-sparrk_vpn",
+      "name": "Telegram @sparrk_vpn",
+      "url": "https://t.me/s/sparrk_vpn",
+      "description": "Public Telegram channel @sparrk_vpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-arsalanvpn",
+      "name": "Telegram @arsalanvpn",
+      "url": "https://t.me/s/arsalanvpn",
+      "description": "Public Telegram channel @arsalanvpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-4cb8b7a891",
+      "name": "Discovered Sub (https://svn.mobiletanaz.com:20...)",
+      "url": "https://svn.mobiletanaz.com:2053/sub/djMsMzI1ODM1LDE3OTQwNjI0ODk.KFIrsGH-rqRfcxrVLgSROwaUmOx36tnDSFskXhLHgT8",
+      "description": "Auto-discovered public subscription from svn.mobiletanaz.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-v2lessir",
+      "name": "Telegram @v2lessir",
+      "url": "https://t.me/s/v2lessir",
+      "description": "Public Telegram channel @v2lessir, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-5383469830",
+      "name": "Discovered Sub (https://www.ermao.net/sub/v2ra...)",
+      "url": "https://www.ermao.net/sub/v2ray/ermao.net",
+      "description": "Auto-discovered public subscription from www.ermao.net.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-break_the_barriers",
+      "name": "Telegram @break_the_barriers",
+      "url": "https://t.me/s/break_the_barriers",
+      "description": "Public Telegram channel @break_the_barriers, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-outlinereleasedkey",
+      "name": "Telegram @outlinereleasedkey",
+      "url": "https://t.me/s/outlinereleasedkey",
+      "description": "Public Telegram channel @outlinereleasedkey, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "sub-21971ef1c8",
+      "name": "Discovered Sub (https://raw.githubusercontent....)",
+      "url": "https://raw.githubusercontent.com/HnCgs/HomayounConfigs/main/configs.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-yebekhe",
+      "name": "Telegram @yebekhe",
+      "url": "https://t.me/s/yebekhe",
+      "description": "Public Telegram channel @yebekhe, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-homayounconfigs",
+      "name": "Telegram @homayounconfigs",
+      "url": "https://t.me/s/homayounconfigs",
+      "description": "Public Telegram channel @homayounconfigs, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-proxymtprotoir",
+      "name": "Telegram @proxymtprotoir (public configs retained)",
+      "url": "https://t.me/s/proxymtprotoir",
+      "description": "Public Telegram channel @proxymtprotoir, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-givevpn",
+      "name": "Telegram @givevpn (public configs retained)",
+      "url": "https://t.me/s/givevpn",
+      "description": "Public Telegram channel @givevpn, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "tg-vpn_click",
+      "name": "Telegram @vpn_click (public configs retained)",
+      "url": "https://t.me/s/vpn_click",
+      "description": "Public Telegram channel @vpn_click, read via its web preview for proxy configs.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "nemotron-vision-ocr",
+      "name": "Retained public deep-page and OCR configs",
+      "url": "data/discovered_ocr_configs.txt",
+      "description": "Retained public configs extracted from channel images (OCR), kept as a local cache file.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "retained-public",
+        "vision-ocr"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "v2go-all",
+      "name": "Danialsamadi v2go All",
+      "url": "https://raw.githubusercontent.com/Danialsamadi/v2go/main/AllConfigsSub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "pulseconfigs-verified-b64",
+      "name": "PulseConfigs Verified Base64",
+      "url": "https://raw.githubusercontent.com/drmikecrypto/PulseConfigs/main/verified/configs_base64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Iran-focused verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "pulseconfigs-top5-iran",
+      "name": "PulseConfigs Top 5 Iran",
+      "url": "https://raw.githubusercontent.com/drmikecrypto/PulseConfigs/main/top5_iran.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Iran-focused verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "fastnodes-verified",
+      "name": "FastNodes Verified",
+      "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/verified.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "fastnodes-top",
+      "name": "FastNodes Top",
+      "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/top.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "free-nodes-v2rayfree-sub",
+      "name": "free-nodes v2rayfree Sub",
+      "url": "https://raw.githubusercontent.com/free-nodes/v2rayfree/main/sub",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "mohammadaz2-configs",
+      "name": "mohammadaz2 v2rayConfigsForYou",
+      "url": "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/configs.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "v2raycollector-url-shatel",
+      "name": "v2rayCollector Shatel",
+      "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/url-shatel.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Iran-focused.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "iran"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "au1rxx-v2ray-b64",
+      "name": "Au1rxx Free VPN Subscriptions Base64",
+      "url": "https://github.com/Au1rxx/free-vpn-subscriptions/raw/main/output/v2ray-base64.txt",
+      "description": "Auto-discovered public subscription from github.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "alirewa-config",
+      "name": "Alirewa V2ray Configs",
+      "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/config.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "alirewa-sub1-b64",
+      "name": "Alirewa Sub1 Base64",
+      "url": "https://raw.githubusercontent.com/Alirewa/V2ray-Configs/main/sub1.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "snsub-best59-b64",
+      "name": "sNSub Best 59 Base64",
+      "url": "https://raw.githubusercontent.com/3000S-HTTP/sNSub/main/output/best59_base64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "fastnodes-hysteria2",
+      "name": "FastNodes Hysteria2",
+      "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/protocols/hysteria2.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "fastnodes-top-ipv6",
+      "name": "FastNodes Top IPv6",
+      "url": "https://raw.githubusercontent.com/rtwo2/FastNodes/main/sub/top_ipv6.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "automergepublicnodes-list",
+      "name": "AutoMergePublicNodes List",
+      "url": "https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/master/list.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "0xradikal-top100",
+      "name": "0xRadikal Top 100",
+      "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/top100.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "0xradikal-verified-b64",
+      "name": "0xRadikal Verified Base64",
+      "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs_base64.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. verified tier.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "verified"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "barry-far-all-b64",
+      "name": "Barry-Far All Base64",
+      "url": "https://raw.githubusercontent.com/barry-far/V2ray-config/main/All_Configs_base64_Sub.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "v2raycollector-speed-cloudzy",
+      "name": "v2rayCollector Speed Cloudzy",
+      "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/speed-cloudzy.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Iran-focused.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "iran"
       ],
       "enabled": true
     }
