@@ -42,11 +42,11 @@ DEFAULT_BASE_URL = f"http://127.0.0.1:{DEFAULT_PORT}"
 PINNED_WEBAPI_VERSION = "7.25.6-P40"
 PINNED_WEBAPI_URL = (
     "https://github.com/patterniha/PattN/releases/download/"
-    "7.25.6-P40/v2rayN.WebAPI-windows-64.zip"
+    "7.25.6-P40/PattN-windows-64-WebAPI.zip"
 )
 PINNED_WEBAPI_LINUX_URL = (
     "https://github.com/patterniha/PattN/releases/download/"
-    "7.25.6-P40/v2rayN.WebAPI-linux-64.zip"
+    "7.25.6-P40/PattN-linux-64-WebAPI.zip"
 )
 IMPORT_CHUNK = 500
 
