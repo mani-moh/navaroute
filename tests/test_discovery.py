@@ -390,6 +390,18 @@ class TestNemotronClientBranches(OfflineDiscoveryTestCase):
             with self.subTest(bad=bad), self.assertRaises(DiscoveryAPIError):
                 NemotronClient._response_text(bad)
 
+    def test_response_text_null_content_raises_but_parts_list_joins(self):
+        # Null content still raises here: the degrade-to-empty lives in
+        # complete()/analyze_image(), after retries and fallback.
+        with self.assertRaises(DiscoveryAPIError):
+            NemotronClient._response_text({"choices": [{"message": {"content": None}}]})
+        parts = {"choices": [{"message": {"content": [
+            {"type": "text", "text": "hello "},
+            {"type": "image_url", "image_url": {"url": "https://example.com/x.png"}},
+            {"type": "text", "text": "world"},
+        ]}}]}
+        self.assertEqual(NemotronClient._response_text(parts), "hello world")
+
     @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
     @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
     def test_complete_json_empty_fence_and_outer_braces(self, transport, _clock):
