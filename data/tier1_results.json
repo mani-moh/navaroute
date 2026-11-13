@@ -1,0 +1,31 @@
+{
+  "feeds": {
+    "all": {
+      "github_blocked": 0,
+      "passed": 80,
+      "tested": 200
+    },
+    "lite500": {
+      "github_blocked": 0,
+      "passed": 63,
+      "tested": 174
+    },
+    "reachable": {
+      "github_blocked": 0,
+      "passed": 80,
+      "tested": 200
+    },
+    "top100": {
+      "github_blocked": 0,
+      "passed": 21,
+      "tested": 100
+    }
+  },
+  "generated": "2026-11-13T20:20:37.115533+00:00",
+  "totals": {
+    "github_blocked": 0,
+    "passed": 244,
+    "tested": 674
+  },
+  "version": 1
+}
