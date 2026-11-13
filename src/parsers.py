@@ -359,8 +359,17 @@ def extract_nodes_from_content(content: str, source: SourceConfig) -> tuple[list
             candidates += 1
             _check_candidate_count(candidates)
             if match.end() - match.start() > models.MAX_URI_BYTES:
-                raise models.ConnectionLimitError(f"connection exceeds {models.MAX_URI_BYTES} UTF-8 bytes")
-            node = parse_proxy_uri(match.group(0), source)
+                # One bloated entry must not poison the whole list: skip
+                # it and keep the file's valid connections. The limit is
+                # still enforced per entry; only the failure is local.
+                continue
+            try:
+                node = parse_proxy_uri(match.group(0), source)
+            except models.ConnectionLimitError:
+                # Same for an entry that trips the limit another way
+                # (multi-byte UTF-8, over-nested params): skip it, not
+                # the file.
+                continue
             if node is not None:
                 nodes.append(node)
     return nodes, []
