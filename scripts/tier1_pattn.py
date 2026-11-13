@@ -77,6 +77,7 @@ def wait_for_delays(client: PattnClient, expected: int, timeout: int,
         if untested == last_untested:
             still += 1
             if still >= 3 and not client.speedtest_running():
+                print(f"tier1: speed test not running; operations now: {client.operations()}")
                 return profiles
         else:
             still = 0
@@ -194,6 +195,13 @@ def main(argv: list[str] | None = None) -> int:
         (SUBS_DIR / f"tier1_{group}_base64.txt").write_text(encoded, encoding="utf-8")
     passed_count = len(passed_this_run)
     delay_counts = count_delays(profiles)
+    if delay_counts["untested"]:
+        # The speedtest service logs its failures server-side only; print
+        # them so the next run's log shows why nothing was tested.
+        for entry in client.logs(limit=50, filter_text="speedtest"):
+            message = entry.get("Message")
+            if isinstance(message, str) and message:
+                print(f"tier1: webapi log [{entry.get('Source', '?')}]: {message[:300]}")
     print(f"tier1: tested {len(tested)}, passed {passed_count}, "
           f"failed {len(tested) - passed_count}, "
           f"untested {delay_counts['untested']}, "
