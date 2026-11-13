@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEpPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T23:18:28.355587+00:00
+# snapshot-time: 2026-11-13T05:33:33.384532+00:00
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMWJmMDU0ZGNjMDM0MmNk@91.106.109.74:11201#%5B%F0%9F%87%AF%F0%9F%87%B4%20JO%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxYTE3YzFmNzRjZGM1MWQ1@91.106.109.17:48211#%5B%F0%9F%87%AF%F0%9F%87%B4%20JO%5D%20SS%20%7C%20src%3Alalatinahub-mineral

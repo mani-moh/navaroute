@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENOIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-12T23:18:28.355587+00:00
+# snapshot-time: 2026-11-13T05:33:33.384532+00:00
 
 trojan://881340284b2ba5737f5f892a846c2940@tyy129.magiclampcloud.com:59443?sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://dd135b010b5f8ec7ba4c4cc5a35f0efb@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -243,9 +243,8 @@ trojan://aa47bc798fe7d60f6e1e56fb32d2954a@tyy129.magiclampcloud.com:59443?allowI
 trojan://f53d2b849a03b2e06fd1c1a04968aff6@tyy129.magiclampcloud.com:59443?allowInsecure=1&sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://43deb843e3f5da502d0b394995fc42d2@ja262.magiclampcloud.cn:59443?allowInsecure=0&type=tcp&sni=ja262.magiclampcloud.cn#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://96983eb4-c8f1-316e-ab00-500014ed3d8b@official.tokyometropolis.kherson.ua:2053?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
-vmess://eyJhaWQiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInNjeSI6ICJhdXRvIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HqPCfh7MgQ05dIFZNZXNzLXdzIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAiMzkuMTA4LjExMy4xMjciLCAicG9ydCI6IDEwMDg2LCAiaWQiOiAiYjAyNTNjNmMtMGI5Ni00OTUwLWJkZTEtNjY5ZjEzYmMxYTAxIn0=
 trojan://4e7c56ed-68dc-358d-8b4b-fe5c2e74632d@62.234.223.235:44001?security=tls&sni=baidu.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Aheliataromi-confighub-mixed
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMzkuMTA4LjExMy4xMjciLCAicG9ydCI6IDEwMDg2LCAiaWQiOiAiZDUwY2M1NjMtMGMwMy00MTM2LTg5OWYtODVjYmMwYjAyNjk5In0=
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIltzb3VyY2UtY2xhaW1lZF0gW/Cfh6jwn4ezIENOXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIzOS4xMDguMTEzLjEyNyIsICJwb3J0IjogMTAwODYsICJpZCI6ICJkNTBjYzU2My0wYzAzLTQxMzYtODk5Zi04NWNiYzBiMDI2OTkifQ==
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTEsICJpZCI6ICIxYjMwZjQxMy0yODY1LTRkNDAtOTE0Ni00MjA3Nzc4NzE4Y2QifQ==
 trojan://c30973184a30818b4a19c8b247cc3cd4@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTYsICJpZCI6ICI5ZTYzY2E1NS0xZmY5LTQ1M2ItYWU4MC03NTk0N2I4NTk2ZDMifQ==
