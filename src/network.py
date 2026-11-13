@@ -120,19 +120,9 @@ def approved_public_url(url: str) -> str:
         raise ValueError("Unapproved discovery URL") from None
 
 
-def _resolve(host: str, port: int, deadline: float, *, public: bool = True):
-    host = _hostname(host)
-    if not isinstance(port, int) or isinstance(port, bool) or not 1 <= port <= 65535:
-        raise ValueError("Invalid destination port")
-    try:
-        ip = ipaddress.ip_address(host)
-    except ValueError:
-        ip = None
-    if ip is not None:
-        if public:
-            _public_ip(host)
-        family = socket.AF_INET6 if ip.version == 6 else socket.AF_INET
-        return [(family, socket.SOCK_STREAM, socket.IPPROTO_TCP, "", (host, port))]
+def _resolve_once(host: str, port: int, deadline: float, *, public: bool = True):
+    """One DNS lookup. NetworkError is transient (retryable); ValueError is a
+    security rejection (mixed/private/reserved answers) and must never be retried."""
     if not _DNS_SLOTS.acquire(timeout=_remaining(deadline)):
         raise NetworkError("DNS capacity exceeded")
     result = queue.Queue(maxsize=1)
@@ -159,7 +149,51 @@ def _resolve(host: str, port: int, deadline: float, *, public: bool = True):
             _public_ip(address[0])
         elif "%" in address[0]:
             raise ValueError("Unsupported proxy address")
-    return addresses
+    # Prefer IPv4 first: many networks have slow or broken IPv6, and _connect
+    # tries candidates in order. IPv6 stays usable, just after IPv4.
+    seen: set = set()
+    unique = []
+    for entry in addresses:
+        key = (entry[0], entry[4])
+        if key not in seen:
+            seen.add(key)
+            unique.append(entry)
+    unique.sort(key=lambda entry: 0 if entry[0] == socket.AF_INET else 1)
+    return unique
+
+
+def _resolve(host: str, port: int, deadline: float, *, public: bool = True):
+    host = _hostname(host)
+    if not isinstance(port, int) or isinstance(port, bool) or not 1 <= port <= 65535:
+        raise ValueError("Invalid destination port")
+    try:
+        ip = ipaddress.ip_address(host)
+    except ValueError:
+        ip = None
+    if ip is not None:
+        if public:
+            _public_ip(host)
+        family = socket.AF_INET6 if ip.version == 6 else socket.AF_INET
+        return [(family, socket.SOCK_STREAM, socket.IPPROTO_TCP, "", (host, port))]
+    # Transient DNS failures (empty answer, resolver timeout) are retried with
+    # backoff, within the caller's deadline. Security rejections are not retried:
+    # a mixed private/public answer stays rejected, however often it is seen.
+    last_error: Exception | None = None
+    for attempt in range(3):
+        try:
+            return _resolve_once(host, port, deadline, public=public)
+        except ValueError:
+            raise
+        except NetworkError as exc:
+            last_error = exc
+            if attempt == 2:
+                raise
+            backoff = 1.0 if attempt == 0 else 2.0
+            remaining = deadline - time.monotonic()
+            if remaining <= backoff:
+                raise
+            time.sleep(min(backoff, remaining))
+    raise last_error  # pragma: no cover - loop always returns or raises
 
 
 def _connect(addresses, deadline, source_address=None, *, public=True):
