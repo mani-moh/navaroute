@@ -268,6 +268,12 @@ class FetcherAggregateTests(unittest.TestCase):
         self.assertGreaterEqual(sum(future.cancelled() for future in futures), 10)
         self.assertLessEqual(len(read), 2)
 
+    def test_aggregate_cap_value_is_500k(self):
+        # Pinned after run 43518579151 (2026-11-13): 195 sources exceed 250k raw nodes.
+        from src.fetcher import AGGREGATE_MAX_NODES
+
+        self.assertEqual(AGGREGATE_MAX_NODES, 500_000)
+
     def test_completed_futures_are_released_during_aggregation(self):
         references = []
         retained = []

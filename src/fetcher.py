@@ -14,8 +14,11 @@ from src.parsers import extract_nodes_from_content
 from src.network import NetworkError, approved_public_url, fetch_bytes
 
 SOURCE_MAX_BYTES = 32 * 1024 * 1024
-# shortcut: bound raw model multiplication for current runners; raise only after measured memory upgrades.
-AGGREGATE_MAX_NODES = 250_000
+# Raised from 250k after run 43518579151 (2026-11-13): 195 enabled sources
+# legitimately exceed 250k raw nodes. The cap stays fatal (see
+# test_aggregate_cap_is_fatal_and_cancels_queued_sources) — it is a
+# safety bound, not a truncation point.
+AGGREGATE_MAX_NODES = 500_000
 logger = logging.getLogger(__name__)
 
 DEFAULT_USER_AGENT = (
