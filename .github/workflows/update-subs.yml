@@ -67,7 +67,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -- subs/ README.md STATUS.md sources.json DISCOVERY.md data/discovery_state.json
+          git add -- subs/ README.md STATUS.md sources.json DISCOVERY.md data/discovery_state.json data/healthcheck_history.json
           if [ -f data/discovered_ocr_configs.txt ]; then
             git add -- data/discovered_ocr_configs.txt
           fi
