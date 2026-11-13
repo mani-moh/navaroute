@@ -2470,6 +2470,48 @@
         "aggregator"
       ],
       "enabled": true
+    },
+    {
+      "id": "mrvcoder-vless-iran",
+      "name": "Mrvcoder VLESS Iran",
+      "url": "https://raw.githubusercontent.com/mrvcoder/V2rayCollector/main/vless_iran.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 79 parsed nodes (all VLESS), Iran-focused collector.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "mrvcoder-ss-iran",
+      "name": "Mrvcoder SS Iran",
+      "url": "https://raw.githubusercontent.com/mrvcoder/V2rayCollector/main/ss_iran.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 123 parsed nodes (all Shadowsocks), Iran-focused collector.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "hidashimora-22",
+      "name": "Hidashimora 22",
+      "url": "https://raw.githubusercontent.com/Hidashimora/free-vpn-anti-rkn/main/configs/22.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com; 120 parsed nodes (83 VLESS, 36 VMess, 1 Trojan). Second batch file from the same repo as hidashimora-11.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
     }
   ]
 }
