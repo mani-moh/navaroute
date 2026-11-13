@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import base64
 import contextlib
+import importlib.util
 import io
 import json
 import socket
+import sys
 import tempfile
 import unittest
 import urllib.error
@@ -765,3 +767,59 @@ class TestMainPipeline(unittest.TestCase):
             self.assertTrue((Path(scratch) / "all_base64.txt").read_bytes())
             for name in ("reachable", "verified", "top100"):
                 self.assertEqual((Path(scratch) / f"{name}_base64.txt").read_bytes(), b"")
+
+
+class TestMainBranches(unittest.TestCase):
+    def test_stdout_reconfigure_failure_is_ignored(self):
+        spec = importlib.util.spec_from_file_location("src.main_reload_probe", BASE_DIR / "src" / "main.py")
+        module = importlib.util.module_from_spec(spec)
+        with patch.object(sys.stdout, "reconfigure", side_effect=RuntimeError("synthetic")):
+            spec.loader.exec_module(module)
+        self.assertTrue(hasattr(module, "main"))
+
+    def test_safe_print_unicode_fallback(self):
+        from src.main import safe_print
+
+        class FailingFile(io.StringIO):
+            def __init__(self):
+                super().__init__()
+                self.calls = 0
+
+            def write(self, text):
+                self.calls += 1
+                if self.calls == 1:
+                    raise UnicodeEncodeError("utf-8", text, 0, 1, "synthetic")
+                return super().write(text)
+
+        stream = FailingFile()
+        safe_print("café", file=stream)
+        # StringIO reports no encoding, so the fallback uses ascii with replacement.
+        self.assertEqual(stream.getvalue(), "caf?\n")
+
+    def test_discover_only_returns_zero(self):
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.discovery.agent.load_local_dotenv"), patch("src.discovery.agent.DiscoveryAgent") as agent, \
+             contextlib.redirect_stdout(io.StringIO()) as output:
+            agent.return_value.run_cycle.return_value = ["a", "b"]
+            code = main(["--discover-only", "--output-dir", scratch, "--no-docs", "--no-healthcheck"])
+        self.assertEqual(code, 0)
+        self.assertIn("Discovery finished: 2 active discovered sources.", output.getvalue())
+        self.assertFalse((Path(scratch) / "all.txt").exists())
+
+    def test_no_enabled_sources_is_nonzero(self):
+        with tempfile.TemporaryDirectory() as scratch, \
+             patch("src.main.load_sources", return_value=[]), \
+             contextlib.redirect_stdout(io.StringIO()):
+            self.assertNotEqual(main(["--output-dir", scratch, "--no-docs", "--no-healthcheck"]), 0)
+
+    def test_incremental_publish_reports_skipped_files(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            node = ProxyNode("trojan", "public.example", 443, "public")
+            stats = [SourceStats("fixture", "Fixture", "https://example.com", success=True, raw_count=1)]
+            with patch("src.main.load_sources", return_value=[SourceConfig("fixture", "Fixture", "https://example.com")]), \
+                 patch("src.main.fetch_all_sources", return_value=([node], [], stats)):
+                self.assertEqual(main(["--output-dir", scratch, "--no-docs", "--no-healthcheck"]), 0)
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    self.assertEqual(main(["--output-dir", scratch, "--no-docs", "--no-healthcheck"]), 0)
+            self.assertIn("Incremental publish:", output.getvalue())
