@@ -8,6 +8,7 @@ runner.
 from __future__ import annotations
 
 import base64
+import io
 import json
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -374,6 +375,44 @@ class ClientLaunchTests(unittest.TestCase):
         stuck.wait.side_effect = _subprocess.TimeoutExpired("p", 15)
         pattn_client.stop_webapi(stuck)
         stuck.kill.assert_called_once()
+
+
+class DriverFeedTests(unittest.TestCase):
+    def _load_driver(self):
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+        import tier1_pattn
+        return tier1_pattn
+
+    def test_no_feeds_aborts(self):
+        driver = self._load_driver()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            with patch.object(driver, "SUBS_DIR", base), \
+                    patch.object(driver, "STATE_PATH", base / "state.json"), \
+                    patch.object(driver, "BLOCKED_PATH", base / "blocked.json"), \
+                    patch("sys.stderr", new_callable=io.StringIO) as err:
+                self.assertEqual(driver.main(["--webapi-dir", str(base)]), 1)
+            self.assertIn("no feeds to test", err.getvalue())
+
+    def test_a_missing_feed_is_skipped_not_fatal(self):
+        driver = self._load_driver()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            (base / "all.txt").write_text(
+                "vless://11111111-1111-1111-1111-111111111111@1.2.3.4:443#test\n",
+                encoding="utf-8")
+            with patch.object(driver, "SUBS_DIR", base), \
+                    patch.object(driver, "STATE_PATH", base / "state.json"), \
+                    patch.object(driver, "BLOCKED_PATH", base / "blocked.json"), \
+                    patch.object(driver, "find_webapi_exe", return_value=base / "v2rayN.WebAPI.exe"), \
+                    patch.object(driver, "start_webapi", side_effect=PattnError("no webapi here")), \
+                    patch("sys.stderr", new_callable=io.StringIO) as err:
+                # The run gets past the feed loop and fails at the WebAPI,
+                # which is exactly what a missing active.txt must not block.
+                with self.assertRaises(PattnError):
+                    driver.main(["--webapi-dir", str(base)])
+            self.assertIn("feed active.txt is missing or empty; skipping", err.getvalue())
 
 
 class PrivacyGateTests(unittest.TestCase):
