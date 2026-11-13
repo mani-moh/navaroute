@@ -20,7 +20,7 @@ from src.discovery.nemotron_client import (
     _redact_for_trace,
     _write_trace_line,
 )
-from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
+from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper, _MentionText
 from src.discovery.state_manager import (
     DiscoveryStateManager,
     bounded_image_results,
@@ -894,6 +894,67 @@ class TestScrapers(OfflineDiscoveryTestCase):
         with patch.dict(os.environ, {"GITHUB_TOKEN": "SECRET"}):
             self.assertEqual(WebSearchScraper().search_github("public"), [])
         self.assertNotIn("Authorization", transport.call_args.kwargs["headers"])
+
+
+class TestScraperBranches(OfflineDiscoveryTestCase):
+    def test_mention_text_hides_script_style(self):
+        parser = _MentionText()
+        parser.feed("<script>var x = 1;</script>visible")
+        parser.close()
+        self.assertEqual("".join(parser.parts), "visible")
+
+    def test_fetch_channel_page_request_branches(self):
+        scraper = TelegramChannelScraper()
+        for kwargs in ({"channel_handle": ""}, {"channel_handle": "chan", "before_id": 0},
+                       {"channel_handle": "chan", "before_id": "5"}):
+            with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
+                scraper.fetch_channel_page(**kwargs)
+
+    @patch("src.discovery.search_engine.fetch_bytes", create=True, return_value=(200, b"page"))
+    def test_fetch_channel_page_before_id(self, transport):
+        self.assertEqual(TelegramChannelScraper().fetch_channel_page("chan", before_id=5), "page")
+        self.assertIn("?before=5", transport.call_args.args[0])
+
+    @patch("src.discovery.search_engine.fetch_bytes", create=True)
+    def test_fetch_channel_page_status_branches(self, transport):
+        scraper = TelegramChannelScraper()
+        transport.return_value = (500, b"")
+        self.assertIsNone(scraper.fetch_channel_page("chan"))
+        self.assertEqual(scraper.last_outcome, "retryable")
+        transport.return_value = (200, b"")
+        self.assertIsNone(scraper.fetch_channel_page("chan"))
+
+    def test_photo_url_rejection_continues(self):
+        html_content = '<img src="https://127.0.0.1/photo.jpg"><img src="https://example.com/photo.jpg">'
+        result = TelegramChannelScraper().parse_channel_page(html_content)
+        self.assertEqual(result.image_urls, ["https://example.com/photo.jpg"])
+
+    @patch("src.discovery.search_engine.fetch_bytes", create=True)
+    def test_read_status_and_network_branches(self, transport):
+        scraper = WebSearchScraper()
+        transport.return_value = (500, b"")
+        self.assertEqual(scraper._read("https://example.com"), "")
+        transport.side_effect = NetworkError("synthetic")
+        self.assertEqual(scraper._read("https://example.com"), "")
+
+    def test_duckduckgo_uddg_redirect(self):
+        channels, urls = WebSearchScraper().parse_duckduckgo_html(
+            '<a href="https://html.duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fsub.txt">x</a>')
+        self.assertEqual(channels, [])
+        self.assertEqual(urls, ["https://example.com/sub.txt"])
+
+    def test_github_cache_and_shape_branches(self):
+        scraper = WebSearchScraper()
+        scraper._github_cache["q"] = [("a/b", "main"), ("c/d", "main")]
+        self.assertEqual(scraper._github_repositories("q", 1), [("a/b", "main")])
+        with patch.object(scraper, "_read", return_value="[1, 2]"):
+            self.assertEqual(scraper._github_repositories("other", 5), [])
+        with patch.object(scraper, "_read", return_value=json.dumps({"items": [{"full_name": "a/b"}, "junk", {"full_name": "bad name!"}]})):
+            self.assertEqual(scraper._github_repositories("other2", 5), [("a/b", "main")])
+
+    def test_fetch_text_snippet_rejects_non_http(self):
+        with self.assertRaises(ValueError):
+            WebSearchScraper().fetch_text_snippet("data/discovered_ocr_configs.txt")
 
 
 class TestDiscoveryAgent(OfflineDiscoveryTestCase):
