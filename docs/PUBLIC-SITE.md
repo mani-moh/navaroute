@@ -72,3 +72,48 @@ mirror keeps serving the same page.
   socket check, not an end-to-end test; only `tier1_*` passed a real
   connection test.
 - The page must stay a single file with no external CSS/JS/fonts.
+
+## Iranian mirror (ArvanCloud) — bare page, no descriptions of purpose
+
+The public site above links at GitHub, which is filtered in Iran and can
+go unreachable in a blackout. The Iranian mirror is a **separate,
+deliberately bare** deployment:
+
+- **Private data repo** `mani-moh/feed-data` — holds only the base64
+  feed files, nothing else in the repo root. Its workflow (the only
+  non-data file) syncs the `*_base64.txt` files from this repo every
+  6 hours, builds the mirror page, and uploads both to ArvanCloud.
+- **Mirror page** — built by `scripts/build_mirror_page.py`. One copy
+  button per feed, neutral labels only ("working", "online", "recent",
+  "top 100", "lite"). It names no product, protocol or purpose, makes
+  no runtime request, and loads no external resource. Tests in
+  `tests/test_mirror_page.py` assert the forbidden-word list stays off
+  the page.
+- **Hosted on ArvanCloud Object Storage** (free Basic: 5 GB storage,
+  20 GB traffic/month). The feed files live in the same bucket, so the
+  copy links work even when GitHub is unreachable.
+
+Deliberate limits:
+
+- Only the small base64 feeds are mirrored (tier-1, reachable, active,
+  top100, lite500 and their tier-1 variants — ~1.2 MB total). The 25 MB
+  `all_base64.txt` is **not** mirrored: at 20 GB/month free traffic it
+  would allow only ~800 downloads, and it is mostly untested configs
+  anyway. The tested `tier1_all` feed (44 KB) is the useful one.
+- The mirror is an *additional* copy, not a replacement: an Iranian
+  host is under Iranian law and can be ordered to take the files down.
+  Cloudflare Pages and GitHub Pages stay up regardless.
+
+### Owner setup (one time)
+
+1. ArvanCloud account (phone validation), then an Object Storage bucket
+   (region `ir-thr-at1`, Tehran) with a neutral name.
+2. In the bucket: enable public access for objects and turn on Static
+   Website Hosting with `index.html` as the index document.
+3. Create S3 access/secret keys. In the **private** repo, add:
+   - secrets `ARVAN_ACCESS_KEY`, `ARVAN_SECRET_KEY`
+   - variables `ARVAN_BUCKET`, `ARVAN_REGION` (e.g. `ir-thr-at1`)
+   The deploy step is skipped until the secrets exist, so the sync
+   still runs and the data repo stays current.
+4. Optional: a custom domain on the bucket (ArvanCloud CDN) for HTTPS
+   on the page itself. The feed links already use the HTTPS S3 endpoint.
