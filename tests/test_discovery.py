@@ -432,6 +432,271 @@ class TestDiscoveryStateValidation(OfflineDiscoveryTestCase):
         self.assertEqual(manager.state["sources_metadata"]["src-id"]["handle"], "src-id")
 
 
+class TestDiscoveryAgentBranches(OfflineDiscoveryTestCase):
+    def agent(self, seeds=None, key=""):
+        return DiscoveryAgent(state_file=str(self.root / "data/state.json"), discovered_sources_file=str(self.root / "sources.discovered.json"), leaderboard_file=str(self.root / "DISCOVERY.md"), initial_seeds=seeds or [], nemotron_client=NemotronClient(api_key=key))
+
+    @contextmanager
+    def crawl(self, agent, pages=PAGE):
+        with patch.object(agent, "_expand_queries_via_nemotron"), patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=pages if isinstance(pages, list) else None, return_value=pages) as fetch:
+            yield fetch
+
+    def test_retain_stops_when_budget_runs_out_mid_cache(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", side_effect=[True, False]), self.assertRaises(DiscoveryBudgetExceeded):
+            agent._retain(URI + "\n" + URI, "https://example.com/sub.txt")
+        self.assertEqual(len(agent._retained), 1)
+
+    def test_parse_retained_rejects_too_many_or_invalid_lines(self):
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._parse_retained("\n".join(["x"] * 401))
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._parse_retained("not a uri")
+
+    def test_journal_targets_rejects_conflicting_paths(self):
+        agent = self.agent()
+        agent._checkpoint_paths = {"cache": Path("data/discovered_ocr_configs.txt"),
+                                   "registry": Path("data/discovered_ocr_configs.txt")}
+        with self.assertRaises(ValueError):
+            agent._journal_targets()
+
+    def test_validate_generation_rejects_shape_size_retained_and_state(self):
+        base = {"cache": None, "registry": None, "state": None, "leaderboard": None}
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation({"cache": None})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="x" * (8 * 1024 * 1024 + 1)))
+        retained_registry = json.dumps({"sources": [{"id": "retained", "name": "Retained",
+                                                     "url": "data/discovered_ocr_configs.txt"}]})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="", registry=retained_registry))
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, state="{bad"))
+        entry = {"handle": "chan", "last_checked": 1, "last_nodes_yield": 0, "total_nodes_yield": 0,
+                 "checks_count": 1, "is_active": True, "sub_url": "https://t.me/s/chan",
+                 "retained_fingerprints": ["a" * 64]}
+        state = json.dumps({"version": 1, "sources_metadata": {"chan": entry}})
+        with self.assertRaises(ValueError):
+            DiscoveryAgent._validate_generation(dict(base, cache="", state=state))
+
+    def test_probe_sub_url_budget_cache_status_and_deadline_branches(self):
+        agent = self.agent()
+        with self.assertRaises(ValueError):
+            agent.probe_sub_url("data/discovered_ocr_configs.txt")
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/sub.txt"))
+        agent._cycle_probed_urls["https://example.com/cached.txt"] = 5
+        self.assertEqual(agent.probe_sub_url("https://example.com/cached.txt"), 5)
+        with patch.object(agent, "_can_work", side_effect=[True, False]), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/deadline.txt"))
+        with patch("src.discovery.agent.fetch_bytes", create=True, return_value=(500, b"")):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/error.txt"))
+        with patch.object(agent, "_can_work", side_effect=[True, True, False]), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            self.assertIsNone(agent.probe_sub_url("https://example.com/late.txt"))
+
+    def test_consider_url_budget_invalid_and_existing_branches(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._consider_url("https://example.com/sub.txt", {}, set()))
+        self.assertFalse(agent._consider_url("not a url", {}, set()))
+        self.assertFalse(agent._consider_url("data/discovered_ocr_configs.txt", {}, set()))
+        self.assertFalse(agent._consider_url("https://example.com/sub.txt", {}, {"https://example.com/sub.txt"}))
+
+    def test_pending_child_urls_skip_invalid_duplicates_and_local(self):
+        agent = self.agent()
+        self.assertEqual(agent._pending_child_urls(["not a url", "https://example.com/a.txt"], {}, set()),
+                         ["https://example.com/a.txt"])
+        self.assertEqual(agent._pending_child_urls(["https://example.com/a.txt", "https://example.com/a.txt",
+                                                    "data/discovered_ocr_configs.txt"], {}, set()),
+                         ["https://example.com/a.txt"])
+
+    def test_analyze_webpage_invalid_local_and_no_budget_branches(self):
+        agent = self.agent()
+        self.assertTrue(agent._analyze_webpage_via_nemotron("not a url", {}, set()))
+        self.assertTrue(agent._analyze_webpage_via_nemotron("data/discovered_ocr_configs.txt", {}, set()))
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron("https://example.com/page", {}, set()))
+
+    def test_analyze_webpage_replay_then_budget_and_retryable(self):
+        agent = self.agent()
+        url = "https://example.com/page"
+        agent.state_manager.state["pending_children"] = {url: []}
+        with patch.object(agent, "_can_work", side_effect=[True, False]):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+        agent.state_manager.state["pending_children"] = {}
+        agent.web_scraper.last_outcome = "retryable"
+        with patch.object(agent.web_scraper, "fetch_text_snippet", return_value="snippet"):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+
+    def test_analyze_webpage_bad_llm_shape_returns_none(self):
+        agent = self.agent(key="synthetic")
+        url = "https://example.com/page"
+        content = "https://raw.githubusercontent.com/user/repo/main/sub.txt"
+        agent.web_scraper.last_page_content = content
+        agent.web_scraper.last_outcome = "ok"
+        with patch.object(agent.web_scraper, "fetch_text_snippet", return_value=content), \
+             patch.object(agent.nemotron, "complete_json", return_value="not a dict"):
+            self.assertIsNone(agent._analyze_webpage_via_nemotron(url, {}, set()))
+
+    def test_filter_candidates_early_return_bad_shape_and_rejection(self):
+        agent = self.agent()
+        self.assertEqual(agent._filter_candidates_via_nemotron([]), [])
+        self.assertEqual(agent._filter_candidates_via_nemotron(["proxychan"]), ["proxychan"])
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.nemotron, "complete_json", return_value="bad shape"):
+            self.assertEqual(agent._filter_candidates_via_nemotron(["spammy"]), ["spammy"])
+        with patch.object(agent.nemotron, "complete_json", return_value={"keep": []}):
+            self.assertEqual(agent._filter_candidates_via_nemotron(["proxychan", "spammy"]), ["proxychan"])
+        self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
+
+    def test_expand_queries_budget_branches(self):
+        agent = self.agent()
+        with patch.object(agent, "_can_work", return_value=False):
+            self.assertIsNone(agent._expand_queries_via_nemotron({}))
+        agent.state_manager.state["pending_pages"] = ["https://t.me/s/chanone", "https://t.me/s/chantwo"]
+        with patch.object(agent, "_can_work", side_effect=[True, True, False]):
+            agent._expand_queries_via_nemotron({})
+        self.assertIn("chanone", agent.state_manager.state["candidate_queue"])
+
+    def test_expand_queries_github_loop_budget_return(self):
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent, "_can_work", side_effect=[True] * 5 + [False]):
+            agent._expand_queries_via_nemotron({})
+
+    def test_expand_queries_github_incomplete_children_continue(self):
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["pending_queries"] = ["gh:free v2ray"]
+        agent.state_manager.state["pending_children"] = {
+            "gh:free v2ray": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent.web_scraper, "search_github", return_value=[]), \
+             patch.object(agent, "_consider_url", return_value=None):
+            agent._expand_queries_via_nemotron({})
+        self.assertNotIn("gh:free v2ray", agent.state_manager.state["queries_executed"])
+
+    def test_expand_queries_github_complete_then_budget_returns(self):
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["pending_queries"] = ["gh:free v2ray"]
+        agent.state_manager.state["pending_children"] = {
+            "gh:free v2ray": [{"kind": "subscription", "url": "https://example.com/sub.txt"}]}
+        with patch.object(agent.nemotron, "complete_json", return_value=None), \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent, "_consider_url", return_value=True), \
+             patch.object(agent, "_can_work", side_effect=[True] * 7 + [False]):
+            agent._expand_queries_via_nemotron({})
+        self.assertNotIn("gh:free v2ray", agent.state_manager.state["queries_executed"])
+
+    def test_process_channel_budget_branches(self):
+        page100 = '<div data-post="proxychan/100">' + URI + '</div>'
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page100), \
+             patch.object(agent, "_can_work", side_effect=[True, False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page100), \
+             patch.object(agent, "_can_work", side_effect=[True] * 3 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+
+    def test_process_channel_second_fetch_retryable_and_dead(self):
+        page100 = '<div data-post="proxychan/100">' + URI + '</div>'
+        for outcome, want in (("retryable", False), ("dead", True)):
+            agent = self.agent()
+            agent.tg_scraper.last_outcome = outcome
+            with patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=[page100, ""]):
+                self.assertEqual(agent._process_channel("proxychan", {}, set(), False), want)
+            if want:
+                # oldest_post_id 1 is stored but the getter treats 1 as "start from latest".
+                self.assertEqual(agent.state_manager.state["sources_metadata"]["proxychan"]["oldest_post_id"], 1)
+
+    def test_process_channel_forgets_visited_url_when_sub_urls_found(self):
+        agent = self.agent()
+        url = "https://t.me/s/proxychan"
+        agent.state_manager.record_visited_url(url)
+        page = '<div data-post="proxychan/1">' + URI + ' https://raw.githubusercontent.com/user/repo/main/sub.txt</div>'
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())):
+            discovered = {}
+            self.assertTrue(agent._process_channel("proxychan", discovered, set(), False))
+        self.assertIn("tg-proxychan", discovered)
+        self.assertTrue(agent.state_manager.is_url_visited(url))
+
+    def test_process_channel_image_loop_budget_and_final_budget(self):
+        img_page = '<div data-post="proxychan/100"><img src="https://cdn.telegram.org/file/abc.jpg"></div>'
+        agent = self.agent(key="synthetic")
+        with patch.object(agent.tg_scraper, "fetch_channel_page", side_effect=[img_page, img_page]), \
+             patch.object(agent, "_can_work", side_effect=[True] * 4 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+        page = '<div data-post="proxychan/1">' + URI + ' https://raw.githubusercontent.com/user/repo/main/sub.txt</div>'
+        agent = self.agent()
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=page), \
+             patch("src.discovery.agent.fetch_bytes", create=True, return_value=(200, URI.encode())), \
+             patch.object(agent, "_can_work", side_effect=[True] * 8 + [False]):
+            self.assertFalse(agent._process_channel("proxychan", {}, set(), False))
+
+    def test_save_checkpoint_journal_present_and_project_failure_recovers(self):
+        agent = self.agent()
+        (self.root / "data/discovery_checkpoint.json").write_text("{}", encoding="utf-8")
+        with self.assertRaises(OSError):
+            agent._save_checkpoint({}, [])
+        (self.root / "data/discovery_checkpoint.json").unlink()
+        with patch.object(agent, "_project_generation", side_effect=OSError("synthetic project failure")), \
+             patch.object(agent, "_recover_checkpoint", side_effect=OSError("synthetic recovery failure")), \
+             self.assertRaises(OSError):
+            agent._save_checkpoint({}, [])
+        self.assertTrue((self.root / "data/discovery_checkpoint.json").exists())
+
+    def test_run_cycle_recovers_checkpoint_and_rejects_retained_without_cache(self):
+        agent = self.agent()
+        with patch.object(agent, "_recover_checkpoint", return_value=True):
+            self.assertEqual(agent.run_cycle(max_channels=0), [])
+        (self.root / "sources.discovered.json").write_text(json.dumps(
+            {"sources": [{"id": "retained", "name": "Retained", "url": "data/discovered_ocr_configs.txt"}]}), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            self.agent().run_cycle(max_channels=0)
+
+    def test_run_cycle_external_loop_breaks_on_budget(self):
+        (self.root / "sources.discovered.json").write_text(json.dumps(
+            {"sources": [{"id": "ext", "name": "Ext", "url": "https://example.com/sub.txt"}]}), encoding="utf-8")
+        agent = self.agent()
+        with patch.object(agent, "_expand_queries_via_nemotron"), \
+             patch.object(agent, "_can_work", side_effect=[True, False, False]):
+            result = agent.run_cycle(max_channels=1)
+        self.assertIn("ext", {s["id"] for s in result})
+        self.assertEqual(agent.state_manager.state["external_attempt_order"], {})
+
+    def test_run_cycle_budget_exhaustion_is_caught_not_fatal(self):
+        agent = self.agent(["proxychan"])
+        with self.crawl(agent), patch.object(agent, "_retain", side_effect=DiscoveryBudgetExceeded("synthetic budget")):
+            self.assertIsInstance(agent.run_cycle(max_channels=1), list)
+
+    def test_load_local_dotenv_and_run_cli(self):
+        from src.discovery.agent import load_local_dotenv, run_cli
+        (self.root / ".env").write_text("# comment\n\nNOEQUALS\nNEW_KEY=hello\nQUOTED=\"world\"\nQUOTED2='single'\n", encoding="utf-8")
+        with patch.dict(os.environ, {"NEW_KEY": "keep"}, clear=False):
+            load_local_dotenv()
+            self.assertEqual(os.environ["NEW_KEY"], "keep")
+        with patch.dict(os.environ, {}, clear=True):
+            load_local_dotenv()
+            self.assertEqual(os.environ["NEW_KEY"], "hello")
+            self.assertEqual(os.environ["QUOTED"], "world")
+            self.assertEqual(os.environ["QUOTED2"], "single")
+        load_local_dotenv(str(self.root / "nope.env"))
+        with patch.object(DiscoveryAgent, "run_cycle", return_value=[]):
+            self.assertEqual(run_cli(["--max-channels", "0"]), 0)
+
+    def test_queue_children_limit_is_enforced(self):
+        agent = self.agent()
+        agent.state_manager.state["pending_children"] = {
+            f"https://example.com/p{i}": [{"kind": "page", "url": f"https://example.com/c{i}"}] for i in range(5000)}
+        with self.assertRaises(ValueError):
+            agent._queue_children("https://example.com/parent", ["https://example.com/new.txt"], "page", {}, set())
+
+
 class TestScrapers(OfflineDiscoveryTestCase):
     def test_full_links_handles_and_duplicate_readme_links(self):
         result = TelegramChannelScraper().parse_channel_page('<div data-post="proxychan/100">' + URI + ' https://example.com/sub.txt?token=SECRET https://raw.githubusercontent.com/user/repo/main/sub.txt @' + 'a' * 33 + ' @SisterProxy</div>')
