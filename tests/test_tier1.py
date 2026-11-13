@@ -341,12 +341,31 @@ class ClientLaunchTests(unittest.TestCase):
         with patch.object(client, "_request", side_effect=PattnError("down")):
             self.assertFalse(client.speedtest_running())
 
+    def test_envelope_normalizes_camelcase_keys(self):
+        # The WebAPI serializes camelCase; the client reads PascalCase.
+        # Without this, every profile's Delay read as None and tier 1
+        # concluded 200 profiles were untested (run 43495662919).
+        from src.pattn_client import _envelope
+        self.assertEqual(
+            _envelope({"data": [{"indexId": "1", "delay": -1, "coreType": "xray"}]}),
+            [{"IndexId": "1", "Delay": -1, "CoreType": "xray"}])
+        self.assertEqual(_envelope({"data": {"token": "abc"}}), {"Token": "abc"})
+        self.assertEqual(_envelope({"data": ["speedtest"]}), ["speedtest"])
+        self.assertEqual(_envelope({"data": "tok"}), "tok")
+
+    def test_login_reads_normalized_token_key(self):
+        client = PattnClient(api_key="k")
+        with patch.object(client, "_request", return_value={"Token": "tok123"}):
+            self.assertEqual(client.login(), "tok123")
+        with patch.object(client, "_request", return_value="tok456"):
+            self.assertEqual(client.login(), "tok456")
+
     def test_envelope_refusal_raises(self):
         from src.pattn_client import _envelope
         with self.assertRaises(PattnError):
             _envelope({"success": False, "code": "speedtest_busy"})
         self.assertEqual(_envelope({"success": True, "data": [1]}), [1])
-        self.assertEqual(_envelope({"data": {"ok": True}}), {"ok": True})
+        self.assertEqual(_envelope({"data": {"ok": True}}), {"Ok": True})
 
     def test_wait_for_speedtest_returns_and_times_out(self):
         client = PattnClient(api_key="k")
@@ -369,6 +388,7 @@ class ClientLaunchTests(unittest.TestCase):
             started = pattn_client.start_webapi(Path("/tmp/webapi/v2rayN.WebAPI.exe"), "k")
         self.assertIs(started, process)
         self.assertIn("V2RAYN_WEB_API_KEY", popen.call_args.kwargs["env"])
+        self.assertIn("--foreground", popen.call_args.args[0])
         process.poll.return_value = 1
         with patch.object(pattn_client.subprocess, "Popen", return_value=process), \
                 patch.object(PattnClient, "health", return_value=False):
