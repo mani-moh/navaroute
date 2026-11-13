@@ -100,8 +100,10 @@ def main(argv: list[str] | None = None) -> int:
     for group in TIER_GROUPS:
         uris = read_feed_uris(SUBS_DIR / f"{group}.txt")
         if not uris:
-            print(f"tier1: feed {group}.txt is missing or empty; aborting", file=sys.stderr)
-            return 1
+            # A feed may not exist yet (active.txt only appears once the
+            # aggregation run has published it); test the rest.
+            print(f"tier1: feed {group}.txt is missing or empty; skipping", file=sys.stderr)
+            continue
         feed_uris[group] = uris
         for uri in uris:
             if uri in uri_to_fp:
@@ -112,6 +114,9 @@ def main(argv: list[str] | None = None) -> int:
             uri_to_fp[uri] = node.semantic_fingerprint()
             endpoints[node.semantic_fingerprint()] = (
                 node.scheme, node.address, node.port)
+    if not feed_uris:
+        print("tier1: no feeds to test; aborting", file=sys.stderr)
+        return 1
     known = [{"uri": uri, "fingerprint": fp} for uri, fp in uri_to_fp.items()]
     state = load_state(STATE_PATH)
     blocked = load_blocked(BLOCKED_PATH)
