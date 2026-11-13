@@ -83,19 +83,6 @@
       "enabled": true
     },
     {
-      "id": "openproxylist-raw",
-      "name": "OpenProxyList Raw",
-      "url": "https://openproxylist.com/v2ray/rawlist/text",
-      "description": "Free proxy configs from OpenProxyList Raw (openproxylist.com).",
-      "origin": "curated",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "global"
-      ],
-      "enabled": true
-    },
-    {
       "id": "4n0nymou3-tested",
       "name": "4n0nymou3 Tested",
       "url": "https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs_tested.txt",
@@ -239,32 +226,6 @@
       "format": "auto",
       "tags": [
         "global"
-      ],
-      "enabled": true
-    },
-    {
-      "id": "epodonios-all",
-      "name": "Epodonios All",
-      "url": "https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt",
-      "description": "Free proxy configs from Epodonios All (github.com).",
-      "origin": "curated",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "global"
-      ],
-      "enabled": true
-    },
-    {
-      "id": "ebrasha-all",
-      "name": "EbraSha All",
-      "url": "https://raw.githubusercontent.com/ebrasha/free-v2ray-public-list/refs/heads/main/V2Ray-Config-By-EbraSha-All-Type.txt",
-      "description": "Free proxy configs from EbraSha All (raw.githubusercontent.com). Iran-focused.",
-      "origin": "curated",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "iran"
       ],
       "enabled": true
     },
@@ -793,21 +754,6 @@
       "format": "auto",
       "tags": [
         "confighub"
-      ],
-      "enabled": true
-    },
-    {
-      "id": "nirevil-vless",
-      "name": "NiREvil Vless",
-      "url": "https://raw.githubusercontent.com/NiREvil/vless/main/sub/sub.txt",
-      "description": "Free proxy configs from NiREvil Vless (raw.githubusercontent.com). Upstream verifies its configs before publishing Iran-focused verified tier.",
-      "origin": "curated",
-      "verified_upstream": true,
-      "format": "auto",
-      "tags": [
-        "verified",
-        "iran",
-        "vless"
       ],
       "enabled": true
     },
