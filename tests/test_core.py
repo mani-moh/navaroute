@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class TestSourcesRegistry(unittest.TestCase):
     def test_sources_json_valid_and_clean(self):
-        """Verify the unified sources.json: 56 curated + 115 discovered sources."""
+        """Verify the unified sources.json: 56 curated + 116 discovered sources."""
         sources_path = BASE_DIR / "sources.json"
         assert sources_path.exists(), "sources.json must exist"
 
@@ -43,9 +43,9 @@ class TestSourcesRegistry(unittest.TestCase):
         data = json.loads(content)
         assert "sources" in data
         sources_list = data["sources"]
-        assert len(sources_list) == 171, f"Expected 171 public sources, found {len(sources_list)}"
+        assert len(sources_list) == 172, f"Expected 172 public sources, found {len(sources_list)}"
         assert sum(1 for s in sources_list if s.get("origin") == "curated") == 56
-        assert sum(1 for s in sources_list if s.get("origin") == "discovered") == 115
+        assert sum(1 for s in sources_list if s.get("origin") == "discovered") == 116
 
         ids = set()
         for s in sources_list:
@@ -821,13 +821,31 @@ class TestLosslessContent(unittest.TestCase):
               "streamSettings": {"network": "ws", "wsSettings": {"path": "x" * 200}}}
         with patch("src.models.MAX_URI_BYTES", 128):
             for operation in [lambda: parse_proxy_uri(uri), lambda: node.to_uri(False),
-                              lambda: extract_nodes_from_content(uri, self.source),
                               lambda: extract_nodes_from_content(json.dumps({"outbounds": [ob]}), self.source)]:
                 with self.subTest(operation=operation), self.assertRaises(ValueError):
                     operation()
         unicode_uri = "vless://id@example.com:443?path=" + "界" * 10
         with patch("src.models.MAX_URI_BYTES", 50), self.assertRaises(ValueError):
             parse_proxy_uri(unicode_uri)
+
+    def test_oversized_line_is_skipped_not_fatal_to_the_whole_list(self):
+        good_before = "vless://before@example.com:443"
+        good_after = "trojan://after@example.com:443"
+        bloated = "vless://bloated@example.com:443?path=" + "x" * 200
+        with patch("src.models.MAX_URI_BYTES", 128):
+            nodes, _ = extract_nodes_from_content(
+                "\n".join([good_before, bloated, good_after]), self.source)
+        self.assertEqual([node.credential for node in nodes], ["before", "after"])
+        # A file that is only an oversized entry yields no nodes, not an error.
+        with patch("src.models.MAX_URI_BYTES", 128):
+            nodes, _ = extract_nodes_from_content(bloated, self.source)
+        self.assertEqual(nodes, [])
+        # Same for a multi-byte URI over the byte limit but under the char limit.
+        unicode_uri = "vless://id@example.com:443?path=" + "界" * 10
+        with patch("src.models.MAX_URI_BYTES", 50):
+            nodes, _ = extract_nodes_from_content(
+                good_before + "\n" + unicode_uri + "\n" + good_after, self.source)
+        self.assertEqual([node.credential for node in nodes], ["before", "after"])
 
     def test_html_and_json_container_limits_reject_excess_before_expanding(self):
         uri = "vless://id@example.com:443"

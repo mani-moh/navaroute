@@ -2455,6 +2455,21 @@
         "github"
       ],
       "enabled": true
+    },
+    {
+      "id": "coldwater-all",
+      "name": "Coldwater All",
+      "url": "https://raw.githubusercontent.com/coldwater-10/V2ray-Config/main/All_Configs_Sub.txt",
+      "description": "Large combined list (28,801 parsed nodes: 16,591 VLESS, 4,373 SS, 3,711 Trojan, 2,446 Hysteria2, 1,561 VMess, 91 TUIC, 28 WireGuard). Barry-far-style profile from a separate repo; heavy overlap with the barry-far source expected. Uncurated pool - nodes are listed, not verified working.",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "aggregator"
+      ],
+      "enabled": true
     }
   ]
 }
