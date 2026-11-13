@@ -2251,6 +2251,36 @@
         "ss"
       ],
       "enabled": true
+    },
+    {
+      "id": "awesome-vpn-all",
+      "name": "Awesome VPN All",
+      "url": "https://raw.githubusercontent.com/awesome-vpn/awesome-vpn/master/all",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Small mixed-protocol list (base64 blob); 36 parsed nodes (15 VLESS, 7 Trojan, 14 Shadowsocks).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "mahdibland-eternity",
+      "name": "Mahdibland Eternity",
+      "url": "https://raw.githubusercontent.com/mahdibland/ShadowsocksAggregator/master/Eternity.txt",
+      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Speed-filtered Shadowsocks/Trojan list (LiteSpeedTest, refreshed every 12h); 194 parsed nodes (167 SS, 27 Trojan).",
+      "origin": "discovered",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "github",
+        "speed-tested",
+        "ss"
+      ],
+      "enabled": true
     }
   ]
 }
