@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 import time
 from pathlib import Path
 from typing import Any, Optional
@@ -203,6 +204,9 @@ class DiscoveryStateManager:
     """Manages persistent discovery memory, candidate queue, and source reputation."""
 
     def __init__(self, state_file: str = DEFAULT_STATE_FILE) -> None:
+        # Guards the visited-URL bookkeeping so concurrent probes cannot
+        # interleave a check-then-append into a duplicate entry.
+        self._visited_lock = threading.Lock()
         self.state_file = Path(state_file)
         self.state: dict[str, Any] = {
             "version": 1,
@@ -299,20 +303,21 @@ class DiscoveryStateManager:
         url = approved_public_url(url)
         if self.state.get("pending_children", {}).get(url):
             raise ValueError("Discovery page has unfinished children")
-        self.state.get("pending_children", {}).pop(url, None)
-        if url in self.state.get("pending_pages", []):
-            self.state["pending_pages"].remove(url)
-        urls = self.state.setdefault("visited_urls", [])
-        if url not in urls:
-            urls.append(url)
-            # Keep bounded to recent 5000 URLs
-            if len(urls) > 5000:
-                self.state["visited_urls"] = urls[-5000:]
-            cache = getattr(self, "_visited_urls_cache", None)
-            if cache is not None:
-                cache[2].add(url)
+        with self._visited_lock:
+            self.state.get("pending_children", {}).pop(url, None)
+            if url in self.state.get("pending_pages", []):
+                self.state["pending_pages"].remove(url)
+            urls = self.state.setdefault("visited_urls", [])
+            if url not in urls:
+                urls.append(url)
+                # Keep bounded to recent 5000 URLs
                 if len(urls) > 5000:
-                    self._visited_urls_cache = (self.state["visited_urls"], len(self.state["visited_urls"]), set(self.state["visited_urls"]))
+                    self.state["visited_urls"] = urls[-5000:]
+                cache = getattr(self, "_visited_urls_cache", None)
+                if cache is not None:
+                    cache[2].add(url)
+                    if len(urls) > 5000:
+                        self._visited_urls_cache = (self.state["visited_urls"], len(self.state["visited_urls"]), set(self.state["visited_urls"]))
 
     def get_channel_oldest_post_id(self, raw_handle: str) -> Optional[int]:
         """Returns the deepest crawled post ID for a channel so re-mining resumes deeper."""

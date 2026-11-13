@@ -726,6 +726,12 @@ class DiscoveryAgent:
             order = self.state_manager.state.setdefault("external_attempt_order", {})
             self.state_manager.state["external_attempt_order"] = order = {key: value for key, value in order.items() if key in discovered}
             external.sort(key=lambda item: (order.get(item[0], 0), self.state_manager.state["sources_metadata"].get(item[0], {}).get("last_checked", 0)))
+            # Probes stay serial on purpose: the attempt order is a
+            # tested contract (first 5 children, then the rest), and
+            # concurrent probes made the fetch order nondeterministic —
+            # test_final_fixes failed on 3.14 with sub2 probed before
+            # sub1. probe_sub_url itself remains thread-safe (visited-URL
+            # lock) for any future caller that does not need ordering.
             for key, source in external[:5] if max_channels else []:
                 if not self._can_work():
                     break

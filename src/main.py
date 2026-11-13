@@ -5,6 +5,7 @@ import re
 import sys
 import time
 import traceback
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -193,11 +194,15 @@ def _run(args: argparse.Namespace) -> int:
             f"[5/6] Probing socket reachability on up to {args.max_test_nodes} "
             f"prioritized nodes..."
         )
+        # The sample seed is the UTC day number, so each day's run tests
+        # a different slice of the untested nodes instead of the same
+        # first 1,500 every time (see select_healthcheck_sample).
         health_summary = check_nodes_health(
             [n for n in all_nodes if n.scheme not in ("hysteria2", "tuic", "wireguard")],
             max_nodes=args.max_test_nodes,
             concurrency=64,
             timeout=3.5,
+            sample_seed=datetime.now(timezone.utc).date().toordinal(),
         )
         passed_count = health_summary["passed"]
         safe_print(f"      Healthcheck finished: {passed_count} nodes responsive")
@@ -206,6 +211,7 @@ def _run(args: argparse.Namespace) -> int:
 
     # 6. Publishing Subscriptions
     safe_print("[6/6] Publishing public subscriptions...")
+    publish_report: dict = {}
     pub_counts = publish_subscriptions(
         nodes=all_nodes,
         json_configs=json_configs,
@@ -213,8 +219,12 @@ def _run(args: argparse.Namespace) -> int:
         output_dir=args.output_dir,
         update_docs=not args.no_docs,
         healthcheck_ran=args.healthcheck,
+        publish_report=publish_report,
     )
     safe_print(f"      Successfully generated {len(pub_counts)} subscription files")
+    if publish_report.get("skipped_files"):
+        safe_print(f"      Incremental publish: {publish_report['skipped_files']} unchanged files "
+                   f"({publish_report['skipped_bytes'] / 1_000_000:.1f} MB) left untouched")
 
     elapsed = time.perf_counter() - start_total
     safe_print("-" * 65)

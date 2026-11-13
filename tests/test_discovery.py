@@ -476,6 +476,29 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
             self.assertNotIn("SECRET", path.read_text(encoding="utf-8"))
             self.assertNotIn("127.0.0.1", path.read_text(encoding="utf-8"))
 
+    def test_concurrent_probes_record_each_url_exactly_once(self):
+        import concurrent.futures
+        import threading
+        import time
+        agent = self.agent(["proxychan"])
+        urls = [f"https://example.com/sub{i}.txt" for i in range(5)]
+        seen_threads: set[int] = set()
+        lock = threading.Lock()
+        def probe(url, **kwargs):
+            with lock:
+                seen_threads.add(threading.get_ident())
+            time.sleep(0.05)
+            return 200, URI.encode()
+        with patch("src.discovery.agent.fetch_bytes", side_effect=probe):
+            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+                results = list(pool.map(agent.probe_sub_url, urls))
+        self.assertEqual(results, [1] * 5)
+        visited = agent.state_manager.state["visited_urls"]
+        self.assertEqual(len(visited), 5)
+        self.assertEqual(len(set(visited)), 5)
+        self.assertEqual(len(agent._cycle_probed_urls), 5)
+        self.assertGreaterEqual(len(seen_threads), 2)
+
     def test_existing_and_curated_urls_deduplicate(self):
         row = {"id": "public", "name": "Public", "url": "https://t.me/s/proxychan", "format": "telegram_web"}
         self.write_public([row])

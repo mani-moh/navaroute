@@ -22,6 +22,42 @@ class NetworkError(OSError):
 # getaddrinfo cannot be cancelled; cap outstanding daemon workers as well as callers.
 _DNS_SLOTS = threading.BoundedSemaphore(32)
 
+# Process-local DNS cache. Entries are validated on insert (by
+# _resolve_once) and re-validated on every use, so a stale or poisoned
+# entry is rejected rather than trusted. Security rejections are never
+# cached. The cache is never persisted: it dies with the process.
+_DNS_CACHE_TTL_SECONDS = 300.0
+_DNS_CACHE_MAX_ENTRIES = 512
+_DNS_CACHE: dict[tuple[str, int, bool], tuple[float, list]] = {}
+_DNS_CACHE_LOCK = threading.Lock()
+
+
+def clear_dns_cache() -> None:
+    """Drop every cached DNS answer (used by tests to isolate fixtures)."""
+    with _DNS_CACHE_LOCK:
+        _DNS_CACHE.clear()
+
+
+def _dns_cache_get(host: str, port: int, public: bool):
+    key = (host, port, public)
+    now = time.monotonic()
+    with _DNS_CACHE_LOCK:
+        entry = _DNS_CACHE.get(key)
+        if entry is None:
+            return None
+        if entry[0] <= now:
+            del _DNS_CACHE[key]
+            return None
+        return list(entry[1])
+
+
+def _dns_cache_put(host: str, port: int, public: bool, addresses) -> None:
+    key = (host, port, public)
+    with _DNS_CACHE_LOCK:
+        if len(_DNS_CACHE) >= _DNS_CACHE_MAX_ENTRIES:
+            _DNS_CACHE.pop(next(iter(_DNS_CACHE)))
+        _DNS_CACHE[key] = (time.monotonic() + _DNS_CACHE_TTL_SECONDS, list(addresses))
+
 
 def _remaining(deadline: float) -> float:
     remaining = deadline - time.monotonic()
@@ -175,13 +211,27 @@ def _resolve(host: str, port: int, deadline: float, *, public: bool = True):
             _public_ip(host)
         family = socket.AF_INET6 if ip.version == 6 else socket.AF_INET
         return [(family, socket.SOCK_STREAM, socket.IPPROTO_TCP, "", (host, port))]
+    cached = _dns_cache_get(host, port, public)
+    if cached is not None:
+        # Re-validate every cached answer on use, exactly as a fresh
+        # lookup would be validated.
+        for family, socktype, _protocol, _, address in cached:
+            if family not in (socket.AF_INET, socket.AF_INET6) or socktype != socket.SOCK_STREAM:
+                raise ValueError("Invalid resolved address")
+            if public:
+                _public_ip(address[0])
+            elif "%" in address[0]:
+                raise ValueError("Unsupported proxy address")
+        return cached
     # Transient DNS failures (empty answer, resolver timeout) are retried with
     # backoff, within the caller's deadline. Security rejections are not retried:
     # a mixed private/public answer stays rejected, however often it is seen.
     last_error: Exception | None = None
     for attempt in range(3):
         try:
-            return _resolve_once(host, port, deadline, public=public)
+            resolved = _resolve_once(host, port, deadline, public=public)
+            _dns_cache_put(host, port, public, resolved)
+            return resolved
         except ValueError:
             raise
         except NetworkError as exc:
