@@ -141,6 +141,18 @@ class TestPublicSite(unittest.TestCase):
                 self.assertIn("data-done-fa", btn)
                 self.assertIn("copyText", btn["onclick"])
 
+    def test_feeds_table_is_wrapped_for_small_screens(self) -> None:
+        with tempfile.TemporaryDirectory() as d:
+            repo = _make_repo(Path(d))
+            out = Path(d) / "site"
+            out_path = bps.build(repo, out)
+            page = out_path.read_text(encoding="utf-8")
+            self.assertIn('class="tablewrap"', page)
+            self.assertIn("overflow-x:auto", page)
+            # The wrapper must open before the table and close right after it.
+            self.assertLess(page.index('class="tablewrap"'), page.index('id="feedTable"'))
+            self.assertIn("</table></div>", page)
+
     def test_real_repo_smoke(self) -> None:
         """End-to-end smoke test against the real checkout."""
         with tempfile.TemporaryDirectory() as d:
