@@ -566,12 +566,12 @@ class TestCategorizer(unittest.TestCase):
 class TestFetcherAndLoader(unittest.TestCase):
     def test_load_sources_public(self):
         # Test loading the unified sources.json in isolation (no legacy
-        # second file): 56 curated + 137 discovered sources.
+        # second file): 56 curated + 146 discovered sources.
         sources = load_sources(
             sources_path=str(BASE_DIR / "sources.json"),
             discovered_sources_path="non_existent_discovered.json",
         )
-        self.assertEqual(len(sources), 193)
+        self.assertEqual(len(sources), 202)
 
     @patch("src.fetcher._fetch_url")
     def test_fetch_source_success_and_error(self, mock_fetch):

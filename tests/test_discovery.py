@@ -770,6 +770,37 @@ class TestDiscoveryAgentBranches(OfflineDiscoveryTestCase):
             complete.assert_called_once()
             self.assertNotIn("spammy", complete.call_args.args[0])
 
+    def test_compact_known_sources_tokens_truncation_and_empty(self):
+        agent = self.agent()
+        discovered = {
+            "tg-proxychan": {"id": "tg-proxychan", "url": "https://t.me/s/proxychan"},
+            "gh-repo": {"id": "gh-repo", "url": "https://raw.githubusercontent.com/acme/configs/main/sub.txt"},
+            "web-feed": {"id": "web-feed", "url": "https://www.example.com/sub.txt"},
+        }
+        existing = {"https://t.me/s/proxychan", "https://example.com/other.txt"}
+        self.assertEqual(
+            agent._compact_known_sources(discovered, existing),
+            "gh:acme/configs, tg:proxychan, web:example.com",
+        )
+        self.assertEqual(agent._compact_known_sources({}, set()), "")
+        many = {f"tg-chan{i}": {"id": f"tg-chan{i}", "url": f"https://t.me/s/chan{i}"} for i in range(150)}
+        compact = agent._compact_known_sources(many, set())
+        self.assertTrue(compact.endswith("…+30 more"))
+        self.assertEqual(len(compact.split(", ")), 121)
+
+    def test_expand_queries_prompt_carries_compact_known_list(self):
+        agent = self.agent(key="synthetic")
+        discovered = {"tg-proxychan": {"id": "tg-proxychan", "url": "https://t.me/s/proxychan"}}
+        with patch.object(agent.nemotron, "complete_json", return_value={"web_queries": [], "github_queries": []}) as complete, \
+             patch.object(agent.web_scraper, "search_duckduckgo", return_value=([], [])), \
+             patch.object(agent.web_scraper, "search_github", return_value=[]), \
+             patch.object(agent.web_scraper, "search_github_readmes", return_value=[]):
+            agent._expand_queries_via_nemotron(discovered, {"https://example.com/feed.txt"})
+        prompt = complete.call_args.args[0]
+        self.assertIn("tg:proxychan", prompt)
+        self.assertIn("web:example.com", prompt)
+        self.assertIn("Avoid:", prompt)
+
     def test_expand_queries_budget_branches(self):
         agent = self.agent()
         with patch.object(agent, "_can_work", return_value=False):
@@ -1110,6 +1141,47 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
         self.assertEqual(sources, [])
         fetch.assert_not_called()
         self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
+
+    def test_queue_dry_mid_cycle_triggers_fresh_query_expansion(self):
+        # When the candidate queue runs dry mid-cycle, the agent asks
+        # for fresh queries of its own instead of only re-checking old
+        # channels, so the remaining budget finds new sources.
+        agent = self.agent(key="synthetic")
+        calls = {"n": 0}
+        def expanding(discovered, existing, **kwargs):
+            calls["n"] += 1
+            if calls["n"] == 2:
+                agent.state_manager.add_candidates(["freshproxy"])
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=PAGE) as fetch, \
+             patch.object(agent, "_expand_queries_via_nemotron", side_effect=expanding):
+            agent.run_cycle(max_channels=1, max_time_seconds=30, max_api_requests=500)
+        self.assertEqual(calls["n"], 2)
+        self.assertEqual(fetch.call_count, 1)
+        self.assertIn("freshproxy", agent.state_manager.state["visited_channels"])
+
+    def test_query_reexpansion_is_capped_per_cycle(self):
+        agent = self.agent(key="synthetic")
+        calls = {"n": 0}
+        def expanding(discovered, existing, **kwargs):
+            calls["n"] += 1
+            agent.state_manager.add_candidates([f"freshproxy{calls['n']}"])
+        with patch.object(agent.tg_scraper, "fetch_channel_page", return_value=PAGE) as fetch, \
+             patch.object(agent, "_expand_queries_via_nemotron", side_effect=expanding), \
+             patch.object(agent.nemotron, "complete_json", return_value={"keep": ["newchan"]}):
+            agent.run_cycle(max_channels=10, max_time_seconds=30, max_api_requests=500)
+        # 1 initial expansion + at most 3 re-expansions, even though the
+        # channel budget (10) is not exhausted.
+        self.assertEqual(calls["n"], 4)
+        self.assertEqual(fetch.call_count, 5)
+
+    def test_no_query_reexpansion_without_extended_mode(self):
+        agent = self.agent(key="synthetic")
+        calls = {"n": 0}
+        def expanding(discovered, existing, **kwargs):
+            calls["n"] += 1
+        with patch.object(agent, "_expand_queries_via_nemotron", side_effect=expanding):
+            agent.run_cycle(max_channels=1, max_time_seconds=30, max_api_requests=0)
+        self.assertEqual(calls["n"], 1)
 
     @patch("src.discovery.agent.time.monotonic")
     def test_deadline_covers_partial_dequeue(self, clock):

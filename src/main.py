@@ -11,7 +11,7 @@ from typing import Any
 
 from src.categorizer import publish_subscriptions
 from src.dedup import deduplicate_nodes
-from src.fetcher import fetch_all_sources, load_sources
+from src.fetcher import AGGREGATE_CAP_SKIPPED_ERROR, fetch_all_sources, load_sources
 from src.healthcheck import check_nodes_health
 from src.project import PROJECT_NAME
 
@@ -166,6 +166,12 @@ def _run(args: argparse.Namespace) -> int:
         timeout=args.timeout,
     )
     successful_sources = sum(1 for s in stats if s.success)
+    skipped_sources = sum(1 for s in stats if s.error == AGGREGATE_CAP_SKIPPED_ERROR)
+    if skipped_sources:
+        safe_print(
+            f"      warning: aggregate node cap reached; {skipped_sources} source(s) "
+            "skipped this run (partial publication)"
+        )
     if not successful_sources or not raw_nodes:
         # Privacy-safe census: error strings carry fixed literals/type names only, never URLs.
         failure_kinds: dict[str, int] = {}
