@@ -33,7 +33,11 @@ MAX_MANIFEST_BYTES = 16 * 1024 * 1024
 MAX_FILE_BYTES = 64 * 1024 * 1024
 MAX_API_BYTES = 2 * 1024 * 1024
 MAX_API_INPUT_BYTES = 96 * 1024 * 1024
-MAX_CANDIDATES = 100000
+# The tracked public snapshot keeps growing with the source registry
+# (~138,000 candidates at 202 sources on 2026-11-14); keep the safety
+# bound comfortably above it so the nightly full-snapshot check does
+# not trip on ordinary growth.
+MAX_CANDIDATES = 250000
 RESULT_PATHS = {"data/iran-verification.json", "subs/iran-tested.txt", "subs/iran-tested_base64.txt"}
 PREFIX = f"repos/{DEFAULT_REPOSITORY}"
 
