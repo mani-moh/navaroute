@@ -24,14 +24,24 @@ Api/WebAuthEndpoints.cs):
 
 Realping is an end-to-end HTTPS GET through the proxy to a generate_204
 URL, twice 100 ms apart, 5 s connect timeout, the minimum recorded;
-both failing gives Delay -1. The server batches at most 16 profiles
-per core process with 1 s between batches.
+both failing gives Delay -1. The per-test 5 s timeout is compiled into
+the P40 binary (Global.LocalFetch) and cannot be lowered from the
+driver; SpeedTestTimeout in the settings only bounds the download
+speed test. The server tests in batches of SpeedTestPageSize profiles
+(default 16 in the binary), all of a batch concurrently, with 1 s
+between batches — so a batch waits for its slowest member. The page
+size is a setting in the server's guiNConfig.json (SpeedTestItem),
+read at startup; the /api/settings/speedtest endpoint cannot set it.
+The tier-1 driver therefore writes it into <exe-dir>/guiConfigs/
+guiNConfig.json before starting the server, and runs several servers
+(a filling system) so a slow batch on one never idles the others.
 """
 from __future__ import annotations
 
 import json
 import os
 import secrets
+import shutil
 import subprocess
 import time
 import urllib.error
@@ -40,6 +50,19 @@ from pathlib import Path
 
 DEFAULT_PORT = 5080
 DEFAULT_BASE_URL = f"http://127.0.0.1:{DEFAULT_PORT}"
+# The Realping batch size the tier-1 driver writes into the server's
+# guiNConfig.json: 100 profiles per batch, the way the PattN GUI is
+# normally run, instead of the binary's default of 16.
+DEFAULT_SPEEDTEST_PAGE_SIZE = 100
+# How many WebAPI servers the tier-1 driver runs side by side (the
+# filling system: each server tests one chunk at a time and is refilled
+# the moment its chunk finishes).
+DEFAULT_SPEEDTEST_WORKERS = 4
+SPEEDTEST_CONFIG_DIRNAME = "guiConfigs"
+SPEEDTEST_CONFIG_FILENAME = "guiNConfig.json"
+# Runtime state the server creates next to its exe; removed when a
+# worker directory is prepared so every run starts from a clean slate.
+WEBAPI_RUNTIME_STATE_DIRS = ("guiConfigs", "guiLogs", "guiTemps", "WebAPIData")
 # Pinned WebAPI release: P41 ships no WebAPI assets, P37-P40 do.
 PINNED_WEBAPI_VERSION = "7.25.6-P40"
 PINNED_WEBAPI_URL = (
@@ -251,6 +274,72 @@ class PattnClient:
         self._request("POST", "/api/settings/regional-presets/Iran", {})
 
 
+def write_webapi_speedtest_config(exe_path: Path, page_size: int) -> Path:
+    """Write SpeedTestPageSize into the WebAPI's guiNConfig.json.
+
+    The file lives in <exe-dir>/guiConfigs/guiNConfig.json (verified
+    against the P40 Linux WebAPI: the server creates it there on first
+    start and reads SpeedTestItem.SpeedTestPageSize from it at startup;
+    the /api/settings/speedtest endpoint exposes no page-size field).
+    An existing file is merged, never replaced, so the server's other
+    settings survive; a non-object or unparsable file raises instead
+    of being silently clobbered.
+    """
+    if page_size < 1:
+        raise PattnError(f"Speed test page size must be >= 1, got {page_size}")
+    config_dir = Path(exe_path).parent / SPEEDTEST_CONFIG_DIRNAME
+    config_dir.mkdir(parents=True, exist_ok=True)
+    config_path = config_dir / SPEEDTEST_CONFIG_FILENAME
+    data: dict = {}
+    if config_path.exists():
+        try:
+            data = json.loads(config_path.read_text(encoding="utf-8"))
+        except ValueError:
+            raise PattnError(f"WebAPI config is not valid JSON: {config_path}") from None
+        if not isinstance(data, dict):
+            raise PattnError(f"WebAPI config is not an object: {config_path}")
+    item = data.get("SpeedTestItem")
+    if not isinstance(item, dict):
+        item = {}
+        data["SpeedTestItem"] = item
+    item["SpeedTestPageSize"] = int(page_size)
+    config_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    return config_path
+
+
+def prepare_webapi_worker_dir(webapi_dir: Path, exe_path: Path, index: int) -> Path:
+    """Return the WebAPI exe path for worker ``index``.
+
+    Worker 0 uses the extracted directory as-is. Workers 1+ get a full
+    copy (``<dir>.worker-<index>``), because the P40 server refuses a
+    second instance from one directory (it exits with code 73 on the
+    instance lock) and each server needs its own profile database.
+    Stale runtime state next to the exe is removed so every run starts
+    from a clean slate; the caller writes a fresh speedtest config
+    afterwards with write_webapi_speedtest_config.
+    """
+    webapi_dir = Path(webapi_dir)
+    exe_path = Path(exe_path)
+    relative_exe = exe_path.relative_to(webapi_dir)
+    if index == 0:
+        worker_root = webapi_dir
+    else:
+        worker_root = webapi_dir.parent / f"{webapi_dir.name}.worker-{index}"
+        if worker_root.exists():
+            shutil.rmtree(worker_root)
+        shutil.copytree(webapi_dir, worker_root)
+    exe_dir = (worker_root / relative_exe).parent
+    for dirname in WEBAPI_RUNTIME_STATE_DIRS:
+        target = exe_dir / dirname
+        if target.is_dir():
+            shutil.rmtree(target)
+        elif target.exists():
+            target.unlink()
+    for lock in exe_dir.glob("*.instance.lock"):
+        lock.unlink()
+    return worker_root / relative_exe
+
+
 def generate_api_key() -> str:
     """A per-run management key; loopback-only, never stored in the repo."""
     return secrets.token_urlsafe(32)
@@ -265,10 +354,13 @@ def start_webapi(exe_path: Path, api_key: str, port: int = DEFAULT_PORT,
     the driver cannot stop reliably and which died mid-test in local
     reproduction (the driver then saw "connection refused" polling
     /api/profiles).
+
+    ASPNETCORE_URLS is set explicitly (not setdefault) so each worker
+    in a multi-server run really listens on its own port.
     """
     env = dict(os.environ)
     env["V2RAYN_WEB_API_KEY"] = api_key
-    env.setdefault("ASPNETCORE_URLS", f"http://127.0.0.1:{port}")
+    env["ASPNETCORE_URLS"] = f"http://127.0.0.1:{port}"
     process = subprocess.Popen(
         [str(exe_path), "--foreground"], env=env, cwd=str(cwd) if cwd else None,
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

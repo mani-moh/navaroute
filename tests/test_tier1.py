@@ -419,6 +419,317 @@ class ClientLaunchTests(unittest.TestCase):
         stuck.kill.assert_called_once()
 
 
+class SpeedtestConfigTests(unittest.TestCase):
+    def _load_client_module(self):
+        from src import pattn_client
+        return pattn_client
+
+    def test_write_config_creates_file_and_sets_page_size(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            exe = Path(tmp) / "v2rayN.WebAPI.exe"
+            exe.touch()
+            path = mod.write_webapi_speedtest_config(exe, 100)
+            self.assertEqual(path, Path(tmp) / "guiConfigs" / "guiNConfig.json")
+            data = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(data["SpeedTestItem"]["SpeedTestPageSize"], 100)
+
+    def test_write_config_merges_with_existing_settings(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            config_dir = Path(tmp) / "guiConfigs"
+            config_dir.mkdir()
+            existing = {"SpeedTestItem": {"SpeedTestTimeout": 10,
+                                          "SpeedTestPageSize": 16},
+                        "CoreBasicItem": {"Loglevel": "warning"}}
+            (config_dir / "guiNConfig.json").write_text(json.dumps(existing))
+            exe = Path(tmp) / "v2rayN.WebAPI.exe"
+            exe.touch()
+            mod.write_webapi_speedtest_config(exe, 100)
+            data = json.loads((config_dir / "guiNConfig.json").read_text())
+            self.assertEqual(data["SpeedTestItem"]["SpeedTestPageSize"], 100)
+            self.assertEqual(data["SpeedTestItem"]["SpeedTestTimeout"], 10)
+            self.assertEqual(data["CoreBasicItem"]["Loglevel"], "warning")
+
+    def test_write_config_rejects_bad_page_size_and_bad_files(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            exe = Path(tmp) / "v2rayN.WebAPI.exe"
+            exe.touch()
+            with self.assertRaises(PattnError):
+                mod.write_webapi_speedtest_config(exe, 0)
+            config_dir = Path(tmp) / "guiConfigs"
+            config_dir.mkdir()
+            (config_dir / "guiNConfig.json").write_text("{not json")
+            with self.assertRaises(PattnError):
+                mod.write_webapi_speedtest_config(exe, 100)
+            (config_dir / "guiNConfig.json").write_text("[1, 2]")
+            with self.assertRaises(PattnError):
+                mod.write_webapi_speedtest_config(exe, 100)
+            (config_dir / "guiNConfig.json").write_text(
+                json.dumps({"SpeedTestItem": "nope"}))
+            path = mod.write_webapi_speedtest_config(exe, 50)
+            self.assertEqual(json.loads(path.read_text())["SpeedTestItem"],
+                             {"SpeedTestPageSize": 50})
+
+    def test_prepare_worker_dir_reuses_base_for_worker_zero(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp) / "webapi"
+            base.mkdir()
+            exe = base / "v2rayN.WebAPI.exe"
+            exe.write_text("exe")
+            (base / "guiConfigs").mkdir()
+            (base / "guiConfigs" / "guiNConfig.json").write_text("{}")
+            (base / "v2rayN.WebAPI.instance.lock").write_text("")
+            self.assertEqual(mod.prepare_webapi_worker_dir(base, exe, 0), exe)
+            self.assertFalse((base / "guiConfigs").exists())
+            self.assertFalse((base / "v2rayN.WebAPI.instance.lock").exists())
+            self.assertTrue(exe.exists())
+
+    def test_prepare_worker_dir_copies_for_other_workers(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp) / "webapi"
+            base.mkdir()
+            exe = base / "v2rayN.WebAPI.exe"
+            exe.write_text("exe")
+            (base / "guiConfigs").mkdir()
+            (base / "guiConfigs" / "guiNDB.db").write_text("db")
+            worker_exe = mod.prepare_webapi_worker_dir(base, exe, 2)
+            self.assertEqual(worker_exe, Path(tmp) / "webapi.worker-2" / "v2rayN.WebAPI.exe")
+            self.assertEqual(worker_exe.read_text(), "exe")
+            self.assertFalse((Path(tmp) / "webapi.worker-2" / "guiConfigs").exists())
+            self.assertTrue((base / "guiConfigs" / "guiNDB.db").exists())
+            # Re-preparing the same worker replaces the stale copy.
+            (Path(tmp) / "webapi.worker-2" / "stale.txt").write_text("stale")
+            mod.prepare_webapi_worker_dir(base, exe, 2)
+            self.assertFalse((Path(tmp) / "webapi.worker-2" / "stale.txt").exists())
+
+    def test_prepare_worker_dir_removes_stale_state_files(self):
+        mod = self._load_client_module()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp) / "webapi"
+            base.mkdir()
+            exe = base / "v2rayN.WebAPI.exe"
+            exe.write_text("exe")
+            (base / "guiLogs").write_text("stale log file, not a directory")
+            mod.prepare_webapi_worker_dir(base, exe, 0)
+            self.assertFalse((base / "guiLogs").exists())
+            self.assertTrue(exe.exists())
+
+    def test_start_webapi_sets_the_port_explicitly(self):
+        from src import pattn_client
+        from unittest.mock import MagicMock
+        process = MagicMock()
+        process.poll.return_value = None
+        with patch.object(pattn_client.subprocess, "Popen", return_value=process) as popen, \
+                patch.object(PattnClient, "health", return_value=True):
+            pattn_client.start_webapi(Path("/tmp/webapi/v2rayN.WebAPI.exe"), "k",
+                                      port=5081)
+        env = popen.call_args.kwargs["env"]
+        self.assertEqual(env["ASPNETCORE_URLS"], "http://127.0.0.1:5081")
+        self.assertEqual(env["V2RAYN_WEB_API_KEY"], "k")
+
+
+class _FakeWorkerClient:
+    """A PattnClient stand-in for the feeder: import appends Delay-0
+    profiles, and start_speedtest resolves them all to Delay -1 at once
+    (or never, when resolve=False). profiles() raises PattnError from
+    the ``fail_on_call``-th call onwards."""
+
+    def __init__(self, resolve=True, running=False, fail_on_call=None):
+        self._profiles: list[dict] = []
+        self._next = 0
+        self.resolve = resolve
+        self.running = running
+        self.fail_on_call = fail_on_call
+        self.calls = 0
+        self.started = 0
+
+    def profiles(self):
+        self.calls += 1
+        if self.fail_on_call is not None and self.calls >= self.fail_on_call:
+            raise PattnError("server died")
+        return [dict(p) for p in self._profiles]
+
+    def login(self):
+        return "fake-token"
+
+    def import_profiles(self, uris):
+        for _ in uris:
+            self._next += 1
+            self._profiles.append({"IndexId": str(self._next), "Protocol": "vless",
+                                  "Address": "10.0.0.%d" % self._next, "Port": 443,
+                                  "Delay": 0, "CanTest": True, "CoreType": "xray"})
+        return len(uris)
+
+    def start_speedtest(self, profile_ids=None, action="Realping"):
+        self.started += 1
+        if self.resolve:
+            for p in self._profiles:
+                if p["Delay"] == 0:
+                    p["Delay"] = -1
+
+    def operations(self):
+        return []
+
+    def speedtest_running(self):
+        return self.running
+
+    def logs(self, limit=50, filter_text=None):
+        return []
+
+
+class FeederTests(unittest.TestCase):
+    def _load_driver(self):
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+        import tier1_pattn
+        return tier1_pattn
+
+    def _worker(self, driver, index=0, client=None):
+        from unittest.mock import MagicMock
+        return driver.Tier1Worker(index, Path(f"/tmp/webapi-{index}/v2rayN.WebAPI.exe"),
+                                  5080 + index, MagicMock(),
+                                  client or _FakeWorkerClient())
+
+    def test_chunk_list_splits_and_rejects_bad_size(self):
+        driver = self._load_driver()
+        self.assertEqual(driver.chunk_list(["a", "b", "c", "d", "e"], 2),
+                         [["a", "b"], ["c", "d"], ["e"]])
+        self.assertEqual(driver.chunk_list([], 100), [])
+        self.assertEqual(driver.chunk_list(["a"], 100), [["a"]])
+        with self.assertRaises(ValueError):
+            driver.chunk_list(["a"], 0)
+
+    def test_assign_chunk_tracks_only_the_new_profiles(self):
+        driver = self._load_driver()
+        worker = self._worker(driver)
+        driver._assign_chunk(worker, ["vless://a@10.0.0.1:443"], 1)
+        self.assertEqual(worker.chunk_ids, ["1"])
+        self.assertEqual(worker.chunk_attempts, 1)
+        driver._assign_chunk(worker, ["vless://b@10.0.0.2:443"], 1)
+        self.assertEqual(worker.chunk_ids, ["2"])
+
+    def test_chunk_done_when_all_delayed_or_stalled(self):
+        driver = self._load_driver()
+        worker = self._worker(driver)
+        driver._assign_chunk(worker, ["vless://a@10.0.0.1:443"], 1)
+        done, untested = driver._chunk_done(worker)
+        self.assertTrue(done)
+        self.assertEqual(untested, 0)
+        stalled = self._worker(driver, client=_FakeWorkerClient(resolve=False))
+        driver._assign_chunk(stalled, ["vless://a@10.0.0.1:443"], 1)
+        for _ in range(3):
+            done, untested = driver._chunk_done(stalled)
+            self.assertFalse(done)
+        done, untested = driver._chunk_done(stalled)
+        self.assertTrue(done)
+        self.assertEqual(untested, 1)
+
+    def test_feeder_refills_workers_until_all_chunks_done(self):
+        driver = self._load_driver()
+        workers = [self._worker(driver, index) for index in range(2)]
+        chunks = [["u%d" % i] * 3 for i in range(5)]
+        profiles = driver.run_speedtests(workers, chunks, timeout=60, poll=0)
+        self.assertEqual(len(profiles), 15)
+        self.assertEqual(sorted(p["Delay"] for p in profiles), [-1] * 15)
+        self.assertTrue(all(w.tested_chunks > 0 for w in workers))
+        self.assertEqual(sum(w.tested_chunks for w in workers), 5)
+
+    def test_feeder_requeues_a_chunk_when_its_worker_dies(self):
+        driver = self._load_driver()
+        dying = self._worker(driver, 0, _FakeWorkerClient(fail_on_call=3))
+        healthy = self._worker(driver, 1)
+        chunks = [["u%d" % i] * 2 for i in range(2)]
+        profiles = driver.run_speedtests([dying, healthy], chunks,
+                                         timeout=60, poll=0)
+        self.assertEqual(len(profiles), 4)
+        self.assertFalse(dying.alive)
+        self.assertTrue(healthy.alive)
+
+    def test_collect_chunk_falls_back_to_all_profiles(self):
+        driver = self._load_driver()
+        worker = self._worker(driver)
+        worker.client.import_profiles(["u1", "u2"])
+        worker.chunk = ["u1", "u2"]
+        worker.chunk_ids = ["99"]  # no profile carries this id
+        collected = driver._collect_chunk(worker)
+        self.assertEqual(len(collected), 2)
+        self.assertIsNone(worker.chunk)
+
+    def test_feeder_drops_a_chunk_after_two_attempts(self):
+        driver = self._load_driver()
+        first = self._worker(driver, 0, _FakeWorkerClient(fail_on_call=1))
+        second = self._worker(driver, 1, _FakeWorkerClient(fail_on_call=1))
+        profiles = driver.run_speedtests([first, second], [["u1", "u2"]],
+                                         timeout=60, poll=0)
+        self.assertEqual(profiles, [])
+        self.assertFalse(first.alive)
+        self.assertFalse(second.alive)
+
+    def test_feeder_tolerates_a_stop_failure_when_a_worker_dies(self):
+        driver = self._load_driver()
+        dying = self._worker(driver, 0, _FakeWorkerClient(fail_on_call=3))
+        healthy = self._worker(driver, 1)
+        chunks = [["u%d" % i] * 2 for i in range(2)]
+        with patch.object(driver, "stop_webapi", side_effect=RuntimeError("boom")):
+            profiles = driver.run_speedtests([dying, healthy], chunks,
+                                             timeout=60, poll=0)
+        self.assertEqual(len(profiles), 4)
+
+    def test_feeder_tolerates_a_collect_failure_on_timeout(self):
+        driver = self._load_driver()
+        slow = self._worker(driver, 0, _FakeWorkerClient(
+            resolve=False, running=True, fail_on_call=3))
+        profiles = driver.run_speedtests([slow], [["u1", "u2"]],
+                                         timeout=0, poll=0)
+        self.assertEqual(profiles, [])
+
+    def test_feeder_returns_partial_results_on_timeout(self):
+        driver = self._load_driver()
+        slow = self._worker(driver, 0,
+                            _FakeWorkerClient(resolve=False, running=True))
+        profiles = driver.run_speedtests([slow], [["u1", "u2"]],
+                                         timeout=0, poll=0)
+        self.assertEqual(len(profiles), 2)
+        self.assertTrue(all(p["Delay"] == 0 for p in profiles))
+
+    def test_feeder_with_no_workers_returns_nothing(self):
+        driver = self._load_driver()
+        self.assertEqual(driver.run_speedtests([], [["u1"]], timeout=60), [])
+
+    def test_prepare_workers_skips_a_failed_start_and_raises_when_none(self):
+        driver = self._load_driver()
+        from unittest.mock import MagicMock
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp) / "webapi"
+            base.mkdir()
+            exe = base / "v2rayN.WebAPI.exe"
+            exe.write_text("exe")
+            process = MagicMock()
+            client = MagicMock()
+            calls = {"n": 0}
+
+            def flaky_start(worker_exe, api_key, port):
+                calls["n"] += 1
+                if calls["n"] == 2:
+                    raise PattnError("bind failed")
+                return process
+
+            with patch.object(driver, "start_webapi", side_effect=flaky_start), \
+                    patch.object(driver, "PattnClient", return_value=client):
+                workers = driver.prepare_workers(base, exe, 3, 100, "key")
+            self.assertEqual([w.index for w in workers], [0, 2])
+            self.assertEqual([w.port for w in workers], [5080, 5082])
+            with patch.object(driver, "start_webapi",
+                              side_effect=PattnError("down")), \
+                    patch.object(driver, "PattnClient", return_value=client):
+                with self.assertRaises(PattnError):
+                    driver.prepare_workers(base, exe, 2, 100, "key")
+
+
 class DriverFeedTests(unittest.TestCase):
     def _load_driver(self):
         import sys
@@ -467,6 +778,110 @@ class DriverFeedTests(unittest.TestCase):
         profiles = [{"Delay": 120}, {"Delay": -1}, {"Delay": 0}, {}, {"Delay": "fast"}]
         self.assertEqual(driver.count_delays(profiles),
                          {"passed": 1, "failed": 1, "untested": 3})
+
+    def test_main_tolerates_dead_and_failing_workers_in_log_fetch(self):
+        import io
+        from unittest.mock import MagicMock
+        driver = self._load_driver()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            lines = "".join(
+                f"vless://11111111-1111-1111-1111-111111111111@10.0.2.{i}:443#t{i}\n"
+                for i in range(1, 4))
+            (base / "all.txt").write_text(lines, encoding="utf-8")
+            # A stalls (one untested profile survives), B resolves then
+            # fails on its fifth profiles() call — the tail's read —,
+            # C dies while its chunk is assigned, D takes the requeued
+            # chunk and resolves it.
+            fakes = [_FakeWorkerClient(resolve=False),
+                     _FakeWorkerClient(fail_on_call=5),
+                     _FakeWorkerClient(fail_on_call=1),
+                     _FakeWorkerClient()]
+            process = MagicMock()
+            with patch.object(driver, "SUBS_DIR", base), \
+                    patch.object(driver, "STATE_PATH", base / "state.json"), \
+                    patch.object(driver, "RESULTS_PATH", base / "results.json"), \
+                    patch.object(driver, "BLOCKED_PATH", base / "blocked.json"), \
+                    patch.object(driver, "find_webapi_exe",
+                                 return_value=base / "v2rayN.WebAPI.exe"), \
+                    patch.object(driver, "start_webapi", return_value=process), \
+                    patch.object(driver, "PattnClient", side_effect=fakes), \
+                    patch.object(driver, "stop_webapi"), \
+                    patch("time.sleep"), \
+                    patch("sys.stdout", new_callable=io.StringIO) as out:
+                self.assertEqual(driver.main(["--webapi-dir", str(base),
+                                              "--speedtest-page-size", "1"]), 0)
+            self.assertIn("untested 1", out.getvalue())
+            self.assertIn("webapi log entries fetched: 0", out.getvalue())
+
+    def test_main_spreads_chunks_across_workers(self):
+        import io
+        from unittest.mock import MagicMock
+
+        class MainFakeClient:
+            """Resolves every imported profile to Delay 120, keeping the
+            URI's own host/port so the driver's delay mapping matches."""
+
+            def __init__(self):
+                self._profiles = []
+
+            def login(self):
+                return "fake-token"
+
+            def profiles(self):
+                return [dict(p) for p in self._profiles]
+
+            def import_profiles(self, uris):
+                for uri in uris:
+                    hostport = uri.split("@", 1)[1].split("#", 1)[0]
+                    host, _, port = hostport.rpartition(":")
+                    self._profiles.append(
+                        {"IndexId": str(len(self._profiles) + 1), "Protocol": "vless",
+                         "Address": host, "Port": int(port), "Delay": 0,
+                         "CanTest": True, "CoreType": "xray"})
+                return len(uris)
+
+            def start_speedtest(self, profile_ids=None, action="Realping"):
+                for p in self._profiles:
+                    if p["Delay"] == 0:
+                        p["Delay"] = 120
+
+            def operations(self):
+                return []
+
+            def speedtest_running(self):
+                return False
+
+            def logs(self, limit=50, filter_text=None):
+                return []
+
+        driver = self._load_driver()
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            lines = "".join(
+                f"vless://11111111-1111-1111-1111-111111111111@10.0.1.{i}:443#t{i}\n"
+                for i in range(1, 251))
+            (base / "all.txt").write_text(lines, encoding="utf-8")
+            fakes = [MainFakeClient() for _ in range(4)]
+            process = MagicMock()
+            with patch.object(driver, "SUBS_DIR", base), \
+                    patch.object(driver, "STATE_PATH", base / "state.json"), \
+                    patch.object(driver, "RESULTS_PATH", base / "results.json"), \
+                    patch.object(driver, "BLOCKED_PATH", base / "blocked.json"), \
+                    patch.object(driver, "find_webapi_exe",
+                                 return_value=base / "v2rayN.WebAPI.exe"), \
+                    patch.object(driver, "start_webapi", return_value=process), \
+                    patch.object(driver, "PattnClient", side_effect=fakes), \
+                    patch.object(driver, "stop_webapi"), \
+                    patch("time.sleep"), \
+                    patch("sys.stdout", new_callable=io.StringIO) as out:
+                self.assertEqual(driver.main(["--webapi-dir", str(base)]), 0)
+            self.assertIn("250 due in 3 chunks of up to 100 across 4 workers",
+                          out.getvalue())
+            self.assertIn("passed 250", out.getvalue())
+            self.assertEqual(sum(len(f._profiles) for f in fakes), 250)
+            feed = (base / "tier1_all.txt").read_text(encoding="utf-8")
+            self.assertEqual(sum(1 for line in feed.splitlines() if "://" in line), 250)
 
     def test_no_feeds_aborts(self):
         driver = self._load_driver()

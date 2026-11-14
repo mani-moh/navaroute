@@ -19,6 +19,14 @@ on:
         description: "Seconds to wait for the speed test to finish"
         required: false
         default: "5400"
+      speedtest_page_size:
+        description: "Profiles per Realping batch (written into each server's guiNConfig.json)"
+        required: false
+        default: "100"
+      speedtest_workers:
+        description: "WebAPI servers to run side by side (filling system)"
+        required: false
+        default: "4"
 
 permissions:
   contents: write
@@ -58,7 +66,9 @@ jobs:
         run: |
           python scripts/tier1_pattn.py --webapi-dir webapi `
             --per-run-cap ${{ inputs.max_configs || 8000 }} `
-            --speedtest-timeout ${{ inputs.speedtest_timeout || 5400 }}
+            --speedtest-timeout ${{ inputs.speedtest_timeout || 5400 }} `
+            --speedtest-page-size ${{ inputs.speedtest_page_size || 100 }} `
+            --speedtest-workers ${{ inputs.speedtest_workers || 4 }}
 
       - name: Privacy gate (pre-flight)
         shell: pwsh

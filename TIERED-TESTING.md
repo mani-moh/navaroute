@@ -13,6 +13,25 @@ due, and Realping-tests them: an end-to-end HTTPS GET through the proxy
 to a `generate_204` URL, twice 100 ms apart, 5 s connect timeout, the
 minimum recorded; both failing is a fail.
 
+**Speed: page size + filling system.** The server tests in batches of
+`SpeedTestPageSize` profiles (default 16 in the P40 binary), all of a
+batch concurrently, and a batch waits for its slowest member — so with
+8,000 due profiles a run took ~90 minutes. The driver writes page size
+100 into each server's `guiNConfig.json` (`SpeedTestItem`, read at
+startup; the `/api/settings/speedtest` endpoint cannot set it) and runs
+4 WebAPI servers side by side as a filling system: due configs are
+split into chunks of the page size, and each server is refilled with
+the next chunk the moment its chunk finishes, so a slow config on one
+server never idles the others. Each server gets its own copy of the
+extracted WebAPI directory — the P40 server refuses a second instance
+from one directory (exit code 73 on the instance lock) and needs its
+own profile database. Both knobs are dispatch inputs
+(`speedtest_page_size`, `speedtest_workers`); a worker that dies
+mid-chunk has its chunk requeued once, then the chunk is dropped and
+its configs stay untested. The per-test 5 s timeout is compiled into
+the P40 binary (`Global.LocalFetch`) and cannot be lowered from the
+driver; `SpeedTestTimeout` only bounds the download speed test.
+
 **What gets tested.** All configs, not just the 1,000 the aggregation
 samples — but not all at once. Each run tests up to 8,000 due configs
 (`max_configs` dispatch input). A config is due again after an interval
