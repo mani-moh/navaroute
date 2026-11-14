@@ -1,9 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIFpBIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T08:05:27.135448+00:00
+# snapshot-time: 2026-11-14T11:05:30.600032+00:00
 
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpYc3k4T3g0eU9WM3hMbHB4dGp6czNY@102.133.165.160:16233#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20216ms
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphZHVCOUhHeFFIakEyU0JNUmprSFg2@102.37.156.224:443#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20217ms
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpYc3k4T3g0eU9WM3hMbHB4dGp6czNY@102.133.165.160:16233#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20238ms
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphZHVCOUhHeFFIakEyU0JNUmprSFg2@102.37.156.224:443#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all%20%7C%20239ms
 trojan://sI0wl1bvYlSXu2RsMSAtAIMM@starlink-za.251313.xyz:443?sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAiIiwgInRscyI6ICJ0bHMiLCAiYWxwbiI6ICIiLCAic25pIjogInphLWEtenp5LmdsbnlobGdjLmNvbSIsICJwYXRoIjogIi9hYm91dC83Njc4IiwgInBzIjogIlvwn4e/8J+HpiBaQV0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiemEtYS16enkuZ2xueWhsZ2MuY29tIiwgInBvcnQiOiA0NDMsICJpZCI6ICI1NTgzYWY1MC1mNDY0LTRkZjYtZTJlZi0zNDU5MjMxMWU1YzYifQ==
 trojan://ks3og6wZ9kH8UJv1bmpvwXbfgDNNaTd1Lk@38.54.64.247:443?security=tls&insecure=0&headerType=&type=tcp&allowInsecure=0#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -24,14 +24,11 @@ trojan://H8Gwt1EIq-jxr%3Dg%23@139.84.233.136:15813?type=tcp&security=tls&sni=luc
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpVUUZNSXJqZnVDZ0VsZnBs@20.164.41.194:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpHVFN5bVc0eXNIY2FxSDcw@20.164.116.218:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://a98dfdf4-ab04-4c57-83c4-0fbd75a2a954@hco-2.unique021.com:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=fonts.googleapis.com&fp=chrome&security=reality&pbk=rYbpdxRUs5xTdlDJA6KHdz_lqi9Ka9LMOKM4TEQEXis&sid=d36dd61c&path=%2F#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&fp=chrome&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3Adelta-kronecker-all
 trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@102.177.189.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://a98dfdf4-ab04-4c57-83c4-0fbd75a2a954@hco-2.unique021.com:443?flow=xtls-rprx-vision&type=tcp&security=reality&fp=chrome&sni=fonts.googleapis.com&pbk=rYbpdxRUs5xTdlDJA6KHdz_lqi9Ka9LMOKM4TEQEXis&sid=d36dd61c&spx=%2F#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Av2raycollector-tcp-cloudzy
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform101.golnamakcert.top:80?type=ws&headerType=none&host=platform101.halalkhor.info&path=%2Fplatform101#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 vless://ead4a562-edf2-40cf-ad33-13ae98546226@102.208.217.14:2087?type=grpc&encryption=none&flow=&serviceName=grpc&sni=dl.google.com&allowInsecure=1&fp=chrome&security=reality&pbk=eeD55i5qwcb8fvWZuJF6o-o2Ums4QEenTer8iNtobUk&sid=d9d5b093&path=%2F#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAiIiwgImhvc3QiOiAiIiwgInBhdGgiOiAiL3ZtZXNzIiwgInRscyI6ICIiLCAicHMiOiAiW/Cfh7/wn4emIFpBXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxNjAuMTE1LjE5My45OSIsICJwb3J0IjogNjAyMjIsICJpZCI6ICI4NDEzNGQ5MC1lNGZlLTRhODYtYzhkNi00ZDdiZWRiM2MzMzMifQ==
 trojan://b19c4375-d847-4c40-9824-4767c88b5f38@84.8.130.153:10870?security=tls&sni=www.jucer001.click&type=tcp#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform102.golnamakcert.top:80?type=ws&path=%2Fplatform102&host=platform102.halalkhor.info#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&type=tcp&fp=chrome#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpOVjZ3d1hUSzJ0U3I3a3ZJ@4.168.201.153:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZMVlTV05WV2Z1Zm9scGxL@20.164.216.112:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -49,6 +46,7 @@ vless://a2a7636b-25d9-4f83-941c-ba88cef9e2e2@102.37.155.79:443?type=xhttp&amp%3B
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@129.232.134.112:990#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0TTBzVjNDcmpBVTBub2tk@20.164.216.208:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 hysteria2://1793747701%3A04cbffa7-bd2c-4a51-bf32-2253f4fbc1ab%3Acv_QNzenE8BtqjxU5H4mzZ7ki0M4jLW2DCs01wdD78Y@102.208.216.88:8443?sni=za2.lumacache.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
+vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform107.golnamakcert.top:80?sni=platform107.halalkhor.info&type=ws&host=platform107.halalkhor.info&path=%2Fplatform107#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpybmtIRWVFc3BTMXU1VmZq@4.168.234.201:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=none&type=tcp&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&fp=chrome#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpzc0xUbGR5RjNDVXJRdndQ@20.87.210.108:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -60,6 +58,7 @@ vless://a13df940-020c-465f-bc89-ee5279b5cd6a@160.123.255.67:443?path=%2Fblue&sec
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpTRjJxb01Hcm1WWVFUajJQ@40.123.240.228:443?Telegram=%40GozargahAzad%2C%40GozargahAzad%2C%40GozargahAzad%2C%40GozargahAzad%2C%40GozargahAzad%2C%40GozargahAzad%2C%40GozargahAzad#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all
 vless://a2a7636b-25d9-4f83-941c-ba88cef9e2e2@102.37.155.79:443?mode=auto&path=%2Fstream%2Fcubic&security=reality&encryption=none&pbk=2Y_6l4fk42l4SRZ2XKPQHu27uEWCWZnYOdh_dtQzcAI&fp=chrome&spx=%2F&type=xhttp&sni=mirror.arvancloud.ir&sid=33a6#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpWTEdWcEs5bnBLYUZxQkxIY251OQ@102.165.20.38:8389#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?allowInsecure=1&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3Asub-876a3f766a
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpReTdLeU1vNGVwU0NpbHVK@20.164.220.82:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://948fac3c-42bf-41a6-a5f9-704d36ff0d8d@139.84.235.99:20205?security=tls&fp=random&alpn=http%2F1.1&sni=snippet.gfw.nn.kg&type=ws&headerType=none&host=snippet.gfw.nn.kg&path=%2Fdanfeng#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-ws%20%7C%20src%3Av2raycollector-tcp-cloudzy
 vless://11e57eeb-ffdf-4983-a9fa-ad352dea7253@154.193.55.183:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=storage.yandex.net&fp=chrome&pbk=EMS0wzISeSbEe4JABPD8EgDnyLXgDmrX4_lcfG6VVX4&sid=dbbe8dca27a92c35&type=tcp&headerType=none&host=storage.yandex.net#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
@@ -76,13 +75,9 @@ vless://c28ee61d-0d43-4e69-8e6a-6397ed0ffc03@31.43.191.39:443?security=reality&e
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpYRW5aZWRwMm1rVGJUMXFD@4.168.201.246:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowSnRDZmpQSUhuTEN6RGlh@20.164.205.35:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all
 vless://79af209c-dd50-4751-8100-9107b536a022@img.krenholm.com:443?path=%2F1002%2Fgoogle&security=tls&encryption=none&insecure=0&host=sni.irandoc.info&fp=chrome&type=httpupgrade&allowInsecure=0&sni=channel.irandoc.info#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-httpupgrade%20%7C%20src%3Ashabane-merged
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@197.242.159.229:65142?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=Nh5LEJT44xbuvTQnv3OZ0bXi09BFXV4SBB1XVMI12Ec%3D&mtu=1280#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20WireGuard%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp6bEhNcEk3TjVka1pPSGRI@20.87.212.24:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform109.golnamakcert.top:80?type=ws&path=%2Fplatform109&host=platform109.halalkhor.info#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpTQnc1YjZFOW5vSG9sQmRB@4.168.234.190:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMWTk0Q0w4SG91VXdFUEYz@4.168.234.5:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpTTEZ3SXBVZTc5TXV1RmNx@20.164.212.218:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3A0xradikal-all
-vless://ead4a562-edf2-40cf-ad33-13ae98546226@102.208.217.14:2087?security=reality&sni=dl.google.com&fp=firefox&pbk=eeD55i5qwcb8fvWZuJF6o-o2Ums4QEenTer8iNtobUk&sid=d9d5b093&type=grpc&serviceName=grpc&mode=gun#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
-vless://c28ee61d-0d43-4e69-8e6a-6397ed0ffc03@31.43.191.99:443?security=reality&encryption=none&pbk=SHDdd617KLHHb0qlQFOHepeHFl_Ch2i-K7o891uyo2M&headerType=none&fp=random&type=tcp&flow=xtls-rprx-vision&sni=luminous-vortex.cdn.cachefleet.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
+vless://c28ee61d-0d43-4e69-8e6a-6397ed0ffc03@31.43.191.99:443?security=reality&encryption=none&pbk=SHDdd617KLHHb0qlQFOHepeHFl_Ch2i-K7o891uyo2M&headerType=none&fp=random&type=tcp&flow=xtls-rprx-vision&sni=luminous-vortex.cdn.cachefleet.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpTRjJxb01Hcm1WWVFUajJQ@40.123.240.228:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Aalirewa-config
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp3MFlmZjY3anhkM3pYWTln@20.87.3.84:443#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20SS%20%7C%20src%3Agfpcom-ss

@@ -1,8 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIEJEIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T05:24:31.041101+00:00
+# snapshot-time: 2026-11-14T11:05:30.600032+00:00
 
 trojan://aR9EJWEB2Jp3m6xKJK%3DCt7kLyqFSU-iDBR@92.119.35.125:443?security=tls#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
+vless://7f89560c-b9f0-4c56-b3e0-1b1bdafe0b08@45.195.137.121:8443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=storage.yandex.net&fp=chrome&pbk=IdqrygjwHBEMCOamBl7a504TVk6uMAtTRj0xLWcFcxY&sid=e3d38cee79d4f94c&type=tcp&headerType=none%40VPsave#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 trojan://aR9EJWEB2Jp3m6xKJK%3DCt7kLyqFSU-iDBR@92.119.35.127:443?security=tls#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://f75814f6-8f81-4847-b792-168c41f2dc85@45.196.201.231:443?security=reality&encryption=none&pbk=zii4nGNapnFKL6SN8GzWNqFlElBvUCUFUThEP0kFH04&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=c6ef72e4635d15a5#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 trojan://aR9EJWEB2Jp3m6xKJK%3DCt7kLyqFSU-iDBR@92.119.35.117:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
