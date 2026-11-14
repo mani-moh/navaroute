@@ -1,13 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIEJMIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T23:25:55.958354+00:00
+# snapshot-time: 2026-11-14T05:24:31.041101+00:00
 
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@1.168.191.235:8443?security=tls&fp=chrome&sni=1-jk1.pages.dev&type=ws&headerType=none&host=1-jk1.pages.dev&path=%2Fproxyip%3DProxyIP.DE.owg.dpdns.org#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Acollector-ui-configs
-vless://c83f15bf-1817-4ec8-a19f-6393d226434c@fast.145779.xyz:2053?path=%2Fws-tesla&security=tls&sni=fast.145779.xyz&type=ws&fp=qq#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
-vless://c83f15bf-1817-4ec8-a19f-6393d226434c@fast.145779.xyz:2053?type=ws&path=%252Fws-tesla&host=&security=tls&sni=fast.145779.xyz&fp=safari#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
-vless://e3149c82-00f6-4227-b2c0-b78f1dd81279@104.21.58.37:2053?security=tls&sni=fast.145779.xyz&type=ws&host=fast.145779.xyz&path=%2Fws-tesla&fp=android#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
-vless://e3149c82-00f6-4227-b2c0-b78f1dd81279@104.21.58.37:2053?security=tls&sni=fast.145779.xyz&type=ws&host=fast.145779.xyz&path=%2Fws-tesla&fp=qq#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
 vless://66969b2e-5e49-4750-9419-167d4bb64c07@188.114.96.94:443?security=tls&fp=chrome&sni=wallweb11.wallwebc992h7.workers.dev&type=ws&headerType=none&host=wallweb11.wallwebc992h7.workers.dev&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Acollector-ui-configs
 trojan://trojan@152.53.200.167:8444?security=tls&sni=jflsjlaf.pages.dev&fp=chrome&insecure=0&allowInsecure=0&type=ws&host=jflsjlaf.pages.dev&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs
+vless://cced2d3b-9840-4579-a6b3-5de365f3bf50@epam.com:443?type=ws&path=%252F&host=wallweb6.pages.dev&security=tls&sni=wallweb6.pages.dev&fp=chrome#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
 trojan://trojan@152.53.45.251:8888?security=tls&sni=jflsjlaf.pages.dev&type=ws&path=%25252F&Host=jflsjlaf.pages.dev#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs
-vless://c83f15bf-1817-4ec8-a19f-6393d226434c@fast.145779.xyz:2053?security=tls&type=ws&path=%2Fws-tesla&host=fast.145779.xyz&packetEncoding=xudp&sni=fast.145779.xyz&encryption=none&fp=qq#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
+vless://87c467e9-f0af-4b03-8fbd-65fd375d3a26@104.18.34.200:443?fp=randomized&host=pmpmppm.pages.dev&path=%2F%3Fed%3D2048&security=tls&sni=pmpmppm.pages.dev&type=ws#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
