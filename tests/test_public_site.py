@@ -97,6 +97,50 @@ class TestPublicSite(unittest.TestCase):
             for secret_word in ("GITHUB_TOKEN", "api_key", "password", "CLOUDFLARE"):
                 self.assertNotIn(secret_word, page)
 
+    def test_copy_buttons_have_plain_text_done_labels(self) -> None:
+        """Regression: _t() HTML spans must never land in an attribute.
+
+        The "Copied!" label used to be rendered via _t("copied"), whose
+        value is raw <span> HTML with double quotes — inside
+        data-done="..." that terminated the attribute early and broke
+        every copy button on the public site. Copy buttons must carry
+        plain-text data-done-en / data-done-fa attributes instead, and
+        every copy button must keep a working onclick.
+        """
+        with tempfile.TemporaryDirectory() as d:
+            repo = _make_repo(Path(d))
+            page = bps.build(repo, Path(d) / "site").read_text(encoding="utf-8")
+            self.assertNotIn('data-done="<span', page)
+            self.assertNotIn('data-done-en="<span', page)
+            self.assertIn('data-done-en="Copied!"', page)
+            self.assertIn('data-done-fa="کپی شد!"', page)
+            self.assertIn("copyText(this,", page)
+            # Every copy button parses with both its label attributes
+            # and its onclick intact (a broken attribute swallows them).
+            # (Client cards reuse class="copy" for plain link buttons
+            # with no onclick — those are not copy buttons.)
+            from html.parser import HTMLParser
+
+            class _Buttons(HTMLParser):
+                def __init__(self) -> None:
+                    super().__init__(convert_charrefs=True)
+                    self.copies: list[dict] = []
+
+                def handle_starttag(self, tag: str, attrs: list) -> None:
+                    if tag == "button":
+                        d = dict(attrs)
+                        if "copy" in d.get("class", ""):
+                            self.copies.append(d)
+
+            parser = _Buttons()
+            parser.feed(page)
+            copies = [b for b in parser.copies if "onclick" in b]
+            self.assertGreater(len(copies), 0)
+            for btn in copies:
+                self.assertIn("data-done-en", btn)
+                self.assertIn("data-done-fa", btn)
+                self.assertIn("copyText", btn["onclick"])
+
     def test_real_repo_smoke(self) -> None:
         """End-to-end smoke test against the real checkout."""
         with tempfile.TemporaryDirectory() as d:
