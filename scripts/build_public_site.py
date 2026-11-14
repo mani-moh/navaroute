@@ -348,7 +348,9 @@ color:#e5e7eb;font-size:15px;margin-bottom:12px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .chip{background:#1e293b;border:1px solid #475569;color:#e5e7eb;border-radius:999px;padding:5px 13px;
 cursor:pointer;font-size:14px}.chip.on{background:#0369a1;border-color:#0369a1}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:.92em}
+@media(max-width:600px){table{font-size:.85em}th,td{padding:6px 4px}}
 th,td{padding:8px 6px;border-bottom:1px solid #1e293b;text-align:start}
 th{color:#94a3b8}td code{font-size:.9em;color:#bae6fd;word-break:break-all}
 tr.hidden{display:none}
@@ -509,8 +511,8 @@ def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) ->
 <input id="q" class="search" placeholder="{_esc("Search feeds… / جستجوی فیدها…")}" oninput="applyFilter()">
 <div class="chips"><button class="chip on" onclick="setGroup('all',this)">all</button>
 <button class="chip" onclick="setGroup('tier',this)">tier</button>{chips}</div>
-<table id="feedTable"><thead><tr><th>{_t("feed")}</th><th>{_t("count")}</th><th>{_t("tier1")}</th><th>{_t("links")}</th></tr></thead>
-<tbody>{''.join(feed_row(f) for f in feeds)}</tbody></table>
+<div class="tablewrap"><table id="feedTable"><thead><tr><th>{_t("feed")}</th><th>{_t("count")}</th><th>{_t("tier1")}</th><th>{_t("links")}</th></tr></thead>
+<tbody>{''.join(feed_row(f) for f in feeds)}</tbody></table></div>
 
 <h2>{_t("faq")}</h2>
 <details><summary>{_t("faq_free_q")}</summary><p>{_t("faq_free_a")}</p></details>
