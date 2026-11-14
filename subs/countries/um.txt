@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFVNIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T11:05:30.600032+00:00
+# snapshot-time: 2026-11-14T13:07:55.384399+00:00
 
 tuic://731a0ca6-ed14-4775-a6ac-acbcb324d572:Mashroote_Liberal2024@tuic7us2.cpionline.us:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20TUIC%20%7C%20src%3Acoldwater-all
 hysteria2://af7911e7-fb22-41b0-8006-a5f2be3495f1@193.233.206.176:2052?insecure=1&sni=us3.eyujichang.xyz&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
@@ -45,4 +45,3 @@ vless://e4824193-4f54-453b-d037-88368e85ef0e@pqh28v8.vetrkot.com:8880?mode=gun&s
 vless://e4824193-4f54-453b-d037-88368e85ef0e@185.236.232.91:8880?mode=gun&security=&encryption=none&type=grpc#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 vless://401374e6-df77-41fb-f638-dad8184f175b@184.174.80.250:443?mode=gun&security=tls&alpn=h2&encryption=none&type=grpc&sni=pqh23v4.hiddendom.shop#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 tuic://731a0ca6-ed14-4775-a6ac-acbcb324d572:Mashroote_Liberal2024@149.28.218.21:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20TUIC%20%7C%20src%3Acoldwater-all
-hysteria2://fmaznn1lrzys7ddy@giftcard.gateway-stream.com:52076?sni=giftcard.gateway-stream.com&obfs=salamander&obfs-password=fuw2k1ddrouwxr3u#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64

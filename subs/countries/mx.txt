@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIE1YIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T11:05:30.600032+00:00
+# snapshot-time: 2026-11-14T13:07:55.384399+00:00
 
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInBzIjogIlvwn4ey8J+HvSBNWF0gVk1lc3MtdGNwIHwgc3JjOnZlc3RyYW5ldC1taXgtYjY0IiwgImFkZCI6ICIzOC42MC4yMjQuMTczIiwgInBvcnQiOiAzMjE1MywgImlkIjogIjVjZjFmNDcwLTNmNzAtNDU4OS1hMmE0LTQ2NTdlYTNhMWVkZiJ9
 trojan://MiTiVPN@151.101.194.172:80?type=ws&path=%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2Fgb---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN&host=s1-mitivpn--mitivpn--mitivpn-mitivpn---mitivpn.global.ssl.fastly.net#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICIiLCAidiI6ICIyIiwgInBzIjogIlvwn4ey8J+HvSBNWF0gVk1lc3MtdGNwIHwgc3JjOmNvbGR3YXRlci1hbGwiLCAiYWRkIjogIjc5LjEyNy4yMjkuNTQiLCAicG9ydCI6IDE4MDAwLCAiaWQiOiAiZmExODk3ZGItMTkyNS00Yzg2LWE0OTUtOTM5YTk1OWFmOTAwIn0=
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?security=tls&headerType=none&fp=chrome&type=tcp&sni=connectwithtopemployersandfindidealjobs.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Agh-731be4b5c4
@@ -42,6 +41,7 @@ ss://YWVzLTEyOC1nY206Y2U1YjA4MjIyNGViNjMwOTg0YjM2ZTgzOWM3MzYzY2Q@82.27.100.120:1
 vless://4699142d-557d-4a01-8656-e6fa5c0db23e@89.35.154.62:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.gmx.com&alpn=h2&fp=chrome&security=reality&pbk=V_RWGX3SOMQfUeGow6fYH5-ondlRL0Iitg5YRbOvkE4&sid=d8&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?security=tls&headerType=none&type=tcp&allowInsecure=0&sni=connectwithtopemployersandfindidealjobs.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Ashabane-merged
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+vless://1e697474-7836-47ed-aaca-b559efcbb298@94.183.195.137:20050?security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu64.cdn77.icu#%5Bsource-claimed%5D%20%5Bsocket%3Afailed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested
 hysteria2://v2meowmeowmeow@103.68.108.25:443?insecure=1&sni=google.com&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2NTFkZjVkYzhmZDA4ZDBj@38.60.224.37:11201#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?allowInsecure=1&sni=mx001.zestapp778.com&type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -57,6 +57,7 @@ trojan://5t6i121em5lkmsmk@149.104.87.125:15083?security=tls&sni=mx001.zestapp778
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?security=none&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified
 hysteria2://v2meowmeowmeow@103.68.108.25:443?insecure=1&sni=www.bing.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HsvCfh70gTVhdIFZNZXNzLXRjcCB8IHNyYzpjb2xkd2F0ZXItYWxsIiwgImFkZCI6ICI3OS4xMjcuMjI5LjU0IiwgInBvcnQiOiAxODAwMCwgImlkIjogImZhMTg5N2RiLTE5MjUtNGM4Ni1hNDk1LTkzOWE5NTlhZjkwMCJ9
+vless://8ad6f598-cd8d-4fca-848e-05fc9be15ff3@love.ns.cloudflare.com:443?security=tls&fp=chrome&sni=xcegj.redpixelport-zen.info&type=ws&headerType=none&host=xcegj.redpixelport-zen.info&path=%2Fsea#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3YzMxYTY3YjQxYjE4YzI2@89.223.88.33:11201?note=%40FreeOnlineVPN#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=connectwithtopemployersandfindidealjobs.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://bMJKkQZ1xHhlBjVo_wSiPUmCGRvEn@216.238.79.82:25121?security=none&type=tcp&sni=ya.ru&allowInsecure=1#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan

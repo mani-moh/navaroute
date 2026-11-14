@@ -1,8 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIElEIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T11:05:30.600032+00:00
+# snapshot-time: 2026-11-14T13:07:55.384399+00:00
 
 trojan://Telegram_healer_config@104.21.125.207:443?sni=TH1R714O73d1P35f.mr2esNK29L620Xo76Kpuv-QUb4B7IDfR.WOrkeRS.DeV&fp=unsafe&alpn=http%2F1.1&type=ws&path=%2Ftr%2FgtMkuJkm42JnKfAr%3Fed%3D2560#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
+vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAiIiwgInRscyI6ICJ0bHMiLCAic25pIjogImQ3cHU1bXpyOWM0YjAuY2xvdWRmcm9udC5uZXQiLCAicGF0aCI6ICIvdm1lc3MiLCAiaG9zdCI6ICJkN3B1NW16cjljNGIwLmNsb3VkZnJvbnQubmV0IiwgInBzIjogIlvwn4eu8J+HqSBJRF0gVk1lc3Mtd3MgfCBzcmM6YmFyYWJhbWEtbWVyZ2VkIiwgImFkZCI6ICIxMy4yNDkuMjMxLjg1IiwgInBvcnQiOiA0NDMsICJpZCI6ICJhODRjMTMyYS0zMTUxLTQwZmUtOTQ3Yi00ZGQ5YTdkMjEyMmMifQ==
 trojan://7e70223b-f331-41d5-9313-02b8d2df2885@krhtybay.catcat321.com:20120?allowInsecure=1&peer=hk.catxstar.com&sni=hk.catxstar.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://018b8e7b-7813-4dcb-84a5-3c98f1521e00@172.67.176.157:443?sni=id1.nathaya.web.id&allowInsecure=1&type=ws&path=%2Ftrojan&fp=chrome#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vless://e9a8144e-5237-488a-afb1-9ca3d8d54c80@130.94.95.198:57353?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=in001.zestapp778.com&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged

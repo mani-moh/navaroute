@@ -1,10 +1,11 @@
 #profile-title: base64:TmF2YVJvdXRlIElRIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T11:05:30.600032+00:00
+# snapshot-time: 2026-11-14T13:07:55.384399+00:00
 
 vless://3a7849e7-8ef6-492f-860d-54dd6aae400a@pl4.soshelper.space:443?security=reality&encryption=none&pbk=9UG9zvrDpiPgY_J0dvB-n10ygEw3FzJ2qT8PFtITUBE&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=pl4.soshelper.space&sid=e06e30590f288e0f#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://6da2c981-8c77-4340-bda3-93399b7aea26@178.17.52.236:2083?path=%2Fv2%2Fsync%2F6e9367&security=reality&encryption=none&pbk=mbi4BZAuiq_L6pfhG2xxWmtosq0Z1Pzf18fvNSWKMxY&fp=edge&type=xhttp&sni=maps.blog-forme.ru&sid=3258252d44113e23#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://d9d0f208-d582-41d5-bb7b-742671402810@81.90.25.158:443?security=reality&encryption=none&pbk=evZScHEcyRLcHnrN8fzp3HtC5hQ_smUHdmCRpCqlwkY&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=eu-central-de-3.hanvpn.biz&sid=0183b7681806bc97#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
+vless://bb0f1ed0-0298-40a1-adb1-1f5d6ab33d54@arcturus.yokkastars.com:40443?security=reality&encryption=none&pbk=w4AYHvQnQS6olDqoG9ptLOtgehaWOsv9HQhDax5bLA4&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=db46e2946fc466fd#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://bb0f1ed0-0298-40a1-adb1-1f5d6ab33d54@arcturus.yokkastars.com:40443?security=reality&encryption=none&pbk=w4AYHvQnQS6olDqoG9ptLOtgehaWOsv9HQhDax5bLA4&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=db46e2946fc466fd#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://d2c4aef4-b125-4bab-8ce8-35879f613ab8@deu461.unboundworld.org:443?security=reality&encryption=none&pbk=BhTJ3phnq-Z-10aFKSsj1lzhA8mULR4L6leE4-0WTAs&headerType=none&fp=chrome&spx=%2F&type=tcp&flow=xtls-rprx-vision&sni=www.heise.de#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Aelf2017spring-configshub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2SDhRMU9YS1pST0pWeGRlT3Y2bG83@81.90.31.219:443#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20SS%20%7C%20src%3Agfpcom-ss
