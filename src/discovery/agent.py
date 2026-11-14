@@ -432,6 +432,12 @@ class DiscoveryAgent:
 
     def _filter_candidates_via_nemotron(self, handles: list[str], max_api_requests: int = 0,
                                         start_requests: int = 0) -> list[str]:
+        # Rejection is permanent: never spend an API call re-judging a
+        # handle an earlier cycle already rejected, and never let a
+        # flaky model (or a failed call returning the batch unchanged)
+        # re-admit one.
+        known_rejected = set(self.state_manager.state.get("rejected_channels", []))
+        handles = [h for h in handles if h not in known_rejected]
         if not handles or not self.nemotron.is_available() or not self._can_work():
             return handles
         ambiguous = [h for h in handles if not any(kw in h for kw in PROXY_HANDLE_KEYWORDS)]
@@ -754,7 +760,11 @@ class DiscoveryAgent:
                 pending = list(batch)
                 if extended:
                     batch = self._filter_candidates_via_nemotron(batch)
-                    pending = [h for h in pending if h not in self.state_manager.state["rejected_channels"]]
+                    # Pending must track exactly the batch that will be
+                    # attempted: filtering it by a different set (the
+                    # persistent rejected list) made pending.remove()
+                    # raise ValueError for a handle the batch kept.
+                    pending = list(batch)
                 for handle in batch:
                     if not self._can_work() or checked >= max_channels:
                         break

@@ -587,6 +587,21 @@ class TestDiscoveryStateValidation(OfflineDiscoveryTestCase):
         manager.forget_visited_url("https://example.com/readme.md")
         self.assertFalse(manager.is_url_visited("https://example.com/readme.md"))
 
+    def test_rejected_channels_never_reenter_via_refresh_or_restore(self):
+        # Rejected means rejected: neither the oldest-active refresh
+        # nor a restore may re-admit a handle that was rejected.
+        manager = DiscoveryStateManager(str(self.root / "state.json"))
+        manager.state["sources_metadata"] = {
+            "spammy": {"handle": "spammy", "last_checked": 1, "last_nodes_yield": 1,
+                       "is_active": True, "sub_url": "https://t.me/s/spammy"},
+            "proxychan": {"handle": "proxychan", "last_checked": 2, "last_nodes_yield": 1,
+                          "is_active": True, "sub_url": "https://t.me/s/proxychan"},
+        }
+        manager.state["rejected_channels"] = ["spammy"]
+        self.assertEqual(manager.get_oldest_active_channels(limit=5), ["proxychan"])
+        manager.restore_candidates(["spammy", "proxychan"])
+        self.assertEqual(manager.state["candidate_queue"], ["proxychan"])
+
     def test_pending_children_guard_record_visited_url_and_query(self):
         manager = DiscoveryStateManager(str(self.root / "state.json"))
         url = "https://example.com/sub.txt"
@@ -743,6 +758,17 @@ class TestDiscoveryAgentBranches(OfflineDiscoveryTestCase):
         with patch.object(agent.nemotron, "complete_json", return_value={"keep": []}):
             self.assertEqual(agent._filter_candidates_via_nemotron(["proxychan", "spammy"]), ["proxychan"])
         self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
+
+    def test_filter_candidates_skips_previously_rejected_without_api_call(self):
+        # A permanently rejected handle must never be re-judged by the
+        # model: re-asking wastes budget and lets a flaky model (or a
+        # failed call returning the batch unchanged) re-admit it.
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["rejected_channels"] = ["spammy"]
+        with patch.object(agent.nemotron, "complete_json", return_value={"keep": ["freshchan"]}) as complete:
+            self.assertEqual(agent._filter_candidates_via_nemotron(["spammy", "freshchan"]), ["freshchan"])
+            complete.assert_called_once()
+            self.assertNotIn("spammy", complete.call_args.args[0])
 
     def test_expand_queries_budget_branches(self):
         agent = self.agent()
@@ -1035,6 +1061,55 @@ class TestDiscoveryAgent(OfflineDiscoveryTestCase):
         self.assertEqual(fetch.call_count, 1)
         self.assertEqual(agent.nemotron.api_requests_count, 0)
         self.assertIn("proxytwo", agent.state_manager.state["candidate_queue"])
+
+    def test_previously_rejected_active_channel_does_not_crash_extended_cycle(self):
+        # Regression: daily-deep-discovery runs 43548949470 and
+        # 43555608563 failed with "ValueError at <run_cycle>:764"
+        # (pending.remove(handle)). A channel rejected in an earlier
+        # cycle stayed active in sources_metadata, re-entered the batch
+        # through the refresh path, and the model kept it — while the
+        # pending list had dropped it for being in rejected_channels.
+        # Rejected must mean rejected: the cycle finishes without
+        # re-processing the handle.
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["sources_metadata"] = {
+            "spammy": {
+                "handle": "spammy", "last_checked": 1, "last_nodes_yield": 1,
+                "total_nodes_yield": 1, "checks_count": 1, "is_active": True,
+                "is_telegram": True, "sub_url": "https://t.me/s/spammy",
+                "retained_fingerprints": [],
+            }
+        }
+        agent.state_manager.state["rejected_channels"] = ["spammy"]
+        with self.crawl(agent) as fetch, \
+             patch.object(agent.nemotron, "complete_json", return_value={"keep": ["spammy"]}):
+            sources = agent.run_cycle(max_channels=1, max_time_seconds=30, max_api_requests=500)
+        self.assertEqual(sources, [])
+        fetch.assert_not_called()
+        self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
+        self.assertNotIn("spammy", agent.state_manager.state["visited_channels"])
+
+    def test_failed_filter_call_does_not_crash_extended_cycle(self):
+        # Same crash, via the production trigger: the model call fails
+        # (OpenRouter 502 in runs 43548949470 / 43555608563), so the
+        # filter returns the batch unchanged and a previously-rejected
+        # handle it kept reaches pending.remove(handle).
+        agent = self.agent(key="synthetic")
+        agent.state_manager.state["sources_metadata"] = {
+            "spammy": {
+                "handle": "spammy", "last_checked": 1, "last_nodes_yield": 1,
+                "total_nodes_yield": 1, "checks_count": 1, "is_active": True,
+                "is_telegram": True, "sub_url": "https://t.me/s/spammy",
+                "retained_fingerprints": [],
+            }
+        }
+        agent.state_manager.state["rejected_channels"] = ["spammy"]
+        with self.crawl(agent) as fetch, \
+             patch.object(agent.nemotron, "complete_json", return_value=None):
+            sources = agent.run_cycle(max_channels=1, max_time_seconds=30, max_api_requests=500)
+        self.assertEqual(sources, [])
+        fetch.assert_not_called()
+        self.assertIn("spammy", agent.state_manager.state["rejected_channels"])
 
     @patch("src.discovery.agent.time.monotonic")
     def test_deadline_covers_partial_dequeue(self, clock):
