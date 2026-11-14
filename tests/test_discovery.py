@@ -187,14 +187,14 @@ class TestNemotronClient(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
     def test_image_persistent_null_content_is_retryable_empty(self, transport, _sleep, _clock):
-        # Null-content 200s on both models: analyze_image returns "" with
-        # the outcome left "retryable" instead of killing the run.
+        # Null-content 200s on all vision models: analyze_image returns ""
+        # with the outcome left "retryable" instead of killing the run.
         null = (200, json.dumps({"choices": [{"message": {"role": "assistant", "content": None}}]}).encode())
         client = self.client(limit=10)
-        transport.side_effect = [(200, IMAGE)] + [null] * 6
+        transport.side_effect = [(200, IMAGE)] + [null] * 9
         self.assertEqual(client.analyze_image("https://cdn.telegram.org/public.png"), "")
         self.assertEqual(client.last_image_outcome, "retryable")
-        self.assertEqual(client.api_requests_count, 6)
+        self.assertEqual(client.api_requests_count, 9)
 
     @patch("src.discovery.nemotron_client.fetch_bytes", create=True, return_value=(200, b"not an image"))
     def test_unknown_image_format_is_not_forwarded(self, transport):
@@ -350,8 +350,8 @@ class TestNemotronClientBranches(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes", create=True)
     def test_non_json_200_becomes_502(self, transport, sleep, _clock):
-        client = self.client(limit=10, seconds=30)
         for body in (b"[1, 2]", b"not json"):
+            client = self.client(limit=20, seconds=30)
             transport.return_value = (200, body)
             with self.subTest(body=body), self.assertRaises(DiscoveryAPIError):
                 client.complete("hi")

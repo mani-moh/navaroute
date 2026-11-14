@@ -79,19 +79,43 @@ DEFAULT_NEMOTRON_MODEL = "stepfun-ai/step-5-preview"
 DEFAULT_OPENROUTER_MODEL = "nvidia/nemotron-3.5-super-vl:free"
 # OpenRouter's free router: picks an available free model for the request
 # (and filters for features the request needs, e.g. image understanding).
-# It is the backup model for both text and vision calls. It is NOT gated
-# the way thinkingmachines/* :free models are (agentic harnesses only).
+# It is the first fallback for both text and vision calls, with NVIDIA
+# :free models after it (see below). It is NOT gated the way
+# thinkingmachines/* :free models are (agentic harnesses only).
 OPENROUTER_FREE_ROUTER = "openrouter/free"
 APPROVED_BASE_URLS = {
     "nvidia": DEFAULT_NVIDIA_BASE_URL,
     "openrouter": DEFAULT_OPENROUTER_BASE_URL,
 }
+# NVIDIA :free fallbacks, tried after the free router, best to worst.
+# Ranked 2026-11-14 with the deterministic daily selector's own scoring
+# (workspace scripts/select_openrouter_model.py) over the live OpenRouter
+# catalog + the independent tracker (all three answered 7/7 days):
+#   text jobs (no vision bonus): Ultra 550B 109.4 > Nano Omni 85.0 >
+#   Lightning 76.0 — Ultra first (reasoning_effort, 1M context), then
+#   Nano Omni (30B, fastest at 0.8s median), then Lightning (1M context).
+# Vision jobs: only Nano Omni takes image input among NVIDIA :free
+# models, so it is the only NVIDIA vision fallback. The router stays
+# first in both lists: it filters for the features the request needs
+# (e.g. image understanding, structured outputs).
+NVIDIA_TEXT_FALLBACK_MODELS = [
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "nvidia/nemotron-3.5-lightning:free",
+]
+NVIDIA_VISION_FALLBACK_MODELS = [
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+]
 VISION_FALLBACK_MODELS = [
     OPENROUTER_FREE_ROUTER,
+    *NVIDIA_VISION_FALLBACK_MODELS,
 ]
 TEXT_FALLBACK_MODELS = [
     OPENROUTER_FREE_ROUTER,
+    *NVIDIA_TEXT_FALLBACK_MODELS,
 ]
+# Every NVIDIA fallback model, for payload shaping in _call_api_on_provider.
+_NVIDIA_FALLBACK_MODELS = frozenset(NVIDIA_TEXT_FALLBACK_MODELS) | frozenset(NVIDIA_VISION_FALLBACK_MODELS)
 
 
 def _download_image_as_data_uri(image_url: str, timeout: float = 12, deadline: float | None = None) -> str:
@@ -182,7 +206,9 @@ class NemotronClient:
     503 BrokenPipe, or a 404 for a model), _call_api retries once on the
     fallback provider before giving up. No other origin is ever accepted.
     From OpenRouter there is no cross-provider fallback: its model list
-    already ends at the free router, and no NVIDIA model currently works.
+    runs default -> free router -> NVIDIA :free models, and those ids do
+    not exist on the NVIDIA direct provider, so a cross-provider attempt
+    would only burn a request on a 404.
     """
 
     def __init__(
@@ -327,6 +353,12 @@ class NemotronClient:
             # fallback-worthy, so never send reasoning to the router.
             if cur_model == OPENROUTER_FREE_ROUTER:
                 cur_payload.pop("reasoning", None)
+            # The free NVIDIA models do not advertise structured_outputs,
+            # so a response_format request would 400 and burn the attempt;
+            # they return plain JSON text instead, which complete_json
+            # already parses. Reasoning stays: they all support it.
+            if cur_model in _NVIDIA_FALLBACK_MODELS:
+                cur_payload.pop("response_format", None)
             data = json.dumps(cur_payload).encode("utf-8")
             for attempt in range(1, max_retries + 1):
                 try:
@@ -445,9 +477,9 @@ class NemotronClient:
         its key is configured, only when the failure was not a malformed
         request (400), and still counts against the same API budget.
         There is no cross-provider fallback FROM OpenRouter: its model list
-        already ends at the free router, and no NVIDIA model currently works
-        (stepfun-ai/step-5-preview 404s), so that attempt would only burn a
-        request on a 404.
+        runs default -> free router -> NVIDIA :free models, and those ids
+        do not exist on the NVIDIA direct provider, so that attempt would
+        only burn a request on a 404.
         """
         if not self.is_available():
             logger.warning("NemotronClient: no discovery API key is configured.")
