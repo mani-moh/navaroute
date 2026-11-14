@@ -243,7 +243,10 @@ class FetcherAggregateTests(unittest.TestCase):
         self.assertFalse(failed[0].success)
         self.assertIn("RuntimeError", failed[0].error or "")
 
-    def test_aggregate_cap_is_fatal_and_cancels_queued_sources(self):
+    def test_aggregate_cap_hit_publishes_partial_results_and_marks_skipped(self):
+        # The cap is no longer fatal: a run that outgrows it publishes
+        # what it collected and marks the rest skipped instead of
+        # losing the whole run.
         release = threading.Event()
         futures = []
         read = []
@@ -261,18 +264,41 @@ class FetcherAggregateTests(unittest.TestCase):
                 release.wait(0.1)
             return 200, "\n".join(("vless://first@8.8.8.8:443?security=tls", "vless://second@8.8.8.8:443?security=tls"))
         sources = [SourceConfig(str(i), str(i), f"http://public.example/{i}") for i in range(12)]
-        with patch("src.fetcher.AGGREGATE_MAX_NODES", 1), \
+        with patch("src.fetcher.AGGREGATE_BASE_NODES", 1), \
+                patch("src.fetcher.AGGREGATE_NODES_PER_SOURCE", 0), \
                 patch("src.fetcher.concurrent.futures.ThreadPoolExecutor", Executor), \
-                patch("src.fetcher._fetch_url", transport), self.assertRaises(ValueError):
-            fetch_all_sources(sources, max_workers=1)
+                patch("src.fetcher._fetch_url", transport):
+            nodes, _, stats = fetch_all_sources(sources, max_workers=1)
+        self.assertEqual(nodes, [])
+        self.assertEqual(len(stats), 12)
+        self.assertTrue(all(not stat.success for stat in stats))
+        self.assertTrue(all("aggregate node cap" in (stat.error or "") for stat in stats))
         self.assertGreaterEqual(sum(future.cancelled() for future in futures), 10)
         self.assertLessEqual(len(read), 2)
 
-    def test_aggregate_cap_value_is_500k(self):
-        # Pinned after run 43518579151 (2026-11-13): 195 sources exceed 250k raw nodes.
-        from src.fetcher import AGGREGATE_MAX_NODES
+    def test_aggregate_cap_scales_with_source_count(self):
+        # Calibrated 2026-11-14: 193 sources fetched 262,249 raw nodes,
+        # so 2,500/source leaves roughly 2x headroom and normal growth
+        # never trips the cap.
+        from src.fetcher import aggregate_node_cap
 
-        self.assertEqual(AGGREGATE_MAX_NODES, 500_000)
+        self.assertEqual(aggregate_node_cap(0), 500_000)
+        self.assertEqual(aggregate_node_cap(193), 500_000)
+        self.assertEqual(aggregate_node_cap(300), 750_000)
+        self.assertEqual(aggregate_node_cap(1000), 2_500_000)
+
+    def test_single_source_nodes_are_truncated_not_fatal(self):
+        sources = [SourceConfig("big", "Big", "http://public.example/big")]
+        body = "\n".join((
+            "vless://first@8.8.8.8:443?security=tls",
+            "vless://second@8.8.8.8:443?security=tls",
+            "vless://third@8.8.8.8:443?security=tls",
+        ))
+        with patch("src.fetcher.SOURCE_MAX_NODES", 2), \
+                patch("src.fetcher._fetch_url", return_value=(200, body)):
+            nodes, _, stats = fetch_all_sources(sources, max_workers=1)
+        self.assertEqual(len(nodes), 2)
+        self.assertTrue(all(stat.success for stat in stats))
 
     def test_completed_futures_are_released_during_aggregation(self):
         references = []
@@ -304,7 +330,8 @@ class FetcherAggregateTests(unittest.TestCase):
 
     def test_exact_aggregate_cap_retains_all_peers_without_truncation(self):
         sources = [SourceConfig(str(i), str(i), "http://public.example/feed") for i in range(2)]
-        with patch("src.fetcher.AGGREGATE_MAX_NODES", 2), \
+        with patch("src.fetcher.AGGREGATE_BASE_NODES", 2), \
+                patch("src.fetcher.AGGREGATE_NODES_PER_SOURCE", 0), \
                 patch("src.fetcher._fetch_url", return_value=(200, "vless://custom@8.8.8.8:443?security=tls")):
             nodes, _, stats = fetch_all_sources(sources, max_workers=1)
         self.assertEqual(len(nodes), 2)

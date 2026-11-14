@@ -14,11 +14,24 @@ from src.parsers import extract_nodes_from_content
 from src.network import NetworkError, approved_public_url, fetch_bytes
 
 SOURCE_MAX_BYTES = 32 * 1024 * 1024
-# Raised from 250k after run 43518579151 (2026-11-13): 195 enabled sources
-# legitimately exceed 250k raw nodes. The cap stays fatal (see
-# test_aggregate_cap_is_fatal_and_cancels_queued_sources) — it is a
-# safety bound, not a truncation point.
-AGGREGATE_MAX_NODES = 500_000
+# Self-scaling aggregate cap (replaces the fixed 500k fatal cap that broke
+# run 43518579151 at 195 sources and had to be raised by hand in PR #33).
+# The effective cap grows with the registry — normal growth never trips
+# it — and hitting it is no longer fatal: fetch_all_sources publishes
+# what it collected and marks the skipped sources instead of losing the
+# whole run. A single source is truncated to SOURCE_MAX_NODES so one
+# runaway feed cannot eat the whole budget. Calibrated 2026-11-14: the
+# 193-source aggregation fetched 262,249 raw nodes, so 2,500/source
+# leaves roughly 2x headroom at current sizes.
+AGGREGATE_BASE_NODES = 500_000
+AGGREGATE_NODES_PER_SOURCE = 2_500
+SOURCE_MAX_NODES = 100_000
+AGGREGATE_CAP_SKIPPED_ERROR = "skipped: aggregate node cap reached"
+
+
+def aggregate_node_cap(source_count: int) -> int:
+    """Effective aggregate raw-node cap for this many enabled sources."""
+    return max(AGGREGATE_BASE_NODES, AGGREGATE_NODES_PER_SOURCE * max(0, source_count))
 logger = logging.getLogger(__name__)
 
 DEFAULT_USER_AGENT = (
@@ -214,6 +227,9 @@ def fetch_all_sources(
     """Concurrently fetches all sources using a thread pool.
 
     Returns (all_extracted_nodes, all_json_configs, all_source_stats).
+    The aggregate cap scales with the source count; when it is reached
+    the run publishes what was collected and marks the remaining
+    sources skipped instead of failing.
     """
     all_nodes: list[ProxyNode] = []
     all_json_configs: list[dict] = []
@@ -222,6 +238,8 @@ def fetch_all_sources(
     if not sources:
         return all_nodes, all_json_configs, all_stats
 
+    cap = aggregate_node_cap(len(sources))
+    cap_hit = False
     workers = min(max_workers, max(1, len(sources)))
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
         future_to_source = {
@@ -242,15 +260,37 @@ def fetch_all_sources(
                     )
                 )
             else:
-                if len(all_nodes) + len(nodes) > AGGREGATE_MAX_NODES:
+                if len(nodes) > SOURCE_MAX_NODES:
+                    logger.warning(
+                        "Source %s returned %d nodes; keeping first %d",
+                        src.id, len(nodes), SOURCE_MAX_NODES,
+                    )
+                    nodes = nodes[:SOURCE_MAX_NODES]
+                if len(all_nodes) + len(nodes) > cap:
+                    cap_hit = True
                     for pending in future_to_source:
                         pending.cancel()
+                    skipped = [src] + list(future_to_source.values())
+                    for skipped_source in skipped:
+                        all_stats.append(
+                            SourceStats(
+                                source_id=skipped_source.id,
+                                name=skipped_source.name,
+                                url=_report_url(skipped_source.url),
+                                success=False,
+                                error=AGGREGATE_CAP_SKIPPED_ERROR,
+                            )
+                        )
                     future_to_source.clear()
-                    raise ValueError("Aggregate raw node limit exceeded")
+                    break
                 all_nodes.extend(nodes)
                 all_json_configs.extend(jsons)
                 all_stats.append(stats)
 
+    if cap_hit:
+        logger.warning(
+            "Aggregate node cap (%d) reached; publishing partial results", cap
+        )
     # Sort stats by source_id for predictable reporting
     all_stats.sort(key=lambda s: s.source_id)
     return all_nodes, all_json_configs, all_stats

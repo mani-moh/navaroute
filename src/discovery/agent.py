@@ -10,6 +10,7 @@ import sys
 import time
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlsplit
 
 from src.discovery.nemotron_client import DiscoveryBudgetExceeded, NemotronClient
 from src.discovery.search_engine import TelegramChannelScraper, WebSearchScraper
@@ -40,6 +41,38 @@ FALLBACK_GITHUB_QUERIES = [
 ]
 RETAINED_CACHE_URL = "data/discovered_ocr_configs.txt"
 CHECKPOINT_JOURNAL = "data/discovery_checkpoint.json"
+# Compact known-sources list for model prompts: how many short tokens the
+# agent may show the model so it steers queries at gaps instead of
+# re-finding what is already known. Tokens are handles/domains, never
+# full URLs, so the list stays small as the registry grows.
+KNOWN_SOURCES_COMPACT_LIMIT = 120
+# Maximum extra query-expansion passes per cycle when the candidate
+# queue runs dry mid-cycle.
+MAX_QUERY_REEXPANSIONS = 3
+
+
+def _known_source_token(url: str) -> str:
+    """One short token identifying an already-known source for prompts."""
+    if not isinstance(url, str) or not url:
+        return ""
+    handle = normalize_channel_handle(url)
+    if handle:
+        return f"tg:{handle}"
+    try:
+        parsed = urlsplit(url)
+    except ValueError:
+        return ""
+    host = (parsed.hostname or "").lower()
+    if not host:
+        return ""
+    if host == "raw.githubusercontent.com":
+        parts = [part for part in parsed.path.split("/") if part]
+        if len(parts) >= 2:
+            return f"gh:{parts[0]}/{parts[1]}"
+        return ""
+    if host.startswith("www."):
+        host = host[4:]
+    return f"web:{host}"
 PUBLIC_CHECKPOINT_OUTPUTS = {
     "cache": (RETAINED_CACHE_URL,),
     # Unified registry is sources.json; the legacy second file is still
@@ -430,6 +463,27 @@ class DiscoveryAgent:
             return True
         return None
 
+    def _compact_known_sources(self, discovered_sources: dict[str, dict[str, Any]],
+                               existing_public_urls: Optional[set[str]] = None) -> str:
+        """Bounded comma-separated list of already-known sources for prompts.
+
+        Short tokens only (handles/domains/repos), so the model can aim
+        new queries at gaps without re-finding what is already known,
+        and the prompt stays small as the registry grows.
+        """
+        tokens = set()
+        for url in list(existing_public_urls or set()) + [
+            source.get("url", "") for source in discovered_sources.values()
+        ]:
+            token = _known_source_token(url)
+            if token:
+                tokens.add(token)
+        ordered = sorted(tokens)
+        if len(ordered) > KNOWN_SOURCES_COMPACT_LIMIT:
+            shown = ordered[:KNOWN_SOURCES_COMPACT_LIMIT]
+            return ", ".join(shown) + f", …+{len(ordered) - KNOWN_SOURCES_COMPACT_LIMIT} more"
+        return ", ".join(ordered)
+
     def _filter_candidates_via_nemotron(self, handles: list[str], max_api_requests: int = 0,
                                         start_requests: int = 0) -> list[str]:
         # Rejection is permanent: never spend an API call re-judging a
@@ -469,7 +523,12 @@ class DiscoveryAgent:
         past = self.state_manager.state["queries_executed"]
         res = None
         if self.nemotron.is_available() and not self.state_manager.state.get("pending_children"):
-            res = self.nemotron.complete_json('Suggest public proxy discovery search queries. Return JSON {"web_queries": [], "github_queries": []}. Avoid: ' + str(past[-25:]))
+            prompt = ('Suggest public proxy discovery search queries. Return JSON {"web_queries": [], '
+                      '"github_queries": []}. Avoid: ' + str(past[-25:]))
+            known = self._compact_known_sources(discovered_sources, existing)
+            if known:
+                prompt += ' Already known — prefer queries likely to find sources NOT in this list: ' + known
+            res = self.nemotron.complete_json(prompt)
         web, github = [], []
         if isinstance(res, dict):
             web = res.get("web_queries", res.get("queries", []))
@@ -721,6 +780,7 @@ class DiscoveryAgent:
         extended = max_api_requests > 0 and self.nemotron.is_available()
         checked, pending, attempted = 0, [], set()
         checkpoint_valid = True
+        reexpansions = 0
         try:
             if max_channels and self._can_work():
                 self._expand_queries_via_nemotron(discovered, existing, extended_mode=extended)
@@ -752,6 +812,15 @@ class DiscoveryAgent:
             while checked < max_channels and self._can_work():
                 batch = self.state_manager.pop_next_candidates(min(5, max_channels - checked), exclude=attempted)
                 if not batch:
+                    # Queue dry mid-cycle: ask for fresh queries of our
+                    # own instead of only re-checking old channels, so
+                    # the remaining budget goes to finding new sources.
+                    if extended and reexpansions < MAX_QUERY_REEXPANSIONS and self._can_work():
+                        before = len(self.state_manager.state.get("candidate_queue", []))
+                        self._expand_queries_via_nemotron(discovered, existing, extended_mode=extended)
+                        reexpansions += 1
+                        if len(self.state_manager.state.get("candidate_queue", [])) > before:
+                            continue
                     refresh = self.state_manager.get_oldest_active_channels(limit=max_channels)
                     refresh += [normalize_channel_handle(s["url"]) for s in discovered.values() if normalize_channel_handle(s["url"])]
                     batch = list(dict.fromkeys(h for h in refresh if h not in attempted))[:min(5, max_channels - checked)]
