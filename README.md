@@ -3,10 +3,12 @@
 [![Tests & Security](https://github.com/mani-moh/navaroute/actions/workflows/ci.yml/badge.svg)](https://github.com/mani-moh/navaroute/actions/workflows/ci.yml)
 [![Subscriptions](https://github.com/mani-moh/navaroute/actions/workflows/update-subs.yml/badge.svg)](https://github.com/mani-moh/navaroute/actions/workflows/update-subs.yml)
 [![Discovery](https://github.com/mani-moh/navaroute/actions/workflows/daily-deep-discovery.yml/badge.svg)](https://github.com/mani-moh/navaroute/actions/workflows/daily-deep-discovery.yml)
+[![Tier 1 PattN Test](https://github.com/mani-moh/navaroute/actions/workflows/tier1-pattn-test.yml/badge.svg)](https://github.com/mani-moh/navaroute/actions/workflows/tier1-pattn-test.yml)
+[![Nightly Snapshot](https://github.com/mani-moh/navaroute/actions/workflows/nightly-snapshot.yml/badge.svg)](https://github.com/mani-moh/navaroute/actions/workflows/nightly-snapshot.yml)
 
 NavaRoute aggregates public proxy connections, validates complete connection identities, deduplicates them, and publishes categorized URI subscriptions. It is not a client manager, routing service, or promise of censorship bypass. It never installs or discovers a client/core, synchronizes a database, or manufactures connection variants.
 
-Canonical repository: **`mani-moh/navaroute`**, default branch: **`master`**. The repository rename, protected owner-results setup and remote acceptance are release checks owned by the coordinator; these links describe the intended canonical destination, not proof it is already available.
+Canonical repository: **`mani-moh/navaroute`**, default branch: **`master`**. Feeds publish to `master` on a schedule; the separately owner-tested results live on the protected `iran-results` branch (see below).
 
 Prefer to explore interactively? **[NavaRoute Pipeline Explorer](https://mani-moh.github.io/navaroute/explorer/)** — a section-by-section walkthrough (pipeline, automation, repo anatomy, feed catalog, trust boundaries), with snapshot figures refreshed live from this README. Source under [`docs/explorer`](docs/explorer/) and [`docs/superpowers`](docs/superpowers/) in this repository.
 
@@ -32,7 +34,19 @@ Protocol groups cover VLESS, VMess, Trojan, Shadowsocks, Hysteria2 and TUIC. Cou
 - `categories/iran-optimized.txt` is a legacy filename for **Iran-related upstream claims**, not optimized routing or Iranian ISP evidence.
 - Reality and web-transport groups describe supplied settings; ConfigsHUB and whitelist groups are source claims, not verified functionality.
 
-See [STATUS.md](STATUS.md), [DISCOVERY.md](DISCOVERY.md), [architecture](docs/ARCHITECTURE.md) and [historical migration provenance](docs/MIGRATION.md). The initial migration is offline: its snapshot time belongs to the old public input, **not** a new crawl or healthcheck. No old verification boolean becomes current evidence.
+### Tier 1 tested feeds
+
+These are the same groups as above, restricted to configs that passed a full-connection Realping test on GitHub runners (see [Tiered testing](#tiered-testing)). Each has a `_base64.txt` mirror. Counts change every run; the current numbers live in [`data/tier1_results.json`](data/tier1_results.json).
+
+| Feed on `master/subs/` | Meaning |
+|---|---|
+| [tier1_all.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_all.txt) | Tier-1 passers across all groups. The global tier-1 feed. |
+| [tier1_reachable.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_reachable.txt) | Tier-1 passers from the reachable pool. |
+| [tier1_active.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_active.txt) | Tier-1 passers from the active (last-7-days socket) pool. |
+| [tier1_top100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_top100.txt) | Tier-1 passers from the top-100 pool. |
+| [tier1_lite500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_lite500.txt) | Tier-1 passers from the lite500 pool. |
+
+See [STATUS.md](STATUS.md), the discovery leaderboard [DISCOVERY.md](DISCOVERY.md), [tiered testing](TIERED-TESTING.md), [architecture](docs/ARCHITECTURE.md) and [historical migration provenance](docs/MIGRATION.md). The initial migration is offline: its snapshot time belongs to the old public input, **not** a new crawl or healthcheck. No old verification boolean becomes current evidence.
 
 <!-- NAVAROUTE:STATS:START -->
 ## NavaRoute Generated Snapshot
@@ -283,6 +297,33 @@ Retired executable `categories/serverless-fragment.json` is `[]`.
 | [verified_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/verified_base64.txt) | 963 |
 <!-- NAVAROUTE:STATS:END -->
 
+## How the feeds are built
+
+### Aggregation — every 6 hours
+
+The `update-subs` workflow (`0 */6 * * *`) fetches the registry of public subscription sources (curated + discovered, listed in [`sources.json`](sources.json)), validates complete connection identities, deduplicates them, and publishes the feeds above plus the generated snapshot in this README. A 1,000-config sample gets a socket reachability probe each run; the rest is untested at this stage. The aggregate raw-node cap scales with the enabled source count (500,000 floor, 2,500 per source); hitting it publishes a partial result with the skipped sources marked instead of failing the run, and a single source is truncated at 100,000 nodes.
+
+### Discovery — daily 02:00 UTC
+
+The `daily-deep-discovery` workflow finds new subscription sources. An AI scout (default model `nvidia/nemotron-3.5-super-vl:free` via OpenRouter) extracts subscription URLs and Telegram handles from page snippets, judges ambiguous handles, and suggests fresh search queries when the candidate queue runs dry (at most 3 extra passes), steered by a compact list of already-known sources. Text fallbacks run `openrouter/free` → Nemotron Ultra 550B → Nano Omni → Lightning; vision falls back to Nano Omni. Ceilings are 500 actual API requests including retries/fallbacks, 5400 discovery network seconds and 2000 channels — not promised yields. The 6-hourly aggregation itself uses no AI.
+
+### Tiered testing
+
+Socket reachability is not proof a config works end to end, so the feeds above are also Realping-tested in two tiers; see [TIERED-TESTING.md](TIERED-TESTING.md).
+
+- **Tier 1 — GitHub, every 2 hours** (`0 */2 * * *`): the `tier1-pattn-test` workflow runs the PattN WebAPI (pinned P40 release) on `windows-latest` and Realping-tests up to 8,000 due configs per run — an end-to-end HTTPS GET through the proxy, twice 100 ms apart, 5 s connect timeout, minimum recorded. It tests in batches of 100 across 4 servers side by side as a filling system (about 19 minutes for 8,000 configs, down from ~90). Results publish `subs/tier1_<group>.txt` (plus `_base64` mirrors) and `data/tier1_results.json`. Configs that consistently fail on GitHub but pass from Iran are force-included via `data/github_blocked.json` and counted separately.
+- **Tier 2 — owner PC, owner-triggered**: a single Windows executable (`NavaRouteTier2.exe`, built by the `build-tier2` workflow) drives PattN on the owner's PC with the Iran regional preset, tests the tier-1 passers or all configs, and publishes `subs/iran_<group>.txt` variants plus an updated `data/github_blocked.json` through a branch and PR. No scheduled tier-2 job exists; Iran testing is owner-only.
+
+### Nightly snapshot check — 03:00 UTC
+
+The `nightly-snapshot` workflow runs the full snapshot verification the PR checks skip: every generated profile and decoded URI canonical, and the current tracked snapshot loadable within its limits. It guards the published snapshot; a red nightly run means the snapshot (not the PR gate) needs attention.
+
+## Public site and mirrors
+
+- **Public site:** [mani-moh.github.io/navaroute](https://mani-moh.github.io/navaroute/) — bilingual (Persian default, English toggle), all feeds with copy buttons and mirrors, no runtime requests. Built by `scripts/build_public_site.py`; see [docs/PUBLIC-SITE.md](docs/PUBLIC-SITE.md). Cloudflare Pages is the primary host; GitHub Pages stays as a mirror.
+- **ArvanCloud mirror:** [repoget.s3.ir-central1.arvanstorage.ir](https://repoget.s3.ir-central1.arvanstorage.ir/index.html) — the base64 feeds behind neutral labels, synced every 6 hours from a private mirror repo.
+- **Telegram bot:** [@awsmanibot](https://t.me/awsmanibot) — `/status` and `/feeds` for anyone; discovery and aggregation triggers are owner-only.
+
 ## Separate owner-tested results
 
 Only the owner's explicit standalone command may publish dated end-to-end evidence to protected **`iran-results`**:
@@ -320,7 +361,6 @@ Publication validates the manifest and public subset, creates one complete resul
 
 ## Automation and local development
 
-- Six-hour aggregation: **`0 */6 * * *`**. Daily discovery: **`0 2 * * *`**, with default ceilings of 500 actual API requests (including retries/fallbacks), 5400 discovery network seconds and 2000 channels, not promised actual yields.
 - Both retained writers run only on `master`, share **`navaroute-git-writer`**, and stop on discovery/rebase/push exhaustion. Pushes are non-forced and retain human commits. No scheduled Iran job or core download exists.
 - One writer per output directory **including local/custom publishers**, and one checkpoint/discovery publisher per state directory. Actions concurrency does not lock local commands. Do not run overlapping local publishers; journal recovery is not a multi-writer lock.
 - CI declares unrestricted push/PR triggers without path exclusions or skip-CI commit markers. GitHub normally suppresses downstream workflow triggers for `GITHUB_TOKEN` pushes; scheduled writers therefore run their own tests and final staged privacy gate, not a claimed second CI run. Actions are pinned to verified immutable checkout/setup-python references. Tests check logic offline, not live core schemas or carrier behavior.
