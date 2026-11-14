@@ -2764,6 +2764,132 @@
       "enabled": true,
       "description": "Public Telegram channel @v2ray_vpn_ir whose configs were retained by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "sub-c951fa49f5",
+      "name": "Discovered public subscription",
+      "url": "https://gh-proxy.com/https://raw.githubusercontent.com/sakazxc1400-creator/free-vpn-sub/data/output/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-b6a7f0a318",
+      "name": "Discovered public subscription",
+      "url": "https://ghproxy.net/https://raw.githubusercontent.com/sakazxc1400-creator/free-vpn-sub/data/output/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-44501fb22e",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githack.com/sakazxc1400-creator/free-vpn-sub/data/output/sub.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-beshkan",
+      "name": "Telegram @beshkan (public configs retained)",
+      "url": "https://t.me/s/beshkan",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @beshkan whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-vpnmaan",
+      "name": "Telegram @vpnmaan (public configs retained)",
+      "url": "https://t.me/s/vpnmaan",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @vpnmaan whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-meliproxyy",
+      "name": "Telegram @meliproxyy (public configs retained)",
+      "url": "https://t.me/s/meliproxyy",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @meliproxyy whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-king_network7",
+      "name": "Telegram @king_network7 (public configs retained)",
+      "url": "https://t.me/s/king_network7",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @king_network7 whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-an0nymousteam",
+      "name": "Telegram @an0nymousteam (public configs retained)",
+      "url": "https://t.me/s/an0nymousteam",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @an0nymousteam whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-ln2ray",
+      "name": "Telegram @ln2ray (public configs retained)",
+      "url": "https://t.me/s/ln2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @ln2ray whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }

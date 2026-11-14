@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIERLIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T05:24:31.041101+00:00
+# snapshot-time: 2026-11-14T08:05:27.135448+00:00
 
 vless://72c6050f-fd80-432b-9dd5-2c231ca16c7a@38.180.20.150:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.speedtest.net&fp=safari&security=reality&pbk=Q_TPJ9ttl_QOONnqGKRvzLvG-aAdqXkPtyhMPZ7Hqw0&sid=34e921e9&path=%2F#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://a346c521-7a7f-452b-9356-a4893feb5982@193.233.253.180:8444?security=reality&type=grpc&mode=gun&serviceName=GunService&packetEncoding=xudp&sni=github.com&fp=firefox&pbk=FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
@@ -9,6 +9,7 @@ vmess://eyJhaWQiOiAiMCIsICJob3N0IjogInJlbmRlcmVyLXN0cmVhbS0yLTYyLm1pcnJhLm5vdyIs
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInJlbmRlcmVyLXN0cmVhbS0yLTYyLm1pcnJhLm5vdyIsICJwYXRoIjogIi9hcGkvdjEvZ3B1LXN0cmVhbS9zb2NrZXQiLCAidGxzIjogInRscyIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HqfCfh7AgREtdIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjE5My4xODAuMjExLjE1NSIsICJwb3J0IjogNDQzLCAiaWQiOiAiZGI1MGEyMGUtN2ZmNS00ZTcwLTk0OGYtMTdjYzljYTdjMTU0In0=
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@192.36.27.116:989#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjY0IiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICIiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogIiIsICJwcyI6ICJb8J+HqfCfh7AgREtdIFZNZXNzLXRjcCB8IHNyYzpjb2xkd2F0ZXItYWxsIiwgImFkZCI6ICIxOTMuMjkuMTA3LjIzNCIsICJwb3J0IjogNDkwMjAsICJpZCI6ICIyZTk2N2RkNS04ZDI0LTQwOTktYTkwMS00MTJkY2I0MDI0ZmQifQ==
+trojan://86957ec0-b213-433b-a43b-51f2175e0ec3@104.20.39.109:443?sni=space.byu.id.yxls.eu.cc&type=tcp#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 trojan://de3bc763-2fc6-46aa-aec7-a52a0d1c0550@38.180.72.65:8443?path=%2FFree-VPN-CF-Geo-Project%2F38.180.72.65%3D8443&security=tls&host=joss.gpj.web.id&fp=randomized&type=ws&sni=joss.gpj.web.id#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4ep8J+HsCBES10gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIkZhc3QuamV4bXVrLmlyIiwgInBvcnQiOiAxNjE3NiwgImlkIjogImIyOGJmZDA0LTBiOTEtNGJmYi1hYjg4LTRkNWMzM2ZkMTEzMSJ9
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogImdycGMiLCAicGF0aCI6ICJ2bWVzcy1ncnBjIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJ3d3cuc3BlZWR0ZXN0Lm5ldCIsICJ0bHMiOiAiIiwgInR5cGUiOiAiZ3VuIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HqfCfh7AgREtdIFZNZXNzLWdycGMgfCBzcmM6Y29sZHdhdGVyLWFsbCIsICJhZGQiOiAiOTUuMTY0LjEwLjExNiIsICJwb3J0IjogODg4MCwgImlkIjogIjEwMDg5YTU1LTI2YzAtNTIxNC05NTZiLWFjYWYzNDQ3MTE5YiJ9
@@ -17,6 +18,7 @@ trojan://c5691b8f-d833-41e4-9295-769f3edb4cd2@95.164.85.39:443?type=tcp&security
 vless://78685e90-c5fd-4c01-9ff4-a63ea1cdc998@87.58.155.25:443?security=none&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20VLESS-tcp%20%7C%20src%3Asub-07d2577deb
 hysteria2://22d891f5-ad85-4824-b0b8-e30cf3d37eb5@lsj1.mangshe.xyz:2056?sni=lsj1.mangshe.xyz#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 trojan://qG9K8AGnn9XH5jUqeFu96g@104.16.123.175:2083?security=tls&sni=cdn13.cdn2cdn.com&fp=chrome&type=ws&path=%2F&host=cdn13.cdn2cdn.com#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Trojan-ws%20%7C%20src%3Asbornik-trojan-001
+hysteria2://gf1@185.111.109.40:443?sni=www.dell.com%23%E4%B8%B9%E9%BA%A6#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJyZW5kZXJlci1zdHJlYW0tMi02Mi5taXJyYS5ub3ciLCAibmV0IjogIndzIiwgInBhY2tldEVuY29kaW5nIjogInh1ZHAiLCAicGF0aCI6ICIvYXBpL3YxL2dwdS1zdHJlYW0vc29ja2V0IiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJyZW5kZXJlci1zdHJlYW0tMi02Mi5taXJyYS5ub3ciLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4ep8J+HsCBES10gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMTkzLjE4MC4yMTEuMTU1IiwgInBvcnQiOiA0NDMsICJpZCI6ICJkYjUwYTIwZS03ZmY1LTRlNzAtOTQ4Zi0xN2NjOWNhN2MxNTQifQ==
 ss://YWVzLTI1Ni1nY206S0M0MU1NWVZBWDgzR0RKMA@185.186.79.135:20028#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20SS%20%7C%20src%3Agfpcom-ss
 hysteria2://19f72087-4591-4d72-930b-2697078ec2be@5.183.101.138:4433?sni=se.xiaoliyu.cyou#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2

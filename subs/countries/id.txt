@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIElEIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T05:24:31.041101+00:00
+# snapshot-time: 2026-11-14T08:05:27.135448+00:00
 
 trojan://Telegram_healer_config@104.21.125.207:443?sni=TH1R714O73d1P35f.mr2esNK29L620Xo76Kpuv-QUb4B7IDfR.WOrkeRS.DeV&fp=unsafe&alpn=http%2F1.1&type=ws&path=%2Ftr%2FgtMkuJkm42JnKfAr%3Fed%3D2560#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 trojan://7e70223b-f331-41d5-9313-02b8d2df2885@krhtybay.catcat321.com:20120?allowInsecure=1&peer=hk.catxstar.com&sni=hk.catxstar.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
@@ -14,6 +14,7 @@ trojan://018b8e7b-7813-4dcb-84a5-3c98f1521e00@edu.ruangguru.com:443?sni=id1.nath
 trojan://M7v%25w11Se%2A@34.101.126.150:443?allowInsecure=1&fp=chrome&security=tls&sni=qfdfsg.wsone.icu#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 hysteria2://09fceaf1-5813-4745-b8ad-725fc5a8c426@46.203.248.72:50443?insecure=1#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://78585441-c8b3-40fb-9b94-15edd312fdcf@202.155.14.134:55555?sni=www.bing.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+trojan://Telegram_healer_config@104.18.9.128:443?sni=TH1R714O73d1P35f.mr2esNK29L620Xo76Kpuv-QUb4B7IDfR.WOrkeRS.DeV&fp=unsafe&alpn=http%2F1.1&type=ws&path=%2Ftr%2FgtMkuJkm42JnKfAr%3Fed%3D2560#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 trojan://788f2b96-47e2-4302-a417-511b6fd7d09c@172.232.250.160:443?fp=chrome&alpn=http%2F1.1&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIlRubVhQSUZWd2Z2eUZadmYudi4zZG5zLnZpcCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvd3Mtdm1lc3MiLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eu8J+HqSBJRF0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiVG5tWFBJRlZ3ZnZ5Rlp2Zi52LjNkbnMudmlwIiwgInBvcnQiOiA0NDMsICJpZCI6ICJiNjY0Y2MzNi00ODk2LTQ1NGItYmI5Yy0xMzc3Yzc2MTc2ZGUifQ==
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIkNPYnBlRmt5anhOVVFDbncudi4zZG5zLnZpcCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvd3Mtdm1lc3MiLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eu8J+HqSBJRF0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiQ09icGVGa3lqeE5VUUNudy52LjNkbnMudmlwIiwgInBvcnQiOiA0NDMsICJpZCI6ICJiNjY0Y2MzNi00ODk2LTQ1NGItYmI5Yy0xMzc3Yzc2MTc2ZGUifQ==
@@ -48,7 +49,6 @@ trojan://Telegram_healer_config@104.21.83.187:443?sni=TH1R714O73d1P35f.mr2esNK29
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJleGEubmV4dHZwbi5jYyIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIiIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh67wn4epIElEXSBWTWVzcy13cyB8IHNyYzpsYWxhdGluYWh1Yi1taW5lcmFsIiwgImFkZCI6ICJsbXMudWluLWFudGFzYXJpLmFjLmlkIiwgInBvcnQiOiA4MCwgImlkIjogIjQ2YmZkYjU5LTgzYzYtNDcxMC04NzdlLWM4MDliNWE5MGRmZiJ9
 trojan://your_password@43.218.139.54:443?type=tcp&security=tls&sni=aws-id-jakarta-1.f1rocketnode.com&allowInsecure=1&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Acoldwater-all
 hysteria2://TELEGRAM-ID-conf0088.TELEGRAM-ID-conf0088@repuestoslibertad.cl.repuestoslibertad.cl:2084?security=tls&obfs=salamander&obfs-password=ed5s8665dsss&insecure=0#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Hysteria2%20%7C%20src%3Aelf2017spring-configshub
-vmess://eyJhaWQiOiAiMCIsICJuZXQiOiAidGNwIiwgInNjeSI6ICJhdXRvIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAic2tpcC1jZXJ0LXZlcmlmeSI6IHRydWUsICJwcyI6ICJb8J+HrvCfh6kgSURdIFZNZXNzLXRjcCB8IHNyYzpyb29zdGVya2lkLW9wZW5wcm94eWxpc3QiLCAiYWRkIjogInpmZC1ib2FyZHYyLmt1bmx1bjAxZG5zLmNvbSIsICJwb3J0IjogMTYyOTgsICJpZCI6ICIwODAyYWMwMy03OTczLTM5ZWYtYTAxOS1iYTAyZGU2YzAxZTEifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4QzV2YWxoT2Q4dmZ3YVRYVVNaNlp5YjBJcDM0bFJSNXo3UDhheg@103.160.63.199:31348#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20SS%20%7C%20src%3A0xradikal-all
 trojan://018b8e7b-7813-4dcb-84a5-3c98f1521e00@104.25.82.149:443?sni=id1.nathaya.web.id&type=ws&path=%2Ftrojan&fp=unsafe#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vless://f8c9d2a1-da40-4f90-b671-11772a0b13d6@103.172.197.3:16006?security=reality&encryption=none&pbk=ll7JTP628PuBMZJvx6fuhGSmCRSURnReAetmhCEL8GU&host=%2F%3FTelegram---PLANB_NET---PLANB_NET---PLANB_NET---PLANB_NET&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.cloudflare.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
