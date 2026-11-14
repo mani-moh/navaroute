@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgTGl0ZTUwMCAoUGF0dE4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-14T16:12:24.743042+00:00
+# snapshot-time: 2026-11-14T21:44:15.266885+00:00
 
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJzY3kiOiAibm9uZSIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJbc291cmNlLWNsYWltZWRdIFtzb2NrZXQ6cGFzc2VkXSBb8J+HuvCfh7ggVVNdIFZNZXNzLXRjcCB8IHNyYzoweHJhZGlrYWwtYWxsIHwgNTFtcyIsICJhZGQiOiAiMTY5LjE5Ny4xNDIuMjIiLCAicG9ydCI6IDE4MDAwLCAiaWQiOiAiZjhjOGRjM2QtMGQzNy00NmIwLThiMzQtYTcyMzI4ODJmY2ZlIn0=
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.121:443?allowInsecure=0&sni=www.unlockyourfuturefindyourperfectcareer.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%2040ms

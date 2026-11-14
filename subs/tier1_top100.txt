@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgVG9wMTAwIChQYXR0TiBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-14T16:12:24.743042+00:00
+# snapshot-time: 2026-11-14T21:44:15.266885+00:00
 
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@172.67.74.177:443?path=%2F%3FTelegram---PLANB_NET---PLANB_NET---PLANB_NET---PLANB_NET&security=tls&encryption=none&insecure=0&host=fs.qicai99.com&fp=chrome&type=ws&allowInsecure=0&sni=fs.qicai99.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%8C%90%20XX%5D%20VLESS-ws%20%7C%20src%3Aalirzza9-configshub-all%20%7C%206ms
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@fs.qicai99.com:443?path=%2F&security=tls&alpn=h3%2Ch2%2Chttp%2F1.1&encryption=none&insecure=0&host=fs.qicai99.com&fp=chrome&type=ws&allowInsecure=0&sni=fs.qicai99.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%8C%90%20XX%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%206ms
