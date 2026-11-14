@@ -930,5 +930,24 @@ class PrivacyGateTests(unittest.TestCase):
             self.assertFalse(public_git.public_output(path), path)
 
 
+class TierVariantCountsTests(unittest.TestCase):
+    def test_tier1_variant_files_match_results_json(self):
+        # The README stats table has no rows for tier-1 variants (they
+        # are published by the tier-1 workflow, not the aggregator), so
+        # test_rebrand.py skips its README-count check for them; pin
+        # their row counts here against tier1_results.json instead.
+        # Variants hold the passing configs plus the GitHub-blocked set
+        # (see src/tier1.build_variants / build_results).
+        root = Path(__file__).resolve().parents[1]
+        results = json.loads((root / "data/tier1_results.json").read_text(encoding="utf-8"))
+        self.assertEqual(set(results["feeds"]), set(TIER_GROUPS))
+        for group, counts in sorted(results["feeds"].items()):
+            path = root / "subs" / f"tier1_{group}.txt"
+            rows = [line for line in path.read_text(encoding="utf-8").splitlines()
+                    if line and not line.startswith("#")]
+            self.assertEqual(len(rows), counts["passed"] + counts["github_blocked"],
+                             f"tier1_{group}.txt rows != tier1_results.json passed+blocked")
+
+
 if __name__ == "__main__":
     unittest.main()

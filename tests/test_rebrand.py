@@ -44,7 +44,13 @@ class TestPublicMigration(unittest.TestCase):
                 encoded = path.with_name(path.stem + "_base64.txt").read_text(encoding="utf-8")
                 if FULL_SNAPSHOT:
                     self.assertTrue(base64.b64decode(encoded, validate=True).decode() == "\n".join(rows), "plain/Base64 rows differ")
-                    self.assertEqual(counts[path.relative_to(ROOT / "subs").as_posix()], len(rows))
+                    # Tier-1 / tier-2 variant feeds are published by the
+                    # tier workflows, not the aggregator, so the README
+                    # stats table has no row for them; their row counts
+                    # are pinned against tier1_results.json instead
+                    # (tests/test_tier1.py TierVariantCountsTests).
+                    if not (path.stem.startswith("tier1_") or path.stem.startswith("iran_")):
+                        self.assertEqual(counts[path.relative_to(ROOT / "subs").as_posix()], len(rows))
                 else:
                     # Sample mode: the base64 mirror still covers every
                     # row (cheap decode), but only the first 200 rows are
@@ -86,7 +92,13 @@ class TestPublicMigration(unittest.TestCase):
         self.assertTrue(all_nodes, "accepted public pool must not be empty")
         if FULL_SNAPSHOT:
             # Cross-file subset checks only hold on complete rows.
-            for group in groups.values():
+            # Tier-1 / tier-2 variant feeds are a point-in-time test
+            # snapshot: they legitimately lag the latest aggregation
+            # (a feed refresh drops configs the last tier run passed),
+            # so their identities may no longer be in all.txt.
+            for name, group in groups.items():
+                if name.startswith("tier1_") or name.startswith("iran_"):
+                    continue
                 self.assertTrue(group <= all_nodes, "feed contains identity outside accepted public pool")
             self.assertTrue(groups["top100.txt"] <= groups["reachable.txt"])
             self.assertLessEqual(len(groups["top100.txt"]), 100)
