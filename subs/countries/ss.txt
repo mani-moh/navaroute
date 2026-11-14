@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T11:05:30.600032+00:00
+# snapshot-time: 2026-11-14T23:01:52.960562+00:00
 
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naW1ubXkycnVtczV6eXc1bXp3NWp6ZzQ1bG1udmJzaXNpY2p3YjNqMGlqb2dtamExbWl3Z2ltbGtpam9naWpjNHl6cXdtdGMzbHdtem5qcXRuZGd3emMxaXpkYzNsdGMyenRsa29kbG1uamxpbmNpc2ljamhhd3Fpb2lhd2xjYWljMm41aWpvZ2ltZjFkZzhpbGNhaWJtdjBpam9naW5kemlpd2dpbWh2YzNxaW9pYWlkaGN4eWxmcHYxbmZuaGd1em5waWN3enljMnV1ZWhsNmlpd2dpbmJoZGdnaW9pYWlsM3pwemd2dmwwZHJtbmZmbnZ2em93Y2lsY2FpZGd4emlqb2dpaWlzaWNqd2N5aTZpY2phc2c5d3p2OW96eHF0YW05cGJpMTFjeTF2YmkxdXp3eGx6M2poYnNqOTxici8-PGJyLz52bGVzczovLzQzNWJkYTRjLWZlNWUtNDJjOS1hM2FkLTE1MzM0OTQzYjM4YQ@104.17.197.127:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23338#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -21,6 +21,7 @@ trojan://565aa5e6-15ff-3f58-b134-4ac80c744d48@dotu-krv2.03p4fad6vd.com:11049?sni
 ss://YWVzLTI1Ni1jZmI6cXdlclJFV1FAQA@p227.panda004.net:2020#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://eyJhZGQiOiI3NC4yMTEuMTAyLjE3OSIsImFpZCI6IjAiLCJhbHBuIjoiIiwiZnAiOiIiLCJob3N0IjoiIiwiaWQiOiI3ZjVmMDcwNS0zZGZiLTRmNTYtOTY1Ny1jOTVjYWRlMmJhODMiLCJpbnNlY3VyZSI6IjAiLCJuZXQiOiJ0Y3AiLCJwYXRoIjoiIiwicG9ydCI6IjIwMDAxIiwicHMiOiLwn4e68J-HuEBGcmVha0NvbmZpZyIsInNjeSI6ImF1dG8iLCJzbmkiOiIiLCJ0bHMiOiIiLCJ0eXBlIjoibm9uZSIsInYiOiIyIn0@162.159.17.189:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206QVBFWDdSUFExRlVBR05ZNw@qh62onjn.slashdevslashnetslashtun.net:15015#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpobjhiMXNsOXk5M3Fudmpq@[2001:41d0:2005:100::f53]:8080?type=tcp#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS-tcp%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@hk3.mhw7e2.online:20027#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://eyJ2IjogIjIiLCAiYWRkIjogInYycmF5LndlZnVja2dmdy5nYSIsICJwb3J0IjogIjIwOTYiLCAidHlwZSI6ICJub25lIiwgImlkIjogIjUxMzdkZDQzLWQ5NGUtNDI5My1hZTg3LWE0MmEzNzMwNzQyZSIsICJhaWQiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvSDhWc3d0VUovIiwgImhvc3QiOiAidjJyYXkud2VmdWNrZ2Z3LmdhIiwgInRscyI6ICJ0bHMiLCAicHMiOiAiQEhvcGVfTmV0LWpvaW4tdXMtb24tVGVsZWdyYW0ifQ@104.17.153.198:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowOTgzM2E2Zi00ZDQ2LTQyNmUtODdmZS03NzkzYTU0ODlmODQ@j-p04.loveroise.com:54102#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -218,7 +219,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MzYzN2NlYy02OTlkLTRkODctOTlhZi0wNzc2YWM4ODA
 vless://735f7616-a5cc-45ce-9bdc-b741054cb13e@finl-reali.12l.ir:11009?security=reality&amp%3Bencryption=none&amp%3Bpbk=ElePaKAWaOiEafrGXJsK_oUPq_Xn64FToGAjhodysQ4&amp%3BheaderType=none&amp%3Bfp=qq&amp%3Btype=tcp&amp%3Bsni=play.google.com&amp%3Bsid=133002321cf61ff4#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-Reality%20%7C%20src%3Agfpcom-ss
 ss://e3xdOn5vfx0@104.21.62.80:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@sg2.mhw7e2.online:20028#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://f016bc0f-5309-4782-ac19-4093f20e08d7@uk1.0a0.uk:443?security=reality&encryption=none&pbk=NGQ8m89DupgsVe5xcm6CZrbaoamSwwRznBxL4-2zAn0&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.apple.com&sid=8ed1838f4bbce68f#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
+vless://f016bc0f-5309-4782-ac19-4093f20e08d7@uk1.0a0.uk:443?security=reality&encryption=none&pbk=NGQ8m89DupgsVe5xcm6CZrbaoamSwwRznBxL4-2zAn0&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.apple.com&sid=8ed1838f4bbce68f#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23341#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://4c26ebc3-7784-46d8-b52a-7b0ccae6f4b4@amazon-4.cristiano.name.ng:443?security=reality&amp%3Bencryption=none&amp%3Bpbk=TGlPtfVzGIVpMauPRMGJj2Uu6GUiCpu5ZizIIjw-wx4&amp%3BheaderType=none&amp%3Bfp=chrome&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=store.steampowered.com&amp%3Bsid=f5#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-Reality%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0OGRkOTI1ZC01ZTllLTQ5ZWUtOTY5ZC0wODhlNWYxYWNlYTE@hz.niaoyun.vip:45398#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
