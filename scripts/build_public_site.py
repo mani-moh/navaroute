@@ -365,7 +365,7 @@ JS = """
 function setLang(l){document.body.dir=(l==='fa')?'rtl':'ltr';document.documentElement.lang=l;
 document.getElementById('langBtn').textContent=(l==='fa')?'English | فارسی':'فارسی | English';
 try{localStorage.setItem('navaroute-lang',l)}catch(e){}}
-function copyText(btn,txt){var done=function(){var o=btn.textContent;btn.textContent=btn.dataset.done;
+function copyText(btn,txt){var done=function(){var o=btn.textContent;var lang=document.body.dir==='rtl'?'fa':'en';btn.textContent=(lang==='fa'?btn.dataset.doneFa:btn.dataset.doneEn)||btn.dataset.done||o;
 setTimeout(function(){btn.textContent=o},1500)};
 if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback)}
 else{fallback()}function fallback(){var t=document.createElement('textarea');t.value=txt;
@@ -395,6 +395,19 @@ def _esc(text: str) -> str:
     return html.escape(text, quote=True)
 
 
+def _done_attrs(key: str = "copied") -> str:
+    """Plain-text done-label attributes for copy buttons.
+
+    _t() returns HTML spans, which must never go inside an attribute
+    value: the inner double quotes terminate data-done early and corrupt
+    the button markup (that broke every copy button on the public site).
+    Keep the two languages as separate plain-text attributes instead;
+    copyText() picks the one matching the page direction.
+    """
+    en, fa = STRINGS[key]
+    return f'data-done-en="{_esc(en)}" data-done-fa="{_esc(fa)}"'
+
+
 def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) -> str:
     tier1_passed = sum(v["passed"] for v in tier1.values())
     main = [f for f in feeds if f["group"] == "main"]
@@ -416,27 +429,27 @@ def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) ->
             '<span class="badge dim">deprecated</span>' if feed["name"] == "verified" else ""
         )
         b64 = (
-            f'<button class="copy" data-done="{_t("copied")}" '
+            f'<button class="copy" {_done_attrs()} '
             f'onclick="copyText(this,\'{feed["b64_url"]}\')">{_t("copy_b64")}</button>'
             if feed["b64_url"]
             else ""
         )
         return f"""<div class="card"><h3><code>{_esc(feed["name"])}.txt</code>{tier1_badge(feed)}{deprecated}</h3>
 <p>{_esc(desc)} — {feed["count"]:,} configs.</p>
-<div class="btnrow"><button class="copy" data-done="{_t("copied")}" onclick="copyText(this,'{feed["url"]}')"
+<div class="btnrow"><button class="copy" {_done_attrs()} onclick="copyText(this,'{feed["url"]}')"
 >{_t("copy_link")}</button>{b64}<a class="mirror" href="{feed["mirror_url"]}">{_t("mirror")}</a></div></div>"""
 
     def feed_row(feed: dict) -> str:
         info = tier1.get(feed["name"])
         t1 = f'{info["passed"]}/{info["tested"]}' if info else "—"
         b64 = (
-            f'<button class="copy" data-done="{_t("copied")}" onclick="copyText(this,\'{feed["b64_url"]}\')">b64</button>'
+            f'<button class="copy" {_done_attrs()} onclick="copyText(this,\'{feed["b64_url"]}\')">b64</button>'
             if feed["b64_url"]
             else ""
         )
         return f"""<tr data-group="{feed["group"]}" data-name="{_esc(feed["name"])}">
 <td><code>{_esc(feed["rel"])}</code></td><td>{feed["count"]:,}</td><td>{t1}</td>
-<td><button class="copy" data-done="{_t("copied")}" onclick="copyText(this,'{feed["url"]}')"
+<td><button class="copy" {_done_attrs()} onclick="copyText(this,'{feed["url"]}')"
 >{_t("copy_link")}</button> {b64}</td></tr>"""
 
     groups = sorted({f["group"] for f in others})
