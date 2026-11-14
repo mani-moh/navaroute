@@ -339,9 +339,11 @@ class DiscoveryStateManager:
     def get_oldest_active_channels(self, limit: int = 5) -> list[str]:
         """Returns previously active Telegram channels sorted by oldest last_checked."""
         meta = self.state.get("sources_metadata", {})
+        rejected = set(self.state.get("rejected_channels", []))
         active_tg = [
             info for info in meta.values()
-            if info.get("is_active") and info.get("is_telegram", True) and info.get("sub_url", "").startswith("https://t.me/")
+            if info.get("is_active") and info.get("handle") not in rejected
+            and info.get("is_telegram", True) and info.get("sub_url", "").startswith("https://t.me/")
         ]
         active_tg.sort(key=lambda s: s.get("last_checked", 0))
         return [s["handle"] for s in active_tg[:limit] if "handle" in s]
@@ -358,7 +360,8 @@ class DiscoveryStateManager:
 
     def restore_candidates(self, handles: list[str], *, attempted: set[str] = frozenset()) -> None:
         """Keep untouched suffix first; rotate attempted failures behind waiting work."""
-        clean = [normalize_channel_handle(h) for h in handles]
+        rejected = set(self.state.get("rejected_channels", []))
+        clean = [h for h in (normalize_channel_handle(raw) for raw in handles) if h not in rejected]
         queue = self.state["candidate_queue"]
         self.state["candidate_queue"] = list(dict.fromkeys([h for h in clean if h and h not in attempted] + queue
                                                          + [h for h in clean if h and h in attempted]))
