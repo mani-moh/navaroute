@@ -11,7 +11,7 @@ from src.discovery.nemotron_client import (
     NemotronClient,
 )
 from src.network import NetworkError, _resolve
-from tests.test_discovery import OfflineDiscoveryTestCase, completion
+from tests.test_discovery import IMAGE, URI, OfflineDiscoveryTestCase, completion
 
 
 class TestOpenRouterProvider(OfflineDiscoveryTestCase):
@@ -88,6 +88,55 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_text_fallback_order_is_router_then_nvidia_best_to_worst(self, transport, _sleep, _clock):
+        # 404s walk the whole text fallback chain: default, free router,
+        # then NVIDIA :free models best to worst (Ultra 550B, Nano Omni,
+        # Lightning — ranked by the daily selector's scoring).
+        transport.side_effect = [(404, b"")] * 4 + [completion('{"channels": ["proxychan"]}')]
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertEqual(client.complete_json("public query"), {"channels": ["proxychan"]})
+        payloads = [json.loads(call.kwargs["data"]) for call in transport.call_args_list]
+        self.assertEqual([p["model"] for p in payloads], [
+            DEFAULT_OPENROUTER_MODEL,
+            "openrouter/free",
+            "nvidia/nemotron-3-ultra-550b-a55b:free",
+            "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+            "nvidia/nemotron-3.5-lightning:free",
+        ])
+        # The default model gets reasoning + structured outputs; the router
+        # gets no reasoning; the NVIDIA fallbacks keep reasoning (they
+        # support it) but drop response_format (their free tier does not
+        # advertise structured outputs).
+        self.assertEqual(payloads[0]["reasoning"], {"effort": "high"})
+        self.assertEqual(payloads[0]["response_format"], {"type": "json_object"})
+        self.assertNotIn("reasoning", payloads[1])
+        for p in payloads[2:]:
+            self.assertEqual(p["reasoning"], {"effort": "high"})
+            self.assertNotIn("response_format", p)
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
+    def test_vision_fallback_order_is_router_then_nano_omni(self, transport, _sleep, _clock):
+        # Only Nano Omni takes image input among NVIDIA :free models, so
+        # the vision chain is default, free router, Nano Omni.
+        transport.side_effect = [(200, IMAGE), (404, b""), (404, b""), completion(URI)]
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
+            client = NemotronClient()
+            client.configure_cycle(max_attempts=10, deadline=30)
+            self.assertIn("vless://", client.analyze_image("https://cdn.telegram.org/public.png"))
+        image_payloads = [json.loads(call.kwargs["data"]) for call in transport.call_args_list[1:]]
+        self.assertEqual([p["model"] for p in image_payloads], [
+            DEFAULT_OPENROUTER_MODEL,
+            "openrouter/free",
+            "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+        ])
+
+    @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
+    @patch("src.discovery.nemotron_client.time.sleep")
+    @patch("src.discovery.nemotron_client.fetch_bytes")
     def test_nvidia_dns_failure_falls_back_to_openrouter(self, transport, _sleep, _clock):
         # Primary host fails on transport (DNS/connect), fallback host succeeds.
         def route(url, **kwargs):
@@ -110,10 +159,10 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
     def test_openrouter_primary_does_not_fall_back_to_nvidia(self, transport, _sleep, _clock):
-        # No cross-provider fallback FROM OpenRouter: its model list already
-        # ends at the free router, and no NVIDIA model currently works
-        # (stepfun-ai/step-5-preview 404s), so that attempt would only burn
-        # a request on a 404.
+        # No cross-provider fallback FROM OpenRouter: its model list runs
+        # default -> free router -> NVIDIA :free models, and those ids do
+        # not exist on the NVIDIA direct provider, so that attempt would
+        # only burn a request on a 404.
         def route(url, **kwargs):
             if "openrouter.ai" in url:
                 raise NetworkError("BrokenPipeError")
@@ -133,19 +182,22 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
-    def test_openrouter_http_failure_on_both_models_does_not_fall_back_to_nvidia(self, transport, _sleep, _clock):
-        # HTTP 503 on the primary model, then on the free router: still no
-        # NVIDIA attempt.
-        transport.side_effect = [(503, b"")] * 6
+    def test_openrouter_http_failure_on_all_models_does_not_fall_back_to_nvidia(self, transport, _sleep, _clock):
+        # HTTP 503 on the primary model, then on the free router, then on
+        # every NVIDIA fallback model: still no NVIDIA-provider attempt.
+        transport.side_effect = [(503, b"")] * 15
         with patch.dict(os.environ, {"NVIDIA_API_KEY": "nvapi-synthetic", "OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
             client = NemotronClient()
-            client.configure_cycle(max_attempts=10, deadline=30)
+            client.configure_cycle(max_attempts=20, deadline=30)
             with self.assertRaises(RuntimeError):
                 client.complete("public query")
         urls = [call.args[0] for call in transport.call_args_list]
         self.assertTrue(all("openrouter.ai" in u for u in urls))
         models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
-        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3)
+        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3
+                         + ["nvidia/nemotron-3-ultra-550b-a55b:free"] * 3
+                         + ["nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"] * 3
+                         + ["nvidia/nemotron-3.5-lightning:free"] * 3)
 
     @staticmethod
     def _null_content():
@@ -182,27 +234,31 @@ class TestOpenRouterProvider(OfflineDiscoveryTestCase):
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
     def test_persistent_null_content_degrades_to_empty_not_a_crash(self, transport, _sleep, _clock):
-        # Every attempt empty on both models: complete() returns "" (the
+        # Every attempt empty on all models: complete() returns "" (the
         # agent skips that prompt) instead of killing the whole run.
-        transport.side_effect = [self._null_content()] * 6
+        transport.side_effect = [self._null_content()] * 15
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
             client = NemotronClient()
-            client.configure_cycle(max_attempts=10, deadline=30)
+            client.configure_cycle(max_attempts=20, deadline=30)
             self.assertEqual(client.complete("public query"), "")
         models = [json.loads(call.kwargs["data"])["model"] for call in transport.call_args_list]
-        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3)
-        self.assertEqual(client.api_requests_count, 6)
+        self.assertEqual(models, [DEFAULT_OPENROUTER_MODEL] * 3 + ["openrouter/free"] * 3
+                         + ["nvidia/nemotron-3-ultra-550b-a55b:free"] * 3
+                         + ["nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"] * 3
+                         + ["nvidia/nemotron-3.5-lightning:free"] * 3)
+        self.assertEqual(client.api_requests_count, 15)
 
     @patch("src.discovery.nemotron_client.time.monotonic", return_value=0)
     @patch("src.discovery.nemotron_client.time.sleep")
     @patch("src.discovery.nemotron_client.fetch_bytes")
     def test_null_content_mixed_with_real_failure_still_raises(self, transport, _sleep, _clock):
-        # Empty replies on the default model, then a real 503 on the router:
-        # that is a provider failure, not a skipped prompt, so it raises.
-        transport.side_effect = [self._null_content()] * 3 + [(503, b"")] * 3
+        # Empty replies on the default model, then a real 503 on every
+        # fallback model: that is a provider failure, not a skipped
+        # prompt, so it raises.
+        transport.side_effect = [self._null_content()] * 3 + [(503, b"")] * 12
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "sk-or-v1-synthetic"}):
             client = NemotronClient()
-            client.configure_cycle(max_attempts=10, deadline=30)
+            client.configure_cycle(max_attempts=20, deadline=30)
             with self.assertRaises(RuntimeError):
                 client.complete("public query")
 
