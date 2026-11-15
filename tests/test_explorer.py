@@ -11,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import build_explorer as be  # noqa: E402
+import build_public_site as bps  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -151,7 +152,11 @@ class TestExplorer(unittest.TestCase):
             for new in NEW_FEED_NAMES:
                 self.assertIn(new, page, f"new feed name {new!r} missing")
             self.assertIn("tested-iran", page)
-            self.assertIn("138,970", page)
+            # Live row count, computed from the repo at test time: the
+            # feed set changes on every aggregation run, so a hard-coded
+            # number would go stale (and fail CI on the merge commit).
+            all_count = f"{bps.count_uris(REPO_ROOT / 'subs' / 'all.txt'):,}"
+            self.assertIn(all_count, page)
             self.assertIn("T1 ✓", page)
             self.assertIn("کاوشگر", page)
 
