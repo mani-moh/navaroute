@@ -84,7 +84,39 @@ on your PC: it opens a dashboard at http://127.0.0.1:8765.
 - It applies the Iran regional preset, then tests either the tier-1
   passers (`subs/tested.txt`, default) or **all configs**
   (`subs/all.txt`, the full sweep — chunked and resumable, progress
-  saved per chunk under the same cache dir).
+  saved per chunk under the same cache dir). The scope picker narrows
+  it further: everything remaining (untested + last run's failures),
+  only last run's failures, only untested, or everything again.
+- **Test modes.** Realping (default) is an end-to-end HTTPS GET and
+  stays the authority for published Iran-verified feeds. **UDP**
+  runs the WebAPI's `Udptest` action instead (UDP over SOCKS5,
+  NTP-based): it proves UDP forwarding works and tracks speed, but
+  does NOT prove the proxy can do HTTPS/web traffic — only Realping
+  does, so a UDP-only run is labelled `mode: udp` in
+  `data/iran_results.json` and in the PR body, and should not be read
+  as Iran-verified for web traffic. **UDP-then-Realping** screens
+  with UDP first and Realping-confirms only the UDP passers, so the
+  published set stays Realping-proven while the slow Realping step
+  skips configs that already fail UDP. The P40 WebAPI accepts
+  `Udptest` (verified live against the P40 Linux build, 2026-11-16:
+  HTTP 202, `speedtest.started`); if a build ever refuses it, the app
+  falls back to Realping for that run and says so in the log, and the
+  UDP options are disabled in the UI afterwards.
+- **Customization.** Before starting: test mode (above), parallelism
+  (how many configs the server tests at once — `SpeedTestPageSize`,
+  default 100, written into the WebAPI's `guiNConfig.json` before the
+  server starts), and a max-delay cutoff in ms (0 = none; a config
+  slower than the cutoff counts as a failure even if it answers).
+  A run can be **stopped** cleanly at any time with the Stop button:
+  the in-flight speed test is cancelled, progress stays saved per
+  chunk, and the run resumes where it left off.
+- **ETA.** While a run is going the dashboard shows tested/total,
+  elapsed time, configs/min and time remaining, updated on every
+  server poll. Before starting it shows an estimate from the last
+  run's rate (`%LOCALAPPDATA%\NavaRouteTier2\last-rate.json`,
+  written at the end of every run); with no previous run there is no
+  estimate yet. For UDP-then-Realping the confirm phase counts in the
+  progress total, so the ETA stays honest through phase 2.
 - **Upload to repo** (needs a fine-grained PAT for `mani-moh/navaroute`
   with contents + pull requests, entered once in the UI and stored in
   Windows Credential Manager — never in the repo or a file) commits to
@@ -93,8 +125,11 @@ on your PC: it opens a dashboard at http://127.0.0.1:8765.
   `online-week-tested-iran.txt`, `fastest-100-tested-iran.txt`,
   `balanced-500-tested-iran.txt` and a `-tested-iran` variant for every
   slice feed (per-feed Iran-verified variants, sorted by Iran delay),
-  `data/iran_results.json` (per-feed {tested, passed}), and an updated
-  `data/github_blocked.json`.
+  `data/iran_results.json` (per-feed {tested, passed} plus the run's
+  `mode`: `realping`, `udp` or `udp-realping`), and an updated
+  `data/github_blocked.json`. The upload checkboxes pick which groups
+  go up instead of all-or-nothing (core groups and/or all slice
+  variants); `iran_results.json` then covers only the uploaded groups.
 
 Your `PattN.exe` stays for everyday use; the tester drives the headless
 engine behind it.
