@@ -116,6 +116,40 @@ TEXT_FALLBACK_MODELS = [
 ]
 # Every NVIDIA fallback model, for payload shaping in _call_api_on_provider.
 _NVIDIA_FALLBACK_MODELS = frozenset(NVIDIA_TEXT_FALLBACK_MODELS) | frozenset(NVIDIA_VISION_FALLBACK_MODELS)
+# OpenRouter model IDs mapped to their NVIDIA direct
+# (integrate.api.nvidia.com) IDs, for the cross-provider fallback in
+# _call_api. Verified 2026-11-15 against NVIDIA's own LLM API docs
+# (docs.api.nvidia.com/nim/reference/llm-apis, updated 2026-10-23) and an
+# independent free-tier probe (2026-11-12): the OpenRouter :free suffix is
+# dropped, and Lightning gains its 30b-a3b size tag. Super VL
+# (nvidia/nemotron-3.5-super-vl-120b-a12b) is a vision-language model
+# (text, image and video in, text out), so the vision chain maps too.
+# openrouter/free has no NVIDIA-direct equivalent and is skipped when
+# mapping. step-5-preview is already a NVIDIA-direct ID and maps to
+# itself. A stale ID here costs one 404 per model at most: a 404 is
+# fallback-worthy and the chain moves on to the next mapped model.
+OPENROUTER_TO_NVIDIA_DIRECT_MODELS = {
+    "nvidia/nemotron-3.5-super-vl:free": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    "nvidia/nemotron-3-ultra-550b-a55b:free": "nvidia/nemotron-3-ultra-550b-a55b",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
+    "nvidia/nemotron-3.5-lightning:free": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "stepfun-ai/step-5-preview": "stepfun-ai/step-5-preview",
+}
+
+
+def _map_models_to_nvidia_direct(models: list[str]) -> list[str]:
+    """Map OpenRouter model IDs to NVIDIA-direct IDs, preserving order.
+
+    Unmapped IDs (the free router, or an explicit model override with no
+    NVIDIA-direct twin) are dropped. Returns [] when nothing maps, in
+    which case the caller must not attempt a cross-provider fallback.
+    """
+    mapped: list[str] = []
+    for model in models:
+        nvidia_id = OPENROUTER_TO_NVIDIA_DIRECT_MODELS.get(model)
+        if nvidia_id is not None and nvidia_id not in mapped:
+            mapped.append(nvidia_id)
+    return mapped
 
 
 def _download_image_as_data_uri(image_url: str, timeout: float = 12, deadline: float | None = None) -> str:
@@ -204,11 +238,11 @@ class NemotronClient:
     otherwise NVIDIA. When both keys are present the other provider is kept
     as an automatic fallback: if the primary provider fails (transport,
     503 BrokenPipe, or a 404 for a model), _call_api retries once on the
-    fallback provider before giving up. No other origin is ever accepted.
-    From OpenRouter there is no cross-provider fallback: its model list
-    runs default -> free router -> NVIDIA :free models, and those ids do
-    not exist on the NVIDIA direct provider, so a cross-provider attempt
-    would only burn a request on a 404.
+    fallback provider before giving up. From OpenRouter the fallback maps
+    the model list to NVIDIA-direct IDs (OPENROUTER_TO_NVIDIA_DIRECT_MODELS):
+    the :free IDs do not exist on the NVIDIA direct provider, so they are
+    translated first and the free router (which has no direct twin) is
+    skipped. No other origin is ever accepted.
     """
 
     def __init__(
@@ -476,10 +510,15 @@ class NemotronClient:
         resolves, routes and catalogues independently. Fallback runs only when
         its key is configured, only when the failure was not a malformed
         request (400), and still counts against the same API budget.
-        There is no cross-provider fallback FROM OpenRouter: its model list
-        runs default -> free router -> NVIDIA :free models, and those ids
-        do not exist on the NVIDIA direct provider, so that attempt would
-        only burn a request on a 404.
+        The cross-provider fallback FROM OpenRouter maps the model list to
+        NVIDIA-direct IDs (OPENROUTER_TO_NVIDIA_DIRECT_MODELS, skipping the
+        free router, which has no direct twin) and strips the
+        OpenRouter-shaped ``reasoning`` object and ``response_format`` from
+        the payload — the NVIDIA API does not take them, and complete_json
+        parses plain JSON text. If nothing in the list maps, there is no
+        fallback: the primary failure stands. Added 2026-11-15 after run
+        43696446561: OpenRouter returned 503 BrokenPipe + empty 200s for
+        43 minutes, and the model-level fallbacks cannot help a dead host.
         """
         if not self.is_available():
             logger.warning("NemotronClient: no discovery API key is configured.")
@@ -498,10 +537,27 @@ class NemotronClient:
                 raise
             if not self.budget_remaining():
                 raise
-            # No cross-provider fallback from OpenRouter (see docstring):
-            # the model list already ends at the free router.
+            # Cross-provider fallback FROM OpenRouter to NVIDIA direct:
+            # the model list is mapped to NVIDIA-direct IDs first (the
+            # :free IDs do not exist there), the free router is skipped,
+            # and OpenRouter-shaped fields are stripped. If nothing maps,
+            # there is no fallback: the primary failure stands.
             if self.provider == "openrouter":
-                raise
+                mapped_models = _map_models_to_nvidia_direct(
+                    [payload.get("model", self.model), *(fallback_models or [])]
+                )
+                if not mapped_models:
+                    raise
+                logger.warning("Discovery primary provider failed; trying NVIDIA direct with mapped models")
+                fallback_payload = dict(payload)
+                fallback_payload["model"] = mapped_models[0]
+                fallback_payload.pop("reasoning", None)
+                fallback_payload.pop("response_format", None)
+                return self._call_api_on_provider(
+                    self.fallback_provider, self.fallback_base_url, self.fallback_api_key,
+                    fallback_payload, max_retries=max_retries,
+                    fallback_models=mapped_models[1:],
+                )
             logger.warning("Discovery primary provider failed; trying fallback provider")
             fallback_payload = dict(payload)
             if self.fallback_provider == "openrouter" and fallback_payload.get("model") == DEFAULT_NEMOTRON_MODEL:
