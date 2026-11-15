@@ -47,10 +47,15 @@ whole list takes roughly a day at the 2-hourly cadence.
 - `data/tier1_results.json` — per-feed {tested, passed, github_blocked}
   plus totals. `passed` is what is currently passing tier 1 in the
   feed; the OS dashboard's Feeds sort reads this file.
-- `subs/tier1_<group>.txt` and `subs/tier1_<group>_base64.txt` for
-  `all, reachable, active, top100, lite500` — the feed's configs that
-  passed tier 1, plus the GitHub-blocked set, sorted by delay.
-  `tier1_all` is the global tier-1 feed.
+- `subs/tested.txt` and `subs/tested_base64.txt` — the global tested
+  feed — plus `online-tested.txt`, `online-week-tested.txt`,
+  `fastest-100-tested.txt` and `balanced-500-tested.txt` (and their
+  `_base64` twins): each feed's configs that passed tier 1, plus the
+  GitHub-blocked set, sorted by delay. Every slice feed gets the same
+  treatment: `protocols/<proto>-tested.txt`, `countries/<cc>-tested.txt`
+  and `categories/<name>-tested.txt` (plain + base64), each the slice
+  intersected with the tier-1 passing set. A slice with no passers
+  still gets an empty file — the run never aborts over an empty slice.
 
 **GitHub-blocked special treatment.** `data/github_blocked.json`
 (written by tier 2) lists fingerprints that consistently fail tier 1
@@ -68,22 +73,26 @@ hatch for the ones that work from Iran.
 
 `tools/tier2/tier2_pattn.py` is a stdlib-only Python app; the
 `build-tier2` workflow builds it into a single Windows `.exe`
-(`NavaRouteTier2.exe`) with PyInstaller and publishes it as a release
-asset. Run the exe on your PC: it opens a dashboard at
-http://127.0.0.1:8765.
+(`NavaRouteTier2.exe`) with PyInstaller and publishes it as a
+workflow artifact (download it from the latest successful
+`build-tier2` run — there are no releases in this repo). Run the exe
+on your PC: it opens a dashboard at http://127.0.0.1:8765.
 
 - It finds your PattN folder (`D:\PattN-windows-64-desktop\PattN-windows-64`)
   and reuses its cores, or downloads the pinned P40 WebAPI once and
   caches it under `%LOCALAPPDATA%\NavaRouteTier2`.
 - It applies the Iran regional preset, then tests either the tier-1
-  passers (`subs/tier1_all.txt`, default) or **all configs**
+  passers (`subs/tested.txt`, default) or **all configs**
   (`subs/all.txt`, the full sweep — chunked and resumable, progress
   saved per chunk under the same cache dir).
 - **Upload to repo** (needs a fine-grained PAT for `mani-moh/navaroute`
   with contents + pull requests, entered once in the UI and stored in
   Windows Credential Manager — never in the repo or a file) commits to
-  a branch + PR: `subs/iran_<group>.txt` and `subs/iran_<group>_base64.txt`
-  (per-feed Iran-verified variants, sorted by Iran delay),
+  a branch + PR: `subs/tested-iran.txt` and `subs/tested-iran_base64.txt`
+  (the global Iran-verified feed) plus `online-tested-iran.txt`,
+  `online-week-tested-iran.txt`, `fastest-100-tested-iran.txt`,
+  `balanced-500-tested-iran.txt` and a `-tested-iran` variant for every
+  slice feed (per-feed Iran-verified variants, sorted by Iran delay),
   `data/iran_results.json` (per-feed {tested, passed}), and an updated
   `data/github_blocked.json`.
 

@@ -25,14 +25,14 @@ from pathlib import Path
 # (file stem, label, few-word description). Order is the page order.
 # Deliberately neutral wording: no product, protocol or purpose words.
 FEEDS = (
-    ("tier1_all_base64", "working", "tested, working"),
-    ("reachable_base64", "online", "responding now"),
-    ("active_base64", "recent", "worked this week"),
-    ("top100_base64", "top 100", "fastest 100"),
-    ("lite500_base64", "lite", "small list"),
-    ("tier1_top100_base64", "working · top 100", "tested, fastest 100"),
-    ("tier1_lite500_base64", "working · lite", "tested, small list"),
-    ("tier1_reachable_base64", "working · online", "tested, responding now"),
+    ("tested_base64", "working", "tested, working"),
+    ("online_base64", "online", "responding now"),
+    ("online-week_base64", "recent", "worked this week"),
+    ("fastest-100_base64", "top 100", "fastest 100"),
+    ("balanced-500_base64", "lite", "small list"),
+    ("fastest-100-tested_base64", "working · top 100", "tested, fastest 100"),
+    ("balanced-500-tested_base64", "working · lite", "tested, small list"),
+    ("online-tested_base64", "working · online", "tested, responding now"),
 )
 
 CSS = """

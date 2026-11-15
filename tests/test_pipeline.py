@@ -534,12 +534,14 @@ class TestCategorizer(unittest.TestCase):
         )
 
         # Verify Core Files
-        self.assertTrue((self.output_dir / "verified.txt").exists())
-        self.assertTrue((self.output_dir / "verified_base64.txt").exists())
+        self.assertFalse((self.output_dir / "verified.txt").exists())
+        self.assertFalse((self.output_dir / "verified_base64.txt").exists())
         self.assertTrue((self.output_dir / "all.txt").exists())
         self.assertTrue((self.output_dir / "all_base64.txt").exists())
-        self.assertTrue((self.output_dir / "top100.txt").exists())
-        self.assertTrue((self.output_dir / "lite500.txt").exists())
+        self.assertTrue((self.output_dir / "online.txt").exists())
+        self.assertTrue((self.output_dir / "online-week.txt").exists())
+        self.assertTrue((self.output_dir / "fastest-100.txt").exists())
+        self.assertTrue((self.output_dir / "balanced-500.txt").exists())
 
         # Verify Categories
         self.assertTrue((self.output_dir / "categories" / "pattn-special.txt").exists())
@@ -557,7 +559,7 @@ class TestCategorizer(unittest.TestCase):
         self.assertTrue((self.output_dir / "countries" / "de.txt").exists())
 
         # Verify Plaintext Profile Headers
-        ver_text = (self.output_dir / "verified.txt").read_text(encoding="utf-8")
+        ver_text = (self.output_dir / "online.txt").read_text(encoding="utf-8")
         self.assertIn("#profile-title: base64:", ver_text)
         self.assertIn("#profile-update-interval: 6", ver_text)
         self.assertNotIn("#subscription-userinfo:", ver_text)
@@ -732,7 +734,7 @@ class TestMainPipeline(unittest.TestCase):
                   [SourceStats("good", "Good", "https://example.com", success=True, raw_count=1), SourceStats("bad", "Bad", "https://example.com")])), \
              contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main(["--output-dir", scratch, "--no-docs", "--no-healthcheck"]), 0)
-            self.assertEqual((Path(scratch) / "reachable_base64.txt").read_bytes(), b"")
+            self.assertEqual((Path(scratch) / "online_base64.txt").read_bytes(), b"")
 
     def test_main_never_attempts_udp_protocols_using_tcp_healthchecks(self):
         from datetime import datetime, timezone
@@ -755,8 +757,8 @@ class TestMainPipeline(unittest.TestCase):
             self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
             self.assertIn("1 nodes responsive", output.getvalue())
             from src.parsers import parse_proxy_uri
-            reachable = base64.b64decode((Path(scratch) / "reachable_base64.txt").read_bytes()).decode().splitlines()
-            self.assertEqual([parse_proxy_uri(uri).scheme for uri in reachable], ["trojan"])
+            online = base64.b64decode((Path(scratch) / "online_base64.txt").read_bytes()).decode().splitlines()
+            self.assertEqual([parse_proxy_uri(uri).scheme for uri in online], ["trojan"])
 
     def test_main_all_socket_probes_failed_still_emits_only_accepted_aggregate(self):
         node = ProxyNode("trojan", "public.example", 443, "public", is_verified_source=True)
@@ -768,7 +770,7 @@ class TestMainPipeline(unittest.TestCase):
              contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(main(["--output-dir", scratch, "--no-docs"]), 0)
             self.assertTrue((Path(scratch) / "all_base64.txt").read_bytes())
-            for name in ("reachable", "verified", "top100", "active"):
+            for name in ("online", "fastest-100", "online-week"):
                 self.assertEqual((Path(scratch) / f"{name}_base64.txt").read_bytes(), b"")
 
 

@@ -103,7 +103,7 @@ class TestPublicGit(unittest.TestCase):
         self.assertNotIn("private-error-sentinel", output.getvalue())
 
     def test_final_staging_allows_only_exact_public_roles_including_deletions(self):
-        paths = ["subs/all.txt", "subs/all_base64.txt", "subs/reachable.txt", "subs/active.txt", "subs/active_base64.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
+        paths = ["subs/all.txt", "subs/all_base64.txt", "subs/online.txt", "subs/online-week.txt", "subs/online-week_base64.txt", "subs/categories/navaroute-special.txt", "subs/categories/pattn-special_base64.txt",
                  "subs/categories/serverless-fragment.json", "subs/protocols/vmess.txt", "subs/countries/de.txt", "README.md", "STATUS.md", "DISCOVERY.md",
                  "sources.json", "data/discovery_state.json", "data/discovered_ocr_configs.txt", "data/healthcheck_history.json"]
         self.assertEqual(self.check({"README.md": b"ok"}, paths)[0], 0)
@@ -200,11 +200,11 @@ class TestPublicGit(unittest.TestCase):
 class TestWorkflowContracts(unittest.TestCase):
     @unittest.skipUnless((ROOT / ".git").exists(), "needs a git checkout (tarball copies have no .git)")
     def test_generated_empty_feed_header_separator_is_valid_whitespace_only_for_subs(self):
-        result = subprocess.run(["git", "check-attr", "whitespace", "--", "subs/top100.txt", "subs/reachable.txt", "README.md"],
+        result = subprocess.run(["git", "check-attr", "whitespace", "--", "subs/fastest-100.txt", "subs/online.txt", "README.md"],
                                 cwd=ROOT, capture_output=True, text=True, check=True)
         attributes = dict((path, value) for path, _, value in (line.split(": ", 2) for line in result.stdout.splitlines()))
-        self.assertEqual(attributes["subs/top100.txt"], "-blank-at-eof")
-        self.assertEqual(attributes["subs/reachable.txt"], "-blank-at-eof")
+        self.assertEqual(attributes["subs/fastest-100.txt"], "-blank-at-eof")
+        self.assertEqual(attributes["subs/online.txt"], "-blank-at-eof")
         self.assertEqual(attributes["README.md"], "unspecified")
 
     def test_unrestricted_push_and_pr_security_gate(self):

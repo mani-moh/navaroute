@@ -18,14 +18,20 @@ variant even when GitHub keeps failing them, and they never accumulate
 a GitHub failure streak in the output sense -- they are counted
 separately (github_blocked) so the dashboard can tell them apart.
 
-Per-feed variants: for each non-deprecated group (all, reachable,
-active, top100, lite500 -- verified is a deprecated mirror), a tier-1
-variant and an Iran (tier-2) variant, each in plain and Base64:
-  subs/tier1_<group>.txt, subs/tier1_<group>_base64.txt,
-  subs/iran_<group>.txt,  subs/iran_<group>_base64.txt.
-tier1_all / iran_all are the global tier feeds. Variants are the feed's
-configs intersected with the tier's passing set (plus the blocked set
-for tier 1), sorted by delay.
+Per-feed variants: for each core group (all, online, online-week,
+fastest-100, balanced-500), a tier-1 variant and an Iran (tier-2)
+variant, each in plain and Base64:
+  subs/tested.txt, subs/tested_base64.txt,
+  subs/tested-iran.txt, subs/tested-iran_base64.txt,
+  subs/online-tested.txt, subs/online-tested-iran.txt, ...
+The global feeds are the short forms ("tested" is all-tested,
+"tested-iran" is all-tested-iran). Every slice feed (protocols/,
+countries/, categories/) gets the same treatment:
+  subs/protocols/vless-tested.txt, subs/protocols/vless-tested-iran.txt,
+  subs/countries/de-tested.txt, ...
+A slice variant is the slice's configs intersected with the tier's
+passing set (plus the blocked set for tier 1), sorted by delay; an
+empty intersection still writes an empty file, it never aborts a run.
 
 State files are fingerprints only (SHA-256 of the canonical connection,
 the same values that key the published feeds and the health history),
@@ -41,7 +47,7 @@ from pathlib import Path
 from src.project import PROJECT_NAME
 from src.storage import atomic_write_text
 
-TIER_GROUPS = ("all", "reachable", "active", "top100", "lite500")
+TIER_GROUPS = ("all", "online", "online-week", "fastest-100", "balanced-500")
 TIER1_INTERVAL_HOURS = 2
 IRAN_INTERVAL_HOURS = 24
 STATE_VERSION = 1
@@ -52,6 +58,42 @@ BLOCKED_MIN_STREAK = 2  # "consistently failing on GitHub" means streak >= 2
 BACKOFF_HOURS = {0: 0, 1: 4, 2: 8, 3: 16, 4: 32}
 BACKOFF_CAP_HOURS = 48
 DEFAULT_PER_RUN_CAP = 8000
+
+# Tested-variant naming (the single source of truth; the tier-1 driver,
+# the tier-2 app and the public site all derive names from these).
+# tier is "tested" (Realping on GitHub) or "tested-iran" (Realping from
+# Iran). The global feed "all" shortens to just the tier name; every
+# other feed -- a core group or a slice path like "protocols/vless" --
+# appends it: "online-tested", "protocols/vless-tested-iran".
+TESTED_TIERS = ("tested", "tested-iran")
+
+
+def variant_name(feed: str, tier: str) -> str:
+    """Output stem for a feed's tested variant (no .txt suffix)."""
+    if tier not in TESTED_TIERS:
+        raise ValueError("tier must be 'tested' or 'tested-iran'")
+    return tier if feed == "all" else f"{feed}-{tier}"
+
+
+def is_tested_variant(name: str) -> bool:
+    """Whether a feed stem is a tested variant rather than a base feed."""
+    return (name in TESTED_TIERS or name.endswith("-tested")
+            or name.endswith("-tested-iran"))
+
+
+def variant_group(name: str) -> str | None:
+    """The base feed a tested variant belongs to, or None for base feeds.
+
+    "tested" / "tested-iran" belong to "all"; "online-tested" belongs to
+    "online"; "protocols/vless-tested-iran" belongs to "protocols/vless".
+    """
+    if name in TESTED_TIERS:
+        return "all"
+    if name.endswith("-tested-iran"):
+        return name[:-len("-tested-iran")]
+    if name.endswith("-tested"):
+        return name[:-len("-tested")]
+    return None
 
 
 def backoff_hours(streak: int) -> int:

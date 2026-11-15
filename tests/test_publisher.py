@@ -59,12 +59,12 @@ class TestPublisher(unittest.TestCase):
                 n = self.node(is_verified_source=True, passed_healthcheck=True, latency_ms=5)
                 counts = self.publish([n], healthcheck_ran=ran)
                 self.assertEqual(counts["all.txt"], 1)
-                self.assertEqual(counts["reachable.txt"], 0)
-                self.assertEqual(counts["verified.txt"], 0)
-                self.assertEqual(counts["top100.txt"], 0)
-                self.assertEqual(self.uris("verified.txt"), [])
+                self.assertEqual(counts["online.txt"], 0)
+                self.assertNotIn("verified.txt", counts)
+                self.assertFalse((self.out / "verified.txt").exists())
+                self.assertEqual(counts["fastest-100.txt"], 0)
         dated = self.node(passed_healthcheck=True, latency_ms=5, healthcheck_kind="socket", healthchecked_at=self.now)
-        self.assertEqual(self.publish([dated], healthcheck_ran=False)["reachable.txt"], 0)
+        self.assertEqual(self.publish([dated], healthcheck_ran=False)["online.txt"], 0)
 
     def test_only_timestamped_socket_passes_rank_latency_first_with_stable_ties(self):
         healthy = [self.node("slow", is_verified_source=True, passed_healthcheck=True,
@@ -85,29 +85,28 @@ class TestPublisher(unittest.TestCase):
             excluded.append(self.node("udp", scheme, passed_healthcheck=True, latency_ms=1,
                                       healthcheck_kind="socket", healthchecked_at=self.now))
         counts = self.publish(healthy + excluded, healthcheck_ran=True)
-        self.assertEqual(counts["reachable.txt"], 3)
-        ranked = [parse_proxy_uri(uri).credential for uri in self.uris("top100.txt")]
+        self.assertEqual(counts["online.txt"], 3)
+        ranked = [parse_proxy_uri(uri).credential for uri in self.uris("fastest-100.txt")]
         self.assertEqual(set(ranked[:2]), {"fast", "tie"})
         self.assertEqual(ranked[-1], "slow")
-        self.assertEqual(self.uris("reachable.txt"), self.uris("verified.txt"))
         self.publish(list(reversed(healthy + excluded)), healthcheck_ran=True)
-        self.assertEqual([parse_proxy_uri(uri).credential for uri in self.uris("top100.txt")], ranked)
+        self.assertEqual([parse_proxy_uri(uri).credential for uri in self.uris("fastest-100.txt")], ranked)
 
-    def test_top100_is_bounded_and_plain_base64_connections_are_identical(self):
+    def test_fastest_100_is_bounded_and_plain_base64_connections_are_identical(self):
         nodes = [self.node(str(i), passed_healthcheck=True, latency_ms=i,
                            healthcheck_kind="socket", healthchecked_at=self.now) for i in range(105)]
         counts = self.publish(nodes, healthcheck_ran=True)
-        self.assertEqual(counts["top100.txt"], 100)
-        self.assertEqual(parse_proxy_uri(self.uris("top100.txt")[-1]).credential, "99")
-        for name in ("all", "reachable", "verified", "top100", "lite500"):
+        self.assertEqual(counts["fastest-100.txt"], 100)
+        self.assertEqual(parse_proxy_uri(self.uris("fastest-100.txt")[-1]).credential, "99")
+        for name in ("all", "online", "fastest-100", "balanced-500"):
             encoded = (self.out / f"{name}_base64.txt").read_bytes()
             self.assertEqual(base64.b64decode(encoded).decode().splitlines(), self.uris(f"{name}.txt"))
 
-    def test_lite500_balances_six_protocols_without_dropping_small_buckets(self):
+    def test_balanced_500_balances_six_protocols_without_dropping_small_buckets(self):
         protocols = ("vless", "vmess", "trojan", "ss", "hysteria2", "tuic")
         nodes = [self.node(str(i), p) for p in protocols for i in range(100)]
         counts = self.publish(nodes)
-        lite = [parse_proxy_uri(uri).scheme for uri in self.uris("lite500.txt")]
+        lite = [parse_proxy_uri(uri).scheme for uri in self.uris("balanced-500.txt")]
         self.assertEqual(len(lite), 500)
         self.assertEqual([lite.count(p) for p in protocols], [84, 84, 83, 83, 83, 83])
         self.assertEqual([counts[f"protocols/{p}.txt"] for p in protocols], [100] * 6)
@@ -129,10 +128,10 @@ class TestPublisher(unittest.TestCase):
         self.assertIn("legacy", text.lower())
         self.assertIn("reachability—not credential", text.lower())
         self.assertNotIn("subscription-userinfo", (self.out / "all.txt").read_text())
-        title = (self.out / "verified.txt").read_text().splitlines()[0].removeprefix("#profile-title: base64:")
+        title = (self.out / "online.txt").read_text().splitlines()[0].removeprefix("#profile-title: base64:")
         decoded_title = base64.b64decode(title).decode("utf-8")
         self.assertIn("NavaRoute", decoded_title)
-        self.assertIn("Deprecated: reachability—not credential verified", decoded_title)
+        self.assertIn("Socket Reachable", decoded_title)
 
     def test_empty_invalid_or_total_fetch_failure_preserves_all_old_bytes(self):
         self.publish()
@@ -329,7 +328,7 @@ class TestPublisher(unittest.TestCase):
         n = self.node(healthcheck_kind="socket", healthchecked_at=self.now)
         self.publish([n], healthcheck_ran=True)
         self.assertIn("[socket:failed]", urllib.parse.unquote(self.uris("all.txt")[0]))
-        self.assertEqual(self.uris("reachable.txt"), [])
+        self.assertEqual(self.uris("online.txt"), [])
 
     def test_unowned_recovery_target_never_reads_private_file(self):
         transaction = self.root / ".feeds.navaroute-publish"
@@ -587,7 +586,7 @@ class TestHealthHistory(unittest.TestCase):
         with self.assertRaises(ValueError):
             publisher.load_health_history(self.history_path)
 
-    def test_active_feed_comes_from_history_without_new_healthcheck(self):
+    def test_online_week_feed_comes_from_history_without_new_healthcheck(self):
         from datetime import timedelta
         recent = self.node("recent")
         stale = self.node("stale")
@@ -598,16 +597,16 @@ class TestHealthHistory(unittest.TestCase):
         before = self.history_path.read_bytes()
         counts = self.publish([recent, stale], healthcheck_ran=False, snapshot_time=self.now_iso,
                               health_history_path=str(self.history_path))
-        self.assertEqual(counts["active.txt"], 1)
-        self.assertEqual(counts["active_base64.txt"], 1)
-        active = [line for line in (self.out / "active.txt").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(counts["online-week.txt"], 1)
+        self.assertEqual(counts["online-week_base64.txt"], 1)
+        active = [line for line in (self.out / "online-week.txt").read_text(encoding="utf-8").splitlines()
                   if line and not line.startswith("#")]
         self.assertEqual(len(active), 1)
         self.assertIn("recent", active[0])
         # No new observations: the history file is left untouched.
         self.assertEqual(self.history_path.read_bytes(), before)
 
-    def test_active_feed_merges_current_passes_and_prunes_stale(self):
+    def test_online_week_feed_merges_current_passes_and_prunes_stale(self):
         from datetime import timedelta
         current = self.node("current", passed_healthcheck=True, latency_ms=5,
                             healthcheck_kind="socket", healthchecked_at=self.now_iso)
@@ -619,26 +618,26 @@ class TestHealthHistory(unittest.TestCase):
         })
         counts = self.publish([current, kept, stale], healthcheck_ran=True, snapshot_time=self.now_iso,
                               health_history_path=str(self.history_path))
-        self.assertEqual(counts["active.txt"], 2)
-        self.assertEqual(counts["reachable.txt"], 1)
+        self.assertEqual(counts["online-week.txt"], 2)
+        self.assertEqual(counts["online.txt"], 1)
         saved = publisher.load_health_history(self.history_path)
         self.assertEqual(set(saved), {current.semantic_fingerprint(), kept.semantic_fingerprint()})
         self.assertEqual(saved[current.semantic_fingerprint()], self.now)
 
-    def test_active_feed_empty_without_history(self):
+    def test_online_week_feed_empty_without_history(self):
         counts = self.publish(healthcheck_ran=False, snapshot_time=self.now_iso,
                               health_history_path=str(self.history_path))
-        self.assertEqual(counts["active.txt"], 0)
-        self.assertEqual(counts["active_base64.txt"], 0)
-        self.assertEqual((self.out / "active_base64.txt").read_bytes(), b"")
+        self.assertEqual(counts["online-week.txt"], 0)
+        self.assertEqual(counts["online-week_base64.txt"], 0)
+        self.assertEqual((self.out / "online-week_base64.txt").read_bytes(), b"")
 
-    def test_active_feed_appears_in_counts_and_docs(self):
+    def test_online_week_feed_appears_in_counts_and_docs(self):
         counts = self.publish(healthcheck_ran=False, snapshot_time=self.now_iso,
                               health_history_path=str(self.history_path))
-        self.assertIn("active.txt", counts)
-        self.assertIn("active_base64.txt", counts)
+        self.assertIn("online-week.txt", counts)
+        self.assertIn("online-week_base64.txt", counts)
         readme = self.readme.read_text(encoding="utf-8")
-        self.assertIn("active.txt", readme)
+        self.assertIn("online-week.txt", readme)
         self.assertIn("socket reachable in the last 7 days: 0", readme)
 
 
@@ -715,8 +714,8 @@ class TestPublisherBranches(unittest.TestCase):
             publisher._recover(txn, self.out, False)
 
     def test_recovery_total_exceeds_generation_limit(self):
-        keys = ["feed/all.txt", "feed/reachable.txt", "feed/verified.txt", "feed/top100.txt",
-                "feed/lite500.txt", "feed/protocols/vless.txt", "feed/protocols/vmess.txt",
+        keys = ["feed/all.txt", "feed/online.txt", "feed/online-week.txt", "feed/fastest-100.txt",
+                "feed/balanced-500.txt", "feed/protocols/vless.txt", "feed/protocols/vmess.txt",
                 "feed/protocols/trojan.txt", "feed/protocols/ss.txt", "feed/protocols/hysteria2.txt",
                 "feed/protocols/tuic.txt"]
         staged = {"new": {key: 100 * 1024 * 1024 for key in keys},

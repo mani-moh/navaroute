@@ -18,9 +18,10 @@ from unittest.mock import patch
 
 from src.pattn_client import PattnClient, PattnError
 from src.tier1 import (TIER_GROUPS, backoff_hours, build_results,
-                       build_variants, load_blocked, load_state,
-                       passing_fingerprints, render_feed, save_blocked,
-                       save_state, select_due, update_state)
+                       build_variants, is_tested_variant, load_blocked,
+                       load_state, passing_fingerprints, render_feed,
+                       save_blocked, save_state, select_due, update_state,
+                       variant_name)
 
 NOW = datetime(2026, 11, 13, 22, 0, tzinfo=timezone.utc)
 
@@ -128,7 +129,7 @@ class VariantTests(unittest.TestCase):
         self.feed_uris = {
             "all": ["vless://a@x.example:443", "vless://b@x.example:443",
                     "vless://c@x.example:443", "vless://d@x.example:443"],
-            "reachable": ["vless://a@x.example:443", "vless://b@x.example:443"],
+            "online": ["vless://a@x.example:443", "vless://b@x.example:443"],
         }
         self.uri_to_fp = {uri: "fp-" + uri.split("://")[1].split("@")[0]
                           for uris in self.feed_uris.values() for uri in uris}
@@ -146,7 +147,7 @@ class VariantTests(unittest.TestCase):
         self.assertEqual(variants["all"],
                          ["vless://c@x.example:443", "vless://a@x.example:443",
                           "vless://b@x.example:443"])
-        self.assertEqual(variants["reachable"],
+        self.assertEqual(variants["online"],
                          ["vless://a@x.example:443", "vless://b@x.example:443"])
 
     def test_results_count_tested_passed_and_blocked_only(self):
@@ -155,7 +156,7 @@ class VariantTests(unittest.TestCase):
         report = build_results(self.feed_uris, self.uri_to_fp, tested, passing,
                                self.blocked, NOW)
         self.assertEqual(report["feeds"]["all"], {"tested": 3, "passed": 2, "github_blocked": 1})
-        self.assertEqual(report["feeds"]["reachable"], {"tested": 2, "passed": 1, "github_blocked": 1})
+        self.assertEqual(report["feeds"]["online"], {"tested": 2, "passed": 1, "github_blocked": 1})
         # A blocked config that also passes tier 1 is not double-counted.
         state2 = dict(self.state)
         state2["fp-b"] = {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 90}
@@ -169,7 +170,7 @@ class VariantTests(unittest.TestCase):
         self.assertIn("#profile-update-interval: 2\n", plain)
         self.assertTrue(plain.endswith("vless://a@x.example:443\n"))
         self.assertEqual(base64.b64decode(encoded).decode(), "vless://a@x.example:443")
-        self.assertEqual(TIER_GROUPS, ("all", "reachable", "active", "top100", "lite500"))
+        self.assertEqual(TIER_GROUPS, ("all", "online", "online-week", "fastest-100", "balanced-500"))
 
 
 class ClientTests(unittest.TestCase):
@@ -771,7 +772,7 @@ class DriverFeedTests(unittest.TestCase):
             self.assertIn("testable 1/1", out.getvalue())
             self.assertIn("operations right after start", out.getvalue())
             self.assertIn("webapi log entries fetched: 1", out.getvalue())
-            self.assertTrue((base / "tier1_all.txt").exists())
+            self.assertTrue((base / "tested.txt").exists())
 
     def test_count_delays_separates_passed_failed_and_untested(self):
         driver = self._load_driver()
@@ -880,7 +881,7 @@ class DriverFeedTests(unittest.TestCase):
                           out.getvalue())
             self.assertIn("passed 250", out.getvalue())
             self.assertEqual(sum(len(f._profiles) for f in fakes), 250)
-            feed = (base / "tier1_all.txt").read_text(encoding="utf-8")
+            feed = (base / "tested.txt").read_text(encoding="utf-8")
             self.assertEqual(sum(1 for line in feed.splitlines() if "://" in line), 250)
 
     def test_no_feeds_aborts(self):
@@ -908,10 +909,10 @@ class DriverFeedTests(unittest.TestCase):
                     patch.object(driver, "start_webapi", side_effect=PattnError("no webapi here")), \
                     patch("sys.stderr", new_callable=io.StringIO) as err:
                 # The run gets past the feed loop and fails at the WebAPI,
-                # which is exactly what a missing active.txt must not block.
+                # which is exactly what a missing online-week.txt must not block.
                 with self.assertRaises(PattnError):
                     driver.main(["--webapi-dir", str(base)])
-            self.assertIn("feed active.txt is missing or empty; skipping", err.getvalue())
+            self.assertIn("feed online-week.txt is missing or empty; skipping", err.getvalue())
 
 
 class PrivacyGateTests(unittest.TestCase):
@@ -921,11 +922,17 @@ class PrivacyGateTests(unittest.TestCase):
         import public_git
         for path in ("data/tier1_state.json", "data/tier1_results.json",
                      "data/github_blocked.json", "data/iran_results.json",
-                     "subs/tier1_all.txt", "subs/tier1_all_base64.txt",
-                     "subs/tier1_top100.txt", "subs/iran_reachable.txt",
-                     "subs/iran_lite500_base64.txt"):
+                     "subs/tested.txt", "subs/tested_base64.txt",
+                     "subs/fastest-100-tested.txt", "subs/online-tested-iran.txt",
+                     "subs/balanced-500-tested-iran_base64.txt",
+                     "subs/protocols/vless-tested.txt",
+                     "subs/protocols/vless-tested-iran_base64.txt",
+                     "subs/countries/de-tested.txt",
+                     "subs/categories/reality-tested-iran.txt"):
             self.assertTrue(public_git.public_output(path), path)
-        for path in ("subs/tier1_verified.txt", "subs/iran_verified.txt",
+        for path in ("subs/tier1_all.txt", "subs/iran_all.txt",
+                     "subs/reachable.txt", "subs/verified.txt",
+                     "subs/tier1_verified.txt", "subs/iran_verified.txt",
                      "subs/tier1_all.json", "data/tier1_state.json.bak"):
             self.assertFalse(public_git.public_output(path), path)
 
@@ -942,11 +949,56 @@ class TierVariantCountsTests(unittest.TestCase):
         results = json.loads((root / "data/tier1_results.json").read_text(encoding="utf-8"))
         self.assertEqual(set(results["feeds"]), set(TIER_GROUPS))
         for group, counts in sorted(results["feeds"].items()):
-            path = root / "subs" / f"tier1_{group}.txt"
+            name = variant_name(group, "tested")
+            path = root / "subs" / f"{name}.txt"
             rows = [line for line in path.read_text(encoding="utf-8").splitlines()
                     if line and not line.startswith("#")]
             self.assertEqual(len(rows), counts["passed"] + counts["github_blocked"],
-                             f"tier1_{group}.txt rows != tier1_results.json passed+blocked")
+                             f"{name}.txt rows != tier1_results.json passed+blocked")
+
+    def test_slice_tested_variant_is_slice_intersected_with_passing(self):
+        # A slice's -tested variant is exactly the slice intersected with
+        # the tier-1 passing set; an empty slice produces an empty file,
+        # not an error.
+        feed_uris = {
+            "protocols/vless": ["vless://a@x.example:443", "vless://b@x.example:443"],
+            "protocols/vmess": ["vmess://c@x.example:443"],
+            "protocols/ss": ["ss://d@x.example:443"],
+        }
+        uri_to_fp = {uri: "fp-" + uri.split("://")[1].split("@")[0]
+                     for uris in feed_uris.values() for uri in uris}
+        state = {
+            "fp-a": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 200},
+            "fp-c": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 50},
+            "fp-d": {"failures": 3, "last_test": NOW.isoformat(), "last_delay": None},
+        }
+        variants = build_variants(feed_uris, uri_to_fp, state, {})
+        self.assertEqual(variants["protocols/vless"], ["vless://a@x.example:443"])
+        self.assertEqual(variants["protocols/vmess"], ["vmess://c@x.example:443"])
+        # Nothing in the ss slice passed, so its variant is empty — and
+        # build_variants still returns it instead of raising.
+        self.assertEqual(variants["protocols/ss"], [])
+        # The naming helpers agree: every slice variant is a tested
+        # variant, and it maps back to its base feed.
+        for name in variants:
+            self.assertTrue(is_tested_variant(f"{name}-tested"))
+            self.assertEqual(variant_name(name, "tested"), f"{name}-tested")
+
+
+class OldFeedNamesTests(unittest.TestCase):
+    """Clean break: no old-name feed file may remain under subs/."""
+
+    OLD_STEMS = ("reachable", "active", "top100", "lite500", "verified")
+
+    def test_no_old_name_feed_files_remain(self):
+        root = Path(__file__).resolve().parents[1] / "subs"
+        bad = []
+        for path in sorted(root.rglob("*.txt")):
+            stem = path.stem
+            base = stem.removesuffix("_base64")
+            if base in self.OLD_STEMS or base.startswith(("tier1_", "iran_")):
+                bad.append(path.relative_to(root).as_posix())
+        self.assertEqual(bad, [], f"old-name feed files still present: {bad}")
 
 
 if __name__ == "__main__":

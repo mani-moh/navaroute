@@ -7,6 +7,7 @@ import re
 import unittest
 
 from src.parsers import KNOWN_ISO_CODES, parse_proxy_uri
+from src.tier1 import is_tested_variant, variant_group
 
 ROOT = Path(__file__).resolve().parents[1]
 # Full 64k-node snapshot check (~70s) runs only when opted in or on the
@@ -49,7 +50,7 @@ class TestPublicMigration(unittest.TestCase):
                     # stats table has no row for them; their row counts
                     # are pinned against tier1_results.json instead
                     # (tests/test_tier1.py TierVariantCountsTests).
-                    if not (path.stem.startswith("tier1_") or path.stem.startswith("iran_")):
+                    if not is_tested_variant(path.stem):
                         self.assertEqual(counts[path.relative_to(ROOT / "subs").as_posix()], len(rows))
                 else:
                     # Sample mode: the base64 mirror still covers every
@@ -76,7 +77,10 @@ class TestPublicMigration(unittest.TestCase):
                     if path.parent.name == "countries":
                         country = re.search(r"\[\S+ ([A-Z]{2})\]", node.remark)
                         self.assertIsNotNone(country, "generated country claim missing")
-                        self.assertEqual(country.group(1).lower(), path.stem)
+                        # A -tested / -tested-iran variant keeps its
+                        # country's rows; compare against the base name.
+                        base_stem = variant_group(path.stem) or path.stem
+                        self.assertEqual(country.group(1).lower(), base_stem)
                     if path.stem in ("navaroute-special", "pattn-special"):
                         self.assertTrue(node.has_special_parameters(), "special group row has no supplied special parameter")
                     if row.startswith("vmess://") and "@" not in row:
@@ -87,8 +91,11 @@ class TestPublicMigration(unittest.TestCase):
                     all_nodes = fingerprints
                 groups[path.relative_to(ROOT / "subs").as_posix()] = fingerprints
                 if path.parent.name == "countries":
-                    self.assertIn(path.stem.upper(), KNOWN_ISO_CODES)
-                    self.assertGreaterEqual(len(rows), 5)
+                    base_stem = variant_group(path.stem) or path.stem
+                    self.assertIn(base_stem.upper(), KNOWN_ISO_CODES)
+                    # A tested variant may legitimately have few passers.
+                    if not is_tested_variant(path.stem):
+                        self.assertGreaterEqual(len(rows), 5)
         self.assertTrue(all_nodes, "accepted public pool must not be empty")
         if FULL_SNAPSHOT:
             # Cross-file subset checks only hold on complete rows.
@@ -97,12 +104,12 @@ class TestPublicMigration(unittest.TestCase):
             # (a feed refresh drops configs the last tier run passed),
             # so their identities may no longer be in all.txt.
             for name, group in groups.items():
-                if name.startswith("tier1_") or name.startswith("iran_"):
+                if is_tested_variant(Path(name).stem):
                     continue
                 self.assertTrue(group <= all_nodes, "feed contains identity outside accepted public pool")
-            self.assertTrue(groups["top100.txt"] <= groups["reachable.txt"])
-            self.assertLessEqual(len(groups["top100.txt"]), 100)
-            self.assertLessEqual(len(groups["lite500.txt"]), 500)
+            self.assertTrue(groups["fastest-100.txt"] <= groups["online.txt"])
+            self.assertLessEqual(len(groups["fastest-100.txt"]), 100)
+            self.assertLessEqual(len(groups["balanced-500.txt"]), 500)
 
     def test_historical_migration_has_empty_evidence_and_retired_json(self):
         path = ROOT / "docs/migration-manifest.json"
@@ -125,7 +132,8 @@ class TestPublicMigration(unittest.TestCase):
         self.assertTrue((ROOT / "subs/categories/navaroute-special_base64.txt").is_file(), "primary special feed missing")
         a = (ROOT / "subs/categories/navaroute-special_base64.txt").read_bytes()
         self.assertTrue(a == (ROOT / "subs/categories/pattn-special_base64.txt").read_bytes(), "special alias rows differ")
-        self.assertTrue((ROOT / "subs/reachable_base64.txt").read_bytes() == (ROOT / "subs/verified_base64.txt").read_bytes(), "deprecated reachability mirror differs")
+        self.assertFalse((ROOT / "subs/verified.txt").exists(), "deprecated reachability mirror not deleted")
+        self.assertFalse((ROOT / "subs/verified_base64.txt").exists(), "deprecated reachability mirror not deleted")
 
 
 if __name__ == "__main__":

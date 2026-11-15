@@ -6,7 +6,7 @@ headless PattN WebAPI on this PC -- the same engine behind PattN.exe --
 so the test runs from Ryan's own connection in Iran, not a datacenter.
 
 Modes:
-  * "Test tier-1 passers" (default): downloads subs/tier1_all.txt and
+  * "Test tier-1 passers" (default): downloads subs/tested.txt and
     Realping-tests the configs that passed tier 1 on GitHub.
   * "Test all configs": downloads subs/all.txt and tests everything,
     chunked and resumable (a full sweep is ~64k+ configs). This is the
@@ -16,8 +16,12 @@ Upload ("Upload to repo") commits to a branch + PR, using a fine-grained
 PAT (repo mani-moh/navaroute, contents + pull requests) entered once in
 the UI and stored in Windows Credential Manager -- never in the repo,
 never in a file. It uploads:
-  subs/iran_<group>.txt and subs/iran_<group>_base64.txt
+  subs/tested-iran.txt and subs/tested-iran_base64.txt
+  subs/<group>-tested-iran.txt and subs/<group>-tested-iran_base64.txt
     (per-feed Iran-verified variants, sorted by Iran delay)
+  subs/protocols/<proto>-tested-iran.txt, subs/countries/<cc>-tested-iran.txt,
+  subs/categories/<name>-tested-iran.txt (and _base64 twins)
+    (the same intersection for every slice feed)
   data/iran_results.json   (per-feed {tested, passed})
   data/github_blocked.json (configs that consistently fail tier 1 on
     GitHub -- streak >= 2 -- but pass from Iran; tier 1 force-includes
@@ -51,7 +55,7 @@ from src.pattn_client import (PINNED_WEBAPI_URL, PattnClient, PattnError,  # noq
                               generate_api_key, start_webapi, stop_webapi)
 from src.tier1 import (BLOCKED_MIN_STREAK, TIER_GROUPS,  # noqa: E402
                        IRAN_INTERVAL_HOURS, load_blocked, load_state,
-                       render_feed)
+                       render_feed, variant_name)
 
 OWNER = "mani-moh"
 REPO = "navaroute"
@@ -195,8 +199,8 @@ class Tier2App:
 
     def _run(self, mode: str) -> None:
         try:
-            self._log(f"Downloading the {'tier-1' if mode == 'tier1' else 'full'} list...")
-            feed_text = _raw("/subs/tier1_all.txt" if mode == "tier1" else "/subs/all.txt")
+            self._log("Downloading the tested list...")
+            feed_text = _raw("/subs/tested.txt" if mode == "tier1" else "/subs/all.txt")
             uris = _feed_uris(feed_text)
             # Fingerprints: the same canonical values the repo uses.
             sys.path.insert(0, str(REPO_ROOT))
@@ -294,12 +298,33 @@ class Tier2App:
         feed_uris: dict[str, list[str]] = {}
         for group in TIER_GROUPS:
             feed_uris[group] = _feed_uris(_raw(f"/subs/{group}.txt"))
+        # Slice feeds (protocols/countries/categories) for the per-slice
+        # -tested-iran variants. Enumerated from the repo tree so a new
+        # country appears without an app update; base64 twins and
+        # existing tested variants are outputs, never inputs.
+        slice_uris: dict[str, list[str]] = {}
+        tree = _gh("GET", "/git/trees/master?recursive=1", token)
+        entries = tree.get("tree", []) if isinstance(tree, dict) else []
+        for entry in entries:
+            if not isinstance(entry, dict) or entry.get("type") != "blob":
+                continue
+            path = entry.get("path", "")
+            if not (path.startswith("subs/protocols/") or path.startswith("subs/countries/")
+                    or path.startswith("subs/categories/")):
+                continue
+            if not path.endswith(".txt") or path.endswith("_base64.txt"):
+                continue
+            stem = path[:-len(".txt")]
+            if stem.endswith("-tested") or stem.endswith("-tested-iran"):
+                continue
+            slice_uris[path[len("subs/"):-len(".txt")]] = _feed_uris(_raw(f"/{path}"))
+        self._log(f"Downloaded {len(feed_uris)} core feeds and {len(slice_uris)} slice feeds.")
         uri_to_fp: dict[str, str] = {}
         sys.path.insert(0, str(REPO_ROOT))
         from src.parsers import parse_proxy_uri
         from src.models import SourceConfig
         source = SourceConfig("tier2", "Tier 2", "https://github.com/mani-moh/navaroute")
-        for uris in feed_uris.values():
+        for uris in list(feed_uris.values()) + list(slice_uris.values()):
             for uri in uris:
                 if uri in uri_to_fp:
                     continue
@@ -319,25 +344,29 @@ class Tier2App:
         timestamp = now.isoformat()
         passing = {fp for fp, delay in self.results.items() if delay is not None}
         fp_to_uri = {fp: uri for uri, fp in uri_to_fp.items()}
-        # Per-feed Iran variants, sorted by Iran delay.
+        # Per-feed Iran variants, sorted by Iran delay. Core groups land
+        # in iran_results.json; slice variants are files only.
         files: dict[str, str] = {}
         results_feeds: dict[str, dict[str, int]] = {}
         total_tested = total_passed = 0
-        for group, uris in feed_uris.items():
-            group_fps = {uri_to_fp[uri] for uri in uris if uri in uri_to_fp}
-            group_tested = len(group_fps & set(self.results))
-            group_passing = sorted(
+        variant_uris = {**feed_uris, **slice_uris}
+        for feed, uris in variant_uris.items():
+            feed_fps = {uri_to_fp[uri] for uri in uris if uri in uri_to_fp}
+            feed_tested = len(feed_fps & set(self.results))
+            feed_passing = sorted(
                 ((self.results[fp], fp_to_uri[fp])
-                 for fp in group_fps & passing if fp in fp_to_uri),
+                 for fp in feed_fps & passing if fp in fp_to_uri),
                 key=lambda item: (item[0], item[1]))
-            group_uris = [uri for _, uri in group_passing]
-            plain, encoded = render_feed(group_uris, f"Iran Verified — {group.title()}",
+            feed_group_uris = [uri for _, uri in feed_passing]
+            stem = variant_name(feed, "tested-iran")
+            plain, encoded = render_feed(feed_group_uris, f"Iran Verified — {stem}",
                                          timestamp, IRAN_INTERVAL_HOURS)
-            files[f"subs/iran_{group}.txt"] = plain
-            files[f"subs/iran_{group}_base64.txt"] = encoded
-            results_feeds[group] = {"tested": group_tested, "passed": len(group_uris)}
-            total_tested += group_tested
-            total_passed += len(group_uris)
+            files[f"subs/{stem}.txt"] = plain
+            files[f"subs/{stem}_base64.txt"] = encoded
+            if feed in feed_uris:
+                results_feeds[feed] = {"tested": feed_tested, "passed": len(feed_group_uris)}
+                total_tested += feed_tested
+                total_passed += len(feed_group_uris)
         files["data/iran_results.json"] = json.dumps(
             {"version": 1, "generated": timestamp, "feeds": results_feeds,
              "totals": {"tested": total_tested, "passed": total_passed}},
@@ -385,7 +414,8 @@ class Tier2App:
                   "head": branch, "base": "master",
                   "body": ("Iran Realping results from the owner PC: "
                            f"{total_passed} passing of {total_tested} tested; "
-                           f"{len(new_blocked)} configs in the GitHub-blocked list.")})
+                           f"{len(new_blocked)} configs in the GitHub-blocked list; "
+                           f"{len(slice_uris)} slice -tested-iran variants.")})
         self._log(f"Uploaded: PR #{pr.get('number')} ({pr.get('html_url')}).")
         return str(pr.get("html_url", ""))
 

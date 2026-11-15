@@ -242,9 +242,9 @@ class TestFeeds(unittest.TestCase):
         self.assertIn("https://repoget.s3.ir-central1.arvanstorage.ir/index.html", text)
         self.assertIn("https://mani-moh.github.io/navaroute/", text)
         for filename in (
-            "tier1_all_base64.txt", "reachable_base64.txt", "top100_base64.txt",
-            "lite500_base64.txt", "tier1_top100_base64.txt", "tier1_lite500_base64.txt",
-            "tier1_reachable_base64.txt",
+            "tested_base64.txt", "online_base64.txt", "fastest-100_base64.txt",
+            "balanced-500_base64.txt", "fastest-100-tested_base64.txt",
+            "balanced-500-tested_base64.txt", "online-tested_base64.txt",
         ):
             self.assertIn(
                 f"https://repoget.s3.ir-central1.arvanstorage.ir/{filename}", text
