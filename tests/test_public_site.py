@@ -23,7 +23,7 @@ def _make_repo(tmp: Path) -> Path:
         "# comment\nvless://abc\n\nvmess://def\n", encoding="utf-8"
     )
     (subs / "all_base64.txt").write_text("dmxlc3M6Ly9hYmMK", encoding="utf-8")
-    (subs / "tier1_all.txt").write_text("vless://abc\n", encoding="utf-8")
+    (subs / "tested.txt").write_text("vless://abc\n", encoding="utf-8")
     (tmp / "sources.json").write_text(
         json.dumps({"sources": [{"id": "a"}, {"id": "b"}]}), encoding="utf-8"
     )
@@ -61,8 +61,8 @@ class TestPublicSite(unittest.TestCase):
             self.assertEqual(by_name["all"]["count"], 2)
             self.assertEqual(by_name["all"]["group"], "main")
             self.assertIsNotNone(by_name["all"]["b64_url"])
-            self.assertEqual(by_name["tier1_all"]["group"], "tier")
-            self.assertIsNone(by_name["tier1_all"]["b64_url"])
+            self.assertEqual(by_name["tested"]["group"], "tested")
+            self.assertIsNone(by_name["tested"]["b64_url"])
             self.assertTrue(by_name["all"]["url"].startswith(bps.RAW_BASE))
             self.assertTrue(by_name["all"]["mirror_url"].startswith(bps.MIRROR_BASE))
 
@@ -85,7 +85,7 @@ class TestPublicSite(unittest.TestCase):
             out = Path(d) / "site"
             out_path = bps.build(repo, out)
             page = out_path.read_text(encoding="utf-8")
-            self.assertIn("tier1_all.txt", page)
+            self.assertIn("tested.txt", page)
             self.assertIn("v2rayNG", page)
             self.assertIn("Hiddify", page)
             self.assertIn("کپی لینک", page)
@@ -158,7 +158,7 @@ class TestPublicSite(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             out_path = bps.build(REPO_ROOT, Path(d) / "site")
             page = out_path.read_text(encoding="utf-8")
-            self.assertIn("tier1_all.txt", page)
+            self.assertIn("tested.txt", page)
             self.assertIn("v2rayNG", page)
             self.assertIn("Hiddify", page)
             self.assertIn("Streisand", page)

@@ -5,9 +5,14 @@ under the failure backoff, imports them into fresh headless PattN
 WebAPIs (pinned P40 release), runs Realping, and writes:
   data/tier1_state.json      (per-fingerprint streak / last test / delay)
   data/tier1_results.json    (per-feed tested / passed / github_blocked)
-  subs/tier1_<group>.txt and subs/tier1_<group>_base64.txt
+  subs/tested.txt and subs/tested_base64.txt
+  subs/<group>-tested.txt and subs/<group>-tested_base64.txt
     (the feed's configs that passed tier 1, plus the GitHub-blocked
-    set, sorted by delay)
+    set, sorted by delay; "tested" is the global all-tested feed)
+  subs/protocols/<proto>-tested.txt, subs/countries/<cc>-tested.txt,
+  subs/categories/<name>-tested.txt (and _base64 twins)
+    (the same intersection for every slice feed; an empty intersection
+    still writes an empty file and never aborts the run)
 
 Speed: the server tests in batches of SpeedTestPageSize profiles
 (default 16), all of a batch concurrently, and a batch waits for its
@@ -50,7 +55,7 @@ from src.pattn_client import (DEFAULT_PORT, DEFAULT_SPEEDTEST_PAGE_SIZE,  # noqa
 from src.tier1 import (DEFAULT_PER_RUN_CAP, TIER_GROUPS, TIER1_INTERVAL_HOURS,  # noqa: E402
                        build_results, build_variants, load_blocked, load_state,
                        passing_fingerprints, render_feed, save_state,
-                       select_due, update_state)
+                       select_due, update_state, variant_name)
 
 STATE_PATH = REPO_ROOT / "data" / "tier1_state.json"
 RESULTS_PATH = REPO_ROOT / "data" / "tier1_results.json"
@@ -65,6 +70,32 @@ def read_feed_uris(path: Path) -> list[str]:
         return []
     return [line.strip() for line in path.read_text(encoding="utf-8").splitlines()
             if "://" in line and not line.startswith("#")]
+
+
+SLICE_DIRS = ("protocols", "countries", "categories")
+
+
+def load_slice_feeds(subs_dir: Path) -> dict[str, list[str]]:
+    """Slice feeds (protocols/countries/categories) for variant building.
+
+    Returns {slice path: URIs} keyed by the path relative to subs/
+    ("protocols/vless", "countries/de", ...). Base64 twins and existing
+    -tested / -tested-iran files are outputs, never inputs. A slice
+    whose file exists but holds no URIs maps to [] -- its variant is
+    written empty, never skipped.
+    """
+    slices: dict[str, list[str]] = {}
+    for directory in SLICE_DIRS:
+        folder = subs_dir / directory
+        if not folder.is_dir():
+            continue
+        for path in sorted(folder.glob("*.txt")):
+            stem = path.stem
+            if (stem.endswith("_base64") or stem.endswith("-tested")
+                    or stem.endswith("-tested-iran")):
+                continue
+            slices[f"{directory}/{stem}"] = read_feed_uris(path)
+    return slices
 
 
 def find_webapi_exe(webapi_dir: Path) -> Path:
@@ -310,8 +341,8 @@ def main(argv: list[str] | None = None) -> int:
     for group in TIER_GROUPS:
         uris = read_feed_uris(SUBS_DIR / f"{group}.txt")
         if not uris:
-            # A feed may not exist yet (active.txt only appears once the
-            # aggregation run has published it); test the rest.
+            # A feed may not exist yet (online-week.txt only appears once
+            # the aggregation run has published it); test the rest.
             print(f"tier1: feed {group}.txt is missing or empty; skipping", file=sys.stderr)
             continue
         feed_uris[group] = uris
@@ -328,6 +359,19 @@ def main(argv: list[str] | None = None) -> int:
         print("tier1: no feeds to test; aborting", file=sys.stderr)
         return 1
     known = [{"uri": uri, "fingerprint": fp} for uri, fp in uri_to_fp.items()]
+    # Slice feeds are subsets of "all", so they add nothing to the test
+    # set; they only feed the per-slice variants. A slice URI missing
+    # from the core groups is still mapped (it may have passed in an
+    # earlier run and belong in the slice variant), but it is not added
+    # to the due set.
+    slice_uris = load_slice_feeds(SUBS_DIR)
+    for uris in slice_uris.values():
+        for uri in uris:
+            if uri in uri_to_fp:
+                continue
+            node = parse_proxy_uri(uri, SOURCE)
+            if node is not None:
+                uri_to_fp[uri] = node.semantic_fingerprint()
     state = load_state(STATE_PATH)
     blocked = load_blocked(BLOCKED_PATH)
     due = select_due(known, state, now, args.per_run_cap)
@@ -368,18 +412,24 @@ def main(argv: list[str] | None = None) -> int:
     save_state(STATE_PATH, state)
 
     passing = passing_fingerprints(state)
-    variants = build_variants(feed_uris, uri_to_fp, state, blocked)
+    # Variants cover the core groups and every slice; the results JSON
+    # stays core-group-only so its shape (and its consumers) do not change.
+    variant_uris = {**feed_uris, **slice_uris}
+    variants = build_variants(variant_uris, uri_to_fp, state, blocked)
     tested = {entry["fingerprint"] for entry in due}
     passed_this_run = {fp for fp, delay in results.items() if delay is not None}
     report = build_results(feed_uris, uri_to_fp, tested, passing, blocked, now)
     RESULTS_PATH.write_text(
         json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True),
         encoding="utf-8")
-    for group, uris in variants.items():
-        title = f"Tier 1 — {group.title()} (PattN Realping)"
+    for feed, uris in variants.items():
+        stem = variant_name(feed, "tested")
+        title = f"Tier 1 — {stem.title()} (Pattn Realping)"
         plain, encoded = render_feed(uris, title, timestamp, TIER1_INTERVAL_HOURS)
-        (SUBS_DIR / f"tier1_{group}.txt").write_text(plain, encoding="utf-8")
-        (SUBS_DIR / f"tier1_{group}_base64.txt").write_text(encoded, encoding="utf-8")
+        plain_path = SUBS_DIR / f"{stem}.txt"
+        plain_path.parent.mkdir(parents=True, exist_ok=True)
+        plain_path.write_text(plain, encoding="utf-8")
+        (SUBS_DIR / f"{stem}_base64.txt").write_text(encoded, encoding="utf-8")
     passed_count = len(passed_this_run)
     delay_counts = count_delays(profiles)
     if delay_counts["untested"]:
@@ -411,7 +461,9 @@ def main(argv: list[str] | None = None) -> int:
           f"failed {len(tested) - passed_count}, "
           f"untested {delay_counts['untested']}, "
           f"blocked-in-variants {report['totals']['github_blocked']}, "
-          f"variant sizes: " + ", ".join(f"{g}={len(v)}" for g, v in variants.items()))
+          f"variant sizes: " + ", ".join(f"{g}={len(v)}" for g, v in variants.items() if "/" not in g)
+          + f"; {sum(1 for g in variants if '/' in g)} slice variants, "
+          f"{sum(len(v) for g, v in variants.items() if '/' in g)} rows")
     return 0
 
 

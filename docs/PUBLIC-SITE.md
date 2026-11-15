@@ -68,9 +68,9 @@ mirror keeps serving the same page.
 
 - Only official client links (verified in-repo: v2rayNG, v2rayN, Hiddify,
   Streisand, NekoBox). Never link a third-party APK mirror.
-- Never promise a config works. "Accepted" ≠ working; "reachable" is a
-  socket check, not an end-to-end test; only `tier1_*` passed a real
-  connection test.
+- Never promise a config works. "Accepted" ≠ working; "online" is a
+  socket check, not an end-to-end test; only `tested`/`tested-iran`
+  passed a real connection test.
 - The page must stay a single file with no external CSS/JS/fonts.
 
 ## Iranian mirror (ArvanCloud) — bare page, no descriptions of purpose
@@ -95,11 +95,11 @@ deliberately bare** deployment:
 
 Deliberate limits:
 
-- Only the small base64 feeds are mirrored (tier-1, reachable, active,
-  top100, lite500 and their tier-1 variants — ~1.2 MB total). The 25 MB
+- Only the small base64 feeds are mirrored (tested, online, online-week,
+  fastest-100, balanced-500 and their tested variants — ~1.2 MB total). The 25 MB
   `all_base64.txt` is **not** mirrored: at 20 GB/month free traffic it
   would allow only ~800 downloads, and it is mostly untested configs
-  anyway. The tested `tier1_all` feed (44 KB) is the useful one.
+  anyway. The tested `tested` feed (44 KB) is the useful one.
 - The mirror is an *additional* copy, not a replacement: an Iranian
   host is under Iranian law and can be ordered to take the files down.
   Cloudflare Pages and GitHub Pages stay up regardless.

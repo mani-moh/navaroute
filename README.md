@@ -21,11 +21,25 @@ Plain `.txt` feeds contain comment headers followed by one proxy URI per line. T
 | Feed on `master/subs/` | Meaning |
 |---|---|
 | [all.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/all.txt) | All accepted, deduplicated public connections. Acceptance is not a working-credential claim. |
-| [lite500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/lite500.txt) | Up to 500 connections, sampled across protocol buckets. |
-| [reachable.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/reachable.txt) | Successful dated socket observations from that generation, not end-to-end tests. Empty if checks did not run or none succeeded. |
-| [active.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/active.txt) | Configs with a successful socket observation in the last 7 days, from the committed reachability history. Socket reachability only, not end-to-end or Iran-tested working. |
-| [top100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/top100.txt) | Up to 100 from the reachable pool, measured connection latency first, with deterministic ties; not throughput or streaming performance. |
-| [verified.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/verified.txt) | **Deprecated reachability mirror**, same URI rows as `reachable.txt`. The legacy filename does not mean credential or end-to-end verification. |
+| [online.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online.txt) | Successful dated socket observations from that generation, not end-to-end tests. Empty if checks did not run or none succeeded. |
+| [online-week.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week.txt) | Configs with a successful socket observation in the last 7 days, from the committed reachability history. Socket reachability only, not end-to-end or Iran-tested working. |
+| [fastest-100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100.txt) | Up to 100 from the online pool, measured connection latency first, with deterministic ties; not throughput or streaming performance. |
+| [balanced-500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500.txt) | Up to 500 connections, sampled across protocol buckets. |
+| [tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tested.txt) | Configs that passed a full-connection Realping test on GitHub runners. The global tested feed. |
+| [tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tested-iran.txt) | Configs that passed the same Realping test from inside Iran (owner PC). Appears once the owner runs the tier-2 test. |
+
+### Which feed should I use?
+
+- **I am in Iran and I just want configs that work** → `tested-iran`
+- **I just want configs that work (anywhere)** → `tested`
+- **I want the fastest, and a short list** → `fastest-100` (or `fastest-100-tested-iran` in Iran)
+- **I want a small list that covers every protocol** → `balanced-500`
+- **I want configs that are up right now** → `online`
+- **I want configs that worked at least once this week** → `online-week`
+- **I want everything** → `all`
+- **I want only one country / one protocol** → the country or protocol slice
+
+Plain or Base64? If your client accepts a normal link, use plain. If it only takes a Base64 subscription, use the `_base64` link. Same configs either way. Every feed has a `_base64.txt` twin.
 
 Protocol groups cover VLESS, VMess, Trojan, Shadowsocks, Hysteria2 and TUIC. Country labels come from upstream remarks/tags, not geolocation, optimized routing, ISP testing or guaranteed exit location. Categories select supplied parameters or upstream claims:
 
@@ -34,17 +48,24 @@ Protocol groups cover VLESS, VMess, Trojan, Shadowsocks, Hysteria2 and TUIC. Cou
 - `categories/iran-optimized.txt` is a legacy filename for **Iran-related upstream claims**, not optimized routing or Iranian ISP evidence.
 - Reality and web-transport groups describe supplied settings; ConfigsHUB and whitelist groups are source claims, not verified functionality.
 
-### Tier 1 tested feeds
+### Tested feeds
 
-These are the same groups as above, restricted to configs that passed a full-connection Realping test on GitHub runners (see [Tiered testing](#tiered-testing)). Each has a `_base64.txt` mirror. Counts change every run; the current numbers live in [`data/tier1_results.json`](data/tier1_results.json).
+These are the same groups as above, restricted to configs that passed a full-connection Realping test (see [Tiered testing](#tiered-testing)). Each has a `_base64.txt` mirror. The global feeds `tested.txt` and `tested-iran.txt` are in the table above; the per-group variants are:
 
 | Feed on `master/subs/` | Meaning |
 |---|---|
-| [tier1_all.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_all.txt) | Tier-1 passers across all groups. The global tier-1 feed. |
-| [tier1_reachable.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_reachable.txt) | Tier-1 passers from the reachable pool. |
-| [tier1_active.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_active.txt) | Tier-1 passers from the active (last-7-days socket) pool. |
-| [tier1_top100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_top100.txt) | Tier-1 passers from the top-100 pool. |
-| [tier1_lite500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tier1_lite500.txt) | Tier-1 passers from the lite500 pool. |
+| [online-tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-tested.txt) | Tested passers from the online pool. |
+| [online-week-tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week-tested.txt) | Tested passers from the online-week (last-7-days socket) pool. |
+| [fastest-100-tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100-tested.txt) | Tested passers from the fastest-100 pool. |
+| [balanced-500-tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500-tested.txt) | Tested passers from the balanced-500 pool. |
+| [online-tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-tested-iran.txt) | Iran-tested passers from the online pool. |
+| [online-week-tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week-tested-iran.txt) | Iran-tested passers from the online-week pool. |
+| [fastest-100-tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100-tested-iran.txt) | Iran-tested passers from the fastest-100 pool. |
+| [balanced-500-tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500-tested-iran.txt) | Iran-tested passers from the balanced-500 pool. |
+
+Counts change every run; the current numbers live in [`data/tier1_results.json`](data/tier1_results.json) (GitHub) and [`data/iran_results.json`](data/iran_results.json) (Iran).
+
+Every slice feed has the same two variants: `protocols/<proto>-tested.txt` and `protocols/<proto>-tested-iran.txt`, `countries/<cc>-tested.txt` and `countries/<cc>-tested-iran.txt`, `categories/<name>-tested.txt` and `categories/<name>-tested-iran.txt` (each with a `_base64` twin). An empty tested variant means no config in that slice passed yet — it is still written, so the link never 404s.
 
 See [STATUS.md](STATUS.md), the discovery leaderboard [DISCOVERY.md](DISCOVERY.md), [tiered testing](TIERED-TESTING.md), [architecture](docs/ARCHITECTURE.md) and [historical migration provenance](docs/MIGRATION.md). The initial migration is offline: its snapshot time belongs to the old public input, **not** a new crawl or healthcheck. No old verification boolean becomes current evidence.
 
@@ -56,16 +77,15 @@ all.txt SHA-256: `592a3a08fa499b1f778abdcbe640eba3332f4efa0daa5499a8b47f37c6dc01
 
 Accepted public nodes: 138970; socket healthcheck ran: true; socket reachable: 986; socket reachable in the last 7 days: 1791.
 Reachability—not credential verified. Upstream labels and country/category labels are claims, not successful probes.
-`verified.txt` is a deprecated reachable mirror. `categories/pattn-special.txt` is only a legacy raw-path mirror of supplied parameters.
-`active.txt` lists configs with a successful socket observation in the last 7 days; it is reachability history, not end-to-end verification.
+`online-week.txt` lists configs with a successful socket observation in the last 7 days; it is reachability history, not end-to-end verification.
 Retired executable `categories/serverless-fragment.json` is `[]`.
 
 | Feed | Nodes |
 |---|---:|
-| [active.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/active.txt) | 1791 |
-| [active_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/active_base64.txt) | 1791 |
 | [all.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/all.txt) | 138970 |
 | [all_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/all_base64.txt) | 138970 |
+| [balanced-500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500.txt) | 500 |
+| [balanced-500_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500_base64.txt) | 500 |
 | [categories/cdn-ws-grpc.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/categories/cdn-ws-grpc.txt) | 69656 |
 | [categories/cdn-ws-grpc_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/categories/cdn-ws-grpc_base64.txt) | 69656 |
 | [categories/confighub.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/categories/confighub.txt) | 8881 |
@@ -277,8 +297,12 @@ Retired executable `categories/serverless-fragment.json` is `[]`.
 | [countries/ws_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/countries/ws_base64.txt) | 135 |
 | [countries/za.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/countries/za.txt) | 77 |
 | [countries/za_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/countries/za_base64.txt) | 77 |
-| [lite500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/lite500.txt) | 500 |
-| [lite500_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/lite500_base64.txt) | 500 |
+| [fastest-100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100.txt) | 100 |
+| [fastest-100_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100_base64.txt) | 100 |
+| [online-week.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week.txt) | 1791 |
+| [online-week_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week_base64.txt) | 1791 |
+| [online.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online.txt) | 986 |
+| [online_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online_base64.txt) | 986 |
 | [protocols/hysteria2.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/hysteria2.txt) | 4685 |
 | [protocols/hysteria2_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/hysteria2_base64.txt) | 4685 |
 | [protocols/ss.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/ss.txt) | 14761 |
@@ -291,12 +315,6 @@ Retired executable `categories/serverless-fragment.json` is `[]`.
 | [protocols/vless_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/vless_base64.txt) | 71546 |
 | [protocols/vmess.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/vmess.txt) | 12873 |
 | [protocols/vmess_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/protocols/vmess_base64.txt) | 12873 |
-| [reachable.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/reachable.txt) | 986 |
-| [reachable_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/reachable_base64.txt) | 986 |
-| [top100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/top100.txt) | 100 |
-| [top100_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/top100_base64.txt) | 100 |
-| [verified.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/verified.txt) | 986 |
-| [verified_base64.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/verified_base64.txt) | 986 |
 <!-- NAVAROUTE:STATS:END -->
 
 ## How the feeds are built
@@ -313,8 +331,8 @@ The `daily-deep-discovery` workflow finds new subscription sources. An AI scout 
 
 Socket reachability is not proof a config works end to end, so the feeds above are also Realping-tested in two tiers; see [TIERED-TESTING.md](TIERED-TESTING.md).
 
-- **Tier 1 — GitHub, every 2 hours** (`0 */2 * * *`): the `tier1-pattn-test` workflow runs the PattN WebAPI (pinned P40 release) on `windows-latest` and Realping-tests up to 8,000 due configs per run — an end-to-end HTTPS GET through the proxy, twice 100 ms apart, 5 s connect timeout, minimum recorded. It tests in batches of 100 across 4 servers side by side as a filling system (about 19 minutes for 8,000 configs, down from ~90). Results publish `subs/tier1_<group>.txt` (plus `_base64` mirrors) and `data/tier1_results.json`. Configs that consistently fail on GitHub but pass from Iran are force-included via `data/github_blocked.json` and counted separately.
-- **Tier 2 — owner PC, owner-triggered**: a single Windows executable (`NavaRouteTier2.exe`, built by the `build-tier2` workflow) drives PattN on the owner's PC with the Iran regional preset, tests the tier-1 passers or all configs, and publishes `subs/iran_<group>.txt` variants plus an updated `data/github_blocked.json` through a branch and PR. No scheduled tier-2 job exists; Iran testing is owner-only.
+- **Tier 1 — GitHub, every 2 hours** (`0 */2 * * *`): the `tier1-pattn-test` workflow runs the PattN WebAPI (pinned P40 release) on `windows-latest` and Realping-tests up to 8,000 due configs per run — an end-to-end HTTPS GET through the proxy, twice 100 ms apart, 5 s connect timeout, minimum recorded. It tests in batches of 100 across 4 servers side by side as a filling system (about 19 minutes for 8,000 configs, down from ~90). Results publish `subs/tested.txt` (plus `online-tested.txt`, `online-week-tested.txt`, `fastest-100-tested.txt`, `balanced-500-tested.txt` and a `-tested` variant for every slice feed) and `data/tier1_results.json`. Configs that consistently fail on GitHub but pass from Iran are force-included via `data/github_blocked.json` and counted separately.
+- **Tier 2 — owner PC, owner-triggered**: a single Windows executable (`NavaRouteTier2.exe`, built by the `build-tier2` workflow) drives PattN on the owner's PC with the Iran regional preset, tests the tier-1 passers or all configs, and publishes `subs/tested-iran.txt` variants (plus `online-tested-iran.txt`, `online-week-tested-iran.txt`, `fastest-100-tested-iran.txt`, `balanced-500-tested-iran.txt` and a `-tested-iran` variant for every slice feed) plus an updated `data/github_blocked.json` through a branch and PR. No scheduled tier-2 job exists; Iran testing is owner-only.
 
 ### Nightly snapshot check — 03:00 UTC
 

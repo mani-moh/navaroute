@@ -24,7 +24,7 @@ MAX_GENERATION_BYTES = 512 * 1024 * 1024
 STATS_START = "<!-- NAVAROUTE:STATS:START -->"
 STATS_END = "<!-- NAVAROUTE:STATS:END -->"
 PROTOCOLS = ("vless", "vmess", "trojan", "ss", "hysteria2", "tuic")
-CORE_FEEDS = ("all", "reachable", "active", "verified", "top100", "lite500")
+CORE_FEEDS = ("all", "online", "online-week", "fastest-100", "balanced-500")
 HEALTH_HISTORY_VERSION = 1
 HEALTH_HISTORY_WINDOW = timedelta(days=7)
 HEALTH_HISTORY_MAX_BYTES = 8 * 1024 * 1024
@@ -401,10 +401,9 @@ def publish_subscriptions(
         if len(lite) == 500:
             break
     special = [n for n in public if n.has_special_parameters()]
-    groups = [("all", "All Accepted Public Configs", public), ("reachable", "Socket Reachable", reachable),
-              ("active", "Socket Reachable in the Last 7 Days", active),
-              ("verified", "Deprecated: reachability—not credential verified", reachable),
-              ("top100", "Top 100 Socket Reachable — Latency First", reachable[:100]), ("lite500", "Lite 500 Protocol Balanced", lite),
+    groups = [("all", "All Accepted Public Configs", public), ("online", "Socket Reachable", reachable),
+              ("online-week", "Socket Reachable in the Last 7 Days", active),
+              ("fastest-100", "Fastest 100 Socket Reachable — Latency First", reachable[:100]), ("balanced-500", "Balanced 500 Protocol Balanced", lite),
               ("categories/navaroute-special", "Supplied Special Parameters — Not Generated or Bypass Tested", special),
               ("categories/pattn-special", "Legacy Mirror of Supplied Parameters", special),
               ("categories/iran-optimized", "Iran-Related Upstream Claims — Not Iran Tested", [n for n in public if n.is_iran_related()]),
@@ -467,8 +466,8 @@ def publish_subscriptions(
         facts = [f"## {PROJECT_NAME} Generated Snapshot", "", f"Snapshot time: {timestamp}", f"all.txt SHA-256: `{digest}`", "",
                  f"Accepted public nodes: {len(public)}; socket healthcheck ran: {str(healthcheck_ran).lower()}; socket reachable: {len(reachable)}; socket reachable in the last 7 days: {len(active)}.",
                  "Reachability—not credential verified. Upstream labels and country/category labels are claims, not successful probes.",
-                 "`verified.txt` is a deprecated reachable mirror. `categories/pattn-special.txt` is only a legacy raw-path mirror of supplied parameters.",
-                 "`active.txt` lists configs with a successful socket observation in the last 7 days; it is reachability history, not end-to-end verification.",
+                 "`categories/pattn-special.txt` is only a legacy raw-path mirror of supplied parameters.",
+                 "`online-week.txt` lists configs with a successful socket observation in the last 7 days; it is reachability history, not end-to-end verification.",
                  "Retired executable `categories/serverless-fragment.json` is `[]`.", "", "| Feed | Nodes |", "|---|---:|"]
         facts.extend(f"| [{key}]({repo_url}/{key}) | {count} |" for key, count in sorted(counts.items()))
         start = readme.index(STATS_START) + len(STATS_START)

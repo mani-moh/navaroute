@@ -21,22 +21,29 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from src.tier1 import is_tested_variant, variant_group  # noqa: E402
+
 REPO = "mani-moh/navaroute"
 RAW_BASE = f"https://raw.githubusercontent.com/{REPO}/master"
 MIRROR_BASE = f"https://cdn.jsdelivr.net/gh/{REPO}@master"
 REPO_URL = f"https://github.com/{REPO}"
 EXPLORER_URL = "https://mani-moh.github.io/navaroute/explorer/"
 
-MAIN_FEEDS = ("all", "reachable", "active", "top100", "lite500", "verified")
+# Core feeds, in "start here" order: the tested feeds first, then the
+# socket-level pools, then everything. These are the cards at the top.
+MAIN_FEEDS = ("tested", "tested-iran", "online", "online-week",
+              "fastest-100", "balanced-500", "all")
 MAIN_DESCRIPTIONS = {
+    "tested": "configs that passed a real end-to-end connection test on GitHub, re-tested every 2 hours",
+    "tested-iran": "configs that passed the same end-to-end test from inside Iran (owner's PC)",
     "all": "every accepted, deduplicated public config",
-    "reachable": "configs that answered a socket check in the latest run",
-    "active": "configs that answered a socket check at least once in the last 7 days",
-    "top100": "up to 100 of the reachable pool, fastest socket latency first",
-    "lite500": "up to 500 configs sampled across protocol groups",
-    "verified": "deprecated mirror of reachable (kept for old clients)",
+    "online": "configs that answered a socket check in the latest run",
+    "online-week": "configs that answered a socket check at least once in the last 7 days",
+    "fastest-100": "up to 100 of the online pool, fastest socket latency first",
+    "balanced-500": "up to 500 configs sampled across protocol groups",
 }
-TIER1_PREFIX = "tier1_"
 
 CLIENTS = [
     {
@@ -81,7 +88,7 @@ STRINGS = {
     "sources": ("Sources", "منابع"),
     "configs": ("Configs", "کانفیگ‌ها"),
     "reachable": ("Socket-reachable", "قابل دسترس (سوکت)"),
-    "tier1_passed": ("Tier-1 passed", "موفق در Tier 1"),
+    "tested_passed": ("Tested", "تست‌شده"),
     "get_feeds": ("Get the subscriptions", "دریافت اشتراک‌ها"),
     "get_feeds_sub": (
         "Copy a link, paste it into your client as a subscription, and update. "
@@ -97,7 +104,7 @@ STRINGS = {
     "all_feeds": ("All feeds", "همه فیدها"),
     "feed": ("Feed", "فید"),
     "count": ("Configs", "کانفیگ‌ها"),
-    "tier1": ("Tier-1", "Tier 1"),
+    "tier1": ("Tested", "تست‌شده"),
     "links": ("Links", "لینک‌ها"),
     "howto": ("How to use", "راهنمای استفاده"),
     "step1": ("1. Install a client", "۱. نصب یک کلاینت"),
@@ -109,11 +116,11 @@ STRINGS = {
     ),
     "step2": ("2. Copy a subscription link", "۲. کپی لینک اشتراک"),
     "step2_body": (
-        "Start with the tier1_all feed (configs that passed a real connection "
-        "test) or the reachable feed. Use the Base64 link if your client "
+        "Start with the tested feed (configs that passed a real connection "
+        "test) or the online feed. Use the Base64 link if your client "
         "prefers it.",
-        "با فید tier1_all شروع کنید (کانفیگ‌هایی که تست اتصال واقعی را گذرانده‌اند) "
-        "یا فید reachable. اگر کلاینت شما Base64 را ترجیح می‌دهد، از لینک Base64 استفاده کنید.",
+        "با فید tested شروع کنید (کانفیگ‌هایی که تست اتصال واقعی را گذرانده‌اند) "
+        "یا فید online. اگر کلاینت شما Base64 را ترجیح می‌دهد، از لینک Base64 استفاده کنید.",
     ),
     "step3": ("3. Add it and update", "۳. اضافه کردن و به‌روز‌رسانی"),
     "step3_body": (
@@ -138,28 +145,28 @@ STRINGS = {
         "<b>all</b> — همه کانفیگ‌های پذیرفته‌شده. پذیرش فقط یعنی کانفیگ سالم و بدون تکرار است؛ "
         "به معنی کار کردن آن نیست.",
     ),
-    "meanings_reachable": (
-        "<b>reachable</b> — configs that answered a TCP socket check in the "
+    "meanings_online": (
+        "<b>online</b> — configs that answered a TCP socket check in the "
         "latest run. A socket answer is not an end-to-end working proxy.",
-        "<b>reachable</b> — کانفیگ‌هایی که در آخرین بررسی به تست سوکت TCP جواب دادند. "
+        "<b>online</b> — کانفیگ‌هایی که در آخرین بررسی به تست سوکت TCP جواب دادند. "
         "جواب سوکت به معنی کار کردن کامل پروکسی نیست.",
     ),
-    "meanings_active": (
-        "<b>active</b> — configs that answered a socket check at least once "
-        "in the last 7 days.",
-        "<b>active</b> — کانفیگ‌هایی که حداقل یک بار در ۷ روز گذشته به تست سوکت جواب داده‌اند.",
+    "meanings_online_week": (
+        "<b>online-week</b> — configs that answered a socket check at least "
+        "once in the last 7 days.",
+        "<b>online-week</b> — کانفیگ‌هایی که حداقل یک بار در ۷ روز گذشته به تست سوکت جواب داده‌اند.",
     ),
-    "meanings_tier1": (
-        "<b>tier1_*</b> — configs that passed a real end-to-end connection "
+    "meanings_tested": (
+        "<b>tested</b> — configs that passed a real end-to-end connection "
         "test (PattN Realping) on GitHub runners, re-tested every 2 hours. "
         "These are the best first try.",
-        "<b>tier1_*</b> — کانفیگ‌هایی که تست اتصال واقعی (PattN Realping) را در GitHub "
+        "<b>tested</b> — کانفیگ‌هایی که تست اتصال واقعی (PattN Realping) را در GitHub "
         "گذرانده‌اند و هر ۲ ساعت دوباره تست می‌شوند. این‌ها بهترین نقطه شروع هستند.",
     ),
-    "meanings_iran": (
-        "<b>iran_*</b> — configs that passed the same end-to-end test from "
-        "inside Iran (owner's PC). Appears once the owner runs the tier-2 test.",
-        "<b>iran_*</b> — کانفیگ‌هایی که همان تست را از داخل ایران (رایانه مالک) گذرانده‌اند. "
+    "meanings_tested_iran": (
+        "<b>tested-iran</b> — configs that passed the same end-to-end test "
+        "from inside Iran (owner's PC). Appears once the owner runs the tier-2 test.",
+        "<b>tested-iran</b> — کانفیگ‌هایی که همان تست را از داخل ایران (رایانه مالک) گذرانده‌اند. "
         "پس از اجرای تست tier-2 توسط مالک ظاهر می‌شود.",
     ),
     "meanings_b64": (
@@ -167,6 +174,47 @@ STRINGS = {
         "Some clients only accept this form.",
         "<b>_base64</b> — همان فید با ردیف‌های کانفیگ کدشده به Base64. "
         "برخی کلاینت‌ها فقط این شکل را می‌پذیرند.",
+    ),
+    "chooser": ("Which feed should I use?", "کدام فید را استفاده کنم؟"),
+    "chooser_iran": (
+        "<b>I am in Iran and I just want configs that work</b> → tested-iran",
+        "<b>در ایران هستم و فقط کانفیگ کارا می‌خواهم</b> → tested-iran",
+    ),
+    "chooser_tested": (
+        "<b>I just want configs that work (anywhere)</b> → tested",
+        "<b>فقط کانفیگ کارا می‌خواهم (هر جا)</b> → tested",
+    ),
+    "chooser_fast": (
+        "<b>I want the fastest, and a short list</b> → fastest-100 "
+        "(or fastest-100-tested-iran in Iran)",
+        "<b>سریع‌ترین را می‌خواهم، و لیست کوتاه</b> → fastest-100 "
+        "(یا fastest-100-tested-iran در ایران)",
+    ),
+    "chooser_small": (
+        "<b>I want a small list that covers every protocol</b> → balanced-500",
+        "<b>لیست کوچکی می‌خواهم که همه پروتکل‌ها را پوشش دهد</b> → balanced-500",
+    ),
+    "chooser_online": (
+        "<b>I want configs that are up right now</b> → online",
+        "<b>کانفیگ‌هایی می‌خواهم که همین حالا بالا هستند</b> → online",
+    ),
+    "chooser_week": (
+        "<b>I want configs that worked at least once this week</b> → online-week",
+        "<b>کانفیگ‌هایی می‌خواهم که حداقل یک بار این هفته کار کرده‌اند</b> → online-week",
+    ),
+    "chooser_all": (
+        "<b>I want everything</b> → all",
+        "<b>همه را می‌خواهم</b> → all",
+    ),
+    "chooser_slice": (
+        "<b>I want only one country / one protocol</b> → the country or protocol slice",
+        "<b>فقط یک کشور / یک پروتکل می‌خواهم</b> → فید کشور یا پروتکل",
+    ),
+    "chooser_b64": (
+        "Plain or Base64? If your client accepts a normal link, use plain. "
+        "If it only takes a Base64 subscription, use the Base64 link. Same configs either way.",
+        "ساده یا Base64؟ اگر کلاینت شما لینک معمولی را می‌پذیرد، از لینک ساده استفاده کنید. "
+        "اگر فقط اشتراک Base64 می‌گیرد، از لینک Base64 استفاده کنید. کانفیگ‌ها یکی هستند.",
     ),
     "faq": ("Questions", "پرسش‌های متداول"),
     "faq_free_q": ("Is it free?", "آیا رایگان است؟"),
@@ -178,19 +226,19 @@ STRINGS = {
     ),
     "faq_often_q": ("How often do the feeds update?", "فیدها هر چند وقت به‌روز می‌شوند؟"),
     "faq_often_a": (
-        "The main feeds refresh every 6 hours from 181 sources; the tier-1 "
+        "The main feeds refresh every 6 hours from 181 sources; the tested "
         "feeds re-test configs every 2 hours. This page rebuilds itself on "
         "every update.",
-        "فیدهای اصلی هر ۶ ساعت از ۱۸۱ منبع به‌روز می‌شوند؛ فیدهای tier-1 هر ۲ ساعت "
+        "فیدهای اصلی هر ۶ ساعت از ۱۸۱ منبع به‌روز می‌شوند؛ فیدهای تست‌شده هر ۲ ساعت "
         "دوباره تست می‌شوند. این صفحه با هر به‌روز‌رسانی خودش را بازسازی می‌کند.",
     ),
     "faq_why_q": ("Why do most configs fail?", "چرا بیشتر کانفیگ‌ها کار نمی‌کنند؟"),
     "faq_why_a": (
         "These are public configs shared on the internet. Servers go offline, "
-        "get overloaded or get blocked. Try the tier1_all feed first, test "
+        "get overloaded or get blocked. Try the tested feed first, test "
         "several configs, and update the subscription often.",
         "این‌ها کانفیگ‌های عمومی منتشرشده در اینترنت هستند. سرورها خاموش می‌شوند، "
-        "شلوغ می‌شوند یا مسدود می‌شوند. اول فید tier1_all را امتحان کنید، چند "
+        "شلوغ می‌شوند یا مسدود می‌شوند. اول فید tested را امتحان کنید، چند "
         "کانفیگ را تست کنید و اشتراک را مرتب به‌روز کنید.",
     ),
     "faq_fetch_q": ("My client can't fetch the link. Why?", "کلاینت من نمی‌تواند لینک را بگیرد. چرا؟"),
@@ -233,7 +281,14 @@ def count_uris(path: Path) -> int:
 
 
 def collect_feeds(repo_root: Path) -> list[dict]:
-    """Inventory subs/*.txt (plain feeds; _base64 twins ride along)."""
+    """Inventory subs/*.txt (plain feeds; _base64 twins ride along).
+
+    group is the table filter chip: "main" for the untested core feeds,
+    "tested" for the tested feeds (tested, tested-iran and every
+    -tested / -tested-iran variant at the root), or the slice folder
+    (categories / countries / protocols). is_main marks the core feeds
+    shown as cards, in MAIN_FEEDS order.
+    """
     subs = repo_root / "subs"
     feeds: list[dict] = []
     for path in sorted(subs.rglob("*.txt")):
@@ -241,17 +296,19 @@ def collect_feeds(repo_root: Path) -> list[dict]:
             continue
         rel = path.relative_to(subs).as_posix()
         stem = path.stem
-        group = "main"
-        if rel.startswith("tier1_") or rel.startswith("iran_"):
-            group = "tier"
-        elif "/" in rel:
+        if "/" in rel:
             group = rel.split("/")[0]  # categories / countries / protocols
+        elif is_tested_variant(stem):
+            group = "tested"
+        else:
+            group = "main"
         twin = path.with_name(f"{stem}_base64.txt")
         feeds.append(
             {
                 "rel": rel,
                 "name": stem,
                 "group": group,
+                "is_main": stem in MAIN_FEEDS,
                 "count": count_uris(path),
                 "url": f"{RAW_BASE}/subs/{rel}",
                 "b64_url": f"{RAW_BASE}/subs/{twin.relative_to(subs).as_posix()}"
@@ -285,9 +342,9 @@ def parse_snapshot(repo_root: Path) -> dict:
     }
 
 
-def load_tier1(repo_root: Path) -> dict:
-    """Per-feed {tested, passed} from data/tier1_results.json, if present."""
-    path = repo_root / "data" / "tier1_results.json"
+def _load_results(repo_root: Path, filename: str) -> dict:
+    """Per-feed {tested, passed} from a results JSON, if present."""
+    path = repo_root / "data" / filename
     if not path.exists():
         return {}
     try:
@@ -300,6 +357,16 @@ def load_tier1(repo_root: Path) -> dict:
         for name, v in feeds.items()
         if isinstance(v, dict)
     }
+
+
+def load_tier1(repo_root: Path) -> dict:
+    """Per-feed {tested, passed} from data/tier1_results.json, if present."""
+    return _load_results(repo_root, "tier1_results.json")
+
+
+def load_iran(repo_root: Path) -> dict:
+    """Per-feed {tested, passed} from data/iran_results.json, if present."""
+    return _load_results(repo_root, "iran_results.json")
 
 
 def load_sources_count(repo_root: Path) -> int:
@@ -410,40 +477,58 @@ def _done_attrs(key: str = "copied") -> str:
     return f'data-done-en="{_esc(en)}" data-done-fa="{_esc(fa)}"'
 
 
-def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) -> str:
-    tier1_passed = sum(v["passed"] for v in tier1.values())
-    main = [f for f in feeds if f["group"] == "main"]
-    others = [f for f in feeds if f["group"] not in ("main", "tier")]
+def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict,
+                iran: dict | None = None) -> str:
+    iran = iran or {}
+    # The headline tested number is the global tested feed (tier-1 "all"
+    # group), not a sum over groups (a config in several groups would be
+    # counted several times).
+    tested_total = tier1.get("all", {}).get("passed", 0)
+    main = sorted((f for f in feeds if f.get("is_main")),
+                  key=lambda f: MAIN_FEEDS.index(f["name"]))
+    others = [f for f in feeds if f["group"] not in ("main", "tested")]
 
-    def tier1_badge(feed: dict) -> str:
-        info = tier1.get(feed["name"])
-        if not info:
+    def tested_badge(feed: dict) -> str:
+        """'T1 ✓ passed/tested' (GitHub) or 'Iran ✓ ...' for a tested feed."""
+        group = variant_group(feed["name"])
+        if group is None:
             return ""
-        return (
-            f'<span class="badge">T1 ✓ {info["passed"]}/{info["tested"]}</span>'
-            if info["passed"]
-            else ""
-        )
+        if feed["name"] == "tested-iran" or feed["name"].endswith("-tested-iran"):
+            info = iran.get(group)
+            label = "Iran"
+        else:
+            info = tier1.get(group)
+            label = "T1"
+        if not info or not info["passed"]:
+            return ""
+        return f'<span class="badge">{label} ✓ {info["passed"]}/{info["tested"]}</span>'
+
+    def tested_numbers(feed: dict) -> str:
+        """'passed/tested' for a tested feed's own test, else '—'."""
+        group = variant_group(feed["name"])
+        if group is None:
+            return "—"
+        if feed["name"] == "tested-iran" or feed["name"].endswith("-tested-iran"):
+            info = iran.get(group)
+        else:
+            info = tier1.get(group)
+        return f'{info["passed"]}/{info["tested"]}' if info else "—"
 
     def feed_card(feed: dict) -> str:
         desc = MAIN_DESCRIPTIONS.get(feed["name"], "")
-        deprecated = (
-            '<span class="badge dim">deprecated</span>' if feed["name"] == "verified" else ""
-        )
         b64 = (
             f'<button class="copy" {_done_attrs()} '
             f'onclick="copyText(this,\'{feed["b64_url"]}\')">{_t("copy_b64")}</button>'
             if feed["b64_url"]
             else ""
         )
-        return f"""<div class="card"><h3><code>{_esc(feed["name"])}.txt</code>{tier1_badge(feed)}{deprecated}</h3>
+        return f"""<div class="card"><h3><code>{_esc(feed["name"])}.txt</code>{tested_badge(feed)}</h3>
 <p>{_esc(desc)} — {feed["count"]:,} configs.</p>
 <div class="btnrow"><button class="copy" {_done_attrs()} onclick="copyText(this,'{feed["url"]}')"
 >{_t("copy_link")}</button>{b64}<a class="mirror" href="{feed["mirror_url"]}">{_t("mirror")}</a></div></div>"""
 
     def feed_row(feed: dict) -> str:
-        info = tier1.get(feed["name"])
-        t1 = f'{info["passed"]}/{info["tested"]}' if info else "—"
+        t1 = tested_numbers(feed)
         b64 = (
             f'<button class="copy" {_done_attrs()} onclick="copyText(this,\'{feed["b64_url"]}\')">b64</button>'
             if feed["b64_url"]
@@ -480,13 +565,24 @@ def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) ->
 <div class="stat"><b>{sources:,}</b><span>{_t("sources")}</span></div>
 <div class="stat"><b>{snapshot["accepted"]:,}</b><span>{_t("configs")}</span></div>
 <div class="stat"><b>{snapshot["reachable"]:,}</b><span>{_t("reachable")}</span></div>
-<div class="stat"><b>{tier1_passed:,}</b><span>{_t("tier1_passed")}</span></div>
+<div class="stat"><b>{tested_total:,}</b><span>{_t("tested_passed")}</span></div>
 </div>
 <p class="updated">{_t("updated")}: {snapshot_line}</p>
 
 <h2>{_t("get_feeds")}</h2>
 <p class="sub">{_t("get_feeds_sub")}</p>
 <div class="cards">{''.join(feed_card(f) for f in main)}</div>
+
+<h2>{_t("chooser")}</h2>
+<p>{_t("chooser_iran")}</p>
+<p>{_t("chooser_tested")}</p>
+<p>{_t("chooser_fast")}</p>
+<p>{_t("chooser_small")}</p>
+<p>{_t("chooser_online")}</p>
+<p>{_t("chooser_week")}</p>
+<p>{_t("chooser_all")}</p>
+<p>{_t("chooser_slice")}</p>
+<p>{_t("chooser_b64")}</p>
 
 <h2>{_t("howto")}</h2>
 <div class="steps">
@@ -501,16 +597,16 @@ def render_html(feeds: list[dict], snapshot: dict, sources: int, tier1: dict) ->
 
 <h2>{_t("meanings")}</h2>
 <p>{_t("meanings_all")}</p>
-<p>{_t("meanings_reachable")}</p>
-<p>{_t("meanings_active")}</p>
-<p>{_t("meanings_tier1")}</p>
-<p>{_t("meanings_iran")}</p>
+<p>{_t("meanings_online")}</p>
+<p>{_t("meanings_online_week")}</p>
+<p>{_t("meanings_tested")}</p>
+<p>{_t("meanings_tested_iran")}</p>
 <p>{_t("meanings_b64")}</p>
 
 <h2>{_t("all_feeds")}</h2>
 <input id="q" class="search" placeholder="{_esc("Search feeds… / جستجوی فیدها…")}" oninput="applyFilter()">
 <div class="chips"><button class="chip on" onclick="setGroup('all',this)">all</button>
-<button class="chip" onclick="setGroup('tier',this)">tier</button>{chips}</div>
+<button class="chip" onclick="setGroup('tested',this)">tested</button>{chips}</div>
 <div class="tablewrap"><table id="feedTable"><thead><tr><th>{_t("feed")}</th><th>{_t("count")}</th><th>{_t("tier1")}</th><th>{_t("links")}</th></tr></thead>
 <tbody>{''.join(feed_row(f) for f in feeds)}</tbody></table></div>
 
@@ -535,14 +631,11 @@ def build(repo_root: Path, out_dir: Path) -> Path:
     snapshot = parse_snapshot(repo_root)
     sources = load_sources_count(repo_root)
     tier1 = load_tier1(repo_root)
-    for feed in feeds:
-        base = feed["name"]
-        if feed["group"] == "tier" and base.startswith("tier1_"):
-            feed["tier1"] = tier1.get(base[len("tier1_"):])
+    iran = load_iran(repo_root)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / "index.html"
     out_path.write_text(
-        render_html(feeds, snapshot, sources, tier1), encoding="utf-8"
+        render_html(feeds, snapshot, sources, tier1, iran), encoding="utf-8"
     )
     return out_path
 

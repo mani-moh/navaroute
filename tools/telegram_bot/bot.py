@@ -61,13 +61,13 @@ STATUS_WORKFLOWS = (
 # (label, file) shown by /feeds. Labels are neutral on purpose: the bot
 # never describes what the links are for.
 FEED_FILES = (
-    ("working", "tier1_all_base64.txt"),
-    ("online", "reachable_base64.txt"),
-    ("top 100", "top100_base64.txt"),
-    ("lite", "lite500_base64.txt"),
-    ("working · top 100", "tier1_top100_base64.txt"),
-    ("working · lite", "tier1_lite500_base64.txt"),
-    ("working · online", "tier1_reachable_base64.txt"),
+    ("working", "tested_base64.txt"),
+    ("online", "online_base64.txt"),
+    ("top 100", "fastest-100_base64.txt"),
+    ("lite", "balanced-500_base64.txt"),
+    ("working · top 100", "fastest-100-tested_base64.txt"),
+    ("working · lite", "balanced-500-tested_base64.txt"),
+    ("working · online", "online-tested_base64.txt"),
 )
 
 MENU_TEXT = (
