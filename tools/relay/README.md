@@ -18,10 +18,31 @@ Two stages, both idempotent:
   content keeps flowing via the Actions deploy while the S3 keys are
   not yet configured.
 - **Stage B — feed-data → ArvanCloud S3.** Uploads the feed files
-  plus the generated `index.html` to the bucket, only when content
-  changed (local MD5 vs the S3 ETag), and deletes S3 objects not in
-  the set. Needs the S3 key pair. Without it, runs in `--check`
-  mode: verifies reachability and reports what WOULD change.
+  plus the generated `index.html` to the bucket, using
+  **newest-wins**: a file is uploaded only when its repo version is
+  strictly newer than the mirror's copy (Git commit time of that
+  file in feed-data, falling back to the upstream commit time, vs
+  the S3 object's `LastModified`) and the content differs (local
+  MD5 vs the S3 ETag). A mirror copy that is newer or equal is never
+  overwritten — this matters during a blackout, when the mirror can
+  hold fresh Blackout Kit content the repo does not have yet.
+  **Mirror-only files are never deleted** (the Blackout Kit special
+  feeds live only in the mirror). The single exception is a
+  one-time, explicit cleanup of the known retired feed names from
+  the feeds rename (PR #45) — `reachable`, `active`, `top100`,
+  `lite500`, `verified`, `tier1_*`, `iran_*` — deleted only when
+  the repo no longer contains them, and nothing else. Needs the S3
+  key pair. Without it, runs in `--check` mode: verifies
+  reachability and reports what WOULD change.
+
+Two robustness notes: the GitHub contents API returns an empty
+`content` field for files larger than ~1 MB, so those are fetched
+from their `download_url` instead (this bit the first live run: the
+two largest feeds landed as 0 bytes in S3 before the fix). And a
+feed listed in `FEEDS` but present in neither feed-data nor
+upstream (a Blackout Kit special feed not published yet) is
+skipped, not an error — the page builder only links files that
+exist, so the mirror page stays consistent.
 
 ## Credentials
 
