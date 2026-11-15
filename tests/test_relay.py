@@ -57,6 +57,10 @@ class FakeGitHub:
                          path: str) -> datetime | None:
         return self.commit_times.get(f"{owner}/{repo}/{path}")
 
+    def request_json(self, method: str, path: str,
+                     payload: dict | None = None) -> dict | list:
+        return {"full_name": "mani-moh/navaroute"}
+
     def list_contents(self, owner: str, repo: str, path: str = "") -> list[dict]:
         return [{"name": name, "sha": sha, "type": "file"}
                 for name, (_data, sha) in self.files.items()]
@@ -441,6 +445,14 @@ class TestRun(unittest.TestCase):
         self.assertNotIn(FAKE_ACCESS, output)
         self.assertNotIn(FAKE_SECRET, output)
         self.assertNotIn(FAKE_TOKEN, output)
+
+    def test_github_reachable_uses_authenticated_api(self) -> None:
+        """Authenticated repo lookup = reachable; API error = not."""
+        r = _relay(github=FakeGitHub())
+        self.assertTrue(r._github_reachable())
+        with patch.object(FakeGitHub, "request_json",
+                          side_effect=relay.RelayError("HTTP 403")):
+            self.assertFalse(r._github_reachable())
 
     def test_build_s3_returns_none_without_keys(self) -> None:
         self.assertIsNone(relay.build_s3({}, "repoget", relay.S3_ENDPOINT))
