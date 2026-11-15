@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIENDIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-14T23:01:52.960562+00:00
+# snapshot-time: 2026-11-15T05:20:57.341865+00:00
 
-vless://08203b91-9e5e-4072-adea-ee2b8afc0498@189.74.106.84:443?security=reality&encryption=none&pbk=r5WB5FnSCt4eeBC1FJMfkWHbzsMuabo0Rc6wuAhlZUs&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=api.setevoyprostor.cc&sid=a8#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+vless://08203b91-9e5e-4072-adea-ee2b8afc0498@189.74.106.84:443?security=reality&encryption=none&pbk=r5WB5FnSCt4eeBC1FJMfkWHbzsMuabo0Rc6wuAhlZUs&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=api.setevoyprostor.cc&sid=a8#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 trojan://tunnel-astrovpn_official-ee@ee-1.stunnel.cc:8441?security=tls&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev&alpn=http%2F1.1&allowInsecure=1&type=tcp&headerType=none&host=ee-1.stunnel.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
 trojan://tunnel-astrovpn_official-gb@gb-1.stunnel.cc:8441?security=tls&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev&alpn=http%2F1.1&allowInsecure=1&type=tcp&headerType=none&host=gb-1.stunnel.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
 trojan://tunnel-astrovpn_official_pl@pl-1.stunnel.cc:8441?security=tls&alpn=http%2F1.1&host=pl-1.stunnel.cc&headerType=none&type=tcp&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
