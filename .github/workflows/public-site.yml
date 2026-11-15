@@ -10,6 +10,7 @@ on:
       - "STATUS.md"
       - "README.md"
       - "scripts/build_public_site.py"
+      - "scripts/build_explorer.py"
       - "docs/explorer/**"
       - ".github/workflows/public-site.yml"
   schedule:
@@ -44,6 +45,9 @@ jobs:
 
       - name: Build the public site
         run: python3 scripts/build_public_site.py --repo-root . --out site
+
+      - name: Build the Pipeline Explorer
+        run: python3 scripts/build_explorer.py --repo-root . --out docs/explorer
 
       - name: Keep the Pipeline Explorer alongside it
         run: cp -r docs/explorer site/explorer
