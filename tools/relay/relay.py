@@ -671,6 +671,25 @@ class Relay:
                 "uploaded": uploaded, "skipped": skipped,
                 "cleaned": cleaned, "errors": errors}
 
+    def _github_reachable(self) -> bool:
+        """Is the GitHub API reachable?
+
+        Uses an authenticated repo lookup when a token is available:
+        unauthenticated api.github.com requests 403 intermittently
+        through the VM egress proxy (shared-IP rate limit). Without a
+        token, probes raw.githubusercontent.com instead (reliable
+        unauthenticated).
+        """
+        if self.github.token:
+            try:
+                self.github.request_json(
+                    "GET", f"/repos/{UPSTREAM_OWNER}/{UPSTREAM_REPO}")
+                return True
+            except RelayError:
+                return False
+        return _reachable(
+            f"{RAW_BASE}/{UPSTREAM_OWNER}/{UPSTREAM_REPO}/{UPSTREAM_BRANCH}/README.md")
+
     # -- orchestration --------------------------------------------------
     def run(self, check_only: bool = False,
             skip_stage_a: bool = False) -> dict:
@@ -678,7 +697,7 @@ class Relay:
         started = datetime.now(timezone.utc).isoformat()
         status: dict[str, object] = {
             "started": started, "check_only": check_only,
-            "github_reachable": _reachable(f"{GITHUB_API}/"),
+            "github_reachable": self._github_reachable(),
             "arvan_reachable": _reachable(f"{self.base_url}/index.html"),
             "stage_a": {"status": "skipped"},
             "stage_b": {"status": "skipped"},
