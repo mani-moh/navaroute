@@ -1,0 +1,42 @@
+name: Provider smoke test
+
+# Manual-only live check of the discovery LLM providers (see
+# scripts/smoke_test_providers.py). Dispatch it after a provider change
+# or when a discovery run fails on API errors: it proves the mapped
+# NVIDIA-direct model IDs answer and that an OpenRouter failure crosses
+# to NVIDIA direct. It reads only the two API keys from secrets, makes
+# a handful of tiny calls, and never reads or writes repo state.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
+        with:
+          python-version: "3.12"
+      - name: NVIDIA direct mapped models
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: python3 scripts/smoke_test_providers.py --check nvidia-direct
+      - name: OpenRouter failure crosses to NVIDIA direct
+        env:
+          # Deliberately invalid: every OpenRouter attempt 401s, so the
+          # call can only succeed via the NVIDIA-direct fallback.
+          OPENROUTER_API_KEY: invalid-smoke-test-key
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: python3 scripts/smoke_test_providers.py --check cross-provider
+      - name: OpenRouter primary health (informational)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: python3 scripts/smoke_test_providers.py --check openrouter
