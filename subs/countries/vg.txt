@@ -1,9 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFZHIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-15T13:38:29.137927+00:00
+# snapshot-time: 2026-11-15T22:35:37.922859+00:00
 
 vless://1c3e580a-bd02-4bdb-9bfe-349903422037@185.238.1.37:58465?type=grpc&encryption=none&flow=&path=%2F#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-grpc%20%7C%20src%3Ashabane-merged
-vless://70756c73-0000-4000-8000-650000000000@104.234.239.139:443?security=tls&type=ws&path=%2Fpulse&host=parsa-panel-u48we.wotic15356.workers.dev&packetEncoding=xudp&sni=parsa-panel-u48we.wotic15356.workers.dev&fp=chrome&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-ws%20%7C%20src%3Asolispirit-all
 trojan://maradona_vpn@185.174.138.209:443?sni=teo.history-paint.art&peer=teo.history-paint.art&security=tls#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@185.174.138.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://f6c86505-cd45-5204-a214-f2e85d06b8e4@185.109.21.201:80?encryption=none&security=none&type=ws&host=cd1e4.olielielie.store.&path=%2Fvless%23t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro-t-me-DarkVPNpro%3Fed%3D2048#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
