@@ -13,6 +13,9 @@ Configuration (environment):
   MIRROR_URL          default "https://repoget.s3.ir-central1.arvanstorage.ir/index.html"
   SITE_URL            default "https://mani-moh.github.io/navaroute/"
   GITHUB_TOKEN        optional; without it the bot shells out to `gh api`
+  BLACKOUT_KEY        optional; base64 Blackout Kit key (32 bytes). When
+                      set, the owner can fetch it with /key. Never set
+                      this to a real key in a test or a screenshot.
 
 Run:  TELEGRAM_BOT_TOKEN=... python3 tools/telegram_bot/bot.py
 Logs go to stdout.
@@ -68,6 +71,11 @@ FEED_FILES = (
     ("working · top 100", "fastest-100-tested_base64.txt"),
     ("working · lite", "balanced-500-tested_base64.txt"),
     ("working · online", "online-tested_base64.txt"),
+    # Blackout Kit special feeds (encrypted; see docs/BLACKOUT-KIT.md).
+    ("extra · 1", "kit-1_base64.txt"),
+    ("extra · 2", "kit-2_base64.txt"),
+    ("extra · 3", "kit-3_base64.txt"),
+    ("extra · 4", "kit-4_base64.txt"),
 )
 
 MENU_TEXT = (
@@ -94,6 +102,7 @@ class Config:
     feed_data_repo: str = "mani-moh/feed-data"
     mirror_url: str = "https://repoget.s3.ir-central1.arvanstorage.ir/index.html"
     site_url: str = "https://mani-moh.github.io/navaroute/"
+    blackout_key: str | None = None
 
     @property
     def mirror_base(self) -> str:
@@ -122,6 +131,7 @@ class Config:
             mirror_url=env.get("MIRROR_URL", "")
             or "https://repoget.s3.ir-central1.arvanstorage.ir/index.html",
             site_url=env.get("SITE_URL", "") or "https://mani-moh.github.io/navaroute/",
+            blackout_key=env.get("BLACKOUT_KEY", "").strip() or None,
         )
 
 
@@ -314,9 +324,38 @@ class Bot:
             self.api.send_message(chat_id, self.feeds_text())
         elif command == "/help":
             self.api.send_message(chat_id, HELP_TEXT)
+        elif command == "/key":
+            # Deliberately NOT listed in /help: only the owner may use
+            # it, and advertising it to every chatter invites probing.
+            self._send_key(chat_id, (message.get("from") or {}).get("id"))
         elif command.startswith("/"):
             self.api.send_message(chat_id, UNKNOWN_TEXT)
         # Plain text is ignored.
+
+    def _send_key(self, chat_id: int, user_id: int | None) -> None:
+        """Owner-only delivery of the Blackout Kit key.
+
+        The key value is sent only to the configured owner, only when
+        BLACKOUT_KEY is set. Denials and deliveries are logged with the
+        sender id only -- the key value never appears in a log.
+        """
+        if self.config.owner_id is None:
+            self._log(f"key request with no owner configured (user {user_id})")
+            self.api.send_message(chat_id, "This action is not set up yet: no owner is configured.")
+            return
+        if user_id is None or str(user_id) != self.config.owner_id:
+            self._log(f"key request denied (user {user_id})")
+            self.api.send_message(chat_id, "This action is owner-only.")
+            return
+        if not self.config.blackout_key:
+            self._log(f"key request by owner but no key is configured (user {user_id})")
+            self.api.send_message(
+                chat_id,
+                "No key is configured yet: set BLACKOUT_KEY on the bot and try again.",
+            )
+            return
+        self._log(f"key sent to owner (user {user_id})")
+        self.api.send_message(chat_id, self.config.blackout_key)
 
     def _handle_callback(self, callback: dict) -> None:
         data = callback.get("data") or ""

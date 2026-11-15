@@ -33,6 +33,12 @@ FEEDS = (
     ("fastest-100-tested_base64", "working · top 100", "tested, fastest 100"),
     ("balanced-500-tested_base64", "working · lite", "tested, small list"),
     ("online-tested_base64", "working · online", "tested, responding now"),
+    # Blackout Kit special feeds (encrypted; see docs/BLACKOUT-KIT.md).
+    # Labels stay neutral, like the rest of this page.
+    ("kit-1_base64", "extra · 1", "more links, set 1"),
+    ("kit-2_base64", "extra · 2", "more links, set 2"),
+    ("kit-3_base64", "extra · 3", "more links, set 3"),
+    ("kit-4_base64", "extra · 4", "more links, set 4"),
 )
 
 CSS = """

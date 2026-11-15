@@ -324,6 +324,62 @@ class TestOwnerGate(unittest.TestCase):
         self.assertTrue(any("dispatch" in line for line in logs))
 
 
+class TestKeyCommand(unittest.TestCase):
+    def _make_key_bot(self, owner_id=None, blackout_key=None):
+        config = botmod.Config(bot_token="TEST", owner_id=owner_id,
+                               blackout_key=blackout_key)
+        api = FakeApi()
+        logs: list[str] = []
+        bot = botmod.Bot(config, api=api, github=FakeGitHub(), logger=logs.append,
+                         start_time=NOW)
+        return bot, api, logs
+
+    def test_key_by_non_owner_is_refused(self) -> None:
+        bot, api, logs = self._make_key_bot(owner_id="999", blackout_key="RkFLRUtFWQ==")
+        bot.handle_update(_message("/key", user_id=222))
+        self.assertEqual(api.sent[0]["text"], "This action is owner-only.")
+        self.assertTrue(any("222" in line for line in logs))
+        self.assertNotIn("RkFLRUtFWQ==", "".join(logs))
+
+    def test_key_without_owner_is_refused(self) -> None:
+        bot, api, _ = self._make_key_bot(owner_id=None, blackout_key="RkFLRUtFWQ==")
+        bot.handle_update(_message("/key", user_id=222))
+        self.assertIn("not set up yet", api.sent[0]["text"])
+
+    def test_key_owner_without_key_configured(self) -> None:
+        bot, api, _ = self._make_key_bot(owner_id="222", blackout_key=None)
+        bot.handle_update(_message("/key", user_id=222))
+        self.assertIn("No key is configured yet", api.sent[0]["text"])
+
+    def test_key_sent_to_owner_only_and_never_logged(self) -> None:
+        bot, api, logs = self._make_key_bot(owner_id="222", blackout_key="RkFLRUtFWQ==")
+        bot.handle_update(_message("/key", user_id=222))
+        self.assertEqual(api.sent[0]["text"], "RkFLRUtFWQ==")
+        self.assertTrue(any("key sent to owner" in line for line in logs))
+        self.assertNotIn("RkFLRUtFWQ==", "".join(logs))
+
+    def test_config_reads_blackout_key_from_env(self) -> None:
+        config = botmod.Config.from_env(
+            {"TELEGRAM_BOT_TOKEN": "tok", "BLACKOUT_KEY": "RkFLRUtFWQ=="})
+        self.assertEqual(config.blackout_key, "RkFLRUtFWQ==")
+        self.assertIsNone(
+            botmod.Config.from_env({"TELEGRAM_BOT_TOKEN": "tok"}).blackout_key)
+
+    def test_feeds_lists_kit_files(self) -> None:
+        bot, api, _ = _make_bot()
+        bot.handle_update(_message("/feeds"))
+        text = api.sent[0]["text"]
+        for filename in ("kit-1_base64.txt", "kit-2_base64.txt",
+                         "kit-3_base64.txt", "kit-4_base64.txt"):
+            self.assertIn(
+                f"https://repoget.s3.ir-central1.arvanstorage.ir/{filename}", text)
+        for label in ("extra · 1", "extra · 4"):
+            self.assertIn(label, text)
+        visible = _visible_text(text)
+        for word in FORBIDDEN:
+            self.assertNotIn(word, visible, f"forbidden word {word!r} in /feeds text")
+
+
 class TestGitHubClient(unittest.TestCase):
     def test_http_dispatch_sends_token_and_inputs(self) -> None:
         seen: list[dict] = []
