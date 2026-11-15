@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENOIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-15T05:20:57.341865+00:00
+# snapshot-time: 2026-11-15T13:38:29.137927+00:00
 
 trojan://881340284b2ba5737f5f892a846c2940@tyy129.magiclampcloud.com:59443?sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://c3M6Ly9ZMmhoWTJoaE1qQXRhV1YwWmkxd2IyeDVNVE13TlRwaU4yVTVNbUZqWXkwM01HVXlMVFE1TkRVdE9UWXlOUzFqT1RBNU1qVXhZMkUxWldV@120.241.226.41:30001#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -22,6 +22,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiNWJhOTZlMi05ZDdhLTQwYTItYTkwZS0yODJmYzRhOGZ
 ss://cmM0LW1kNTpQYW9mdQ@120.195.181.155:5985#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25235#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.239:41225?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
+vmess://eyJ2IjogIjIiLCAidHlwZSI6ICJub25lIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ0Y3AiLCAicGF0aCI6ICIvIiwgImhvc3QiOiAibHQuYmFkbnMuaGVscCIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOnZlc3RyYW5ldC1taXgtYjY0IiwgImFkZCI6ICJsdC5iYWRucy5oZWxwIiwgInBvcnQiOiA1MTM2MCwgImlkIjogIjg1YWQyMWUxLWMyY2QtMzQwNy1hYTkwLTgxNWYzZjNlYTYzNiJ9
 trojan://253bc477d4e43c209f2d427272968280@36.156.102.86:26295?allowInsecure=1&sni=www.nintendogames.net#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vmess://eyJ2IjogIjIiLCAidHlwZSI6ICJub25lIiwgImFpZCI6ICI2NCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJob3N0IjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjE4My4yMzYuNTEuMjMiLCAicG9ydCI6IDQ1MDIwLCAiaWQiOiAiNDE4MDQ4YWYtYTI5My00Yjk5LTliMGMtOThjYTM1ODBkZDI0In0=
 ss://YWVzLTEyOC1nY206ZzEyc1FpI3NzIyYx@183.232.170.32:30016?plugin=v2ray-plugin%3Bmode%3Dwebsocket%3Bmux%3Dundefined#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -91,7 +92,7 @@ ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.21:11003#%5B%F0%9F%87%A8%F0%9F%87
 vless://c98a16e4-0dc5-42f0-b3db-30f04525c123@27.50.48.6:443?type=ws&security=tls&fp=chrome&host=vless2-8vx.pages.dev#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-ws%20%7C%20src%3Acollector-ui-configs
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTcsICJpZCI6ICJhYmNiMDA2ZC03MzlmLTRjZWMtYjEzZi0xMmMxMGQzMzRkOTIifQ==
 ss://YWVzLTEyOC1nY206OGMxOWE0MzQtYjJhNy00YWI4LTg1M2EtNmY5Y2U0YzZkMWI2@183.2.157.143:24572#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://5bafc1f1-43bc-301c-bf57-53abbf20dabc@mb2b.xmrthnode.com:41307?sni=mpvideo.qpic.cn&allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
+trojan://5bafc1f1-43bc-301c-bf57-53abbf20dabc@mb2b.xmrthnode.com:41307?sni=mpvideo.qpic.cn&allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11013#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11057#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11049#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -109,6 +110,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1NmNlNTFlMy1mNjFlLTQ0ODktYTc0OS0xNjI2NzgxNDJ
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTIsICJpZCI6ICIxNDhlODJhZS01MDE0LTRhMWEtYTc4My1kZDYzZmE5Y2RjOWQifQ==
 trojan://RlzoEILU@36.151.251.59:7815?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.48:44123?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
+trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnt2b.tntbooms.com:50034?sni=mpvideo.qpic.cn&allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25268#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnnip2.tntbooms.com:24545?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25256#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -138,6 +140,7 @@ vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAiaW5zZWN1
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1OWQyOTljNy0zNjk2LTRlYTQtODk0OC1hODZkYmE3ZWJjZjk@120.232.218.106:36245#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://dee59b19-a32f-4d35-b1ee-3708e7d06efc@61.92.10.166:443?security=reality&flow=xtls-rprx-vision&fp=ios&pbk=EtyX9RyMycYtdqTpNs2VGTFw9swTDn_ey0qRb5XZR08&sid=f3099404cd2d&sni=fastcdn.hoyoverse.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 trojan://4d8e20bdae228d69021cdac530a5ce6d@tyy129.magiclampcloud.com:59443?allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+ss://eGNoYWNoYTIwLWlldGYtcG9seTEzMDU6dC5tZS9TU1JTVUI@ss-33.ssrsub.one:8083?plugin=obfs%3Bobfs%3Dhttp%3Bobfs-host%3Ddata.video.qiyi.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.24:21109#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnt2b.tntbooms.com:50024?security=tls&sni=mpvideo.qpic.cn&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowMDU5MjVhNC1hMjQ5LTQyZTgtOTM5Mi04OTY5NzRkNDFiOTU@120.232.218.106:36145#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -161,7 +164,6 @@ trojan://002023c45d18bca3eba2757bb683309a@ja262.magiclampcloud.cn:59443?allowIns
 ss://cmM0LW1kNTpQYW9mdQ@111.6.86.119:1192#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkZWQ0M2ZkMi00ZjZmLTQ3MzYtYWY0NS03N2Y1MDdhNDA2NWE@223.113.53.141:30002#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Acoldwater-all
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnt2b.tntbooms.com:50002?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAieDV4NS5vd3dvZWR1LmNvbSIsICJwb3J0IjogMjk1MDIsICJpZCI6ICI0NjRiMzJjYS0xMzY1LTQ5ZGItYTUzMS0zMTU2OGI2MDIwNjUifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@60.249.39.170:2377#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozMjY0MDU1NC05NDZiLTQxYzAtYmVjOS05YTliMGY1OTE4ODY@120.232.218.106:31411#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1OWQyOTljNy0zNjk2LTRlYTQtODk0OC1hODZkYmE3ZWJjZjk@120.232.218.106:36341#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -174,6 +176,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MjQzNzQ1OTE5ZDZkZTQ5YTVkYg@58.63.247.149:45
 ss://YWVzLTI1Ni1nY206OEM0RDJBMjEtMzkxMi1GRUM1LTczN0YtOUZGOEZERUIwQUJE@103.161.255.192:21245#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTUsICJpZCI6ICJlMWJlNjk0MS0wNjY3LTQ2OWMtOTIyNC02ZjM0YWRiNTQ5YmEifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.44:21103#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@d-ix.jiasu.one:11068#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Atg-configshub-main
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11072#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://4c1511d220e1437b234fa40571c43810@tyy129.magiclampcloud.com:59443?sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 hysteria2://MTEwODI4OjgyOTE5OjhhNTM2MGIzYjMxMjI5ZDg%3DTG%F0%9F%87%A8%F0%9F%87%B3%20%40WangCai2@211.72.35.158:3074?insecure=1&sni=TG.%40WangCai2&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
@@ -198,7 +201,6 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1OWQyOTljNy0zNjk2LTRlYTQtODk0OC1hODZkYmE3ZWJ
 ss://cmM0LW1kNTpQYW9mdQ@120.195.181.82:5985#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25287#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 hysteria2://MTEwODI4OjgyOTE5OjhhNTM2MGIzYjMxMjI5ZDg%3DTG%20%40WangCai2@60.249.3.125:3074?insecure=1&sni=TG.%40WangCai2&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
-vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImxnMzAuY2ZjZG4zLnh5eiIsICJwYXRoIjogIi8iLCAidGxzIjogInRscyIsICJzY3kiOiAiYXV0byIsICJwcyI6ICJb8J+HqPCfh7MgQ05dIFZNZXNzLXdzIHwgc3JjOmZhc3Rub2Rlcy10b3AiLCAiYWRkIjogIjExMy4zMS4xMjQuMTQ3IiwgInBvcnQiOiA0NDMsICJpZCI6ICI5MTY0NmY5YS1iNGU5LTRhY2EtYmZlMy04ODkyYjNlNThmZTcifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozMjY0MDU1NC05NDZiLTQxYzAtYmVjOS05YTliMGY1OTE4ODY@120.232.218.106:31471#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnnip2.tntbooms.com:24543?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkOTU0NDk1My0yNTcwLTRlMDUtOTc2Mi05MDQ4OTc2Y2JjNWU@free.2weradf.xyz:36721#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -207,7 +209,6 @@ ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25207#%5B%F0%9F%87%A8%F0
 trojan://cc41caea9689c07168b9e3cb8cc3d7c3@tyy129.magiclampcloud.com:59443?type=tcp&sni=tyy129.magiclampcloud.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiMzVhYzNjMi02NDI3LTQwMjktYTgzMi0zMWFiMTRjOGQ2OWM@183.237.91.122:50921#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25296#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAieDV4NS5vd3dvZWR1LmNvbSIsICJwb3J0IjogNTk1MDEsICJpZCI6ICI0NjRiMzJjYS0xMzY1LTQ5ZGItYTUzMS0zMTU2OGI2MDIwNjUifQ==
 ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@203.195.207.42:11056#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://d34c4e7c-3eac-4a26-adb9-9004b6981ad8@45.192.194.104:35600?type=raw&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=zHmC_LkSMSrRHcetzsRJZvu6irqviiG3vf9VuXRL6FE&sni=www.iij.ad.jp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 trojan://2a9457028b242be77f485aec3693cd8f@tyy129.magiclampcloud.com:59443?sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -288,7 +289,6 @@ ss://YWVzLTI1Ni1nY206dGVMeGc2NW00djB6UVBwU09N@121.14.3.96:20659#%5B%F0%9F%87%A8%
 ss://YWVzLTI1Ni1jZmI6T2xwd0o0NjU@125.122.25.163:30238#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11032#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://905fcd78-866c-81e1-3cb8-1beb59d661ab@3050cfd7-sx6ps0-sydxa9-fa3p.cm5.cnkuaishou.com:27231?security=tls&sni=3050cfd7-sx6ps0-sydxa9-fa3p.cm5.cnkuaishou.com&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAiNjZiZWkub3d3b2VkdS5jb20iLCAicG9ydCI6IDU5NTEwLCAiaWQiOiAiNDY0YjMyY2EtMTM2NS00OWRiLWE1MzEtMzE1NjhiNjAyMDY1In0=
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11002#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.6:10822?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@210.61.187.239:2377#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -319,7 +319,7 @@ trojan://c300410095914c66daa846d8a5c92747@tyy129.magiclampcloud.com:59443?allowI
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNGM3ZDk5NS0zNzJlLTQxMTYtOWZiYy01ZTc3NDBkZTE2MmM@120.232.218.106:31111#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpGR0h3dEM2Y2p3MXpTU2lSYkVnNVQ0@sakura.outlinekeys.net:1235#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NFM4NUxGMlEzUUs5MjE3MQ@14.215.40.17:18008#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.2:10820?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.2:10820?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:24006#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.3:10823?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
 trojan://68094bf6-279b-4f51-b343-5619ee16171b@36.141.116.18:49214?allowInsecure=1&sni=douyin.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
@@ -347,7 +347,7 @@ ss://YWVzLTI1Ni1nY206UXVGMnppSWJkUA@47.122.16.109:34889#%5B%F0%9F%87%A8%F0%9F%87
 ss://YWVzLTI1Ni1nY206QldDOEtUSVdRRzBDTzlJTw@183.2.157.134:16007#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://0b2d98a4-25bc-3d9f-9694-9d1e929de8dd@120.226.39.25:19243?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://YWVzLTI1Ni1nY206M2VlOTBhYTktODgzMS00ZWEzLTk0MjUtYzM2MTA5MGE5Mzhk@36.151.194.51:31452#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.8:10821?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.8:10821?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4ODhjN2M5Mi1lMmEyLTQzMmItYjEwMS0wM2IwM2E0Y2NhNDE@free.2apzhfa.xyz:31245#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://3adfeHYbfz55b3c6dzk@122.8.45.3:443#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.26:21114#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -396,6 +396,7 @@ trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.26:7571?allowInsecure=1&sni
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11043#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://cmM0LW1kNTpQYW9mdQ@120.195.181.170:5981#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowMTRlOTBkZi1hM2VlLTQ2NTQtYTlmNi1kMTE4ZTAyZGQwMmE@120.196.204.185:41047#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+trojan://3520ebcc604f430b1abb25129b92ad03@ja304.magiclampcloud.cn:59443?sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJ5ZDIuYWluaXZwLmNvbSIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvcmF5IiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJ5ZDIuYWluaXZwLmNvbSIsICJ0bHMiOiAidGxzIiwgInR5cGUiOiAiIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HqPCfh7MgQ05dIFZNZXNzLXdzIHwgc3JjOmxhbGF0aW5haHViLW1pbmVyYWwiLCAiYWRkIjogInlkMi5haW5pdnAuY29tIiwgInBvcnQiOiAzMzIwMiwgImlkIjogIjkyMDRhZmNkLTAyM2UtNzgxZi0xYWJjLWMxMmVmY2NkMTM0NCJ9
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.15:11701#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25210#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -413,17 +414,16 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkOTU0NDk1My0yNTcwLTRlMDUtOTc2Mi05MDQ4OTc2Y2JjNWU@free.2weradf.xyz:36143#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.9:10819?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://a13820c547fa34c5c45515c12f0cd576@117.149.198.190:10051?type=tcp&security=tls&sni=zz6.91js.pw&allowInsecure=1&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-trojan://a157d762252558b15b32075645145251@tyy129.magiclampcloud.com:59443?type=tcp&sni=tyy129.magiclampcloud.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://da512fa7c70172080e013faff8ee9ac4@tyy129.magiclampcloud.com:59443?allowInsecure=0&type=tcp&sni=tyy129.magiclampcloud.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.48:13855?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnt2b.tntbooms.com:50004?security=tls&sni=mpvideo.qpic.cn&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://8551a9d47b390b78d3be443ad1d0019d@ja304.magiclampcloud.cn:59443?allowInsecure=0&type=tcp&sni=ja304.magiclampcloud.cn#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjE1Ny4xNDguNy41NSIsICJwb3J0IjogNTAwMTEsICJpZCI6ICIxYjMwZjQxMy0yODY1LTRkNDAtOTE0Ni00MjA3Nzc4NzE4Y2QifQ==
+ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@36.139.203.190:11065#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://ee633fac24a4a265077aa7290e3d29d0@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://85f133142f04dbf6547da33895cfabb3@116.31.75.150:39001?allowInsecure=1&sni=www.yrtok.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTMsICJpZCI6ICIyM2I1NzkwYy00ZTk2LTQ5ZmEtOTVmYy05MDc5Y2U5Y2Y0M2MifQ==
 trojan://7e62aec6f4a54b44cd439321c825d71b@tyy129.magiclampcloud.com:59443?allowInsecure=1&sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@118.163.200.40:2377#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.10:11101#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11074#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpwNEJ1TVhhSzdOVHRMQnYtWXRmQmx5bEdhSHUxdTU3ZQ@1.2.1.5:40817#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -475,6 +475,7 @@ ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25245#%5B%F0%9F%87%A8%F0
 hysteria2://MTEwODI4OjgyOTE5OjhhNTM2MGIzYjMxMjI5ZDg%3DTG%F0%9F%87%A8%F0%9F%87%B3%20%40WangCai2@60.249.3.228:3074?insecure=1&sni=TG.%40WangCai2&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
 vless://3ae00194-1bc0-0bf4-9564-3c55b1c6d485@122.8.45.2:443?mode=auto&path=%2F%3F&security=reality&encryption=none&pbk=D2SXHZRRYM0WcFChGWd57XB-U73aIsGfMpe2-Gq5XSs&fp=chrome&type=xhttp&sni=download.nvidia.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-top
 ss://YWVzLTI1Ni1nY206SUhXTFlaU1NTWDRHU0tMQQ@14.215.40.17:16013#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+trojan://81f683c3f594588c69c9494526a57f3d@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://RmdXQRXg@223.113.54.154:23621?allowInsecure=1#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://QwwHvrnN@36.151.192.242:27381?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4ODhjN2M5Mi1lMmEyLTQzMmItYjEwMS0wM2IwM2E0Y2NhNDE@free.2apzhfa.xyz:31173#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -489,7 +490,7 @@ ss://c3M6Ly9ZV1Z6TFRJMU5pMW5ZMjA2U2xsUk5UQkhXRXhMVmpKR05scFlWQQ@14.215.40.17:150
 hysteria2://c5e6f43c-6f0e-4112-bb97-ed0dba4582d7@114.132.228.126:1000?insecure=1&sni=hk003.ccwink.cc#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 ss://Y2hhY2hhMjA6cTJrU0dwNGF5RktC@14.18.253.178:8347#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.13:11110#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.7:10821?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.7:10821?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 trojan://8560843d8550aa368674c3bf0d4d3ad8@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0MjVhYTU2Mi1kZWRmLTRmNWUtODE1Ny02MDY3MWU4YWViNjc@120.232.218.106:36611#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4ODhjN2M5Mi1lMmEyLTQzMmItYjEwMS0wM2IwM2E0Y2NhNDE@free.2apzhfa.xyz:31721#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -616,13 +617,12 @@ ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25295#%5B%F0%9F%87%A8%F0
 vmess://eyJ2IjogIjIiLCAidHlwZSI6ICJub25lIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ0Y3AiLCAicGF0aCI6ICIvIiwgImhvc3QiOiAiIiwgInRscyI6ICIiLCAicHMiOiAiW/Cfh6jwn4ezIENOXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMTIwLjIzMy43LjIyMSIsICJwb3J0IjogMTgwMDcsICJpZCI6ICIyMWRjYmVjOC1lZWU4LTNkMjAtODJiNi1mOGMxNmZlNmRjOGQifQ==
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMzkuMTA4LjExMy4xMjciLCAicG9ydCI6IDEwMDg2LCAiaWQiOiAiNzU0N2RhYWEtMTU3Ny00OWIwLTk1MTktYmQxODIzYWRkMWE3In0=
 ss://YWVzLTI1Ni1nY206TFpRMFI5Qkw2OUdDQzZGUw@183.2.157.135:15005#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAiNjZiZWkub3d3b2VkdS5jb20iLCAicG9ydCI6IDI5NTAyLCAiaWQiOiAiNDY0YjMyY2EtMTM2NS00OWRiLWE1MzEtMzE1NjhiNjAyMDY1In0=
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiNWJhOTZlMi05ZDdhLTQwYTItYTkwZS0yODJmYzRhOGZmOTA@120.232.133.202:32015#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://fcfc091d-81a4-40b7-cbdc-8eb7683617a4@2.tw.1.cdn-bilibili.cn:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.icloud.com&fp=safari&security=reality&pbk=ev0T0oHwKzoTLJJ-enihK36_fOhb6Wdt5XMMj9QtCh0&sid=&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.26:21104#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://SdCqFLcA@36.151.251.57:40252?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://YWVzLTI1Ni1nY206dGVMeGc2NW00djB6UVBwU09N@120.27.154.18:20659#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HqPCfh7MgQ05dIFZNZXNzLXRjcCB8IHNyYzppZ2FyZWNrLXNzLWFsbCIsICJhZGQiOiAiNDcuOTkuMjE5LjE0NCIsICJwb3J0IjogNDQzLCAiaWQiOiAiMjkxYjVkNGEtMTllZS00ZjIyLTkxZGYtNGRjNDM4NTBiOTcwIn0=
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HqPCfh7MgQ05dIFZNZXNzLXRjcCB8IHNyYzpzdWItODc2YTNmNzY2YSIsICJhZGQiOiAiNDcuOTkuMjE5LjE0NCIsICJwb3J0IjogNDQzLCAiaWQiOiAiMjkxYjVkNGEtMTllZS00ZjIyLTkxZGYtNGRjNDM4NTBiOTcwIn0=
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyMWRhMWU2YS1jNGZiLTRiNmMtODdmOS00MDNjNTI3NjA1NDQ@120.232.218.106:36311#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://1c8c770339adb746416981873a96c423@ja304.magiclampcloud.cn:59443?allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.62:2078?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
@@ -715,6 +715,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnt2b.tntbooms.com:50021?security=tls&sni=mpvideo.qpic.cn&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjA6djVhVVV0bWUzanhz@14.18.253.178:9003#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206QkZZQ09LSFRDOEhJV1dSQg@14.215.40.17:16006#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+trojan://254a0b7402009010a3740e084dff6b56@42.51.25.69:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNGM3ZDk5NS0zNzJlLTQxMTYtOWZiYy01ZTc3NDBkZTE2MmM@120.232.218.106:31441#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.27:21109#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.27:21119#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -724,7 +725,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjd
 trojan://e8aaaf6f97db95a2faa5af0c1566385b@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://c3M6Ly9ZMmhoWTJoaE1qQXRhV1YwWmkxd2IyeDVNVE13TlRwbVpUazFORGt5WWkwM1pEazFMVFEyTW1RdFlXTXhaUzA0Tm1VelptSTRNekZqTUdV@free.2apzhfa.xyz:31313#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://73a21f82e484bc746b7b3e8b742622e1@tyy129.magiclampcloud.com:59443?sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.8:10819?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.8:10819?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjE1Ny4xNDguNy4xMzYiLCAicG9ydCI6IDUwMDExLCAiaWQiOiAiZTFiZTY5NDEtMDY2Ny00NjljLTkyMjQtNmYzNGFkYjU0OWJhIn0=
 ss://YWVzLTI1Ni1nY206QnV0dGVyZmx5MTIzQHF3ZTk1Mjc@112.28.141.77:10006#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTIsICJpZCI6ICJlMzcxNDliOC02M2RmLTRiNGUtYmQxNy1kN2ZjMGIzMDA5ZGIifQ==
@@ -781,8 +782,8 @@ ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.2009
 trojan://9f08b5c59e0e0f5235d111cab8a3fe1b@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTcsICJpZCI6ICIyM2I1NzkwYy00ZTk2LTQ5ZmEtOTVmYy05MDc5Y2U5Y2Y0M2MifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.44:21119#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAiNjZiZWkub3d3b2VkdS5jb20iLCAicG9ydCI6IDU5NTAzLCAiaWQiOiAiNDY0YjMyY2EtMTM2NS00OWRiLWE1MzEtMzE1NjhiNjAyMDY1In0=
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-ix.jiasu.one:11054#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+hysteria2://6f7a8009ecf6a12e10d03f9d88493c89@167.179.34.13:55443?sni=gorbachev-th.kvnfreetest.uk#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 trojan://5bafc1f1-43bc-301c-bf57-53abbf20dabc@nb2b.xmrthnode.com:41001?sni=mpvideo.qpic.cn&allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.26:21109#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11040#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -806,7 +807,6 @@ ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25220#%5B%F0%9F%87%A8%F0
 ss://cmM0LW1kNTplZmFuY2N5dW4@163.177.45.154:8773#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://a967a0bdb0a9aee1d9581130a2dcd19a@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206VEFIOExTT0hNVVVMRkRVMg@183.2.157.134:18001#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAieDV4NS5vd3dvZWR1LmNvbSIsICJwb3J0IjogNTk1MTAsICJpZCI6ICI0NjRiMzJjYS0xMzY1LTQ5ZGItYTUzMS0zMTU2OGI2MDIwNjUifQ==
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.239:32962?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNGJhM2JhOS1hOGUwLTRhZmUtOTFhMi1hNjQzOTc0NmYwYWY@120.232.218.106:36721#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://2bfc5fda7fbccde82d6fada1465d131c@tyy129.magiclampcloud.com:59443?allowInsecure=1&sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
@@ -848,7 +848,7 @@ vless://de3592c8-3e77-ea26-c465-d6e6f487597d@122.8.46.9:443?mode=auto&path=%2F%3
 trojan://4e7c56ed-68dc-358d-8b4b-fe5c2e74632d@62.234.223.235:44054?security=tls&sni=baidu.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Afree18-v
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjIiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogInYzMy5oZGFjZC5jb20iLCAicG9ydCI6IDMwODMzLCAiaWQiOiAiY2JiM2Y4NzctZDFmYi0zNDRjLTg3YTktZDE1M2JmZmQ1NDg0In0=
 trojan://5f9b5bfbf52c85aeddefdca3abc694b1@tyy129.magiclampcloud.com:59443?allowInsecure=1&sni=tyy129.magiclampcloud.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnnip2.tntbooms.com:24541?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
+trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnnip2.tntbooms.com:24541?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206UkFLTDVaRzRRTkZBNzJWWA@183.2.157.134:18007#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://c3M6Ly9ZMmhoWTJoaE1qQXRhV1YwWmkxd2IyeDVNVE13TlRwbVpXRm1ZekpsWmkxa05XWmtMVFJtTm1RdE9EQXpZaTFtWVdRMFlUVmpZekZtTUdV@120.238.144.129:19852#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@203.195.207.42:11067#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -863,7 +863,6 @@ ss://YWVzLTI1Ni1nY206QnV0dGVyZmx5MTIzQHF3ZTk1Mjc@103.236.66.4:50003#%5B%F0%9F%87
 ss://cmM0LW1kNTplZmFuY2N5dW4@163.177.45.154:8771#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://cmM0LW1kNTpQYW9mdQ@111.6.86.119:1150#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@203.195.207.42:11075#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImxnMzAuY2ZjZG4zLnh5eiIsICJwYXRoIjogIi9yYXkiLCAidGxzIjogInRscyIsICJzbmkiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3Mtd3MgfCBzcmM6bG9yZW56YXp5N2tlbnlvbi12MnJheS1iYXNlNjQiLCAiYWRkIjogIjExMy4zMS4xMjQuMTQ3IiwgInBvcnQiOiA0NDMsICJpZCI6ICI5MTY0NmY5YS1iNGU5LTRhY2EtYmZlMy04ODkyYjNlNThmZTcifQ==
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzOS4xMTcuNDEiLCAicG9ydCI6IDUwMDExLCAiaWQiOiAiOTE5NWUwZjEtZjQ2Ni00ZTY5LTgzOGYtYTk1NTE5YjVkNDVlIn0=
 trojan://RlzoEILU@36.156.102.123:50723?allowInsecure=1&sni=36.156.102.123#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkOTU0NDk1My0yNTcwLTRlMDUtOTc2Mi05MDQ4OTc2Y2JjNWU@free.2weradf.xyz:36175#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -881,7 +880,7 @@ trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.8:10823?security=tls#%5
 wireguard://CBMxaub4dG7Q9W91x4%2BlUCqtF9eV1BN%2B4osBfWZNXHs%3D@162.159.195.4:2371?public-key=bmXOC%2BF1FxEMF9dyiK2H5%2F1SUtzH0JuVo51h2wPfgyo%3D&ip=172.16.0.2%2F32&mtu=1380&reserved=%5B225%2C17%2C205%5D&insecure=0#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20WireGuard%20%7C%20src%3Abarabama-merged
 trojan://d4f89111885.wns.windows.com@123.125.94.170:1357?sni=uksource1.mzsourcenode.info&allowInsecure=1#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Acoldwater-all
 ss://YWVzLTI1Ni1nY206QnV0dGVyZmx5MTIzQHF3ZTk1Mjc@36.33.35.105:10006#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.6:10823?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.6:10823?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.239:39701?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://cmM0LW1kNTpQYW9mdQ@111.6.86.80:1185#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://e2d4ffbd-d0fa-4074-b844-9e8b4e34cd4c@183.240.210.75:38029?sni=jp004.xiaoniuyun.cc#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
@@ -900,7 +899,7 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0
 trojan://253bc477d4e43c209f2d427272968280@36.156.102.88:1085?security=tls&sni=www.nintendogames.net#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.11:11105#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkOTU0NDk1My0yNTcwLTRlMDUtOTc2Mi05MDQ4OTc2Y2JjNWU@free.2weradf.xyz:36341#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.5:10823?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.5:10823?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 trojan://cd15fc4b277f0a8a251e174c3e387dbc@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206M2VlOTBhYTktODgzMS00ZWEzLTk0MjUtYzM2MTA5MGE5Mzhk@36.151.194.51:20251#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1YmI2MzYwMS1iYWM4LTQwZmQtOWRjNC05MmRlNmU2ZWNkMzM@aa01gg.sssyun.xyz:39301#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -932,10 +931,8 @@ ss://YWVzLTI1Ni1nY206bGw2Njg2NjhA@36.139.166.244:11023#%5B%F0%9F%87%A8%F0%9F%87%
 vless://452d4d88-ab7e-403d-a49a-473b73a83f8a@103.184.44.104:2052?path=%2FTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO%2CTelegram%2C%40+TEHRANARGO&security=none&encryption=none&host=xn--018o.orerblog.filtv.blog.boredhot.cloudcccc.joinbede.sbs.&type=ws#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20VLESS-ws%20%7C%20src%3Acoldwater-all
 trojan://0b2d98a4-25bc-3d9f-9694-9d1e929de8dd@120.226.39.25:19215?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Aalirewa-config
 ss://YWVzLTI1Ni1nY206bGw2Njg2NjhA@36.139.166.247:11023#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://3083d270c621275837d5f509c0337c22@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11054#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.36:30534?type=tcp&security=tls&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAiNjZiZWkub3d3b2VkdS5jb20iLCAicG9ydCI6IDU5NTAxLCAiaWQiOiAiNDY0YjMyY2EtMTM2NS00OWRiLWE1MzEtMzE1NjhiNjAyMDY1In0=
 ss://YWVzLTI1Ni1nY206MTIzNDU2@1.4.4.1:4#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206OEM0RDJBMjEtMzkxMi1GRUM1LTczN0YtOUZGOEZERUIwQUJE@120.232.217.65:21159#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1nY206ZzEyc1FpI3NzIyYx@183.232.170.32:20013?plugin=v2ray-plugin%3Bmode%3Dwebsocket%3Bmux%3Dundefined#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -976,7 +973,6 @@ ss://cmM0LW1kNTpQYW9mdQ@120.195.181.155:5980#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D
 ss://c3M6Ly9ZV1Z6TFRJMU5pMW5ZMjA2TWtnNU9GVmFWRGxNVkRGVVJUTllPUQ@125.94.45.121:15008#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkOTU0NDk1My0yNTcwLTRlMDUtOTc2Mi05MDQ4OTc2Y2JjNWU@free.2weradf.xyz:36677#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://5cbfc58f2ca9478a08c96ad942513920@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-trojan://5bafc1f1-43bc-301c-bf57-53abbf20dabc@ktc1k.xmrthnode.com:41011?sni=mpvideo.qpic.cn&allowInsecure=1&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.6:10820?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11047#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.174:11048#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -1022,7 +1018,7 @@ ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.2009
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4ODhjN2M5Mi1lMmEyLTQzMmItYjEwMS0wM2IwM2E0Y2NhNDE@free.2apzhfa.xyz:31641#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11070#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.7:443?sni=m.avhxc.cn#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIltzb3VyY2UtY2xhaW1lZF0gW/Cfh6jwn4ezIENOXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIzOS4xMDguMTEzLjEyNyIsICJwb3J0IjogMTAwODYsICJpZCI6ICJkNTBjYzU2My0wYzAzLTQxMzYtODk5Zi04NWNiYzBiMDI2OTkifQ==
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMzkuMTA4LjExMy4xMjciLCAicG9ydCI6IDEwMDg2LCAiaWQiOiAiZDUwY2M1NjMtMGMwMy00MTM2LTg5OWYtODVjYmMwYjAyNjk5In0=
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpiNWJhOTZlMi05ZDdhLTQwYTItYTkwZS0yODJmYzRhOGZmOTA@120.232.133.202:32003#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTEsICJpZCI6ICIxYjMwZjQxMy0yODY1LTRkNDAtOTE0Ni00MjA3Nzc4NzE4Y2QifQ==
 ss://YWVzLTI1Ni1nY206ZTIyYjg5YWUtNjk5Ni00ODI0LWFjMzEtNjEwYWM3MzQ5ZTZh@120.198.71.135:59662#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -1031,10 +1027,10 @@ trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.27:51083?sni=www.baidu.com#
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.192.26:34719?allowInsecure=1&sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://cmM0LW1kNTplZmFuY2N5dW4@163.177.45.154:8766#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.18:11112#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.7:10822?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.7:10822?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 trojan://c30973184a30818b4a19c8b247cc3cd4@ja262.magiclampcloud.cn:59443?allowInsecure=1&sni=ja262.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIiIsICJ0bHMiOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOjB4cmFkaWthbC1hbGwiLCAiYWRkIjogIjM2LjEzMy43OC4zNyIsICJwb3J0IjogNTAwMTYsICJpZCI6ICI5ZTYzY2E1NS0xZmY5LTQ1M2ItYWU4MC03NTk0N2I4NTk2ZDMifQ==
-trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.9:10822?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Ashabane-merged
+trojan://7d223bae-e183-4bf6-89c3-e327b15df490@183.236.51.9:10822?security=tls#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Amatinghanbari-all
 trojan://14bac0e43c849123ccb0fd0690f24316@tyy129.magiclampcloud.com:59443?type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 trojan://c9d003ce58bcafecd687cd88256ce2ff@ja304.magiclampcloud.cn:59443?allowInsecure=1&sni=ja304.magiclampcloud.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5MzI1YTM0NS1jNzJmLTQ2MzctYThmNC0zNGY5ZWZmYjdiYTY@211.91.158.26:21120#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -1120,16 +1116,17 @@ ss://YWVzLTI1Ni1nY206M2VlOTBhYTktODgzMS00ZWEzLTk0MjUtYzM2MTA5MGE5Mzhk@36.151.194
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11059#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://cmM0LW1kNTpQYW9mdQ@120.195.181.155:5988#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo4ODhjN2M5Mi1lMmEyLTQzMmItYjEwMS0wM2IwM2E0Y2NhNDE@free.2apzhfa.xyz:31741#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@36.139.203.190:11052#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25252#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206SUhXTFlaU1NTWDRHU0tMQQ@183.2.157.135:16013#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyMWRhMWU2YS1jNGZiLTRiNmMtODdmOS00MDNjNTI3NjA1NDQ@120.232.218.106:36111#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvP1RlbGVncmFtLS0tUExBTkJfTkVULS0tUExBTkJfTkVULS0tUExBTkJfTkVULS0tUExBTkJfTkVUIiwgInBjcyI6ICIiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiLS0tIiwgInYiOiAiMiIsICJ2Y24iOiAiIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3Mtd3MgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiMTIwLjQ4LjEzMy4xNjIiLCAicG9ydCI6IDEwMDg2LCAiaWQiOiAiZmRlMTBlMzktNDhiYi00ZGNmLWIzYmEtNzFkNzExMzIzYTU0In0=
 hysteria2://MTEwODI4OjgyOTE5OjhhNTM2MGIzYjMxMjI5ZDg%3DTG%20%40WangCai2@211.72.35.155:3074?insecure=1&sni=TG.%40WangCai2&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MmFhOTZkNC1mYjgzLTRmZjItOWFiYS03ZGY1NWI0YzgxNmE@120.232.218.106:36313#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
+trojan://3b985d60-e252-4935-8e03-06afeb1144c9@112.49.65.212:18000?security=tls&sni=www.biliimg.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3A0xradikal-all
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIiLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh6jwn4ezIENOXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxMjAuNDguMTMzLjE2MiIsICJwb3J0IjogMTAwODYsICJpZCI6ICJhMDFlNWQ1Ni00NjRmLTQ1YjktYjYwMC0xNjRkYjQ3MDAxNjIifQ==
 ss://c3M6Ly9ZMmhoWTJoaE1qQXRhV1YwWmkxd2IyeDVNVE13TlRveU1ERTVNbUUwTnkwd09URmxMVFF4TURFdE9UTTFPQzFrWm1JNE5HSmxPVGt3TURZ@free.2apzhfa.xyz:31315#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ekFkaERTYWJlaA@211.99.115.18:11751#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICJjaHJvbWUiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInBzIjogIlvwn4eo8J+HsyBDTl0gVk1lc3MtdGNwIHwgc3JjOmhlbGlhdGFyb21pLWNvbmZpZ2h1Yi1taXhlZCIsICJhZGQiOiAieDV4NS5vd3dvZWR1LmNvbSIsICJwb3J0IjogNTk1MDMsICJpZCI6ICI0NjRiMzJjYS0xMzY1LTQ5ZGItYTUzMS0zMTU2OGI2MDIwNjUifQ==
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.48:53248?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 trojan://2add6241-8fe8-3922-8347-da25e8ced601@125.88.149.205:50079?sni=tai.doubledou.icu#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNGM3ZDk5NS0zNzJlLTQxMTYtOWZiYy01ZTc3NDBkZTE2MmM@120.232.218.106:31671#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -1147,7 +1144,6 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0MHNybWR4cm0zeHlqbnZxejlld2x4YjJteXE3cmp1dg@
 ss://cmM0LW1kNTplZmFuY2N5dW4@120.240.153.25:8765#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYzRiZThiYy00YTRkLTQ1OTktYWViOC03ZDYzNTFmM2FkODk@120.232.218.106:31611#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://d0d08cddacc3190ea81b1b792e1b5fde@36.151.251.7:3596?sni=www.baidu.com#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
-ss://YWVzLTI1Ni1nY206ZjViN2Q5NjMtZWM0My00NTE1LThiZDUtMzNjYmNjNTU4MmVj@36.139.203.190:11059#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:25217#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://9816e1ac-3aa2-39ff-be40-0a93ad9c7ee3@tnnip2.tntbooms.com:24547?sni=mpvideo.qpic.cn&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 ss://YWVzLTI1Ni1nY206NTM5OGE2MmQtNmZhZS00NjVkLThmZmUtMTk0MThhOGI1NjFl@d-bei.200913.xyz:11077#%5B%F0%9F%87%A8%F0%9F%87%B3%20CN%5D%20SS%20%7C%20src%3Agfpcom-ss

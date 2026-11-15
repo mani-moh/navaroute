@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFBUIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-13T23:25:55.958354+00:00
+# snapshot-time: 2026-11-15T13:38:29.137927+00:00
 
+vless://98a24806-141a-43d3-b094-bd66c4eb93b8@198.16.113.220:8443?security=reality&type=tcp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=69984b9e02545831&pbk=8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%2079ms
 ss://YWVzLTEyOC1nY206MzBlOWM3YWEtZDg2ZC00ZjBkLWEwZDYtOWQwZGRmM2Y1ZTQy@ruot.ayucloudservices.nl:35014#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://ba1fc4fe-c5a5-4ad3-b4e2-f02ecffd992e@141.227.176.48:10227?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=ZEDMODEON-ZEDMODEON-ZEDMODEON-bia-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 ss://YWVzLTI1Ni1nY206c3V1Y1NlVkxtdDZQUUtBUDc3TnRHdzl4@91.250.240.148:49339#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran

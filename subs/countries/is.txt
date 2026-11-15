@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIElTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-15T05:20:57.341865+00:00
+# snapshot-time: 2026-11-15T13:38:29.137927+00:00
 
-vless://5d7b401c-78fa-4254-872e-6d42bf7e75ec@89.147.108.16:8443?security=tls&fp=chrome&sni=v1n3.11676767.xyz&type=ws&host=v1n3.11676767.xyz&path=%2Fgo.php%2Fproducts#%5Bsource-claimed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20VLESS-ws%20%7C%20src%3Aluxxuria-speed-tested
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.228:10889?type=tcp&security=tls&sni=web.max&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 trojan://p%3DXuu4jK_lJ9rOKw5%2B7BsW798DZ-01cv4S@37.235.49.118:443?security=tls#%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20Trojan%20%7C%20src%3Aalirewa-config
 trojan://cTv.9PDdCt-wybBrG1qlxI5UJuaEj@167.17.185.169:10889?type=tcp&security=tls&sni=ya.ru&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B8%20IS%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
