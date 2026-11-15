@@ -19,7 +19,7 @@ from unittest.mock import patch
 from src.pattn_client import PattnClient, PattnError
 from src.tier1 import (TIER_GROUPS, backoff_hours, build_results,
                        build_variants, is_tested_variant, load_blocked,
-                       load_state, passing_fingerprints, render_feed,
+                       load_state, passing_fingerprints, prune_state, render_feed,
                        save_blocked, save_state, select_due, update_state,
                        variant_name)
 
@@ -122,6 +122,50 @@ class StateTests(unittest.TestCase):
                     load_state(state_path)
                 with self.assertRaises(ValueError):
                     load_blocked(state_path)
+
+    def test_prune_drops_non_live_and_stale_entries_but_keeps_live(self):
+        state = {
+            "fp-live": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 12},
+            "fp-gone": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 12},
+            "fp-old": {"failures": 0, "last_test": (NOW - timedelta(days=91)).isoformat(),
+                       "last_delay": 12},
+        }
+        # fp-gone is not in the feeds; fp-old is live but older than the
+        # 90-day retention window. Only fp-live survives.
+        pruned = prune_state(state, {"fp-live", "fp-old"}, now=NOW)
+        self.assertEqual(set(pruned), {"fp-live"})
+
+    def test_over_limit_state_is_pruned_on_load_instead_of_failing(self):
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tier1_state.json"
+            entries = {
+                "fp-live": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 12},
+                "fp-gone": {"failures": 0, "last_test": NOW.isoformat(), "last_delay": 12},
+            }
+            save_state(path, entries)
+            with patch("src.tier1.STATE_MAX_BYTES", 10):
+                # Without a live set the over-limit file still raises.
+                with self.assertRaises(ValueError):
+                    load_state(path)
+                # With a live set it is pruned and loaded instead.
+                loaded = load_state(path, live_fingerprints={"fp-live"}, now=NOW)
+                self.assertEqual(set(loaded), {"fp-live"})
+
+    def test_pruned_state_stays_under_the_limit(self):
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "tier1_state.json"
+            # A realistic large state: many entries, only a few still live.
+            entries = {f"fp-{i:05d}": {"failures": 0, "last_test": NOW.isoformat(),
+                                       "last_delay": 12}
+                       for i in range(2000)}
+            live = {f"fp-{i:05d}" for i in range(5)}
+            with patch("src.tier1.STATE_MAX_BYTES", 2000):
+                save_state(path, entries)
+                self.assertGreater(path.stat().st_size, 2000)
+                pruned = prune_state(entries, live, now=NOW)
+                save_state(path, pruned)
+                self.assertLess(path.stat().st_size, 2000)
+                self.assertEqual(set(load_state(path)), live)
 
 
 class VariantTests(unittest.TestCase):

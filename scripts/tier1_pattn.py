@@ -54,7 +54,7 @@ from src.pattn_client import (DEFAULT_PORT, DEFAULT_SPEEDTEST_PAGE_SIZE,  # noqa
                               stop_webapi, write_webapi_speedtest_config)
 from src.tier1 import (DEFAULT_PER_RUN_CAP, TIER_GROUPS, TIER1_INTERVAL_HOURS,  # noqa: E402
                        build_results, build_variants, load_blocked, load_state,
-                       passing_fingerprints, render_feed, save_state,
+                       passing_fingerprints, prune_state, render_feed, save_state,
                        select_due, update_state, variant_name)
 
 STATE_PATH = REPO_ROOT / "data" / "tier1_state.json"
@@ -372,7 +372,12 @@ def main(argv: list[str] | None = None) -> int:
             node = parse_proxy_uri(uri, SOURCE)
             if node is not None:
                 uri_to_fp[uri] = node.semantic_fingerprint()
-    state = load_state(STATE_PATH)
+    # The live set prunes the state on load: entries for configs that
+    # left the feeds (and entries older than the retention window) are
+    # dropped, so an over-limit state file is recovered instead of
+    # failing the run at startup.
+    state = load_state(STATE_PATH, live_fingerprints=set(uri_to_fp.values()), now=now)
+    print(f"tier1: state has {len(state)} entries")
     blocked = load_blocked(BLOCKED_PATH)
     due = select_due(known, state, now, args.per_run_cap)
     if not due:
@@ -409,6 +414,10 @@ def main(argv: list[str] | None = None) -> int:
         delay = delays.get(endpoint) if endpoint else None
         results[fingerprint] = delay if (isinstance(delay, int) and delay > 0) else None
     state = update_state(state, results, now)
+    # Prune again before saving so the file stays bounded by the live
+    # feed set (update_state only touches due configs, which are live,
+    # but this guarantees the saved file never carries stale entries).
+    state = prune_state(state, set(uri_to_fp.values()), now=now)
     save_state(STATE_PATH, state)
 
     passing = passing_fingerprints(state)

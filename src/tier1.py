@@ -52,7 +52,9 @@ TIER1_INTERVAL_HOURS = 2
 IRAN_INTERVAL_HOURS = 24
 STATE_VERSION = 1
 BLOCKED_VERSION = 1
-STATE_MAX_BYTES = 8 * 1024 * 1024
+STATE_MAX_BYTES = 32 * 1024 * 1024
+# State entries older than this are reset (treated as untested) on prune.
+STATE_RETENTION_DAYS = 90
 BLOCKED_MIN_STREAK = 2  # "consistently failing on GitHub" means streak >= 2
 # Consecutive-failure streak -> hours before the config is due again.
 BACKOFF_HOURS = {0: 0, 1: 4, 2: 8, 3: 16, 4: 32}
@@ -114,11 +116,49 @@ def _iso(now: datetime) -> str:
 
 
 # -- state (data/tier1_state.json) ------------------------------------
-def load_state(path: Path) -> dict[str, dict]:
-    """Fingerprint -> {"failures": int, "last_test": ISO, "last_delay": int|None}."""
+def prune_state(state: dict[str, dict], live_fingerprints: set[str],
+                now: datetime | None = None,
+                max_age_days: int = STATE_RETENTION_DAYS) -> dict[str, dict]:
+    """Drop state entries that can never be used again.
+
+    Keeps only entries whose fingerprint is in the current feed set
+    (``live_fingerprints``) and whose last test is within
+    ``max_age_days``. Dropping a fingerprint that is not in the feeds
+    is safe: it is never selected for testing, and if it reappears it
+    is treated as untested (due). An entry older than the retention
+    window is reset the same way. This keeps the state file bounded
+    by the live feed set instead of growing forever.
+    """
+    if now is None:
+        now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=max_age_days)
+    kept: dict[str, dict] = {}
+    for fingerprint, entry in state.items():
+        if fingerprint not in live_fingerprints:
+            continue
+        try:
+            last_test = _parse_time(entry["last_test"])
+        except (ValueError, KeyError, TypeError):
+            continue
+        if last_test < cutoff:
+            continue
+        kept[fingerprint] = entry
+    return kept
+
+
+def load_state(path: Path, live_fingerprints: set[str] | None = None,
+               now: datetime | None = None) -> dict[str, dict]:
+    """Fingerprint -> {"failures": int, "last_test": ISO, "last_delay": int|None}.
+
+    When ``live_fingerprints`` is given, entries for fingerprints that
+    are no longer in the feeds (and entries older than the retention
+    window) are pruned instead of returned, so an over-limit state
+    file is recovered rather than failing the run. Without it, an
+    over-limit file still raises.
+    """
     if not path.exists():
         return {}
-    if path.stat().st_size > STATE_MAX_BYTES:
+    if path.stat().st_size > STATE_MAX_BYTES and live_fingerprints is None:
         raise ValueError("Tier-1 state exceeds size limit")
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -139,6 +179,8 @@ def load_state(path: Path) -> dict[str, dict]:
             raise ValueError("Invalid tier-1 state")
         _parse_time(last_test)
         entries[fingerprint] = {"failures": failures, "last_test": last_test, "last_delay": last_delay}
+    if live_fingerprints is not None:
+        entries = prune_state(entries, live_fingerprints, now=now)
     return entries
 
 
