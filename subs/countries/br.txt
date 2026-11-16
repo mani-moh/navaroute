@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIEJSIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-16T05:18:21.871232+00:00
+# snapshot-time: 2026-11-16T10:01:21.793966+00:00
 
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.104.154:443?security=tls&sni=findtemporaryworkandfreelancerprojectsonlineplatform.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20153ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.104.154:443?security=tls&sni=findtemporaryworkandfreelancerprojectsonlineplatform.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20145ms
 trojan://ZU%290ryc%24VSrG@104.17.148.22:443?path=%2Ftrg2dhGAnG15ULOP7i%3Fed%3D2560&security=tls&alpn=http%2F1.1&host=uk2wbo0ikx3iyi4i9wjdyu6y-o28et7o.pages.dev&fp=randomized&type=ws&sni=uk2WbO0iKx3IyI4i9WjdYU6Y-O28ET7o.pagEs.DeV#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan-ws%20%7C%20src%3Aargh73-sub475
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZamxpWW1GbE56Vm1NbUU0Wm1Ka1lqQXhOelEyTldVeU56WmxOamhrWkdVPQ@163.176.114.243:59319#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5N2ZlNmIwN2NiZmFmN2U3@157.185.173.60:18424#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Asub-07d2577deb
@@ -28,7 +28,6 @@ vmess://eyJhaWQiOiAiMCIsICJuZXQiOiAidGNwIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJ4bWZo
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphN2MyMDU2NDJiMzAyYzIw@5.188.4.103:11201#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.104.154:443?type=tcp&security=tls&sni=findtemporaryworkandfreelancerprojectsonlineplatform.com&fp=chrome&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
 hysteria2://ik0zt621uw9iqvsi@assets.gateway-stream.com:52010?security=tls&amp%3Bobfs=salamander&amp%3Bobfs-password=ntygj5lde0e7tm1m&amp%3Binsecure=0&amp%3Bsni=assets.gateway-stream.com#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.104.154:443?allowInsecure=1&sni=216.238.104.154&type=tcp#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan-tcp%20%7C%20src%3Asub-44501fb22e
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyR1dzcUU3R3IzblJNdXVRWmZGYQ@177.54.152.89:8389#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 ss://2022-blake3-chacha20-poly1305:V6XJgKditpse2Xlx8KAUr0YFCe0PGT823tpwCxoZWtE%3D@147.15.26.72:59319#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpid2pOUGN3Z3o1KzFnQ3lpK3JCK25mcXVndzM4Qjd0cVZh@38.180.221.147:17283#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -43,7 +42,6 @@ hysteria2://maniubi@129.148.33.28:60800?insecure=1&sni=www.bing.com#%5B%F0%9F%87
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJ4bWZobHB5LmNvbSIsICJwYXRoIjogIiIsICJ0bHMiOiAidGxzIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJ4bWZobHB5LmNvbSIsICJwcyI6ICJb8J+Hp/Cfh7cgQlJdIFZNZXNzLXRjcCB8IHNyYzpmYXN0bm9kZXMtdmVyaWZpZWQiLCAiYWRkIjogIjEwMy44OC4yMzIuNTUiLCAicG9ydCI6IDEyNzAsICJpZCI6ICI1YzA0MGYxZC00NWRiLTQzYmQtOGQ0Ni1lNDk1MGU0MzM3MzUifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZamxpWW1GbE56Vm1NbUU0Wm1Ka1lqQXhOelEyTldVeU56WmxOamhrWkdVPQ@137.131.142.15:59319#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://8a77b19a-36be-43ff-ace0-bc322aa4f1e3@br.pineappled.org:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=google.com&fp=chrome&security=reality&pbk=CKxzpUtdHkJYJDpogsZSGCz9J6nlOTWdsOMz3sARDVI&sid=99&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
-vmess://eyJhaWQiOiAiMSIsICJmcCI6ICJjaHJvbWUiLCAibmV0IjogInRjcCIsICJzY3kiOiAiYXV0byIsICJ0bHMiOiAiIiwgInR5cGUiOiAiIiwgInYiOiAiMiIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInBzIjogIlvwn4en8J+HtyBCUl0gVk1lc3MtdGNwIHwgc3JjOnZlc3RyYW5ldC1taXgtYjY0IiwgImFkZCI6ICIxNzIuMjMzLjE3Ljc2IiwgInBvcnQiOiAyMjMyNCwgImlkIjogIjA0NjIxYmFlLWFiMzYtMTFlYy1iOTA5LTAyNDJhYzEyMDAwMiJ9
 hysteria2://CyG0RFxMjzs41uQD4OLuHQ%3D%3D@147.15.108.14:20000?headerType=none&encryption=none&sni=rmgyvpn.rest&obfs=salamander&obfs-password=CyG0RFxMjzs41uQD4OLuHQ%3D%3D#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 hysteria2://23c82941-70f4-4381-90db-bd28e9a902e9@steel7.hadsvpn.com:443?hop_interval=10&sni=steel7.hadsvpn.com&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInBjcyI6ICIiLCAic2N5IjogImF1dG8iLCAic2tpcC1jZXJ0LXZlcmlmeSI6IHRydWUsICJzbmkiOiAieG1maGxweS5jb20iLCAidGxzIjogInRscyIsICJ0eXBlIjogIm5vbmUiLCAidiI6ICIyIiwgInZjbiI6ICIiLCAicHMiOiAiW/Cfh6fwn4e3IEJSXSBWTWVzcy10Y3AgfCBzcmM6YmFycnktZmFyLWFsbCIsICJhZGQiOiAiMTAzLjg4LjIzMi41NSIsICJwb3J0IjogMTI3MCwgImlkIjogIjVjMDQwZjFkLTQ1ZGItNDNiZC04ZDQ2LWU0OTUwZTQzMzczNSJ9
@@ -56,6 +54,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpid2pOUGN3Z3o1KzFnQ3lpK3JCK25mcXVndzM4Qjd0cVZ
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5N2ZlNmIwN2NiZmFmN2U3@157.185.173.60:18426#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://02926f9e-153a-42c8-8ecd-8fade7009ad1@144.22.250.122:443?type=tcp&security=tls&sni=golinkwuxian.top&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphN2MyMDU2NDJiMzAyYzIw@5.188.4.103:11204#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+Hp/Cfh7cgQlJdIFZNZXNzLXRjcCB8IHNyYzp2ZXN0cmFuZXQtbWl4LWI2NCIsICJhZGQiOiAiMTcyLjIzMy4xNy43NiIsICJwb3J0IjogMjIzMjQsICJpZCI6ICIwNDYyMWJhZS1hYjM2LTExZWMtYjkwOS0wMjQyYWMxMjAwMDIifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphN2MyMDU2NDJiMzAyYzIw@5.188.4.103:11202#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://bc09f682-8c7e-4530-9380-d103fa739079@147.45.116.4:888?encryption=none&flow=xtls-rprx-vision&security=reality&sni=fortune.com&fp=chrome&pbk=_K91Z0rRa3uH-re6enMM0AQ63OhZkyjD5_HaeLLv6lM&sid=0ca9f654d16681&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20VLESS-Reality%20%7C%20src%3Acoldwater-all
 vless://056405e8-de9f-4d0d-8145-956f13cc34da@201.58.139.66:443?type=tcp&encryption=none&flow=&sni=57aac2t.pl7.h1clayd.click&fp=firefox&security=reality&pbk=LY0H47MWx87_L_JBzxFAuTzKZB53U7MrZQK8-dNnMxM&sid=6c5c7900406a1ae7&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
@@ -104,7 +103,6 @@ ss://YWVzLTI1Ni1nY206YTg2OWJhN2UtZTQ2Yy00NmJmLTlkMGEtMmE0ZGRlY2MwNjI3@146.235.40
 hysteria2://7a812743-3e4f-4a5d-8d2d-e5d50b54279f@bx.dport.top:33654?sni=bx.dport.top&insecure=1&obfs=salamander#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://f4b80b26-b6d4-49a6-a460-f50efb7a457c@hy.cardlist24.shop:443?hop_interval=10&sni=hy.cardlist24.shop&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZamxpWW1GbE56Vm1NbUU0Wm1Ka1lqQXhOelEyTldVeU56WmxOamhrWkdVPQ@147.15.120.123:59319#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@202.61.73.243:443?security=reality&flow=xtls-rprx-vision&fp=edge&pbk=MoMijL7xMkbBJJra5F-RLeZ3fSM4HA8XbQ7CBYfieRk&sid=07d1d1bf4769be&sni=br1.gofizz.in#%5Bsource-claimed%5D%20%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZamxpWW1GbE56Vm1NbUU0Wm1Ka1lqQXhOelEyTldVeU56WmxOamhrWkdVPQ@152.67.55.163:59319#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206YTg2OWJhN2UtZTQ2Yy00NmJmLTlkMGEtMmE0ZGRlY2MwNjI3@144.22.197.150:7705#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://52f0f0ee-bc74-4757-8e1c-51e334233b4d@45.192.2.51:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=yandex.net&fp=chrome&pbk=1oUeBtHH4DskTM_jCh-6enWRkFMDX9l1OU5kWYl4kxA&sid=364994a6f61fc955&type=tcp&headerType=none#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

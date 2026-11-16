@@ -2890,6 +2890,258 @@
       "enabled": true,
       "description": "Public Telegram channel @ln2ray whose configs were retained by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "tg-netfreedom0",
+      "name": "Telegram @netfreedom0 (public configs retained)",
+      "url": "https://t.me/s/netfreedom0",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @netfreedom0 whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-v2ray_official",
+      "name": "Telegram @v2ray_official (public configs retained)",
+      "url": "https://t.me/s/v2ray_official",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @v2ray_official whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-4afe05d07a",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/main/mix/sub.html",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-1393bfcd5a",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/main/vless.html",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-178543dc36",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/main/vmess.html",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-3d9f4dd5d5",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/main/ss.html",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-f612f877e3",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/arshiacomplus/v2rayExtractor/main/trojan.html",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-tradenets",
+      "name": "Telegram @tradenets (public configs retained)",
+      "url": "https://t.me/s/tradenets",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @tradenets whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-vpn_ceenter",
+      "name": "Telegram @vpn_ceenter (public configs retained)",
+      "url": "https://t.me/s/vpn_ceenter",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @vpn_ceenter whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-zirov2ray",
+      "name": "Telegram @zirov2ray (public configs retained)",
+      "url": "https://t.me/s/zirov2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @zirov2ray whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-proxy_shadowsocks",
+      "name": "Telegram @proxy_shadowsocks (public configs retained)",
+      "url": "https://t.me/s/proxy_shadowsocks",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @proxy_shadowsocks whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-wolf_vpn00",
+      "name": "Telegram @wolf_vpn00 (public configs retained)",
+      "url": "https://t.me/s/wolf_vpn00",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @wolf_vpn00 whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-iranshield",
+      "name": "Telegram @iranshield (public configs retained)",
+      "url": "https://t.me/s/iranshield",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @iranshield whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-father_vpn",
+      "name": "Telegram @father_vpn (public configs retained)",
+      "url": "https://t.me/s/father_vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @father_vpn whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-connectbash",
+      "name": "Telegram @connectbash (public configs retained)",
+      "url": "https://t.me/s/connectbash",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @connectbash whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-v2box",
+      "name": "Telegram @v2box (public configs retained)",
+      "url": "https://t.me/s/v2box",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @v2box whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-zakharproxy",
+      "name": "Telegram @zakharproxy (public configs retained)",
+      "url": "https://t.me/s/zakharproxy",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @zakharproxy whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-gozarnetir",
+      "name": "Telegram @gozarnetir (public configs retained)",
+      "url": "https://t.me/s/gozarnetir",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @gozarnetir whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }
