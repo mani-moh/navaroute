@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1VhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
+#profile-update-interval: 2
+# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+
+vless://2dacc738-5720-4824-b8bc-e3db57596ba7@178.94.25.73:10444?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&sni=video.yandex.ru&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran

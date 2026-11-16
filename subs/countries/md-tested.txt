@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL01kLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
+#profile-update-interval: 2
+# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+
+vless://f2905db1-4c91-48fc-a101-705d1620e279@143.246.205.2:8443?encryption=none&security=tls&sni=ch.gacvpn.site&fp=chrome&type=grpc&authority=&serviceName=connect-ch&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all

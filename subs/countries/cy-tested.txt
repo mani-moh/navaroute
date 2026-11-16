@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N5LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
+#profile-update-interval: 2
+# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+
+vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?security=reality&encryption=none&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=68a8#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged

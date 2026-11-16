@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0J6LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
+#profile-update-interval: 2
+# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+
+trojan://f426d3c9-fb43-43c0-868b-898dfa451a74@121.127.33.130:443?security=tls&sni=likejennie.pages.dev&type=ws&path=%2F&Host=likejennie.pages.dev#%5B%F0%9F%87%A7%F0%9F%87%BF%20BZ%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs

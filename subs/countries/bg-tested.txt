@@ -1,0 +1,8 @@
+#profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
+#profile-update-interval: 2
+# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+
+vless://d596f92b-a7ce-47d2-8392-a274d9f57bec@87.120.92.68:443?security=reality&encryption=none&pbk=XLAE_KCFdlZkGcFndCnzEqsNHX1FByaGihkyEyrmDlo&headerType=none&fp=chrome&spx=%2F885d24eecd2e022&type=tcp&flow=xtls-rprx-vision&sni=cloudiva.abrdns.com&sid=c1440935cc28#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Abarry-far-all
+vless://d596f92b-a7ce-47d2-8392-a274d9f57bec@87.120.92.68:443?security=reality&encryption=none&pbk=XLAE_KCFdlZkGcFndCnzEqsNHX1FByaGihkyEyrmDlo&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=cloudiva.abrdns.com&sid=c1440935cc28#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran
+vless://f203fd20-2c61-4b6e-a8a7-75e9581e497b@187.54.4.43:443?flow=xtls-rprx-vision&type=raw&security=reality&sni=bg-adapt.static-s3.org&fp=firefox&pbk=LhcTGnqGTs7rJgD52NUKBWH3-mPJBdkMJKLmz-M4jnk&sid=486a1a9c7288b70e&spx=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20174ms
+vless://7c356ae5-3b11-4040-9e76-2d2b7b8ea2f4@66.bmi.ir.asopardaz.ir:8443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=JtA0d5K6Jnmg35oWP9SDOsc1ceuqaxOsNg33fiPHJQs&security=reality&sid=e915&sni=timeline.www.cloudflare.com&type=tcp#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
