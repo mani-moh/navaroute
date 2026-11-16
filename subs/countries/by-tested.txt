@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0J5LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:10444?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=edge&security=reality&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:10444?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=firefox&security=reality&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
@@ -13,5 +13,7 @@ vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?encryption=no
 vless://8cef7621-c6f0-486e-b51d-59c30c5b0b25@95.128.71.79:10444?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=firefox&security=reality&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:14430?security=none&type=ws&path=%2Fvless&host=178.172.227.228&packetEncoding=xudp#%5Bsource-claimed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:10444?flow=xtls-rprx-vision&fp=safari&host=ads.x5.ru&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&security=reality&sid=8debcf36f1cc69ff&sni=ads.x5.ru&type=tcp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20209ms
+vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:10444?security=reality&type=raw&packetEncoding=xudp&sni=ads.x5.ru&fp=ios&flow=xtls-rprx-vision&sid=8debcf36f1cc69ff&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
+vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:10444?security=reality&type=tcp&sni=ads.x5.ru&flow=xtls-rprx-vision&fp=safari&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:10443?security=none&type=tcp&packetEncoding=xudp&sni=178.172.227.124&encryption=none#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
 vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:10443#%5B%F0%9F%87%A7%F0%9F%87%BE%20BY%5D%20VLESS%20%7C%20src%3Adelta-kronecker-all

@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0VlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://0ed9418b-e687-4c2d-8869-7e368c44887e@ee45.own-homelab.cloud:443?sni=ee45.own-homelab.cloud&type=grpc&serviceName=grpc&fp=edge&security=tls#%5B%F0%9F%87%AA%F0%9F%87%AA%20EE%5D%20VLESS-grpc%20%7C%20src%3Aautomergepublicnodes-list
 vless://0ed9418b-e687-4c2d-8869-7e368c44887e@ee25.own-homelab.cloud:443?security=reality&pbk=4XnNIGFrNW2uKqvNJly-X_J52O_SDOdWwejuGQU_IAs&sid=05c0787b9357f4a8&fp=edge&sni=ee25.own-homelab.cloud&type=grpc&serviceName=&mode=gun#%5B%F0%9F%87%AA%F0%9F%87%AA%20EE%5D%20VLESS-Reality%20%7C%20src%3Asnakem982-v2ray

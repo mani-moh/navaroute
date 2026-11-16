@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@172.67.74.177:443?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=%2Ffp%3Dchrome&security=tls#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-ws%20%7C%20src%3Aautomergepublicnodes-list
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@149.28.130.108:443?sni=searchcreativejobsandshowcaseyourartistictalents.com#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20Trojan%20%7C%20src%3Aautomergepublicnodes-list
@@ -89,5 +89,6 @@ vless://c6624b96-e346-490b-9145-74c2543a9483@xjpp.zjlo.top:36442?security=tls&en
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@15.235.184.127:443?security=tls&sni=exploredigitaljobplatformandfindonlinework.com#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20Trojan%20%7C%20src%3A0xradikal-all
 vless://e1eaef08-e4ff-4843-9926-c0c84a034bad@185.71.216.94:2089?flow=xtls-rprx-vision&security=reality&sni=www.apple.com&fp=firefox&pbk=oRmj7gTi5H2oIClNYxxgOjqp8-j5kFYtGFU8CNuMj34&sid=deccc6fac1ddb0ff#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 hysteria2://Rgl5QNexXDgv0jClIuGNyzW5@13.229.214.4:20000?insecure=1&alpn=h3&sni=sg-transit-1.nebulacloud.win#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
+vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJUZWxlZ3JhbS1MZXZpa29fdjJyYXkiLCAiaW5zZWN1cmUiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInBjcyI6ICIiLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAidmNuIjogIiIsICJuYW1lIjogIj4+QHYycmF5TkdfTWF0c3VyaTo6WFgiLCAicHMiOiAiW/Cfh7jwn4esIFNHXSBWTWVzcy10Y3AgfCBzcmM6dmVzdHJhbmV0LW1peC1iNjQiLCAiYWRkIjogInd3MTEubGV2aWtvZ2pnZmRkLmlyIiwgInBvcnQiOiAxODAwMCwgImlkIjogImY4YzhkYzNkLTBkMzctNDZiMC04YjM0LWE3MjMyODgyZmNmZSJ9
 vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@103.195.191.240:443?fp=unsafe&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://e1eaef08-e4ff-4843-9926-c0c84a034bad@185.71.216.177:2089?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.apple.com&fp=chrome&pbk=oRmj7gTi5H2oIClNYxxgOjqp8-j5kFYtGFU8CNuMj34&sid=deccc6fac1ddb0ff&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all

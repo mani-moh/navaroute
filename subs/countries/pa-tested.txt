@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1BhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://67eb6b17-7797-4ded-bf52-423c4c5f6cbd@50.117.15.225:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.foxsports.com&fp=chrome&security=reality&pbk=G7bpUPFSW28-oE6ff8qZac1_apU6PiJ-GHmi7tAPDSY&sid=91af08b1ce1f&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%B5%F0%9F%87%A6%20PA%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 vless://67eb6b17-7797-4ded-bf52-423c4c5f6cbd@50.117.15.225:443?type=raw&encryption=none&flow=xtls-rprx-vision&sni=www.foxsports.com&fp=chrome&security=reality&pbk=G7bpUPFSW28-oE6ff8qZac1_apU6PiJ-GHmi7tAPDSY&sid=91af08b1ce1f&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%B5%F0%9F%87%A6%20PA%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub

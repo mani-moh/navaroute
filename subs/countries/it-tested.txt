@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0l0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://96aece95-a55a-4082-8c17-f996c0c83729@185.247.184.188:443?path=%2Fapi%2Fv1%2Fdata&pbk=k9BuzZPnzofDcPTaa7ROHNIc9ww2jy3tLAJ04GuKvAQ&security=reality&sid=c44bcdb731f12c41&sni=s.tradingview.com&type=xhttp&fp=edge#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20123ms
 vless://52a5a29f-c162-411a-8a37-a3f11b0dc537@172.213.24.16:2083?encryption=none&flow=xtls-rprx-vision&pbk=WbgtxLlo2gmTzB4Wzxgh_U7G97d4ENTS10fYIoujET4&security=reality&sid=0123456789abcdef&sni=www.apple.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
@@ -9,3 +9,4 @@ vless://52a5a29f-c162-411a-8a37-a3f11b0dc537@172.213.24.16:2083?type=tcp&securit
 vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&security=reality&sid=cd6065902eea7a02&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
 vless://29f178f7-f96f-46ba-8fc0-bbcd690ba788@82.118.16.189:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=zmo2VkZkfjh2kWjaRghXUs39ImQo87LmPhjvzbX3yB4&security=reality&sid=1e9a49dd374c1191&sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?type=raw&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=chrome&security=reality&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&sid=cd6065902eea7a02&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
+vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=chrome&security=reality&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&sid=cd6065902eea7a02&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub

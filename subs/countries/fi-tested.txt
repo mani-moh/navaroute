@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0ZpLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://02655447-4659-41df-8d0e-d23a3035b7cb@178.17.60.97:443?type=raw&security=reality&sni=fi1.nebulaguard.org&fp=firefox&flow=xtls-rprx-vision&pbk=MxtGDhmLnM0c12kBSOjvxJjmflGmabDQsCekNeH85Rk&sid=d110e87817307d2f#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20122ms
 vless://88a558b1-9645-42f3-89e5-341570d8486d@157.180.98.124:49659?security=reality&type=tcp&packetEncoding=none&allowInsecure=1&sni=apple.com&fp=chrome&flow=xtls-rprx-vision&sid=81959fce&pbk=bBVqro8tG6swTNoAkjwUzcu4Ew4N4VcyDHzADcGviCs#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed

@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NoLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://52a5a29f-c162-411a-8a37-a3f11b0dc537@74.161.152.237:2083?security=reality&type=tcp&allowInsecure=1&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=0123456789abcdef&pbk=WbgtxLlo2gmTzB4Wzxgh_U7G97d4ENTS10fYIoujET4#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20119ms
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.158:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=api.yourultimateprofessionalcareerhub.com#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all
@@ -18,6 +18,8 @@ vless://3950b45e-740d-4dca-ac95-505ec8534592@45.90.59.15:443?encryption=none&flo
 vless://3950b45e-740d-4dca-ac95-505ec8534592@45.90.59.15:443?sni=www.cloudflare.com&flow=xtls-rprx-vision&fp=firefox&security=tls#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
 vless://963f72cf-8465-46f5-996c-df45500b57a3@153.52.85.240:443?encryption=none&fp=firefox&pbk=syYaWsZJOf114XAoEcIQodriOW8pyCjP5x_KEq38ozs&security=reality&sid=7ded0da1ef58b7e2&sni=a813d5t.ch5.h1clayd.click&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 vless://963f72cf-8465-46f5-996c-df45500b57a3@153.52.85.240:443?security=reality&sni=a813d5t.ch5.h1clayd.click&fp=firefox&pbk=syYaWsZJOf114XAoEcIQodriOW8pyCjP5x_KEq38ozs&sid=7ded0da1ef58b7e2#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+vless://b2fe1fa4-6a79-4938-a3f4-63b54ae7f16b@138.124.86.230:48115?security=tls&type=grpc&sni=138-124-86-230.sslip.io&serviceName=138-124-86-230-sslip-io#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-grpc%20%7C%20src%3Afastnodes-verified
+vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@91.214.190.127:443?security=reality&type=tcp&sni=ch1.gofizzin.com&flow=xtls-rprx-vision&fp=edge&pbk=3fcmILwQG2sbwo58XW9Z1lziNQXmAFwUglFuXQFePRI&sid=95da6299f1#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://67eb6b17-7797-4ded-bf52-423c4c5f6cbd@50.117.15.225:443?security=reality&type=raw&packetEncoding=xudp&sni=www.foxsports.com&fp=chrome&flow=xtls-rprx-vision&sid=91af08b1ce1f&pbk=G7bpUPFSW28-oE6ff8qZac1_apU6PiJ-GHmi7tAPDSY&encryption=none#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.60:443?type=tcp&security=tls&sni=cdn.yourultimateprofessionalcareerhub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.29:443?sni=learn.yourultimateprofessionalcareerhub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged

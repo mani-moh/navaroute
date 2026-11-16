@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 hysteria2://23c82941-70f4-4381-90db-bd28e9a902e9@steel7.hadsvpn.com:443?hop_interval=10&sni=steel7.hadsvpn.com&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.104.154:443?type=tcp&security=tls&sni=findtemporaryworkandfreelancerprojectsonlineplatform.com&fp=chrome&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub

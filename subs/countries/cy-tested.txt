@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N5LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://58225784-a419-44bc-83cf-dc54769f47cd@132.243.212.219:443?flow=xtls-rprx-vision&security=reality&sni=n1fastcloud.nvnssr.site&fp=firefox&pbk=hZtdsgAOLOBpw1nhgQ9LnuqrUxK0Q12R9gGvwMflNhA&sid=f822e44fa6cf54#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20126ms
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?alpn=h2%2Chttp%2F1.1&flow=xtls-rprx-vision&fp=chrome&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&security=reality&sid=68a8&sni=deepl.com&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20237ms

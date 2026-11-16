@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1BsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://352a250d-080b-47b5-b7db-f9f8fa31c551@45.192.12.92:443?flow=xtls-rprx-vision&pbk=aUOP5gJGQ1QFhdZuREZ8yosfPavFiJ6f_EySIBZ2WCE&security=reality&sni=nltimes.nl&type=raw&fp=firefox#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20120ms
 vless://ccb8ff48-3934-4250-b4ec-bb76b95d154f@45.198.0.56:443?security=reality&encryption=none&pbk=NaCZ-sS4poEbFwKmD7ePAVyc5OhHxsD9nkAStjXkoWs&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=pl3.fox-lisa.ru&sid=027af64166562b09#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20129ms
@@ -14,3 +14,4 @@ vless://05488656-d4bf-4634-8b2e-e4ff5a56c7e2@82.118.22.161:443?encryption=none&f
 vless://6b5af4eb-fc4b-447a-bc4b-56c218e069ca@177.202.76.129:9443?security=reality&encryption=none&pbk=V-cWjK_GZ0PTJ3wnUHgwey_dNWI6_QNXsC9CdmA0mVI&headerType=none&fp=edge&type=tcp&flow=xtls-rprx-vision&sni=po2.hys.braidx.tech&sid=408c85938839e89f#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Aalirewa-config
 vless://46cc3c41-1528-47b3-b817-ad2091f41618@angelvpn.angelmh.cv:10167?encryption=none&security=reality&sni=firefox.com&fp=chrome&pbk=YF5UerTbK1IHAZCMawGpXt0f3ify6AfS0_YxY5RrQEo&sid=4893&spx=%2F07ba117cc5f6a7f&type=xhttp&host=firefox.com&path=%2F&mode=stream-one&extra=%7B%22mode%22%3A%22stream-one%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran
 vless://62995b2a-8f82-41f8-ac80-dfdfc1253e76@pl9.h1cloud.net:25700?type=xhttp&security=reality&fp=firefox&pbk=w698in_6eoH8y_C5jY3cpScMyaRaPpmPQEQhzw8QMUM&sid=54c9c22217db5c86&sni=5dc396r.pl9.h1clayd.click&path=%2Fastral-edge-h1&mode=stream-one&encryption=none#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+vless://52a5a29f-c162-411a-8a37-a3f11b0dc537@20.215.66.17:2083?security=reality&type=tcp&packetEncoding=xudp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=0123456789abcdef&pbk=WbgtxLlo2gmTzB4Wzxgh_U7G97d4ENTS10fYIoujET4&encryption=none#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

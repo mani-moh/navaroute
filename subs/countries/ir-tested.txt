@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&type=tcp&packetEncoding=none&sni=base.hosamobenl.co.uk&fp=chrome#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Asub-1924222fbd
 hysteria2://d62s7ghfehm742us@derfderf.ru:12824?hop_interval=10&sni=derfderf.ru&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub

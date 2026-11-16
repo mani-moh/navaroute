@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL05nLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T12:09:43.111578+00:00
+# snapshot-time: 2026-11-16T23:05:44.319294+00:00
 
 vless://fb853741-88ef-4aa0-ba2f-999f04535960@188.114.97.3:443?encryption=none&security=tls&sni=HovEyda-ARIAMEHR-KinG.PAgEs.Dev&alpn=h2%2Chttp%2F1.1&fp=randomized&type=ws&host=HovEYda-arIamehr-KINg.pAgES.dev&path=%2Ftelegram-proxy_mtm-telegram-proxy_mtm%3Fed%3D2560#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-ws%20%7C%20src%3Acoldwater-all
 vless://16f3d526-8cf8-4af5-a86f-b023c5b52085@f3b21at.de18.h1clayd.click:443?type=raw&security=reality&fp=firefox&pbk=lneTk9CP66okHF_VgXVaSj_QNpRzEmvrAmRxmux5JVU&sid=08485ad122fafbd5&sni=f3b21at.de18.h1clayd.click#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
