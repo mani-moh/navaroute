@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1JvLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+# snapshot-time: 2026-11-16T12:09:43.111578+00:00
 
 vless://d1a6a033-fdbd-46a6-a177-3370ba042b9f@46.28.67.55:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=i2dJ1_XGDpp50qpEclh6SWSWkxt4B0t2hi2qOVQbeSU&security=reality&sid=d06d78e974491b6e&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%B7%F0%9F%87%B4%20RO%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
 vless://d1a6a033-fdbd-46a6-a177-3370ba042b9f@46.28.67.55:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=chrome&security=reality&pbk=i2dJ1_XGDpp50qpEclh6SWSWkxt4B0t2hi2qOVQbeSU&sid=d06d78e974491b6e&path=%2F#%5B%F0%9F%87%B7%F0%9F%87%B4%20RO%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub

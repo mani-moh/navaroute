@@ -1,11 +1,13 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+# snapshot-time: 2026-11-16T12:09:43.111578+00:00
 
+vless://ba9ac05e-422e-421e-a46b-a4c111a29946@217.60.30.48:8443?type=xhttp&security=reality&fp=qq&pbk=q4_o7NvD6vQg4hYsyO29Q6PVufjTJHDUbQTqstre9EQ&sni=jurnal.primetap.pro&path=%2Fapi%2Fv2%2Flive%2F84bdcf675b7dc43f&host=jurnal.primetap.pro&mode=auto#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20121ms
+vless://ba9ac05e-422e-421e-a46b-a4c111a29946@31.59.156.16:443?flow=xtls-rprx-vision&fp=firefox&pbk=M102pOyYWWXO23uugneRjqRqc30SGQN1jIwCYg9STRE&security=reality&sid=8acb6e79c1b29c4b&sni=broe.primetap.cards&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%2049ms
 hysteria2://307ee0e53ea04dfd86a7f2f9fcd53844@s5.libertyrunet.store:443?sni=s5.libertyrunet.store&amp%3Bsecurity=tls#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?fp=firefox&host=uae.unixzone.us&path=%2F&security=none&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
 vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?path=%2Fvless&security=none&type=ws#%5Bsource-claimed%5D%20%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
-vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?sni=95.174.68.188&type=ws&headerType=none&host=95.174.68.188&path=%2Fvless#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Av2go-all
+vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?sni=95.174.68.188&type=ws&headerType=none&host=95.174.68.188&path=%2Fvless#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Aalirewa-config
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=chrome&host=uae.unixzone.us&path=%2F&security=false&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
 vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?security=none&type=ws&path=%2F&host=uae.unixzone.us&packetEncoding=xudp#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?security=none&sni=uae.unixzone.us&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all

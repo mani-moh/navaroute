@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0RrLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+# snapshot-time: 2026-11-16T12:09:43.111578+00:00
 
 vless://05981755-8790-41f1-8aa0-f59c094f8bf4@fast.jexmuk.ir:44989?security=none&encryption=mlkem768x25519plus.native.0rtt.I1bL1-wOzFEWuOjlb2baSe5PyncUT5Tv1xEdxxNzwxs&headerType=none&type=tcp#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20VLESS-tcp%20%7C%20src%3Aheliataromi-confighub-mixed

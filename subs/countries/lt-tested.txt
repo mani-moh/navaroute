@@ -1,6 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+# snapshot-time: 2026-11-16T12:09:43.111578+00:00
 
 vless://dd5bed0b-ee77-481b-9f2c-250a632ddd9f@84.32.154.73:443?security=reality&encryption=none&pbk=BIy6H-jndn24Ukyw83ML8LDB1HL8WLJmfCADEy8lzVs&headerType=none&fp=ios&spx=%2F&type=tcp&flow=xtls-rprx-vision&sni=get.jarbook.net&sid=c6f97313#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran
-vless://b36a14f8-fc3f-4142-968f-48031cf5f330@179.254.127.219:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=o0TCHhT9d9JkoTP_N28ko34ep3QbZKbpSJADQjcdm3Y&security=reality&sid=c4514fa08d672284&sni=775c8bt.lt4.h1clayd.click&type=tcp#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3Asub-757c8dc370

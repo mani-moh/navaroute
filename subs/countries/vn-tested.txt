@@ -1,6 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZuLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T03:24:31.897810+00:00
+# snapshot-time: 2026-11-16T12:09:43.111578+00:00
 
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
-vless://57beeeb0-03fc-4fc9-94da-7604488a7134@zfapi.zalolink.com:42120?type=tcp&security=reality&flow=xtls-rprx-vision&fp=ios&pbk=f6Tj8-uvWsLv3V-lGLuPciArp5oKqUImBg-U7-WJ-0A&sid=bb82c8&sni=www.tesla.com#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Asub-757c8dc370
