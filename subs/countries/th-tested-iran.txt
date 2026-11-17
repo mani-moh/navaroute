@@ -1,0 +1,6 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy90aC10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://f4c5605a-8424-441e-b23d-d6384d012c28@www.true.th:80?security=false&fp=chrome&type=ws&headerType=none&host=dcm4kwis2exkw.cloudfront.net&path=%2F#%5B%F0%9F%87%B9%F0%9F%87%AD%20TH%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
+vless://f4c5605a-8424-441e-b23d-d6384d012c28@www.true.th:80?security=tls&type=ws&path=%2F&host=dcm4kwis2exkw.cloudfront.net#%5B%F0%9F%87%B9%F0%9F%87%AD%20TH%5D%20VLESS-ws%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
