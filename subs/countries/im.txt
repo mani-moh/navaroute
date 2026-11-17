@@ -1,9 +1,0 @@
-#profile-title: base64:TmF2YVJvdXRlIElNIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
-#profile-update-interval: 6
-# snapshot-time: 2026-11-16T10:01:21.793966+00:00
-
-trojan://slch2024@185.162.228.195:20#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
-ss://YWVzLTI1Ni1nY206a0RXdlhZWm9UQmNHa0M0@86.38.4.73:8881#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://521314@185.162.229.27:443?host=hhtj.hhllfly.kdns.fr&path=%2Fpyip%3DTelegram-WangCai2&security=tls&sni=hhtj.hhllfly.kdns.fr&type=ws#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
-trojan://521314@185.162.231.27:443?type=ws&headerType=none&security=tls&encryption=none&sni=hhtj.hhllfly.kdns.fr&path=%2Fpyip&host=hhtj.hhllfly.kdns.fr&insecure=0#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
-trojan://521314@185.162.230.27:443?path=%2Fpyip%3DTelegram-WangCai2&security=tls&insecure=0&host=hhtj.hhllfly.kdns.fr&type=ws&allowInsecure=0&sni=hhtj.hhllfly.kdns.fr#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
