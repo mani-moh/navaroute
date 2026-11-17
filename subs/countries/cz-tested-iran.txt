@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9jei10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://3dbd9377-43cc-46c3-b32c-2605908024eb@czechia.richforever.ru:443?encryption=none&type=xhttp&security=reality&sni=czechia.richforever.ru&pbk=PA1xWXjxZLn68I-6cjWVdqc0dYhWbu9W5c1GpjEOZgE&sid=8a9442353eebbe0f&fp=firefox&path=%2F49b9f446&mode=auto&extra=%7B%22xPaddingBytes%22%3A%22100-300%22%2C%22scMaxBufferedPosts%22%3A100%2C%22scMinPostsIntervalMs%22%3A%225-10%22%7D#%5B%F0%9F%87%A8%F0%9F%87%BF%20CZ%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran

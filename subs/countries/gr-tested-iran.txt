@@ -1,0 +1,7 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9nci10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Afailed%5D%20%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?security=reality&encryption=none&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.cloudflare.com&sid=94acb54627612d43#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Abarry-far-all
+vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?security=reality&type=tcp&packetEncoding=xudp&sni=www.cloudflare.com&fp=chrome&flow=xtls-rprx-vision&sid=94acb54627612d43&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&encryption=none#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

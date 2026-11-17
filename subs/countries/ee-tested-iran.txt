@@ -1,0 +1,6 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9lZS10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://13e541f3-d09d-4633-89df-8513db0ced20@45.86.60.174:16443?security=none&type=tcp&packetEncoding=none#%5B%F0%9F%87%AA%F0%9F%87%AA%20EE%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
+vless://13e541f3-d09d-4633-89df-8513db0ced20@45.86.60.174:16443?security=none&type=tcp&packetEncoding=xudp&encryption=none#%5B%F0%9F%87%AA%F0%9F%87%AA%20EE%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged

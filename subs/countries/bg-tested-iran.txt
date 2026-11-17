@@ -1,0 +1,6 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9iZy10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://d596f92b-a7ce-47d2-8392-a274d9f57bec@87.120.92.68:443?security=reality&encryption=none&pbk=XLAE_KCFdlZkGcFndCnzEqsNHX1FByaGihkyEyrmDlo&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=cloudiva.abrdns.com&sid=c1440935cc28#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Abarry-far-all
+vless://d596f92b-a7ce-47d2-8392-a274d9f57bec@87.120.92.68:443?security=reality&encryption=none&pbk=XLAE_KCFdlZkGcFndCnzEqsNHX1FByaGihkyEyrmDlo&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=cloudiva.abrdns.com&sid=c1440935cc28#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran

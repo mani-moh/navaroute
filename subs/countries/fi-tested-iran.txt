@@ -1,0 +1,6 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9maS10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://95c2ba1e-a330-4e6b-bd81-bf9c0f647b2f@196.245.217.39:443?security=reality&type=tcp&sni=345739t.de15.h1clayd.click&fp=chrome&pbk=hFee7zTreqlv_wccK_8zxN5v23hj9u-DshByvGf-KAA&sid=23732d14a527990d#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
+vless://4201786b-d99b-4147-a5f0-20d47acddb81@185.242.247.252:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=VZS639V1i-35g7VXb9EoTYL-Srm7858sxcvFAunncmA&security=reality&sid=8d0d0679f42ffd98&sni=8a2e72t.nl20.h1clayd.shop&type=tcp#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified

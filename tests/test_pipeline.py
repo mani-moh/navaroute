@@ -567,13 +567,17 @@ class TestCategorizer(unittest.TestCase):
 
 class TestFetcherAndLoader(unittest.TestCase):
     def test_load_sources_public(self):
-        # Test loading the unified sources.json in isolation (no legacy
-        # second file): 56 curated + 146 discovered sources.
+        # Discovery changes registry sizes; verify enabled IDs instead of a fixed count.
+        sources_path = BASE_DIR / "sources.json"
+        rows = json.loads(sources_path.read_text(encoding="utf-8"))["sources"]
         sources = load_sources(
-            sources_path=str(BASE_DIR / "sources.json"),
-            discovered_sources_path="non_existent_discovered.json",
+            sources_path=str(sources_path),
+            discovered_sources_path=None,
         )
-        self.assertEqual(len(sources), 202)
+        self.assertEqual(
+            [source.id for source in sources],
+            [row["id"] for row in rows if row.get("enabled", True)],
+        )
 
     @patch("src.fetcher._fetch_url")
     def test_fetch_source_success_and_error(self, mock_fetch):

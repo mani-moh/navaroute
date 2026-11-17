@@ -1,0 +1,31 @@
+{
+  "feeds": {
+    "all": {
+      "passed": 1582,
+      "tested": 138842
+    },
+    "balanced-500": {
+      "passed": 60,
+      "tested": 500
+    },
+    "fastest-100": {
+      "passed": 4,
+      "tested": 100
+    },
+    "online": {
+      "passed": 117,
+      "tested": 980
+    },
+    "online-week": {
+      "passed": 237,
+      "tested": 1924
+    }
+  },
+  "generated": "2026-11-17T00:41:59.544124+00:00",
+  "mode": "udp-realping",
+  "totals": {
+    "passed": 2000,
+    "tested": 142346
+  },
+  "version": 1
+}
