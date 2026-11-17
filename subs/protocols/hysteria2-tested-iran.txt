@@ -1,0 +1,10 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIHByb3RvY29scy9oeXN0ZXJpYTItdGVzdGVkLWlyYW4=
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+hysteria2://d1gkicdgem3bsoaa@panel.autonetshop.ir:43345?security=tls&obfs=salamander&obfs-password=km9oqmefh2km1i5n&insecure=0&sni=panel.autonetshop.ir#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
+hysteria2://d1gkicdgem3bsoaa@panel.autonetshop.ir:43345?sni=panel.autonetshop.ir&obfs=salamander&obfs-password=km9oqmefh2km1i5n#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20Hysteria2%20%7C%20src%3Aheliataromi-confighub-mixed
+hysteria2://eBTe6Ax2pUts8oMEWoYVDfnSlHfkLffQ@152.32.254.68:5010?insecure=0&sni=nas.aizhzo.com&obfs=salamander&obfs-password=7M4RXPFcQyQEGbkxBPfXo4bilMhCW2U9#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
+hysteria2://eBTe6Ax2pUts8oMEWoYVDfnSlHfkLffQ@152.32.254.68:5010?obfs=salamander&obfs-password=7M4RXPFcQyQEGbkxBPfXo4bilMhCW2U9&security=tls&sni=nas.aizhzo.com#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Asub-757c8dc370
+hysteria2://eBTe6Ax2pUts8oMEWoYVDfnSlHfkLffQ@152.32.254.68:5010?sni=nas.aizhzo.com&obfs=salamander&obfs-password=7M4RXPFcQyQEGbkxBPfXo4bilMhCW2U9#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
+hysteria2://eBTe6Ax2pUts8oMEWoYVDfnSlHfkLffQ@152.32.254.68:5010?sni=nas.aizhzo.com&obfs=salamander&obfs-password=7M4RXPFcQyQEGbkxBPfXo4bilMhCW2U9&insecure=1#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
