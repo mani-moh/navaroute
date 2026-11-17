@@ -1,12 +1,14 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0VzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T23:05:44.319294+00:00
+# snapshot-time: 2026-11-17T05:23:51.478746+00:00
 
 vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@185.176.9.26:443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=Qxpi1A9yJXwgZ1ycBrasKBCrX3qkRJ646U28a-99WBE&sid=85750bd7&sni=es1.gofizz.in#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20122ms
 vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@185.176.9.26:443?security=tls&flow=xtls-rprx-vision&fp=firefox&sni=es1.gofizz.in&type=tcp#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-tcp%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
 vless://ead0dd61-d398-40ad-80d6-a0e1e516d7d3@212.227.235.66:2053?encryption=none&security=reality&sni=www.apple.com&fp=firefox&pbk=7Y6Xb5Ql_03K25x8yKUSOKI2JTOMyv2nyCcFza90uxk&sid=29e8dcd2b37aaa7f&type=tcp&headerType=none#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-Reality%20%7C%20src%3Aalirewa-config
 vless://ead0dd61-d398-40ad-80d6-a0e1e516d7d3@212.227.235.66:2053?type=tcp&encryption=none&flow=&sni=www.apple.com&fp=firefox&security=reality&pbk=7Y6Xb5Ql_03K25x8yKUSOKI2JTOMyv2nyCcFza90uxk&sid=29e8dcd2b37aaa7f&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 vless://ead0dd61-d398-40ad-80d6-a0e1e516d7d3@212.227.235.66:2053?type=tcp&encryption=none&flow=&sni=www.apple.com&fp=firefox&security=reality&pbk=7Y6Xb5Ql_03K25x8yKUSOKI2JTOMyv2nyCcFza90uxk&sid=29e8dcd2b37aaa7f&path=%2F#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.118.62:443?sni=courses.discovergreatjobsandadvanceyourcareer.com&type=tcp&fp=chrome#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.118.203:443?security=tls&insecure=0&host=%2F%3FTelegram---mehrosaboran&headerType=none&type=tcp&allowInsecure=0&sni=blog.discovergreatjobsandadvanceyourcareer.com#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all
 vless://dbf3f074-3b18-43f3-b82a-debd8c879c69@66.163.118.113:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.apple.com&fp=chrome&security=reality&pbk=PwN5VWqwWKVfrqqrbLE4kzVu9vIXSENAUiAPjMWIrVY&sid=32209e627ee109c7&packetEncoding=xudp&path=%2F#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.118.131:443?sni=www.discovergreatjobsandadvanceyourcareer.com&type=tcp&fp=chrome#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.118.244:443?sni=api.discovergreatjobsandadvanceyourcareer.com&type=tcp&fp=chrome#%5B%F0%9F%87%AA%F0%9F%87%B8%20ES%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged

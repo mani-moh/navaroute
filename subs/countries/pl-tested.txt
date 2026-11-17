@@ -1,11 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1BsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T23:05:44.319294+00:00
+# snapshot-time: 2026-11-17T05:23:51.478746+00:00
 
 vless://352a250d-080b-47b5-b7db-f9f8fa31c551@45.192.12.92:443?flow=xtls-rprx-vision&pbk=aUOP5gJGQ1QFhdZuREZ8yosfPavFiJ6f_EySIBZ2WCE&security=reality&sni=nltimes.nl&type=raw&fp=firefox#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20120ms
 vless://ccb8ff48-3934-4250-b4ec-bb76b95d154f@45.198.0.56:443?security=reality&encryption=none&pbk=NaCZ-sS4poEbFwKmD7ePAVyc5OhHxsD9nkAStjXkoWs&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=pl3.fox-lisa.ru&sid=027af64166562b09#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20129ms
 vless://0ed9418b-e687-4c2d-8869-7e368c44887e@pl225.homelab-cdn.cloud:8443?security=reality&pbk=0f9tBNd1e0FjqakxfoGM_bGfYIAdE81XzXwPQgJkVDI&sid=1eb65c424decdb73&fp=firefox&sni=pl225.homelab-cdn.cloud&type=grpc&serviceName=&mode=gun#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Asnakem982-v2ray
 vless://f2905db1-4c91-48fc-a101-705d1620e279@95.85.254.14:8443?encryption=none&security=tls&sni=pl2-edge.gacvpn.site&fp=chrome&type=grpc&authority=&serviceName=connect-pl&mode=gun#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+vless://52a5a29f-c162-411a-8a37-a3f11b0dc537@20.215.66.17:2083?security=reality&type=tcp&sni=www.apple.com&flow=xtls-rprx-vision&fp=chrome&pbk=WbgtxLlo2gmTzB4Wzxgh_U7G97d4ENTS10fYIoujET4&sid=0123456789abcdef#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 trojan://t5ZTZ0bYgRLNmJKv-Wg2wmsMx21s6RhX@78.17.171.139:2053?sni=ra-p2.victorycloud.ru&alpn=http%2F1.1&type=ws&path=%2Fcc2db2edcc30d642d7b4fb969c5f7369&host=ra-p2.victorycloud.ru#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vless://f37d32d0-ca5a-464f-8c32-92dc33f71408@81.90.20.203:443?encryption=none&fp=firefox&pbk=qVU44SZtoG7cKR3ZCg4Ipf5rPefL5cbrto2OpzZNoU8&security=reality&sni=instance-103.nolimited.space&type=grpc#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-top
 vless://664f65f4-33b3-43a3-b9e5-68192d1d428e@201.4.73.21:443?security=reality&encryption=none&pbk=ql7l6Vw5DFt5ZJeGE6ZxsM1kcIvZabxQVr8zkoPJoUE&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=granite-orchard.cdn.cachefleet.com&sid=8691df964f0bebcb#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

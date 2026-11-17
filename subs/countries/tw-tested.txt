@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1R3LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T23:05:44.319294+00:00
+# snapshot-time: 2026-11-17T05:23:51.478746+00:00
 
 vless://b59bcb5b-5150-4c6b-9227-681886197014@85.237.207.221:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=dl.google.com&fp=chrome&pbk=lJz7AGWUC-ZTEIJaU5y1GRrROWJ9J_VzQRyrYPmOygs&sid=fd2fa5e06670120b&type=tcp&headerType=none#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-Reality%20%7C%20src%3Afree18-v

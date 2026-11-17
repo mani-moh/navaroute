@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1VhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-16T23:05:44.319294+00:00
+# snapshot-time: 2026-11-17T05:23:51.478746+00:00
 
 vless://2dacc738-5720-4824-b8bc-e3db57596ba7@178.94.25.73:10444?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&sni=video.yandex.ru&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 vless://d8b58872-cc25-4bb2-badb-b86399c075fa@31.222.235.81:443?security=reality&encryption=none&pbk=L9IllZt5vcjYVY_6rmCJ_9ypmJsBK8dSWkNVCStrZjk&headerType=none&fp=chrome&type=tcp&sni=www.cloudflare.com&sid=d8b58872#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20132ms
