@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9kay10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@193.181.210.205:443?encryption=none&flow=xtls-rprx-vision&pbk=arZrNPbhlxNAGMzO_g2Dx3AAV_FEMnFyydbBsyZUCiY&security=reality&sid=54005328cd&sni=dk1.gofizz.in&spx=%2Fb4fcc6d25bda84e&type=tcp&fp=firefox#%5B%F0%9F%87%A9%F0%9F%87%B0%20DK%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
