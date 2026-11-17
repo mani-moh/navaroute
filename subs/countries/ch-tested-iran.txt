@@ -1,0 +1,26 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9jaC10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.29:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=learn.yourultimateprofessionalcareerhub.com#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.29:443?sni=learn.yourultimateprofessionalcareerhub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.29:443?type=tcp&security=tls&sni=learn.yourultimateprofessionalcareerhub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Asub-c5924ffe90
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.60:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=cdn.yourultimateprofessionalcareerhub.com#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Afarid-karimi-mixed-iran
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.60:443?security=tls&sni=cdn.yourultimateprofessionalcareerhub.com&type=tcp&headerType=none#%5Bsource-claimed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.60:443?sni=cdn.yourultimateprofessionalcareerhub.com&type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.60:443?type=tcp&security=tls&sni=cdn.yourultimateprofessionalcareerhub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.33:443?allowInsecure=0&sni=courses.yourultimateprofessionalcareerhub.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20125ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.33:443?security=tls&sni=courses.yourultimateprofessionalcareerhub.com&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan%20%7C%20src%3Afastnodes-verified
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.33:443?type=tcp&security=tls&sni=courses.yourultimateprofessionalcareerhub.com&fp=chrome&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.19:443?allowInsecure=1&sni=www.yourultimateprofessionalcareerhub.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Asub-df7d38ecf1
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.19:443?security=tls&headerType=none&type=tcp&sni=www.yourultimateprofessionalcareerhub.com#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Afarid-karimi-mixed-iran
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.19:443?sni=www.yourultimateprofessionalcareerhub.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.19:443?sni=www.yourultimateprofessionalcareerhub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.19:443?type=tcp&security=tls&sni=www.yourultimateprofessionalcareerhub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.208:443?security=tls&insecure=0&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&type=tcp&allowInsecure=0&sni=resources.yourultimateprofessionalcareerhub.com#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Ashabane-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.208:443?sni=resources.yourultimateprofessionalcareerhub.com&allowInsecure=1&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.208:443?sni=resources.yourultimateprofessionalcareerhub.com&type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.208:443?sni=resources.yourultimateprofessionalcareerhub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.208:443?type=tcp&security=tls&sni=resources.yourultimateprofessionalcareerhub.com&fp=chrome&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.222:443?security=tls&sni=yourultimateprofessionalcareerhub.com&type=tcp&headerType=none#%5Bsource-claimed%5D%20%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@208.69.78.222:443?type=tcp&security=tls&sni=yourultimateprofessionalcareerhub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%AD%20CH%5D%20Trojan-tcp%20%7C%20src%3Av2freehub-sub
