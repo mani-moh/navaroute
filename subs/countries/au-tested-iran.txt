@@ -1,0 +1,5 @@
+#profile-title: base64:TmF2YVJvdXRlIElyYW4gVmVyaWZpZWQg4oCUIGNvdW50cmllcy9hdS10ZXN0ZWQtaXJhbg==
+#profile-update-interval: 24
+# snapshot-time: 2026-11-17T00:41:59.544124+00:00
+
+vless://57beeeb0-03fc-4fc9-94da-7604488a7134@v1au.mateflora.com:443?encryption=none&flow=xtls-rprx-vision&fp=ios&pbk=7GvJVbR6BRhtrc8-rcZvB8qTFUF1LPeM_MmoZ04mBxo&security=reality&sid=54cca3c1c1c7&sni=www.apple.com&type=tcp#%5B%F0%9F%87%A6%F0%9F%87%BA%20AU%5D%20VLESS-Reality%20%7C%20src%3Akahrobas-bot
