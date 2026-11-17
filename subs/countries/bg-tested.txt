@@ -1,5 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T05:23:51.478746+00:00
+# snapshot-time: 2026-11-17T14:59:20.484847+00:00
 
-vless://d596f92b-a7ce-47d2-8392-a274d9f57bec@87.120.92.68:443?security=reality&encryption=none&pbk=XLAE_KCFdlZkGcFndCnzEqsNHX1FByaGihkyEyrmDlo&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=cloudiva.abrdns.com&sid=c1440935cc28#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran
+vless://450ca91a-68c9-429f-91ba-daee1ecd08da@sof.edgeptr.org:443?security=reality&encryption=none&pbk=EtKRG8sxUJsdy-KwUOtYUNJnSn5VMx2sfKvvdpzg2X0&headerType=&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.lovelive-anime.jp&sid=f0eb800bd980b00b#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Anemotron-vision-ocr
+vless://c3f3f5ca-f280-4137-924c-fc5d1c498201@sof.edgeptr.org:443?security=reality&encryption=none&pbk=EtKRG8sxUJsdy-KwUOtYUNJnSn5VMx2sfKvvdpzg2X0&headerType=&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.lovelive-anime.jp&sid=a1c3e5f700b2d4e6#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Anemotron-vision-ocr

@@ -1,6 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T05:23:51.478746+00:00
+# snapshot-time: 2026-11-17T14:59:20.484847+00:00
 
-vless://c83f15bf-1817-4ec8-a19f-6393d226434c@fast.145779.xyz:2053?type=ws&path=%252Fws-tesla&host=fast.145779.xyz&security=tls&sni=fast.145779.xyz&fp=qq#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
-vless://e3149c82-00f6-4227-b2c0-b78f1dd81279@fast.145779.xyz:2053?path=%2Fws-tesla&security=tls&sni=fast.145779.xyz&type=ws&fp=firefox#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
+vless://c83f15bf-1817-4ec8-a19f-6393d226434c@104.21.58.37:2053?security=tls&type=ws&path=%2Fws-tesla&host=fast.145779.xyz&sni=fast.145779.xyz&fp=firefox#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full

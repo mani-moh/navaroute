@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FtLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T05:23:51.478746+00:00
+# snapshot-time: 2026-11-17T14:59:20.484847+00:00
 
-vless://96aece95-a55a-4082-8c17-f996c0c83729@157.228.71.74:443?path=%2Fapi%2Fv1%2Fdata&pbk=k9BuzZPnzofDcPTaa7ROHNIc9ww2jy3tLAJ04GuKvAQ&security=reality&sid=c44bcdb731f12c41&sni=s.tradingview.com&type=xhttp&fp=edge#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A6%F0%9F%87%B2%20AM%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20123ms

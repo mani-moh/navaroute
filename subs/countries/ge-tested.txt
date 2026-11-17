@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0dlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T05:23:51.478746+00:00
+# snapshot-time: 2026-11-17T14:59:20.484847+00:00
 
-vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@194.135.119.82:2053?sni=fs.qicai99.com&type=ws&host=fs.qicai99.com&path=%2Ffp%3Dchrome&security=tls#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-ws%20%7C%20src%3Aermaozi-get-subscribe

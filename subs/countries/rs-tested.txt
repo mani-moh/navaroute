@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1JzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T05:23:51.478746+00:00
+# snapshot-time: 2026-11-17T14:59:20.484847+00:00
 
-trojan://X00HagvwL8gQXNDAnsxsN8dv1_VdneEo@38.180.101.235:5443?security=tls&sni=rs.nebulaguard.org&alpn=h2%2Chttp%2F1.1&fp=firefox#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20Trojan%20%7C%20src%3Adelta-kronecker-all
