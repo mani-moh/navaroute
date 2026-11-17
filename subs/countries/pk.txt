@@ -1,9 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFBLIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-17T11:09:51.272421+00:00
+# snapshot-time: 2026-11-17T16:33:52.543166+00:00
 
 trojan://DxNI-zvmj7Q5WKdtu%3DX8Mn9%2BH@149.104.104.231:14351?security=none&type=tcp&sni=web.max.ru&allowInsecure=1#%5B%F0%9F%87%B5%F0%9F%87%B0%20PK%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
-vless://97ab2e86-83c5-0a32-4914-5dbe1af97839@103.175.79.6:8443?encryption=none&fp=firefox&pbk=JeVpfwIwteGa8xfysPJUzrbHgmOPyLGomRqyH8Pi7W0&security=reality&serviceName=TunService&sni=download.nvidia.com&type=grpc#%5B%F0%9F%87%B5%F0%9F%87%B0%20PK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxZDFiYzU0Njg5ZWQ0Yjc1@119.159.245.24:26738#%5B%F0%9F%87%B5%F0%9F%87%B0%20PK%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxZDFiYzU0Njg5ZWQ0Yjc1@119.159.245.24:26737#%5B%F0%9F%87%B5%F0%9F%87%B0%20PK%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxZDFiYzU0Njg5ZWQ0Yjc1@119.159.245.24:26739#%5B%F0%9F%87%B5%F0%9F%87%B0%20PK%5D%20SS%20%7C%20src%3Agfpcom-ss

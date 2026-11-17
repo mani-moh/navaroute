@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-17T11:09:51.272421+00:00
+# snapshot-time: 2026-11-17T16:33:52.543166+00:00
 
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naW1ubXkycnVtczV6eXc1bXp3NWp6ZzQ1bG1udmJzaXNpY2p3YjNqMGlqb2dtamExbWl3Z2ltbGtpam9naWpjNHl6cXdtdGMzbHdtem5qcXRuZGd3emMxaXpkYzNsdGMyenRsa29kbG1uamxpbmNpc2ljamhhd3Fpb2lhd2xjYWljMm41aWpvZ2ltZjFkZzhpbGNhaWJtdjBpam9naW5kemlpd2dpbWh2YzNxaW9pYWlkaGN4eWxmcHYxbmZuaGd1em5waWN3enljMnV1ZWhsNmlpd2dpbmJoZGdnaW9pYWlsM3pwemd2dmwwZHJtbmZmbnZ2em93Y2lsY2FpZGd4emlqb2dpaWlzaWNqd2N5aTZpY2phc2c5d3p2OW96eHF0YW05cGJpMTFjeTF2YmkxdXp3eGx6M2poYnNqOTxici8-PGJyLz52bGVzczovLzQzNWJkYTRjLWZlNWUtNDJjOS1hM2FkLTE1MzM0OTQzYjM4YQ@104.17.197.127:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23338#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -56,7 +56,7 @@ ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naWpleW1jNHlteml1bWpxd2xqdTJpaXdnaW5idmNucWl
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNmE2ZDcyNC1jMWFkLTRjMTgtYWEwNy1iNzg0YjM0NDkxYTk@n24.emovpn.xyz:1274#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NFM4NUxGMlEzUUs5MjE3MQ@w72tapyb.slashdevslashnetslashtun.net:18008#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJhbGxvd0luc2VjdXJlIjogIjEiLCAicHMiOiAiW/Cfh7jwn4e4IFNTXSBWTWVzcyB8IHNyYzpnZnBjb20tc3MiLCAiYWRkIjogInRyb2phbi53ZWZ1Y2tnZncuZ3EiLCAicG9ydCI6IDQ0MywgImlkIjogImV5SmhaR1FpT2lBaU1UQTBMakl4TGpndU1UVTNJaXdnSW1GcFpDSTZJQ0l3SWl3Z0ltRnNjRzRpT2lBaUlpd2dJbVp3SWpvZ0lpSXNJQ0pvYjNOMElqb2dJbk14WXk1Mk1pNTJNREF4YzNOekxuaDVlaUlzSUNKcFpDSTZJQ0l4TVRKaFl6TTJaaTB6WmpVekxUUmxNall0T0RNM01TMWtNalZqTURJNFpURmlPV0VpTENBaWJtVjBJam9nSW5keklpd2dJbkJoZEdnaU9pQWlMeUlzSUNKd2IzSjBJam9nSWpJd09ESWlMQ0FpYzJONUlqb2dJbUYxZEc4aUxDQWljMjVwSWpvZ0lpSXNJQ0owYkhNaU9pQWlJaXdnSW5SNWNHVWlPaUFpSWl3Z0luWWlPaUFpTWlJc0lDSndjeUk2SUNKQVNHOXdaVjlPWlhRdGFtOXBiaTExY3kxdmJpMVVaV3hsWjNKaGJTSjk8YnIvPjxici8+dHJvamFuOi8vUHFUZmdlY2cifQ==
-ss://2022-blake3-aes-256-gcm:zMs60mW7BeIj7gLbg5YrdH7Ulcey8fB7z%2FifZSagtIY%3D%3Ac0nnxiLaed%2BwKtq6EvoHwrzWqaJQZXfz7N1BzXk4YRA%3D@subgift.r7vx4-shadow-matrix.space:47022#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
+ss://2022-blake3-aes-256-gcm:zMs60mW7BeIj7gLbg5YrdH7Ulcey8fB7z%2FifZSagtIY%3D%3Ac0nnxiLaed%2BwKtq6EvoHwrzWqaJQZXfz7N1BzXk4YRA%3D@subgift.r7vx4-shadow-matrix.space:47022#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMDM2ZTQ4Ny05MTAyLTRlMDktODFmZC0wMWIwZjgzMmI5NzI@camy3aydjwpettcn.psuddd789.com:51111#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://cmM0LW1kNTpSZW56aGVDbG91ZFNT@pr3.jymzffbquawl.com:6600?plugin=simple-obfs%3Bobfs%3Dhttp%3Bobfs-host%3Dc7ea4198729.microsoft.com#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1nY206cg@110.42.99.55:1020?plugin=simple-obfs%3Bobfs%3Dhttp%3Bobfs-host%3Dspeedtest.net#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
@@ -174,7 +174,7 @@ ss://eyJ2IjogIjIiLCAiYWRkIjogIjE3Mi42NC4xMDMuMjExIiwgInBvcnQiOiAiNDQzIiwgImlkIjo
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5RGJENTRkYXZqdldtOUxTQTZwMDdQ@callmark.cl.callmark.cl:43445#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmYWQ3MzE4My1iNzMwLTQ3ZWEtYTlmMi0yZGQwNTY1ZWM0M2I@zf.quanstring.top:41800#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206MTIzNDU2@0.0.1.6:9#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
-ss://2022-blake3-aes-256-gcm:zUK6nXbPNzQJCYuzw4xOHF%2BSNUf9JydSJ6FdwJ%2FDm0w%3D%3AbXfTLze2Z9hyKsfPC3iw7N7FWNj%2B8K0jdSii%2F1oF1bU%3D@sg.r7vx4-shadow-matrix.space:58317#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
+ss://2022-blake3-aes-256-gcm:zUK6nXbPNzQJCYuzw4xOHF%2BSNUf9JydSJ6FdwJ%2FDm0w%3D%3AbXfTLze2Z9hyKsfPC3iw7N7FWNj%2B8K0jdSii%2F1oF1bU%3D@sg.r7vx4-shadow-matrix.space:58317#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@jp1.mhw7e2.online:20021#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://eyJ2IjogIjIiLCAicHMiOiAiQEhvcGVfTmV0LWpvaW4tdXMtb24tVGVsZWdyYW0iLCAiYWRkIjogIjEwNC4yMS42OS40NCIsICJwb3J0IjogIjQ0MyIsICJ0eXBlIjogIm5vbmUiLCAiaWQiOiAiN2IzMDg3NTUtMTEzNS00ZmVkLTgyOGYtOGU0OGNhMTYwM2FkIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi82bUh3cWwxSFNTVjVGT1plMFVWMUJZdnVRIiwgImhvc3QiOiAiYTEud29sZi1zaG9wLmlyIiwgInRscyI6ICJ0bHMifQ@104.21.40.59:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMDM2ZTQ4Ny05MTAyLTRlMDktODFmZC0wMWIwZjgzMmI5NzI@camy3aydjwpettcn.psuddd789.com:51133#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
