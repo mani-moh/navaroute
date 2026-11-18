@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1JzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
-trojan://X00HagvwL8gQXNDAnsxsN8dv1_VdneEo@38.180.101.235:5443?security=tls&sni=rs.nebulaguard.org&alpn=h2%2Chttp%2F1.1&fp=firefox#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20Trojan%20%7C%20src%3Afastnodes-top
+vless://49fe1f7b-e6f6-43dc-a67d-caade85128ba@178.253.233.113:10000?encryption=none&fp=firefox&pbk=Du5pk4KuMNA1sRcSpmuoLuC0HmxDBmFljFNfUzqxKiM&security=reality&sid=cd0a1986719e44c8&sni=amp-api-edge.apps.apple.com&type=tcp#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified

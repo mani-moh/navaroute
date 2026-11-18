@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1RnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T23:13:00.314981+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
-vless://62995b2a-8f82-41f8-ac80-dfdfc1253e76@se2.h1cloud.net:25191?type=xhttp&security=reality&fp=firefox&pbk=_Cb2FzFDVi9blwCb_5V0NZue6wt-U6GL0N_-OX8NGGA&sid=55328e423218ee9b&sni=a8687er.se2.h1clayd.click&path=%2Fastral-edge-h1&mode=stream-one#%5B%F0%9F%87%B9%F0%9F%87%AC%20TG%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran

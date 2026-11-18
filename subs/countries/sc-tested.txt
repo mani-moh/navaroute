@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NjLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
 vless://30572b57-f5ab-4eb8-82d4-a24d399b99f6@46.29.255.123:59539?security=reality&encryption=none&pbk=R6mPqCsjZMWauci4LHw7Qp1LGKmBd-sxMXplyOn9bSQ&type=tcp&flow=xtls-rprx-vision&sni=cloudflare-dns.com&fp=chrome#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://97fd7807-7e2b-49da-8a0e-e40197088f97@196.240.125.10:8443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=tls&sni=api-v1-6af86a96.vmagnum.win&alpn=h2&fp=chrome#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged

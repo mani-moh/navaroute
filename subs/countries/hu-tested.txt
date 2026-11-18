@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0h1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
 vless://a628c583-24a8-4ce5-98ad-c6458abf1cc4@212.41.8.76:11443?encryption=none&mode=gun&pbk=LR_FEXsJiKJUtXcmO1UR4Oi2IMmRcaS04D05oooqn28&security=reality&serviceName=cas-hu&sid=9edc24fc&sni=s3.storage.selcloud.ru&type=grpc&fp=firefox#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran

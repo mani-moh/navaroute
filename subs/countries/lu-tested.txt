@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
+vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?encryption=none&security=tls&sni=subgift.gcorecdn.com&insecure=1&allowInsecure=1&type=ws&path=%2Ft.me-subgift#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Afree18-v

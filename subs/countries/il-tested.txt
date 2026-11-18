@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.apple.com&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&sid=a3a578ab&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@192.71.27.237:443?security=tls&type=ws&path=%2F&host=fs.qicai99.com&packetEncoding=none&sni=fs.qicai99.com&fp=chrome#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-ws%20%7C%20src%3Abarabama-merged

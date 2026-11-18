@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZuLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T04:51:16.742983+00:00
+# snapshot-time: 2026-11-18T14:41:07.521414+00:00
 
 vless://a1f0cbb8-c74a-4c27-b881-7b14d96aece1@103.163.24.22:56026?security=reality&fp=firefox&pbk=gjOKbmRb5cGDPbdz3x8xkBFL43pn3xqL-I6sALHO7ls&sid=99676967e6867063&sni=www.cloudflare.com&encryption=none&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
-vless://57beeeb0-03fc-4fc9-94da-7604488a7134@zfapi.zalolink.com:42120?security=tls&flow=xtls-rprx-vision-udp443&fp=firefox&sni=www.tesla.com&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
+vless://57beeeb0-03fc-4fc9-94da-7604488a7134@zfapi.zalolink.com:42120?type=tcp&security=reality&flow=xtls-rprx-vision&fp=ios&pbk=f6Tj8-uvWsLv3V-lGLuPciArp5oKqUImBg-U7-WJ-0A&sid=bb82c8&sni=www.tesla.com#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Asub-757c8dc370
+vless://57beeeb0-03fc-4fc9-94da-7604488a7134@zfapi.zalolink.com:42120?security=tls&flow=xtls-rprx-vision-udp443&fp=firefox&sni=www.tesla.com&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Amorpheus-iran
