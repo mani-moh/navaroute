@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIEFSIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T00:43:13.593431+00:00
+# snapshot-time: 2026-11-18T11:18:28.489850+00:00
 
+vless://2bba3b63-eb4c-470b-aa58-ae9d4a1430c8@48.102.236.31:443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=m6US_Wo7oYwRvmXWu2_bMRST1FB_rVcPpW3TqZX5_xY&sni=48.102.236.31#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A6%F0%9F%87%B7%20AR%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all%20%7C%20152ms
 vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@186.122.177.79:443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=pBEW9XYZQsXxjgt44pCQcxoEOe-B1CdxaTdTnL2QhAA&sid=a5d67406&sni=ar1.gofizz.in#%5B%F0%9F%87%A6%F0%9F%87%B7%20AR%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@38.54.45.129:990#%5B%F0%9F%87%A6%F0%9F%87%B7%20AR%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZjI2ZDhiYjU5M2E1ZmM1@154.205.154.200:11201#%5B%F0%9F%87%A6%F0%9F%87%B7%20AR%5D%20SS%20%7C%20src%3Agfpcom-ss

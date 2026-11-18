@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIElRIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T00:43:13.593431+00:00
+# snapshot-time: 2026-11-18T11:18:28.489850+00:00
 
+vless://67864856-8730-40cc-9e1a-a0df697d912b@191.217.206.147:8443?type=xhttp&security=reality&fp=firefox&pbk=1SldfhWqqF_Rg9QlPKQqufcHi5GhkxwcEV5HGyOy4Qg&sid=64ad711102f56ca2&sni=de.krabvpn.pro&path=%2Fassets%2F6c0f3ad762cb7ff51b454076&mode=auto#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20114ms
 vless://a5a8ffd9-17b9-0007-840d-bb69289f94fc@cdn0-01.cdn-vkvideo.com:443?security=reality&encryption=none&pbk=cf7j5G-01AQB0n1WWdVnviRnG32BCLdCMdEe9-s3BA0&host=%2F%3FTelegram---%40pirozi_ArGaP---%40pirozi_ArGaP---%40pirozi_ArGaP---%40pirozi_ArGaP&headerType=none&fp=chrome&spx=%2Fv1%2Fcomplete&type=tcp&flow=xtls-rprx-vision&sni=cdn0-01.cdn-vkvideo.com&sid=b0d8f264b7ac8ac0#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://6da2c981-8c77-4340-bda3-93399b7aea26@178.17.52.236:2083?path=%2Fv2%2Fsync%2F6e9367&security=reality&encryption=none&pbk=mbi4BZAuiq_L6pfhG2xxWmtosq0Z1Pzf18fvNSWKMxY&fp=edge&type=xhttp&sni=maps.blog-forme.ru&sid=3258252d44113e23#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://d9d0f208-d582-41d5-bb7b-742671402810@81.90.25.158:443?security=reality&encryption=none&pbk=evZScHEcyRLcHnrN8fzp3HtC5hQ_smUHdmCRpCqlwkY&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=eu-central-de-3.hanvpn.biz&sid=0183b7681806bc97#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged

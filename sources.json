@@ -3338,6 +3338,202 @@
       "enabled": true,
       "description": "Public Telegram channel @freevpnbazaar whose configs were retained by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "tg-meoow_vpn",
+      "name": "Telegram @meoow_vpn (public configs retained)",
+      "url": "https://t.me/s/meoow_vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @meoow_vpn whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-ipcloudflaretamiz",
+      "name": "Telegram @ipcloudflaretamiz (public configs retained)",
+      "url": "https://t.me/s/ipcloudflaretamiz",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @ipcloudflaretamiz whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-configyab_free",
+      "name": "Telegram @configyab_free (public configs retained)",
+      "url": "https://t.me/s/configyab_free",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @configyab_free whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-ffreecoffee",
+      "name": "Telegram @ffreecoffee (public configs retained)",
+      "url": "https://t.me/s/ffreecoffee",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @ffreecoffee whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-2d96c803f2",
+      "name": "Discovered public subscription",
+      "url": "https://github.com/ssavnayt/AWCFG-CONFIG-LIST/raw/refs/heads/main/MAHSA-LEAK.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-f66beda748",
+      "name": "Discovered public subscription",
+      "url": "https://github.com/ssavnayt/AWCFG-CONFIG-LIST/raw/refs/heads/main/MahsaLeaks/01.07.2026/configs_mng_part1.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-v2rei",
+      "name": "Telegram @v2rei (public configs retained)",
+      "url": "https://t.me/s/v2rei",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @v2rei whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-xoox_vpn",
+      "name": "Telegram @xoox_vpn (public configs retained)",
+      "url": "https://t.me/s/xoox_vpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @xoox_vpn whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-azarandoozvpn",
+      "name": "Telegram @azarandoozvpn (public configs retained)",
+      "url": "https://t.me/s/azarandoozvpn",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @azarandoozvpn whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-f244f71c66",
+      "name": "Discovered public subscription",
+      "url": "https://gist.githubusercontent.com/senatorpersian/acbb0c0c56310cac9d883c42494bd324/raw/subscription.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-filter_breaker",
+      "name": "Telegram @filter_breaker (public configs retained)",
+      "url": "https://t.me/s/filter_breaker",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @filter_breaker whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-libersurf",
+      "name": "Telegram @libersurf (public configs retained)",
+      "url": "https://t.me/s/libersurf",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @libersurf whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-surfboardv2ray",
+      "name": "Telegram @surfboardv2ray (public configs retained)",
+      "url": "https://t.me/s/surfboardv2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @surfboardv2ray whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-b578457bcd",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/SS",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }
