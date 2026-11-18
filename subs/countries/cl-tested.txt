@@ -1,10 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T23:13:00.314981+00:00
+# snapshot-time: 2026-11-18T04:51:16.742983+00:00
 
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform102.golnamakcert.top:80?encryption=none&type=ws&path=%2Fplatform102&host=platform102.halalkhor.info&sni=platform102.halalkhor.info#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3Abarry-far-all
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Afree18-v
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&path=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20103ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3Afastnodes-verified
+vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform118.golnamakcert.top:80?type=ws&host=platform118.halalkhor.info&path=%2Fplatform118#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
