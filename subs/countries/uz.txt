@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFVaIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T11:18:28.489850+00:00
+# snapshot-time: 2026-11-18T16:07:41.529640+00:00
 
-vless://2bba3b63-eb4c-006a-aa58-ae9d4a1430c8@48.102.250.55:443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=m6US_Wo7oYwRvmXWu2_bMRST1FB_rVcPpW3TqZX5_xY&sni=48.102.250.55#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%BF%20UZ%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all%20%7C%20135ms
 vless://92a52866-0308-4961-8bb7-d18e4f48d4c3@130.211.9.172:8080?encryption=none&security=tls&sni=OzEOg.xix.online&alpn=h2%2Chttp%2F1.1&fp=safari&type=grpc&serviceName=OzEOg.xix.online&mode=gun#%5B%F0%9F%87%BA%F0%9F%87%BF%20UZ%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 vless://d5ef2976-65d5-4a4a-bcab-86cac42f55be@94.182.177.67:2083?encryption=none&flow=xtls-rprx-vision&security=reality&sni=jfxomunbb.hrTpqctlF.tk&fp=edge&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%BA%F0%9F%87%BF%20UZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAiYXBwcy5nb29nbGUuY29tIiwgInBhdGgiOiAiZWZ4ZXdyZW5zIiwgInRscyI6ICIiLCAic25pIjogIiIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAicHMiOiAiW/Cfh7rwn4e/IFVaXSBWTWVzcy10Y3AgfCBzcmM6c3ViLWY2NmJlZGE3NDgiLCAiYWRkIjogIjE0Mi4yNTAuMTg0LjIwNiIsICJwb3J0IjogODAsICJpZCI6ICIwYzI2YWFkMi01NmI2LTRhOWMtYWNkNi1lYWRjMmMyYmI3MDIifQ==

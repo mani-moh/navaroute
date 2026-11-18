@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIElMIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T11:18:28.489850+00:00
+# snapshot-time: 2026-11-18T16:07:41.529640+00:00
 
 trojan://sI0wl1bvYlSXu2RsMSAtAIMM@starlink-il.251313.xyz:14443?sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vless://99c5b713-dedf-4a10-8070-916ff3f49b0e@192.71.27.237:443?security=tls&type=ws&path=%2F&host=fs.qicai99.com&packetEncoding=none&sni=fs.qicai99.com&fp=chrome#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-ws%20%7C%20src%3Abarabama-merged
@@ -15,8 +15,10 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozMTdmMTNjNWMyZWJkZWEz@5.188.227.18:11201#%5B
 hysteria2://f25f19f29ce3fb53a35bf1b35b452a43@129.159.156.109:50160?sni=www.bing.com#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowOGU0MDkwYmM0NmZkOGE2@163.171.213.47:46282#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://YWVzLTI1Ni1jZmI6NDQxNTkzNDI5NQ@31.133.100.49:50004#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&fp=chrome&host=www.apple.com&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 ss://YWVzLTI1Ni1jZmI6ODQ2MDQwMDEzMA@83.229.73.120:50003#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 trojan://3ac6a6ca99f74941b1eaf892818e2ddb@89.221.225.71:443?security=tls#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan%20%7C%20src%3Asbornik-trojan-001
+vless://e0454af2-6fe9-4983-a55d-05e1da202602@199.232.78.159:443?path=%2F&security=tls&encryption=none&insecure=0&host=israeel.global.ssl.fastly.net.&type=ws&allowInsecure=0&sni=ssl.fastly.com#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 trojan://019a8c1f-3d28-74e8-8a8e-40045d7ec77f@45.144.172.243:443?security=tls&sni=www.bilibili.com&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.163.182:443?allowInsecure=1&sni=exploreeducationsectoropportunitiestodayandadvancecareers.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 vless://3f5e89d5-591f-4ac9-b071-b05680b573c3@193.203.10.188:443?security=reality&encryption=none&pbk=mCLTVbcvg_tkaIuGqMVVBV-5d_ftEoLnJHhrCmeLDFk&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=no.gacvpn.site&sid=08d12dce#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
@@ -43,13 +45,12 @@ ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@193.182.144.240:989#%5B%F0%9F%87%AE%
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&fp=chrome&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Aau1rxx-v2ray-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowOGU0MDkwYmM0NmZkOGE2@163.171.213.47:46281#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://F42UEtSEue3xZeeomz%2FBnvE8zoS4RiuHzNHD%2Bq1MWjg%3D@64.177.65.95:43493?security=reality&pbk=wQYwwDqJYcFwb0tBON7-ggw8pO1DZ7ven_AjRvPIzBU&headerType=none&fp=chrome&spx=%2FPlPePIGEEFMNkJX&type=tcp&sni=intel.com&sid=782c47f2a34f#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan-Reality%20%7C%20src%3Agfpcom-trojan
-vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@45.150.108.180:443?security=reality&encryption=none&pbk=Jw--SSPecJpt9-lke7H9Bdr8F73xxtvC_5ZrxiWRog0&host=il1.gofizzin.com&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=il1.gofizzin.com&sid=dc1bf50b0e0a#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
+vless://394f6981-a782-4779-9a85-e6cf22935d93@169.150.235.74:8443?security=tls&encryption=none&sni=tlv-il.fromblancwithlove.com&type=tcp&headerType=none&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-tcp%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphYmU1OTVhZWI3YTZhMDM1@163.171.213.47:12025#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Asub-07d2577deb
 hysteria2://f25f19f29ce3fb53a35bf1b35b452a43@129.159.156.109:50160?insecure=1&sni=www.bing.com&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 vless://71b60539-19bf-4282-b09f-7596ffc3cc8b@195.211.24.109:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=google.com&fp=chrome&security=reality&pbk=YiRDigHR3yK8jv7iHPS4lSO6Drmw4tiZiKyGQ09tdCQ&sid=42d68CBD&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Acoldwater-all
 trojan://080a97ac-d88d-44dd-b288-046295e5d6e9@185.241.7.178:443?sni=gogoyy.bpmalai2026.top&allowInsecure=1&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 hysteria2://switzerland_hysteria2_fastlane_8r4fgh8f1%3ATRVdyaK5S0DUjC46peYVgtw2Ci4GwiCF@45.140.205.58:1935?insecure=1#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
-vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&fp=firefox&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Aau1rxx-v2ray-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTozMTdmMTNjNWMyZWJkZWEz@5.188.227.18:11202#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://f12f0b78-cf9a-484d-ace1-08c25d372383@64.176.171.134:2082?encryption=none&flow=&host=www.cloudflare.com&type=tcp&headerType=http&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 hysteria2://f25f19f29ce3fb53a35bf1b35b452a43@129.159.156.109:50160?insecure=1&hop_interval=10&sni=www.bing.com&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2

@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T11:18:28.489850+00:00
+# snapshot-time: 2026-11-18T16:07:41.529640+00:00
 
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naW1ubXkycnVtczV6eXc1bXp3NWp6ZzQ1bG1udmJzaXNpY2p3YjNqMGlqb2dtamExbWl3Z2ltbGtpam9naWpjNHl6cXdtdGMzbHdtem5qcXRuZGd3emMxaXpkYzNsdGMyenRsa29kbG1uamxpbmNpc2ljamhhd3Fpb2lhd2xjYWljMm41aWpvZ2ltZjFkZzhpbGNhaWJtdjBpam9naW5kemlpd2dpbWh2YzNxaW9pYWlkaGN4eWxmcHYxbmZuaGd1em5waWN3enljMnV1ZWhsNmlpd2dpbmJoZGdnaW9pYWlsM3pwemd2dmwwZHJtbmZmbnZ2em93Y2lsY2FpZGd4emlqb2dpaWlzaWNqd2N5aTZpY2phc2c5d3p2OW96eHF0YW05cGJpMTFjeTF2YmkxdXp3eGx6M2poYnNqOTxici8-PGJyLz52bGVzczovLzQzNWJkYTRjLWZlNWUtNDJjOS1hM2FkLTE1MzM0OTQzYjM4YQ@104.17.197.127:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23338#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -49,7 +49,7 @@ trojan://4ea1d07c-41c2-42b5-954d-414fee051856@df.xiguajiasu.xyz:46002#%5B%F0%9F%
 ss://2022-blake3-aes-256-gcm:YmQ5Y2E3MGRlNmU1NDVkZTNhZGIyMmIyZDJjZjM3NGI%3D%3AOWU4M2Q3NzctNWMyYy00MDNlLWIxYTYtMmE3ODRmOTM%3D@cccct.284.pics:65032#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://eyJ2IjogIjIiLCAicHMiOiAiQEhvcGVfTmV0LWpvaW4tdXMtb24tVGVsZWdyYW0iLCAiYWRkIjogImpwLTEuZHVndXNpdGUzLnRvcCIsICJwb3J0IjogIjUwNjEiLCAidHlwZSI6ICJub25lIiwgImlkIjogIjQ4NjMwZTE0LTU5OTctM2RhZi1iZDVhLTZiMWE5YmNhYWU3YyIsICJhaWQiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJob3N0IjogImpwLTEuZHVndXNpdGUzLnRvcCIsICJ0bHMiOiAidGxzIn0@108.162.195.157:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://cmM0LW1kNTpSZW56aGVDbG91ZFNT@pr1.jymzffbquawl.com:3600?plugin=simple-obfs%3Bobfs%3Dhttp%3Bobfs-host%3Dc7ea4198729.microsoft.com#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-ss://YWVzLTI1Ni1nY206MTIzNDU2@0.0.1.3:2#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
+ss://YWVzLTI1Ni1nY206MTIzNDU2@0.0.1.3:2#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naWpleW1jNHlteml1bWpxd2xqdTJpaXdnaW5idmNucWlvaWFpbXR5NW1qZ2lsY2FpYXdxaW9pYWlud3kyeWpuam0yeXR5amJob2Mwem0yeTFsdGsxeXp5dG16Y3h6amhqbm1mbW90Y3ppaXdnaW1mcHpjaTZpY2l3aWl3Z2lubmplc2k2aWNqaGR4cnZpaXdnaW01bGRjaTZpY2ozY3lpc2ljajBleGJsaWpvZ2ltNXZibXVpbGNhaWFnOXpkY2k2aWNpbG4waWxtamppYjNuMGp0aXlvaXV5bWplNW15NHluczR5bXR1dW10eXdqdGl5anRkZWlpd2dpbmJoZGdnaW9pYWlsM3l5Y21mNWlpd2dpbnJzY3lpNmljaWlsY2FpYzI1cGlqb2dpaWlzaWNqaGJoYnVpam9naWlpc2ljandjeWk2aWNqYXNnOXd6djlvenhxdGFtOXBiaTExY3kxdmJpMXV6d3hsejNqaGJzajk8YnIvPjxici8-dmxlc3M6Ly80MzViZGE0Yy1mZTVlLTQyYzktYTNhZC0xNTMzNDk0M2IzOGE@104.17.109.240:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNmE2ZDcyNC1jMWFkLTRjMTgtYWEwNy1iNzg0YjM0NDkxYTk@n24.emovpn.xyz:1274#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206NFM4NUxGMlEzUUs5MjE3MQ@w72tapyb.slashdevslashnetslashtun.net:18008#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
