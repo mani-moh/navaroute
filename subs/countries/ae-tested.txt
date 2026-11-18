@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T14:59:20.484847+00:00
+# snapshot-time: 2026-11-17T23:13:00.314981+00:00
 
 vless://052d73c9-1735-4008-b58c-e3a085dc2a37@89.125.175.55:8443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=FdZlh9FC4ay9OGnKG6K_iNqhz1I3tWDfNZhxrDYuQl8&security=reality&sid=7da3ba09a037e956&sni=uk-room05.filesnap.tech&type=tcp#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?fp=firefox&host=uae.unixzone.us&path=%2F&security=none&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370

@@ -1,9 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N5LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T14:59:20.484847+00:00
+# snapshot-time: 2026-11-17T23:13:00.314981+00:00
 
+vless://352a250d-080b-47b5-b7db-f9f8fa31c551@132.243.212.204:443?encryption=none&flow=xtls-rprx-vision&security=tls&sni=10w0wjw.virtual-network.lol&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-tcp%20%7C%20src%3Afree18-v
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?security=reality&encryption=none&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=68a8#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?encryption=none&flow=xtls-rprx-vision&type=raw&security=reality&sni=deepl.com&fp=firefox&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&sid=68a8&headertype=none#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?security=reality&encryption=none&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&host=---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR---%40SPIDDY_IR&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=68a8#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?type=tcp&security=reality&encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&sid=68a8&sni=deepl.com#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
-vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?type=tcp&security=reality&sni=deepl.com&fp=chrome&flow=xtls-rprx-vision&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&sid=68a8#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-top
+vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?type=tcp&security=reality&sni=deepl.com&fp=chrome&flow=xtls-rprx-vision&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&sid=68a8#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified

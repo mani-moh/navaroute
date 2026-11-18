@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NrLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T14:59:20.484847+00:00
+# snapshot-time: 2026-11-17T23:13:00.314981+00:00
 
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.104:443?security=reality&encryption=none&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&headerType=none&fp=chrome&type=tcp&sni=5d0319t.nl7.h1clayd.click&sid=361d0dd59c70516f#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.104:443?type=grpc&security=reality&fp=firefox&pbk=zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE&sid=50a749f0eccb628c&sni=15b171g.nl7.h1clayd.click&serviceName=5b79e8a94241#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

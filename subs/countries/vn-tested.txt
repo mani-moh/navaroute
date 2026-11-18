@@ -1,5 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZuLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-17T14:59:20.484847+00:00
+# snapshot-time: 2026-11-17T23:13:00.314981+00:00
 
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
+vless://57beeeb0-03fc-4fc9-94da-7604488a7134@zfapi.zalolink.com:42120?security=tls&flow=xtls-rprx-vision-udp443&fp=firefox&sni=www.tesla.com&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
