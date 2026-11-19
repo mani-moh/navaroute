@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEFaIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T16:07:41.529640+00:00
+# snapshot-time: 2026-11-19T00:19:25.769381+00:00
 
 ss://YWVzLTI1Ni1nY206WXlDQmVEZFlYNGNhZEhwQ2trbWRKTHE4@62.212.239.45:43893#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 trojan://3723507166611775488@109.61.16.83:443?sni=profound-elk.boa152.lol&allowInsecure=0#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Trojan%20%7C%20src%3Acoldwater-all
@@ -23,7 +23,7 @@ vless://c26a059d-e324-4c93-912f-443ddec99643@byocsv48182d.dxdx3.com:15744?securi
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@8.6.112.4:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@172.67.68.157:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 vless://ee4b719f-0368-4cc6-9ef5-4409dc98a7a1@185.98.113.176:8443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ypaqhgbfukhf.orgtssrkyq.online&fp=safari&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
-vless://4ae35424-996f-479a-8ce3-1b66d6bce7b3@az.balalayka-proxy.com:11780?encryption=none&type=grpc&serviceName=grpc&mode=gun&security=reality&sni=ru.wargaming.net&fp=firefox&pbk=2JQoSyLy7YeKGNbCm3OwbfbE53NvGDQFcRJkbQI7AEw&sid=d0e438c0b266421b#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
+vless://4ae35424-996f-479a-8ce3-1b66d6bce7b3@az.balalayka-proxy.com:11780?encryption=none&type=grpc&serviceName=grpc&mode=gun&security=reality&sni=ru.wargaming.net&fp=firefox&pbk=2JQoSyLy7YeKGNbCm3OwbfbE53NvGDQFcRJkbQI7AEw&sid=d0e438c0b266421b#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Atg-ffreecoffee
 ss://YWVzLTI1Ni1nY206WXlDQmVEZFlYNGNhZEhwQ2trbWRKTHE4@62.212.239.67:43893#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@188.114.96.6:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 ss://YWVzLTI1Ni1nY206OG42cHdBY3JydjJwajZ0RlkycDNUYlE2@62.212.239.44:33992#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
@@ -52,7 +52,7 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAi
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@104.18.41.190:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 ss://YWVzLTI1Ni1jZmI6OTM0NDY2NTA3Nw@94.20.154.38:50006#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@104.20.6.134:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MTM0NDk0MDI3Njg5YmJi@92.223.62.214:11201#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Asub-07d2577deb
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MTM0NDk0MDI3Njg5YmJi@92.223.62.214:11201#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Agfpcom-ss
 hysteria2://ew9_M93_6a31Qd45_hUX3984F_jNZ83x_Nz1l_f@94.20.88.13:8443?sni=azer-tea-grape.bumbleshrimp.com#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 vless://0567d990-d862-4bca-9cd8-982169a98055@185.192.9.1:2083?encryption=none&security=reality&sni=kyxcbemqptqj.cdmyoyykuzr.fun&fp=ios&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=jbpdguixvf&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@180.149.44.120:989#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Agfpcom-ss
