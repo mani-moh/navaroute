@@ -1,8 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIE1UIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-18T11:18:28.489850+00:00
+# snapshot-time: 2026-11-19T07:12:34.827535+00:00
 
 vless://03e966c3-5530-4827-9cfc-aa5ab16d1019@104.26.13.8:2096?encryption=none&security=reality&sni=qrad.GIIZM.in&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=lszctvpzuag&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
+trojan://521314@193.227.99.27:443?host=hhtj.hhllfly.kdns.fr&path=%2Fpyip%3DTelegram-WangCai2&security=tls&sni=hhtj.hhllfly.kdns.fr&type=ws#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImhtcHNmZGZqY3YuYmxvZy5ydSIsICJwYXRoIjogImxma2liYWpnaXFsIiwgInRscyI6ICJ0bHMiLCAic25pIjogImhtcHNmZGZqY3YuYmxvZy5ydSIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HsvCfh7kgTVRdIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICI3Ny4zNi4xNjQuMjQyIiwgInBvcnQiOiA4NDQzLCAiaWQiOiAiMDg0NWVhODItNmJkZC00ZDVjLThiYzYtOTRlOGE5OWY3OTc1In0=
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAiRlp2TmNQTHAuc2RjLmNvbSIsICJwYXRoIjogIk14SXJpcXhwIiwgInRscyI6ICIiLCAic25pIjogIiIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAicHMiOiAiW/Cfh7Lwn4e5IE1UXSBWTWVzcy10Y3AgfCBzcmM6c3ViLWY2NmJlZGE3NDgiLCAiYWRkIjogIjk0LjE4Mi4xNzcuNjciLCAicG9ydCI6IDIwODMsICJpZCI6ICI4ZTY2NmI2NS1hY2VlLTRlMDctODkwYS1mYmU2MjVlZmY2OGQifQ==
 vless://fd8f9c60-3825-491a-adc6-4327788dca7b@163.171.128.27:2083?encryption=none&security=tls&sni=apps.samsung.com&alpn=h2%2Chttp%2F1.1&fp=ios&type=grpc&serviceName=dsqeujxqf&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
