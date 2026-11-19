@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFZHIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-19T07:12:34.827535+00:00
+# snapshot-time: 2026-11-19T11:28:08.649630+00:00
 
 vless://025ee262-1090-4d60-9f27-815e3f2be447@164.215.61.114:2083?encryption=none&security=tls&sni=tpmruuwxparp.ngmyazpd.tk&alpn=h2%2Chttp%2F1.1&fp=edge&type=grpc&serviceName=tpmruuwxparp.ngmyazpd.tk&mode=gun#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 vless://3f883173-38cf-4397-928a-4efea1bf67b1@185.8.175.158:80?encryption=none&flow=xtls-rprx-vision&security=reality&sni=digikala.com.web.sbs&fp=android&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
@@ -26,7 +26,7 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5
 vless://ba027b01-4057-4043-8b4f-0ca210cb7450@69.192.160.55:2083?encryption=none&security=reality&sni=www.samsung.com&fp=edge&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=BFHBJkkClCp&mode=gun#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiIiwgInBhdGgiOiAiYXBwLmNobWFpbC5pciIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJhcHAuY2htYWlsLmlyIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4e78J+HrCBWR10gVk1lc3MtZ3JwYyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiODAuMTkxLjU2LjEwNSIsICJwb3J0IjogODA4MCwgImlkIjogImZlNzY5YjZjLWQxM2UtNDI5ZC05ZDI5LTc5Mjk2NjM4NTg4MyJ9
 trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@185.174.138.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
-vless://70756c73-0000-4000-8000-650000000000@104.234.239.139:443?sni=parsa-panel-u48we.wotic15356.workers.dev&type=ws&host=parsa-panel-u48we.wotic15356.workers.dev&path=%2Fpulsefp%3Dchrome&security=tls#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-ws%20%7C%20src%3Asub-1924222fbd
+vless://70756c73-0000-4000-8000-650000000000@104.234.239.139:443?sni=parsa-panel-u48we.wotic15356.workers.dev&type=ws&host=parsa-panel-u48we.wotic15356.workers.dev&path=%2Fpulsefp%3Dchrome&security=tls#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-ws%20%7C%20src%3Asub-44501fb22e
 trojan://CaWScXCdYAIJexusv@5.106.4.1:2087?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=lfuoibawjf.qvkylrmyhk.ru#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
 vless://af0202b9-b897-4664-a2f1-439645461831@142.132.229.59:443?encryption=none&security=reality&sni=google.com.login.link&fp=safari&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=sjtopetnkscl&mode=gun#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiIiwgInBhdGgiOiAibWluLmZmYnBnbHlraS5pbiIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJtaW4uZmZicGdseWtpLmluIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4e78J+HrCBWR10gVk1lc3MtZ3JwYyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiODIuOTkuMjI0LjM5IiwgInBvcnQiOiA4NDQzLCAiaWQiOiAiNDFmMWVkMWMtMTljNC00M2Q1LWE2OWQtYjU3ZmY4MDVmMTAzIn0=

@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIExVIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-19T07:12:34.827535+00:00
+# snapshot-time: 2026-11-19T11:28:08.649630+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAicm5nY2ZjYnhqd2guZ29vZ2xlLmNvbS5mdW4iLCAicGF0aCI6ICJsb2dpbiIsICJ0bHMiOiAiIiwgInNuaSI6ICIiLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgInBzIjogIlvwn4ex8J+HuiBMVV0gVk1lc3MtdGNwIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIxNDQuMi4xNC4yNSIsICJwb3J0IjogMjA1MywgImlkIjogIjA0NGQ1MDc3LTJhMjYtNDQ4NS05ZDlkLTJlMWRmN2VkNDE5ZCJ9
 vless://afc3f3e3-db9b-409b-b158-85a975803bf9@104.26.13.8:8443?encryption=none&security=tls&sni=pvt.TYDKIBFpUGDH.lol&alpn=h2%2Chttp%2F1.1&fp=edge&type=grpc&serviceName=pvt.TYDKIBFpUGDH.lol&mode=gun#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
@@ -202,7 +202,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInd3dy5iYW5rLW1hc2thbi5pciIsICJwYXRoIjogInhnZCIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJ3d3cuYmFuay1tYXNrYW4uaXIiLCAiYWxwbiI6ICIiLCAicHMiOiAiW/Cfh7Hwn4e6IExVXSBWTWVzcy13cyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiMjEyLjEuMTkzLjExNiIsICJwb3J0IjogNDQzLCAiaWQiOiAiZjdkMDU3NGItYmJiYS00YTM4LWE0NjAtNTZlY2EzMjhiYjk0In0=
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIm1haWwud2F6ZS5jb20iLCAicGF0aCI6ICJOYXYiLCAidGxzIjogInRscyIsICJzbmkiOiAibWFpbC53YXplLmNvbSIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HsfCfh7ogTFVdIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIxNDIuMjUwLjE4Ni4xNzkiLCAicG9ydCI6IDQ0MywgImlkIjogImE2ZGExM2JiLTg4NWUtNDIwZi1iZGZjLTE3YTk2MmYyMzM1ZiJ9
 vless://50701a69-b54d-4b62-b1c5-430e643e45bc@185.147.178.11:80?encryption=none&security=tls&sni=console.aparat.com&alpn=h2%2Chttp%2F1.1&fp=ios&type=grpc&serviceName=tqu&mode=gun#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
-vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?security=tls&sni=subgift.gcorecdn.com&type=ws&path=%2Ft.me-SubGift#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Asub-876a3f766a
 vless://1feaae3e-6ad9-4d8e-af30-67b348598695@animator-likeliest.sports-streams.org:443?pbk=6dc3iKXilOQpA_JFrKlk5-CsFjSmOm_5p0kSQcO9qi4&security=reality&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&encryption=none&sni=eslfast.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiIiwgInBhdGgiOiAicGF0aC5PYW9OeWYuc2l0ZSIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJwYXRoLk9hb055Zi5zaXRlIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4ex8J+HuiBMVV0gVk1lc3MtZ3JwYyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiNS4xNjAuMjIwLjQ2IiwgInBvcnQiOiA0NDMsICJpZCI6ICJkYjY3NGZmZC01OTk3LTRiM2YtYjM3Yi1kNmZlMGUzMDg3ZWUifQ==
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpXWmhkSEJOd1FWYk1WbHZJVFVm@146.75.122.219:8443#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20SS%20%7C%20src%3Asub-f66beda748

@@ -3534,6 +3534,90 @@
       "enabled": true,
       "description": "Auto-discovered public subscription found by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "sub-53ae369f81",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/ShatakVPN/ConfigForge-V2Ray/main/configs/vless.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-aeb605f678",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/ShatakVPN/ConfigForge-V2Ray/main/configs/shadowsocks.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-82b4531fa0",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/10ium/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-bf7e5fb885",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/10ium/HiN-VPN/main/subscription/normal/ss",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-a6436157af",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/10ium/HiN-VPN/main/subscription/normal/trojan",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-shh_proxy",
+      "name": "Telegram @shh_proxy (public configs retained)",
+      "url": "https://t.me/s/shh_proxy",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @shh_proxy whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }
