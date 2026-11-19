@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NrLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T14:41:07.521414+00:00
+# snapshot-time: 2026-11-18T22:45:02.039474+00:00
 
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@76574ct.nl8.h1clayd.click:443?security=reality&encryption=none&pbk=9zW5lTDbs9svY-lzlPp-pq0j2Sr6g031SY0E-3xSHDc&headerType=none&fp=chrome&spx=%2F&type=tcp&sni=76574ct.nl8.h1clayd.click&sid=2ca59bdc5121f921#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20131ms

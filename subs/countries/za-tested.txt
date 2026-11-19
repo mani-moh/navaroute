@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1phLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T14:41:07.521414+00:00
+# snapshot-time: 2026-11-18T22:45:02.039474+00:00
 
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Afree18-v
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&type=tcp&fp=chrome&allowInsecure=0#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all

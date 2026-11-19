@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL01rLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T14:41:07.521414+00:00
+# snapshot-time: 2026-11-18T22:45:02.039474+00:00
 
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.225.28.52:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=9J0kA4c4i7N%2F%2B6B%2B3j0zFkDTHocZNsw6eK6%2BsLZ1qCQ%3D&mtu=1280#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20WireGuard%20%7C%20src%3Avestranet-mix-b64
