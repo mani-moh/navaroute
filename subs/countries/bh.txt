@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIEJIIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-19T11:28:08.649630+00:00
+# snapshot-time: 2026-11-19T20:07:21.808097+00:00
 
-vless://b36a16e4-ded8-11f1-bdea-5254b0a2c347@bh1.vpnjantit.com:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=lDEkUokSL-mrM1jsH8UKs8-3cfJMvkxhY7k37iBkFi4&sid=32b72239bc69220e&sni=cloudflare.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A7%F0%9F%87%AD%20BH%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20249ms
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCb2cwRUxtTU05RFN4RGRR@157.241.64.230:443#%5B%F0%9F%87%A7%F0%9F%87%AD%20BH%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCb2cwRUxtTU05RFN4RGRR@157.241.5.189:443#%5B%F0%9F%87%A7%F0%9F%87%AD%20BH%5D%20SS%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCb2cwRUxtTU05RFN4RGRR@157.175.135.28:443#%5B%F0%9F%87%A7%F0%9F%87%AD%20BH%5D%20SS%20%7C%20src%3Agfpcom-ss
