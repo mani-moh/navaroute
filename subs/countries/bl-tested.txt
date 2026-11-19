@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T04:42:36.995678+00:00
+# snapshot-time: 2026-11-19T14:48:18.386117+00:00
 
+vless://7318caa1-93d1-4a9d-c481-504599902700@djj.zjlo.top:23169?security=tls&type=tcp&packetEncoding=none&allowInsecure=0&sni=djj.zjlo.top&fp=chrome&flow=xtls-rprx-vision#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-tcp%20%7C%20src%3Aigareck-vless-full

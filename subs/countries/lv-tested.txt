@@ -1,9 +1,13 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x2LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T04:42:36.995678+00:00
+# snapshot-time: 2026-11-19T14:48:18.386117+00:00
 
+vless://cebc5f19-18d9-48e6-9029-fb4b04caf393@45.38.143.210:30584?fp=chrome&pbk=2hV4TY2ygvQ7ISa5o4u_FUKXzlIhLgbsScE8M1h0m3Y&security=reality&sid=67ece882d65d0f1a&sni=m.vk.com&type=tcp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20121ms
 vless://dfe50e18-28ce-459e-a6b9-0f2585bcc3b6@lv.point.cookie-line.cc:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=tls&sni=lv.point.cookie-line.cc&fp=firefox&alpn=h2%2Chttp%2F1.1#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-tcp%20%7C%20src%3Atg-ffreecoffee
+vless://5234b2b7-5e07-422c-8159-d62a676c00c6@138.124.180.137:443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=GBdkyDLfr0LIZo_94Xv8ycAKOmkjArYzwJAEMhuXX2c&security=reality&sid=33acba1b&sni=www.apple.com&type=tcp#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 vless://80a06811-f74b-4b82-ac99-7e66c2a98e1c@46.8.64.51:443?encryption=none&security=tls&sni=clover.filnex.baby&fp=firefox&alpn=http%2F1.1&type=ws&path=%2Fapi%2Fde6%2Fstream&host=clover.filnex.baby#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
+vless://5de0c218-0138-45d8-94d2-c2c3f37a1a6d@94.183.234.245:443?security=reality&encryption=none&pbk=tfFzmbVByvoZxxIEUiHMv22_k0-nQz00L0XjU0bd_Fc&headerType=none&fp=qq&spx=%2F&type=tcp&flow=xtls-rprx-vision&sni=www.bing.com&sid=7f1e29593aa94ad1#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Adelta-kronecker-all
 vless://11aabba0-5fd1-4f15-8068-74c1a466cefc@193.163.203.170:443?type=tcp&security=reality&flow=xtls-rprx-vision&sni=yandex.ru&fp=firefox&pbk=GCCZ1ZZjB_nj7yxqFi22bIIWWr_G6rnWUzDcssN_40o&sid=b28db60d77c50b4f#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://80a06811-f74b-4b82-ac99-7e66c2a98e1c@13.140.17.121:443?encryption=none&security=tls&sni=clover.filnex.baby&fp=firefox&alpn=http%2F1.1&type=ws&path=%2Fapi%2Fde6%2Fstream&host=clover.filnex.baby#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://80a06811-f74b-4b82-ac99-7e66c2a98e1c@195.135.253.211:443?encryption=none&security=tls&sni=clover.filnex.baby&fp=firefox&alpn=http%2F1.1&type=ws&path=%2Fapi%2Fde6%2Fstream&host=clover.filnex.baby#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
+vless://93ffca4d-8049-4829-befd-0d836b874169@31.57.105.41:28941?security=reality&encryption=mlkem768x25519plus.native.0rtt.QmGLWk38nIXyw9JJ4c7RtQhF-8hyY_vPDdgUxB7y_VE&pbk=zKqLG9Axd0EtdmheNV4tZf3NaalxyCEDetYvFBy_eBM&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.filimo.com&sid=a19f72c4e83b605d#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

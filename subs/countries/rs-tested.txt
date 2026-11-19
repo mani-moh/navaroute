@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1JzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T04:42:36.995678+00:00
+# snapshot-time: 2026-11-19T14:48:18.386117+00:00
 
 vless://49fe1f7b-e6f6-43dc-a67d-caade85128ba@178.253.233.113:10000?encryption=none&fp=firefox&pbk=Du5pk4KuMNA1sRcSpmuoLuC0HmxDBmFljFNfUzqxKiM&security=reality&sid=cd0a1986719e44c8&sni=amp-api-edge.apps.apple.com&type=tcp#%5B%F0%9F%87%B7%F0%9F%87%B8%20RS%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
