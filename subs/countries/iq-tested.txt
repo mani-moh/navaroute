@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lxLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T22:45:02.039474+00:00
+# snapshot-time: 2026-11-19T04:42:36.995678+00:00
 
+vless://0b22812b-4a79-42b1-93ec-5b157b0f2f7f@2.27.14.122:8443?type=xhttp&security=reality&fp=firefox&pbk=1SldfhWqqF_Rg9QlPKQqufcHi5GhkxwcEV5HGyOy4Qg&sid=64ad711102f56ca2&sni=de.krabvpn.pro&path=%2Fassets%2F6c0f3ad762cb7ff51b454076#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%201218ms

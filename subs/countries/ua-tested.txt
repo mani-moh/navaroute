@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1VhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T22:45:02.039474+00:00
+# snapshot-time: 2026-11-19T04:42:36.995678+00:00
 
 vless://d8b58872-cc25-4bb2-badb-b86399c075fa@31.222.235.81:443?security=reality&type=tcp&packetEncoding=xudp&sni=www.cloudflare.com&fp=chrome&sid=d8b58872&pbk=L9IllZt5vcjYVY_6rmCJ_9ypmJsBK8dSWkNVCStrZjk#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
-vless://29f178f7-f96f-46ba-8fc0-bbcd690ba788@82.118.16.189:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=firefox&security=reality&pbk=zmo2VkZkfjh2kWjaRghXUs39ImQo87LmPhjvzbX3yB4&sid=1e9a49dd374c1191&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub
+vless://d8b58872-cc25-4bb2-badb-b86399c075fa@31.222.235.81:443?security=reality&encryption=none&pbk=L9IllZt5vcjYVY_6rmCJ_9ypmJsBK8dSWkNVCStrZjk&headerType=none&fp=chrome&type=tcp&sni=www.cloudflare.com&sid=d8b58872#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

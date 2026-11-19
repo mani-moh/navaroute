@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgUHJvdG9jb2xzL1R1aWMtVGVzdGVkIChQYXR0biBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-18T22:45:02.039474+00:00
+# snapshot-time: 2026-11-19T04:42:36.995678+00:00
 
-tuic://94d40708-8273-11ea-8fc9-f23c913c8d2b:94d40708-8273-11ea-8fc9-f23c913c8d2b@fc676f5c-tegxs0-ten5li-mv7m.hk2.hyhuawei.com:443?sni=fc676f5c-tegxs0-ten5li-mv7m.hk2.hyhuawei.com&alpn=h3&congestion_control=bbr&udp_relay_mode=native#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20TUIC%20%7C%20src%3Avestranet-mix-b64
+tuic://94d40708-8273-11ea-8fc9-f23c913c8d2b:94d40708-8273-11ea-8fc9-f23c913c8d2b@fc676f5c-tegxs0-ten5li-mv7m.hk2.hyhuawei.com:443?sni=fc676f5c-tegxs0-ten5li-mv7m.hk2.hyhuawei.com&alpn=h3&congestion_control=bbr&udp_relay_mode=native#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20TUIC%20%7C%20src%3Amorpheus-iran
