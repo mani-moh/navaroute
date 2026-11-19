@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T14:48:18.386117+00:00
+# snapshot-time: 2026-11-19T22:48:22.325897+00:00
 
-vless://70756c73-0000-4000-8000-650000000000@104.234.239.139:443?path=%2Fpulse&security=tls&encryption=none&insecure=0&host=parsa-panel-u48we.wotic15356.workers.dev&fp=chrome&type=ws&allowInsecure=0&sni=parsa-panel-u48we.wotic15356.workers.dev#%5B%F0%9F%87%BB%F0%9F%87%AC%20VG%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
