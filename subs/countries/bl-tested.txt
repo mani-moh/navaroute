@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T14:28:21.734591+00:00
+# snapshot-time: 2026-11-20T22:25:32.874456+00:00
 
-vless://4201786b-d99b-4147-a5f0-20d47acddb81@8a2e72t.nl20.h1clayd.shop:443?flow=xtls-rprx-vision&pbk=VZS639V1i-35g7VXb9EoTYL-Srm7858sxcvFAunncmA&security=reality&sid=8d0d0679f42ffd98&sni=8a2e72t.nl20.h1clayd.shop&type=tcp&fp=edge#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
-vless://4201786b-d99b-4147-a5f0-20d47acddb81@8a2e72t.nl20.h1clayd.shop:443?security=reality&type=tcp&sni=8a2e72t.nl20.h1clayd.shop&host=8a2e72t.nl20.h1clayd.shop&flow=xtls-rprx-vision&pbk=VZS639V1i-35g7VXb9EoTYL-Srm7858sxcvFAunncmA&sid=8d0d0679f42ffd98&allowInsecure=1&fp=safari#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full

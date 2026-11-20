@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T14:28:21.734591+00:00
+# snapshot-time: 2026-11-20T22:25:32.874456+00:00
 
-vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@79.182.70.220:443?type=grpc&security=reality&fp=firefox&pbk=zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE&sid=50a749f0eccb628c&sni=15b171g.nl7.h1clayd.click&serviceName=5b79e8a94241#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-876a3f766a
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@79.182.70.220:443?security=reality&type=grpc&mode=gun&serviceName=5b79e8a94241&packetEncoding=xudp&sni=15b171g.nl7.h1clayd.click&fp=firefox&sid=50a749f0eccb628c&pbk=zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

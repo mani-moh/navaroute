@@ -1,6 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NrLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T14:28:21.734591+00:00
+# snapshot-time: 2026-11-20T22:25:32.874456+00:00
 
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.104:443?security=reality&encryption=none&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&headerType=none&fp=chrome&type=tcp&sni=5d0319t.nl7.h1clayd.click&sid=361d0dd59c70516f#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.104:443?security=reality&type=tcp&sni=5d0319t.nl7.h1clayd.click&fp=firefox&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&sid=361d0dd59c70516f#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.156:443?encryption=none&security=reality&type=tcp&sni=f0d7aft.nl17.h1clayd.click&fp=firefox&pbk=kkCGiCQCKnkozJR1KKCRNtmdBECmThCgI9VSv7iDcWI&sid=8956c57cb4c4f8d2#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

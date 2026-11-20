@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N5LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T14:28:21.734591+00:00
+# snapshot-time: 2026-11-20T22:25:32.874456+00:00
 
 vless://352a250d-080b-47b5-b7db-f9f8fa31c551@132.243.212.204:443?flow=xtls-rprx-vision&security=tls&encryption=none&sni=10w0wjw.virtual-network.lol&fp=firefox&type=tcp&path=%2F&allow_insecure=0#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://e99ba96d-dec8-42eb-be53-19e71eef7cab@5.253.42.164:40443?encryption=none&flow=xtls-rprx-vision&type=raw&security=reality&sni=deepl.com&alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&fp=chrome&pbk=g77ZJbm18JEotapmVRjaXi133MzkbhkU2lxhVeXx8zw&sid=68a8&headertype=none#%5B%F0%9F%87%A8%F0%9F%87%BE%20CY%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
