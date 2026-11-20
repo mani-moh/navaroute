@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://41b1c169-5905-4d98-b6a6-56896c25737c@511.150333.xyz:21002?fp=chrome&host=511.150333.xyz&path=%2F+&pbk=HZwHZBP3x4Yo4UQiHcypRJIU_UdZY5OAapQM8RUqVAU&security=reality&sid=3ab8d93dd9b1a5be&sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 vless://b743c868-b35c-4d91-b88b-d9efd7060b5c@140.245.62.225:36442?type=tcp&security=tls&flow=xtls-rprx-vision&fp=chrome&sni=xjpp.zjlo.top#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
@@ -79,6 +79,7 @@ vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIjE0OS44OC4yMy4yMDIiLCAibmV0IjogInRjcCIsICJw
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICIxNDkuODguMjMuMjA3IiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HuPCfh6wgU0ddIFZNZXNzLXRjcCB8IHNyYzpub3N0YWx1bWUtbWVyZ2VkIiwgImFkZCI6ICIxNDkuODguMjMuMjA3IiwgInBvcnQiOiAxODAwMCwgImlkIjogImY4YzhkYzNkLTBkMzctNDZiMC04YjM0LWE3MjMyODgyZmNmZSJ9
 vmess://eyJuZXQiOiAicmF3IiwgInNjeSI6ICJhdXRvIiwgInRscyI6ICJub25lIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh7jwn4esIFNHXSBWTWVzcy1yYXcgfCBzcmM6dmVzdHJhbmV0LW1peC1iNjQiLCAiYWRkIjogIjE0OS44OC4yMy4yMDciLCAicG9ydCI6IDE4MDAwLCAiaWQiOiAiZjhjOGRjM2QtMGQzNy00NmIwLThiMzQtYTcyMzI4ODJmY2ZlIn0=
 vless://57beeeb0-03fc-4fc9-94da-7604488a7134@win2loxfde0202.gggrelay.org:30322?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=5gncThwqPFzLu23WO3mPTEhG7-KgVYlGVvveHjM2SUo&sid=6a60e7e382d6&sni=psstatic.cdn.bcebos.com#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Abarry-far-all
+vless://75c5f51b-d548-4eab-a26e-aa10fc3dbc7b@147.93.173.45:10444?security=reality&type=tcp&packetEncoding=none&allowInsecure=1&sni=video.yandex.ru&fp=safari&flow=xtls-rprx-vision&sid=8debcf36f1cc69ff&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://a16bd0e2-ff2e-4e4c-a955-0c684255a065@sg.fasti.win:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=sg.fasti.win&security=reality&pbk=-YTGWg5DjsLDyaDfr1D83kiUK22LVcrK3yC53lqqigs&sid=feedbacc&path=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20265ms
 vless://a16bd0e2-ff2e-4e4c-a955-0c684255a065@sg.fasti.win:443?flow=xtls-rprx-vision&fp=chrome&pbk=-YTGWg5DjsLDyaDfr1D83kiUK22LVcrK3yC53lqqigs&security=reality&sid=feedbacc&sni=sg.fasti.win&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://ca678d26-5435-4d13-b378-06c4c3b070ff@5.34.177.164:443?security=reality&type=raw&packetEncoding=xudp&sni=gateway.icloud.com&fp=chrome&flow=xtls-rprx-vision&sid=b2efed6d157e7bb0&pbk=cwWhNuekusD1iPZZ--7G891dU9PCacxyCYwsZxOApHA#%5B%F0%9F%87%B8%F0%9F%87%AC%20SG%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged

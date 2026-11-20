@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NjLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.196.148.85:443?security=reality&type=tcp&sni=5d0319t.nl7.h1clayd.click&fp=firefox&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&sid=361d0dd59c70516f#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://13e6bdfd-d51b-4e57-a40e-b88784cba8bd@ec7a81g.de15.h1clayd.click:443?encryption=none&fp=&pbk=shUbIWcBJdXaDzO80KqTU9exgMarUCOiiZ56Dwl7XVU&security=reality&serviceName=43f41cd7fee0&sid=7a8e24da4eb2c1b5&sni=ec7a81g.de15.h1clayd.click&type=grpc#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged

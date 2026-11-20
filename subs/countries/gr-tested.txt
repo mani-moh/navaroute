@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0dyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
 vless://f7ab2945-5220-4b6e-a8a2-92c6cb366ca3@content-0st.sosnas.site:443?type=tcp&security=tls&encryption=none&sni=content-0st.sosnas.site&flow=xtls-rprx-vision&alpn=http%2F1.1#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-tcp%20%7C%20src%3Asub-660b258b53

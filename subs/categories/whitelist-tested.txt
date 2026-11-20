@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ2F0ZWdvcmllcy9XaGl0ZWxpc3QtVGVzdGVkIChQYXR0biBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://00144519-7e0d-476b-8d28-435576af9262@167.17.69.171:443?encryption=none&flow=xtls-rprx-vision&pbk=ALT8hIGeZEhi0sQFbXP_ntBg8Xo-v7i0YCLrqTnBxRk&security=reality&sid=0990d22f&sni=www.cloudflare.com&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%2018ms
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAiYXV0byIsICJob3N0IjogInZtZXNzLmxidzY2Ni5kcGRucy5vcmciLCAicGF0aCI6ICIvd3M/ZWQ9MjA0OCIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJ2bWVzcy5sYnc2NjYuZHBkbnMub3JnIiwgImFscG4iOiAiaHR0cC8xLjEiLCAiZnAiOiAiY2hyb21lIiwgInBzIjogIlvwn4yQIFhYXSBWTWVzcy13cyB8IHNyYzppZ2FyZWNrLXNzLWFsbCIsICJhZGQiOiAiMTcyLjY0LjIyOS4yMSIsICJwb3J0IjogNDQzLCAiaWQiOiAiMGNmNmQ5NzAtM2YxZC00YWFlLWE5ODktOTJhOGY3NmFlM2RiIn0=
@@ -109,4 +109,5 @@ vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:62015?security=reali
 vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:62015?type=tcp&security=reality&flow=xtls-rprx-vision&fp=ios&pbk=IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ&sid=fa514b83&sni=swdist.apple.com#%5B%F0%9F%8C%90%20XX%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
 vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:62015?security=reality&type=tcp&sni=swdist.apple.com&host=swdist.apple.com&flow=xtls-rprx-vision&fp=random&pbk=IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ&sid=fa514b83&allowInsecure=1#%5B%F0%9F%8C%90%20XX%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@0592efg.us8.h1clayd.click:443?security=reality&type=grpc&mode=gun&serviceName=99f2107b03f8&packetEncoding=xudp&sni=0592efg.us8.h1clayd.click&fp=chrome&sid=bd8f712209a9c283&pbk=cO3wYHISTeorXcM8ffaDCDdqZ-olBQL-GyZqb-W7rTk&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.185:443?security=tls&type=ws&path=%2Ftyxyws&host=jp3.yohototo.top&packetEncoding=xudp&sni=jp3.yohototo.top&fp=chrome&encryption=none#%5B%F0%9F%87%A8%F0%9F%87%A6%20CA%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
 vless://a6ad7987-f17e-41fa-a752-72db9a725eb2@104.18.63.135:2083?encryption=none&security=tls&sni=vipfree.dr-ping.ir&fp=chrome&type=ws&path=%2F&host=vipfree.dr-ping.ir&allowInsecure=0&insecure=0#%5B%F0%9F%8C%90%20XX%5D%20VLESS-ws%20%7C%20src%3Adelta-kronecker-all

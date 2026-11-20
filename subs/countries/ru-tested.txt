@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1J1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://27f26dee-9cf1-4cca-93f8-9ac23d311408@147.45.47.101:8443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&security=reality&sid=6ba85179e30d4fc2&sni=apple.com&type=tcp#%5B%F0%9F%87%B7%F0%9F%87%BA%20RU%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://27f26dee-9cf1-4cca-93f8-9ac23d311408@147.45.47.101:8443?security=reality&amp%3Bencryption=none&amp%3Bpbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&amp%3BheaderType=none&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=apple.com&amp%3Bsid=6ba85179e30d4fc2#%5B%F0%9F%87%B7%F0%9F%87%BA%20RU%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed

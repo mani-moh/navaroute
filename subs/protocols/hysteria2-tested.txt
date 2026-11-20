@@ -1,11 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgUHJvdG9jb2xzL0h5c3RlcmlhMi1UZXN0ZWQgKFBhdHRuIFJlYWxwaW5nKQ==
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1&sni=hy2.123266.xyz#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?sni=promo.betust.net&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://LixInhAbZAqOczwkgoPsRI0Wba5HXBGh@video-balancer.7.8.advantage-a.cdnnow.xyz:443?sni=video-balancer.7.8.advantage-a.cdnnow.xyz#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?insecure=1&hop_interval=10&sni=promo.betust.net&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?insecure=1&alpn=h3&sni=shorts.blog-forme.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://2bc6428196efb899f544d750bea0c06d@promo2.betust.net:443?hop_interval=10&sni=promo2.betust.net&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://d62s7ghfehm742us@derfderf.ru:12824?sni=derfderf.ru#%5B%F0%9F%87%A9%F0%9F%87%AA%20DE%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
@@ -44,6 +45,7 @@ hysteria2://fa937345-6d3e-4ff4-8127-1a836987a0db@195.63.138.212:16443?sni=cloude
 hysteria2://QCgqi_I4EkV8UR-OgQ_tG4EnVTEVvIyR2GgRBzrIn2s@162.249.125.133:443?obfs=salamander&obfs-password=c1b4086fea89914496c7e10967a419216566&sni=hy2-new.aspidnet.xyz#%5B%F0%9F%87%B7%F0%9F%87%B4%20RO%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
 hysteria2://146d567c-6335-4e63-a8aa-7ec068642440@fi1.obxodvpn.us:443?sni=fi1.obxodvpn.us&path=%2F#%5Bsource-claimed%5D%20%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://146d567c-6335-4e63-a8aa-7ec068642440@fi1.obxodvpn.us:443?sni=fi1.obxodvpn.us#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
+hysteria2://eBTe6Ax2pUts8oMEWoYVDfnSlHfkLffQ@152.32.254.68:5010?sni=nas.aizhzo.com&obfs=salamander&obfs-password=7M4RXPFcQyQEGbkxBPfXo4bilMhCW2U9&insecure=1#%5B%F0%9F%87%AD%F0%9F%87%B0%20HK%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 hysteria2://a35c508f-4d5d-4531-842e-6e9d43c762c0@48.102.214.171:4444?sni=fl4.edgeport.cloud#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://41edb44c8e@srv-17e124.21freedom.net:11592#%5B%F0%9F%87%B7%F0%9F%87%BA%20RU%5D%20Hysteria2%20%7C%20src%3Asub-df7d38ecf1
 hysteria2://a35c508f-4d5d-4531-842e-6e9d43c762c0@2.27.210.6:4444?insecure=1&sni=lv2.nexfile.net#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral

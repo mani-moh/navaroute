@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0t6LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vless://a80acd3a-3df5-40b5-a54a-29bb18056115@38.180.206.44:48982?encryption=none&security=reality&type=xhttp&sni=cdn3-88.yahoo.com&fp=safari&pbk=A1ygNS8bIvKp7ZlUnjjHX_Z2AS_e4suvSs_IkWICvGE#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B0%F0%9F%87%BF%20KZ%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20217ms
 vless://1547ed3d-3bb7-4153-afdc-8eb3e9373c84@89.169.2.136:443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=cOnDGs0VQDa-LnjQNWLb1w2jyso0EqZ0epfDCTrNrA8&sid=274aec426d8627f2&sni=node-kz-1.nztpro.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B0%F0%9F%87%BF%20KZ%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20151ms

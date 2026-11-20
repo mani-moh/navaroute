@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgRmFzdGVzdC0xMDAtVGVzdGVkIChQYXR0biBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-19T22:48:22.325897+00:00
+# snapshot-time: 2026-11-20T04:31:56.022174+00:00
 
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJjb21tdW5pdHkuZmFzdGx5LnN0ZWFtc3RhdGljLmNvbSIsICJ0bHMiOiAiIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAicHMiOiAiW3NvdXJjZS1jbGFpbWVkXSBbc29ja2V0OnBhc3NlZF0gW/Cfh7rwn4e4IFVTXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCB8IDExbXMiLCAiYWRkIjogIjY3LjIyMC44NS40NiIsICJwb3J0IjogMTgwMDAsICJpZCI6ICJmOGM4ZGMzZC0wZDM3LTQ2YjAtOGIzNC1hNzIzMjg4MmZjZmUifQ==
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.122.30:443?security=tls&sni=resources.searchnationwidecareerchangehelperandguidancetoday.com&type=tcp&headerType=none&path=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Trojan-tcp%20%7C%20src%3Amahdi0024-proxycollector%20%7C%206ms
