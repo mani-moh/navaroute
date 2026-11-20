@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T04:31:56.022174+00:00
+# snapshot-time: 2026-11-20T14:28:21.734591+00:00
 
-vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:47396?security=reality&flow=xtls-rprx-vision&pbk=IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ&sid=fa514b83&sni=swdist.apple.com&type=tcp&headerType=none&host=free.fugui.lol&path=%2F&fp=qq#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
-vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJvcjMuc2ZhY2cudWsiLCAiZnAiOiAiY2hyb21lIiwgImFscG4iOiAiaHR0cC8xLjEiLCAicGF0aCI6ICIvb3IzIiwgImhvc3QiOiAiIiwgInNjeSI6ICJhdXRvIiwgInBzIjogIlvwn4en8J+HsSBCTF0gVk1lc3Mtd3MgfCBzcmM6aWdhcmVjay1zcy1hbGwiLCAiYWRkIjogIjEwNC4yNS4wLjEiLCAicG9ydCI6IDIwODMsICJpZCI6ICJhYzI1MTIzNy01NzZmLTQwYzgtYTU0My01NTQ5NjBjOTU4YjEifQ==
+vless://4201786b-d99b-4147-a5f0-20d47acddb81@8a2e72t.nl20.h1clayd.shop:443?flow=xtls-rprx-vision&pbk=VZS639V1i-35g7VXb9EoTYL-Srm7858sxcvFAunncmA&security=reality&sid=8d0d0679f42ffd98&sni=8a2e72t.nl20.h1clayd.shop&type=tcp&fp=edge#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
+vless://4201786b-d99b-4147-a5f0-20d47acddb81@8a2e72t.nl20.h1clayd.shop:443?security=reality&type=tcp&sni=8a2e72t.nl20.h1clayd.shop&host=8a2e72t.nl20.h1clayd.shop&flow=xtls-rprx-vision&pbk=VZS639V1i-35g7VXb9EoTYL-Srm7858sxcvFAunncmA&sid=8d0d0679f42ffd98&allowInsecure=1&fp=safari#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
