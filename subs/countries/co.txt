@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIENPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-20T19:44:07.033539+00:00
+# snapshot-time: 2026-11-21T06:00:23.507582+00:00
 
+vless://6df66cb9-34e6-4287-9660-5dda0f79239b@103.252.91.140:443?flow=xtls-rprx-vision&security=reality&sni=vsaxas.puffixhosting.com&fp=firefox&pbk=pqm3uwi4igGi8XbqSnlbOMb6JUgmCaF-e_YcKWvrMUM&sid=be9ad6e06ec8e762&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20116ms
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.226.194:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.208.150:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://605dea9b-b485-45c9-af9b-cc2b0195023c@91.242.228.29:443?encryption=none&flow=xtls-rprx-vision&pbk=Su5ULcRQKF-0DJIHZeTNEnXHBpyQtizmUrcNIYhZI0E&security=reality&sid=afee962d&sni=se1.mycloud1.org&type=tcp&fp=qq#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
