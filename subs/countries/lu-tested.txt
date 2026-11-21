@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?security=tls&sni=subgift.gcorecdn.com&type=ws&headerType=none&host=subgift.gcorecdn.com&path=%2Ft.me-SubGift#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Afastnodes-top-ipv6

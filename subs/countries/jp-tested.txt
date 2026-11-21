@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0pwLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://c8c9b995-b4b9-4915-9c7d-dee94aa733ba@172.105.203.15:443?encryption=none&security=reality&sni=itunes.apple.com&fp=chrome&pbk=HyAx05nhCz5mXxVxWXU1TrWRKdpYE0MHF4-V-LtyhTA&sid=0784b134&type=ws&host=itunes.apple.com&path=%2Fws&insecure=0#%5B%F0%9F%87%AF%F0%9F%87%B5%20JP%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://c8c9b995-b4b9-4915-9c7d-dee94aa733ba@172.105.203.15:443?security=reality&encryption=none&sni=itunes.apple.com&fp=chrome&pbk=HyAx05nhCz5mXxVxWXU1TrWRKdpYE0MHF4-V-LtyhTA&sid=0784b134&type=ws&host=itunes.apple.com&path=%2Fws&allow_insecure=0#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AF%F0%9F%87%B5%20JP%5D%20VLESS-Reality%20%7C%20src%3Agh-c964add1d0%20%7C%20145ms

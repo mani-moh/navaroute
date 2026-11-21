@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NjLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://8d251959-b345-4665-b2fc-3ac177c35e6f@45.130.127.79:443?type=raw&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=ZPjkqL8oFJ27Oa8ETFfSC_S2EHnGl8TyN5ujzYwMknw&sid=7d19a6e4c2f8305b&sni=fi.users.golu-gulu.online#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20143ms
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.196.148.85:443?encryption=none&fp=firefox&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&security=reality&sid=361d0dd59c70516f&sni=5d0319t.nl7.h1clayd.click&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified

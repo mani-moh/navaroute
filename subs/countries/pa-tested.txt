@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1BhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://17f3c566-b6c3-42f4-a098-b2f5374339a8@185.210.155.38:443?mode=packet-up&path=%2F&security=reality&encryption=none&pbk=gF44pErBRsCwFGY398I654T5EBhcB6sryObLgcqxTSI&fp=chrome&type=xhttp&sni=cira.ca&sid=41b779#%5B%F0%9F%87%B5%F0%9F%87%A6%20PA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

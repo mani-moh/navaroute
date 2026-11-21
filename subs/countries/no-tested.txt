@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL05vLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://31e407b3-6e1e-425f-98ea-fcf8f494c6a0@stream-north.livemusic.ac:8447?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=assets-asia.livemusic.ac&fp=firefox&pbk=k5dIbSUXjIchBp6kZFRrEQLLBM497WSj0RfX8Al_XR0&sid=0d32ff23e2f3365b#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53

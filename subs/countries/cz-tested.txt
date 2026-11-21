@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N6LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAibXFCLmp4YXZtcmhjd3UuZnVuIiwgInBhdGgiOiAia2hvenEiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HqPCfh78gQ1pdIFZNZXNzLXRjcCB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiNS4xNDUuMTE4LjMxIiwgInBvcnQiOiA4NDQzLCAiaWQiOiAiZjI0ZWQwNjUtMTViZC00NTg4LTk0MzQtMTRiMjg1YWFiNTJlIn0=
 vless://b34a52cb-cd52-49a8-9362-b8e97c151d49@212.102.38.25:443?security=reality&type=tcp&packetEncoding=xudp&sni=udemy.com&fp=chrome&flow=xtls-rprx-vision&sid=e90360ec7cc61b20&pbk=23cb4W9THzBKsrECsLh-A_FcKZfkAtUONoDze8-GnQE&encryption=none#%5B%F0%9F%87%A8%F0%9F%87%BF%20CZ%5D%20VLESS-Reality%20%7C%20src%3Asub-1924222fbd

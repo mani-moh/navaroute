@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1JvLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://114d5f3a-a353-0002-bf14-2e972d999efc@ro.ftuffy.link:443?encryption=none&type=grpc&serviceName=assets%2Fv2%2F7e93b4a16d08c2f5&mode=gun&security=reality&sni=ro.ftuffy.link&fp=firefox&pbk=QDVavsMkRhR-SPlUHHIMe1H1efjd5UdFGYYFjRFvm0o&sid=2159188f900dcfce#%5B%F0%9F%87%B7%F0%9F%87%B4%20RO%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
 vless://d1a6a033-fdbd-46a6-a177-3370ba042b9f@46.28.67.55:443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=i2dJ1_XGDpp50qpEclh6SWSWkxt4B0t2hi2qOVQbeSU&security=reality&sid=d06d78e974491b6e&sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%B7%F0%9F%87%B4%20RO%5D%20VLESS-Reality%20%7C%20src%3Aalirewa-config

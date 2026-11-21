@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://a30903dc-1bf0-4be5-8b1b-603a3a56211c@84.32.83.197:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=api-dns-gw.galioncc.com&fp=chrome&pbk=drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ&sid=a7d309e4c16b825f&type=tcp&headerType=none#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
 vless://a30903dc-1bf0-4be5-8b1b-603a3a56211c@84.32.83.197:443?encryption=none&fp=&pbk=drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ&security=reality&sid=a7d309e4c16b825f&sni=api-dns-gw.galioncc.com&type=tcp#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

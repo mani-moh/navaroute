@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0dyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vless://4777d90d-265b-4927-a0d1-63f36ed1421c@94.241.172.107:443?mode=packet-up&pcs=67fa1e374feaeb232157317d6ace682475cb1a826e0cf8657151a254681aed62&path=%2Fassets%2Fnl02%2F&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=94.241.172.107#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-xhttp%20%7C%20src%3Afarid-karimi-vless-iran
 vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Av2freehub-sub

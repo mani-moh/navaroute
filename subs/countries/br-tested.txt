@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICIiLCAicGF0aCI6ICIiLCAidGxzIjogInRscyIsICJzbmkiOiAieG1maGxweS5jb20iLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgIm5hbWUiOiAiQERlbHRhS3JvbmVja2VyR2l0aHViIiwgInBzIjogIltzb3VyY2UtY2xhaW1lZF0gW/Cfh6fwn4e3IEJSXSBWTWVzcy10Y3AgfCBzcmM6NG4wbnltb3UzLWFsbCIsICJhZGQiOiAiMTAzLjE0LjI3LjIwNyIsICJwb3J0IjogMTI3MCwgImlkIjogIjVjMDQwZjFkLTQ1ZGItNDNiZC04ZDQ2LWU0OTUwZTQzMzczNSJ9
 hysteria2://CyG0RFxMjzs41uQD4OLuHQ%3D%3D@150.230.229.100:20000?insecure=0&sni=hy2-br2.whuiy.xyz&obfs=salamander&obfs-password=CyG0RFxMjzs41uQD4OLuHQ%3D%3D#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2

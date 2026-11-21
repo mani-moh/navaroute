@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgUHJvdG9jb2xzL0h5c3RlcmlhMi1UZXN0ZWQgKFBhdHRuIFJlYWxwaW5nKQ==
 #profile-update-interval: 2
-# snapshot-time: 2026-11-20T22:25:32.874456+00:00
+# snapshot-time: 2026-11-21T04:26:43.261028+00:00
 
 hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?sni=hy2.123266.xyz&insecure=1#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
@@ -29,6 +29,7 @@ hysteria2://d62s7ghfehm742us@derfderf.ru:12824?security=tls&sni=derfderf.ru#%5B%
 hysteria2://CyG0RFxMjzs41uQD4OLuHQ%3D%3D@150.230.229.100:20000?sni=hy2-br2.whuiy.xyz&obfs=salamander&obfs-password=CyG0RFxMjzs41uQD4OLuHQ%3D%3D&mport=20000-30000#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 hysteria2://d48b2e60-8e3d-40d8-bb07-faf7509c97ac@ee3.cowjuice.me:443?sni=ee3.cowjuice.me&path=%2F#%5B%F0%9F%87%AA%F0%9F%87%AA%20EE%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://fa937345-6d3e-4ff4-8127-1a836987a0db@195.63.128.21:10444?sni=germany.cloudhouse1.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@promo.betust.net:443?sni=promo.betust.net&alpn=h3#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://b384d216-9efa-4fd0-a5ef-bd3c37475e4d@89.41.181.197:443?sni=nl.anonch.net#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://d1gkicdgem3bsoaa@188.132.174.69:43345?sni=panel.autonetshop.ir&obfs=salamander&obfs-password=km9oqmefh2km1i5n#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://a35c508f-4d5d-4531-842e-6e9d43c762c0@179.254.191.251:4444?sni=bl1.nexfile.net#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
