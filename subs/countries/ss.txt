@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-21T06:00:23.507582+00:00
+# snapshot-time: 2026-11-21T10:47:41.233936+00:00
 
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naW1ubXkycnVtczV6eXc1bXp3NWp6ZzQ1bG1udmJzaXNpY2p3YjNqMGlqb2dtamExbWl3Z2ltbGtpam9naWpjNHl6cXdtdGMzbHdtem5qcXRuZGd3emMxaXpkYzNsdGMyenRsa29kbG1uamxpbmNpc2ljamhhd3Fpb2lhd2xjYWljMm41aWpvZ2ltZjFkZzhpbGNhaWJtdjBpam9naW5kemlpd2dpbWh2YzNxaW9pYWlkaGN4eWxmcHYxbmZuaGd1em5waWN3enljMnV1ZWhsNmlpd2dpbmJoZGdnaW9pYWlsM3pwemd2dmwwZHJtbmZmbnZ2em93Y2lsY2FpZGd4emlqb2dpaWlzaWNqd2N5aTZpY2phc2c5d3p2OW96eHF0YW05cGJpMTFjeTF2YmkxdXp3eGx6M2poYnNqOTxici8-PGJyLz52bGVzczovLzQzNWJkYTRjLWZlNWUtNDJjOS1hM2FkLTE1MzM0OTQzYjM4YQ@104.17.197.127:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23338#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -38,7 +38,7 @@ ss://XNmmems6X3E-3b13dc2fdg@104.26.12.19:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23333#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206SEVGWEw5UUdGVVQ2RVQ0TA@8tv68qhq.slashdevslashnetslashtun.net:18013#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://3rxzOk1zH8-bfn45Vg@104.16.72.110:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmNFotaWt5dVdDMEQ5MjZyWndiVGhn@p2tun3.greewebservices.ir:1030#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Anemotron-vision-ocr
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmNFotaWt5dVdDMEQ5MjZyWndiVGhn@p2tun3.greewebservices.ir:1030#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@hk3.mhw7e2.online:20002#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyY3ZocHZkZzR4N212YnBz@leviko-ca4638.shopingggg.ir:8080#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1nY206Mkg5OFVaVDlMVDFURTNYOQ@w72tapyb.slashdevslashnetslashtun.net:15008#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -148,7 +148,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpXNzRYRkFMTEx1dzZtNUlB@3FreakConfig.usecharge
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0YzQzNzZjNS1iMzIyLTRiNDItODgzMC1mYzcyODAyMmUzNzI@llp-shct.acgyt.com:38889#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@jp3.mhw7e2.online:20021#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMzQ4YTgzOC05MTA1LTRmM2UtYmQwNC02OTlhOWJlMTA0ODA@jp3.network-cdn-gw-yd.net:48803#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://0417be58-2ea8-49de-8083-9eff9b0137e5@v2ray.codefyinc.com:443?path=%2Fvlessws&security=tls&encryption=none&host=v2ray.codefyinc.com&type=ws&sni=v2ray.codefyinc.com#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-ws%20%7C%20src%3Afarid-karimi-vless-iran
+vless://0417be58-2ea8-49de-8083-9eff9b0137e5@v2ray.codefyinc.com:443?path=%2Fvlessws&security=tls&encryption=none&host=v2ray.codefyinc.com&type=ws&sni=v2ray.codefyinc.com#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZalV5Wg@us08.proxysocks.xyz:8388#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MzYzN2NlYy02OTlkLTRkODctOTlhZi0wNzc2YWM4ODA2MDQ@service.ouluyun9803.com:26666#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206MjQxZjliYjctMTg2Yi00MTYxLWE1MTctODRiZWNlNWI1NGEx@es-full.privateip.net:8443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -174,7 +174,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZWmJZVThOb3NaQ2k3enVVSTVoRGx3@dl.2046.shield
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@hk4.mhw7e2.online:20021#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://eyJ2IjogIjIiLCAiYWRkIjogIjE3Mi42NC4xMDMuMjExIiwgInBvcnQiOiAiNDQzIiwgImlkIjogIjEwNTJmMjRlLTdiMDktNDVlYi1iMGM1LWQ4NThlYjEyNDE5MiIsICJhaWQiOiAwLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgImhvc3QiOiAiZ2x3ZWlkZi5jZmQiLCAicGF0aCI6ICIvbGlua3dzIiwgInRscyI6ICJ0bHMiLCAic25pIjogImdsd2VpZGYuY2ZkIiwgInBzIjogIkBIb3BlX05ldC1qb2luLXVzLW9uLVRlbGVncmFtIn0@104.18.84.115:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo5RGJENTRkYXZqdldtOUxTQTZwMDdQ@callmark.cl.callmark.cl:43445#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpER0FndFR2Tk5vMDIzWVFDV2NTSFNn@p2tun3.greewebservices.ir:1030#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Anemotron-vision-ocr
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpER0FndFR2Tk5vMDIzWVFDV2NTSFNn@p2tun3.greewebservices.ir:1030#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmYWQ3MzE4My1iNzMwLTQ3ZWEtYTlmMi0yZGQwNTY1ZWM0M2I@zf.quanstring.top:41800#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206MTIzNDU2@0.0.1.6:9#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@jp1.mhw7e2.online:20021#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -283,7 +283,7 @@ vless://22cecc0f-4ad2-4cc0-80e7-e5d6fb375803@172.66.44.123:443?type=ws&amp%3Benc
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMzQ4YTgzOC05MTA1LTRmM2UtYmQwNC02OTlhOWJlMTA0ODA@us08.network-cdn-gw-yd.net:43212#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23334#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@tw2.mhw7e2.online:20029#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpER0FndFR2Tk5vMDIzWVFDV2NTSFNn@p2tun4.greewebservices.ir:1040#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Anemotron-vision-ocr
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpER0FndFR2Tk5vMDIzWVFDV2NTSFNn@p2tun4.greewebservices.ir:1040#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://YWVzLTI1Ni1nY206Z0tYSmE1cUs2bA@r001.baipiaoxd.com:19198#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://a11_NG1zOnN-eXZx3po@104.21.3.131:2053#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpGdnl2VVBRRkRJbHorNE9wKzIzNlFtREwxdjc2VHN2cERTWmdxakowZ253PQ@david2.lemoex.blog:2083#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss

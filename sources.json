@@ -2079,21 +2079,6 @@
       "origin": "discovered"
     },
     {
-      "id": "v2raycollector-tcp-shatel",
-      "name": "v2rayCollector TCP Shatel",
-      "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/tcp-shatel.txt",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "auto-discovered",
-        "github",
-        "iran"
-      ],
-      "enabled": true,
-      "description": "Auto-discovered public subscription from raw.githubusercontent.com. TCP-tested Shatel ISP pool; adds 2316 nodes beyond the existing url-shatel tier. Iran-focused.",
-      "origin": "discovered"
-    },
-    {
       "id": "v2raycollector-tcp-cloudzy",
       "name": "v2rayCollector TCP Cloudzy",
       "url": "https://raw.githubusercontent.com/sorenadev-dev/v2rayCollector/refs/heads/main/sub/tcp-cloudzy.txt",
@@ -3645,6 +3630,20 @@
       ],
       "enabled": true,
       "description": "Public Telegram channel @configyab_free2 whose configs were retained by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-830dac5285",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-VPN_Bypass/refs/heads/main/url_work.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
       "origin": "discovered"
     }
   ]

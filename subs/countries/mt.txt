@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIE1UIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-21T06:00:23.507582+00:00
+# snapshot-time: 2026-11-21T10:47:41.233936+00:00
 
 vless://03e966c3-5530-4827-9cfc-aa5ab16d1019@104.26.13.8:2096?encryption=none&security=reality&sni=qrad.GIIZM.in&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=lszctvpzuag&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 trojan://521314@193.227.99.27:443?host=hhtj.hhllfly.kdns.fr&path=%2Fpyip%3DTelegram-WangCai2&security=tls&sni=hhtj.hhllfly.kdns.fr&type=ws#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
@@ -63,7 +63,7 @@ vmess://eyJzY3kiOiAiYXV0byIsICJ2IjogIjIiLCAibmV0IjogIndzIiwgImhvc3QiOiAiIiwgInBh
 trojan://BjheqDxiwymgp@2.189.68.137:8080?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=blog.bale.ai#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
 vless://f775978b-6e22-41a8-ae5e-5f9779e6745f@193.227.99.249:443?encryption=none&security=tls&sni=juzibaipiao.5112233.xyz&type=ws&host=juzibaipiao.5112233.xyz&path=%2F%3Fed%3D2048#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-ws%20%7C%20src%3Aleon406-subcrawler-vless
 vless://1a25f8ad-cad2-4e93-b5bf-34e42bcac02a@193.227.99.148:2096?path=%2F%3Fed%3D2560&Telegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2=&security=tls&encryption=none&insecure=0&host=sni.111000.v6.rocks&type=ws&allowInsecure=0&sni=sni.111000.v6.rocks#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-ws%20%7C%20src%3Amorpheus-best
-vless://cd8be9db-db14-4327-992b-f60da9b6f69b@mtn.best-cloud.ir:2052?path=%2F%3Fed%3D2560&security=&encryption=none&host=sub-89ytdd0zy-rubika.ir.google.com.www.speedtest.net.chatgpt.com.icloud.com.fiNeArTSnEt.COm.aghil.shop.&type=httpupgrade#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-httpupgrade%20%7C%20src%3Afarid-karimi-vless-iran
+vless://cd8be9db-db14-4327-992b-f60da9b6f69b@mtn.best-cloud.ir:2052?path=%2F%3Fed%3D2560&security=&encryption=none&host=sub-89ytdd0zy-rubika.ir.google.com.www.speedtest.net.chatgpt.com.icloud.com.fiNeArTSnEt.COm.aghil.shop.&type=httpupgrade#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-httpupgrade%20%7C%20src%3Amorpheus-best
 vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@193.227.99.213:8880?sni=jp.laoyoutiao.link&type=ws&host=jp.laoyoutiao.link&allowInsecure=0#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-ws%20%7C%20src%3Amorpheus-best
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAicGFnZS5LdVZBTVdVTGdyLmZ1biIsICJwYXRoIjogInNlcnZpY2UiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HsvCfh7kgTVRdIFZNZXNzLXRjcCB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiMTA0LjE4LjE1NC40MiIsICJwb3J0IjogMjA4NywgImlkIjogImFlZmJhNWE1LWZlNjctNDkwNy1iZGZlLTMwNWE2NzMwOTRlMSJ9
 vless://6f85e158-42e7-493d-a766-1592615d611f@92.119.57.115:80?encryption=none&security=tls&sni=download.ghatreh.com&alpn=h2%2Chttp%2F1.1&fp=edge&type=grpc&serviceName=download.ghatreh.com&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
