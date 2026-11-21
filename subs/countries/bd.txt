@@ -1,10 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIEJEIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-21T10:47:41.233936+00:00
+# snapshot-time: 2026-11-21T22:54:20.247627+00:00
 
 vless://f75814f6-8f81-4847-b792-168c41f2dc85@45.196.201.231:443?security=reality&encryption=none&pbk=zii4nGNapnFKL6SN8GzWNqFlElBvUCUFUThEP0kFH04&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=c6ef72e4635d15a5#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://f75814f6-8f81-4847-b792-168c41f2dc85@45.196.201.48:443?security=reality&encryption=none&pbk=zii4nGNapnFKL6SN8GzWNqFlElBvUCUFUThEP0kFH04&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=c6ef72e4635d15a5#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://360c46b7-afe1-4e86-bfe1-ba09b5fcd8a6@45.198.87.99:8443?security=reality&encryption=none&pbk=7zd9mJilgjOrg_ohtw23Vmio-pdnYqeP_r-kiWt87Cg&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=2715592069f36fe7#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@154.197.108.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
-vless://83ab4443-ec22-4b3d-a587-53090be7beb2@45.198.96.153:443?security=reality&encryption=none&pbk=9Y-_jCI3Z1x6SXK2tHdZ6V1CN9IJPNPnoxSW0cbXxD8&headerType=none&fp=qq&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=764f497dda21c4fc#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
+vless://83ab4443-ec22-4b3d-a587-53090be7beb2@45.198.96.153:443?security=reality&encryption=none&pbk=9Y-_jCI3Z1x6SXK2tHdZ6V1CN9IJPNPnoxSW0cbXxD8&headerType=none&fp=qq&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=764f497dda21c4fc#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://f75814f6-8f81-4847-b792-168c41f2dc85@45.196.201.46:443?security=reality&encryption=none&pbk=zii4nGNapnFKL6SN8GzWNqFlElBvUCUFUThEP0kFH04&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=c6ef72e4635d15a5#%5B%F0%9F%87%A7%F0%9F%87%A9%20BD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
