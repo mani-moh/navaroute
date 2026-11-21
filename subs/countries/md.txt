@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIE1EIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-21T10:47:41.233936+00:00
+# snapshot-time: 2026-11-21T15:20:03.493030+00:00
 
 vless://838f5273-5d2d-4630-a0f5-9cc8e4aef4d6@91.225.219.71:2198?security=&encryption=none&headerType=&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-tcp%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMSTRvYk9FSURMekRqZDd4WWxoaFRK@86.104.75.103:49264#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Acoldwater-all
@@ -16,6 +16,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpPV0psWWpZeQ@91.194.161.7:1443#%5B%F0%9F%87%B
 vless://86208db7-8bbc-42c2-9eb2-ffe5675502c3@grid.onetimeok.com:443?mode=gun&security=reality&encryption=none&pbk=28oR3ji9c2CneMNkbvcDL8WfvNWHS3GfA3RdtaF-pSg&fp=firefox&type=grpc&serviceName=gw.v1.MetricsService&sni=grid.onetimeok.com&sid=89e97b6542785ca6#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@89.35.14.34:443?encryption=none&security=reality&sni=md5.univesalsrv.com&fp=firefox&pbk=99MRki6b93wC-hhDHe9yq3IXE3KtPGw4RkFAnpI-8gg&sid=aa9884f2982b7d3c&type=grpc&authority=&serviceName=app.v1.PushService&mode=gun#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://7a3d2e42-3823-4b00-9818-293f7c6742ca@zonex.md.zopli.ir:21275?security=reality&encryption=none&pbk=dNkjYxE5YiKram-ccPm9s8bGwYVakt0M-Y3I8EQKLQ4&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=tradingview.com&sid=e9797abf0202a439#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Aelf2017spring-configshub
+ss://2022-blake3-aes-128-gcm:YTE1ZWU4ZTEyZjc3YmEzZA%3D%3D%3AZGYzOWJkMjMtMjk0YS00Ng%3D%3D@104.20.60.123:80#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206OG42cHdBY3JydjJwajZ0RlkycDNUYlE2@194.33.40.114:33992#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vless://telegram-id-ArV2ray@185.234.65.122:443?mode=gun&security=reality&encryption=none&pbk=uXUe3HEy4MjZ2nqFa8eMxxB24AxQEbxGdEAbdjxEMgQ&fp=firefox&type=grpc&serviceName=telegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2rayy&sni=tgju.org&sid=7a0bea4731381dda#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpPV0psWWpZeQ@91.194.161.7:8388#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -69,6 +70,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0U2FDSWF6bGd1bVlrTThGa1B6bG13anB5V0JEWkZCaw@
 trojan://e299faed-cb72-4c62-bb2e-f0a218aed72a@194.246.114.54:443?security=tls#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20Trojan%20%7C%20src%3Asbornik-trojan-001
 trojan://strong-secret-pass-777@94.131.101.19:4443?security=tls&allowInsecure=1&fp=chrome#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@195.42.233.125:8880?mode=gun&security=none&encryption=none&type=grpc#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+vless://bf14dc50-e9f2-49fd-8642-620446edeafb@146.19.213.60:443?encryption=none&security=tls&sni=v6-95o.pages.dev&fp=chrome&insecure=0&allowInsecure=0&type=ws&host=v6-95o.pages.dev&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-ws%20%7C%20src%3Afree18-v
 vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@89.35.14.33:443?mode=gun&security=reality&encryption=none&pbk=TZVMqglhHzteJ6t34mtku75LKzXNq0CB6glKYMAH6zg&fp=firefox&type=grpc&serviceName=hub.v1.ApiService&sni=md4.univesalsrv.com&sid=8e07337954f9823f#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 ss://YWVzLTI1Ni1nY206ODQ3N2Y0YzgtODhmMS00MDE5LWE4OTktZWE3M2I5MzUwNTVk@194.246.114.54:8443#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://e4824193-4f54-453b-d037-88368e85ef0e@185.236.232.123:8880?mode=gun&security=none&encryption=none&authority=%2F%3FJOIN---PLANB_PROXY&type=grpc#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
