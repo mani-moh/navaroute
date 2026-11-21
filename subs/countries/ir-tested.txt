@@ -1,13 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T04:26:43.261028+00:00
+# snapshot-time: 2026-11-21T13:48:44.173890+00:00
 
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&type=tcp&sni=base.hosamobenl.co.uk&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
-hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24433?sni=lakes.blog-forme.ru#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&type=tcp&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&type=tcp&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
-vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&fp=chrome&sni=base.hosamobenl.co.uk&type=tcp&headerType=none&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
+vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&fp=chrome&sni=base.hosamobenl.co.uk&type=tcp&headerType=none&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&type=tcp&sni=base.hosamobenl.co.uk&fp=chrome#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&encryption=none&headerType=none&fp=firefox&type=tcp&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
@@ -19,3 +18,4 @@ vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@base.hosamobenl.co.uk:443?encryptio
 vless://49fe1f7b-e6f6-43dc-a67d-caade85128ba@englandddtun.whooisthebest.ir:9632?encryption=none&type=tcp&security=reality&sni=aparat.com&fp=chrome&pbk=BECatGFyR4lUoLv4-w-qOzPPDkAQt_P8yGB4cP3nE0k&sid=e9b64ca7d55f2672&allowInsecure=1#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://cb537c4d-5398-4c4c-95cb-1d7409668fa7@iran.2freenet.ddns.info:443?encryption=none&security=reality&sni=qa.aparat.com&fp=firefox&pbk=DX-SM1e4oi8M-CPdfvlJkSljL1KpldJ2Rrd0QwCTpXA&sid=284f933fef3a62b6&spx=%2Fdownload&type=xhttp&host=qa.aparat.com&path=%2F&mode=auto#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
 vless://cb537c4d-5398-4c4c-95cb-1d7409668fa7@iran.2freenet.ddns.info:443?encryption=none&security=reality&sni=www.aparat.com&fp=firefox&pbk=eRMo4lY1fy9WbBCnAi7DUSIexoMwuWHtHMJ46maYQB0&sid=284f933fef3a62b6&spx=%2Fdownload&type=xhttp&host=www.aparat.com&path=%2F&mode=auto#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://49fe1f7b-e6f6-43dc-a67d-caade85128ba@englandddtun.whooisthebest.ir:9632?security=reality&encryption=none&pbk=BECatGFyR4lUoLv4-w-qOzPPDkAQt_P8yGB4cP3nE0k&headerType=none&fp=chrome&type=tcp&sni=aparat.com&sid=e9b64ca7d55f2672#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran

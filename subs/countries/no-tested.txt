@@ -1,5 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL05vLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T04:26:43.261028+00:00
+# snapshot-time: 2026-11-21T13:48:44.173890+00:00
 
-vless://31e407b3-6e1e-425f-98ea-fcf8f494c6a0@stream-north.livemusic.ac:8447?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=assets-asia.livemusic.ac&fp=firefox&pbk=k5dIbSUXjIchBp6kZFRrEQLLBM497WSj0RfX8Al_XR0&sid=0d32ff23e2f3365b#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
+vless://6f26b457-eb8d-0001-b2a2-8574214309fa@188.225.82.103:443?encryption=none&fp=chrome&security=tls&sni=nmrhj-ru-wl-82tw.my-fade.cloud&type=raw#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-raw%20%7C%20src%3Aewecrow78-whitelist1
+vless://6f26b457-eb8d-0001-b2a2-8574214309fa@188.225.82.103:443?encryption=none&fp=qq&security=tls&sni=nmrhj-ru-wl-82tw.my-fade.cloud&type=raw#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-raw%20%7C%20src%3Aewecrow78-whitelist1
+vless://c26b5ab8-2f94-0001-8afe-8c02f2341ad0@188.225.82.103:443?encryption=none&fp=chrome&security=tls&sni=nmrhj-ru-wl-82tw.my-fade.cloud&type=raw#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-raw%20%7C%20src%3Aewecrow78-whitelist1
+vless://31e407b3-6e1e-425f-98ea-fcf8f494c6a0@stream-north.livemusic.ac:8447?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=assets-asia.livemusic.ac&fp=firefox&pbk=k5dIbSUXjIchBp6kZFRrEQLLBM497WSj0RfX8Al_XR0&sid=0d32ff23e2f3365b#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Atg-ffreecoffee
+hysteria2://457805fb-7409-0001-88f4-419d10f2444f@185.175.45.4:443?sni=envbi-ru-31sel.my-fade.cloud&alpn=h3&pinSHA256=d16d9c0c06046e3ce0502d19af814b273e9ab0b6025ace3f19a073767926bf0a#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2

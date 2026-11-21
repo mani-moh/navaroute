@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lxLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T04:26:43.261028+00:00
+# snapshot-time: 2026-11-21T13:48:44.173890+00:00
 
-vless://549766c3-fa5f-471e-8031-ffc1f8d5064f@178.17.52.31:2087?type=xhttp&security=reality&fp=edge&pbk=mbi4BZAuiq_L6pfhG2xxWmtosq0Z1Pzf18fvNSWKMxY&sid=3258252d44113e23&sni=maps.blog-forme.ru&path=%2Fv2%2Fsync%2F6e9367&encryption=none#%5B%F0%9F%87%AE%F0%9F%87%B6%20IQ%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-top

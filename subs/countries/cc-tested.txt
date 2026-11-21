@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NjLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T04:26:43.261028+00:00
+# snapshot-time: 2026-11-21T13:48:44.173890+00:00
 
+vless://dfe50e18-28ce-459e-a6b9-0f2585bcc3b6@ee.point.cookie-line.cc:443?type=raw&security=tls&flow=xtls-rprx-vision&fp=firefox&sni=ee.point.cookie-line.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-raw%20%7C%20src%3Amorpheus-iran

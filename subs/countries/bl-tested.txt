@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T04:26:43.261028+00:00
+# snapshot-time: 2026-11-21T13:48:44.173890+00:00
 
+vless://e1cf85dd-8de4-44de-86f9-86dd81ae677a@191.217.244.244:443?encryption=none&flow=xtls-rprx-vision&pbk=n7jBvniXhdIPJbvDf85x0Q9o067VlnnnJplSJd5KDX8&security=reality&sni=gmb.bachidze.com&type=tcp&fp=ios#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full
