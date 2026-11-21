@@ -1,11 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T13:48:44.173890+00:00
+# snapshot-time: 2026-11-21T20:17:32.258008+00:00
 
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@leviko-cl7123.shopingggg.ir:443?security=tls&headerType=none&type=tcp&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform118.golnamakcert.top:80?type=ws&host=platform118.halalkhor.info&path=%2Fplatform118#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3Abarry-far-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20119ms
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3Afastnodes-verified
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform108.golnamakcert.top:80?sni=platform108.golnamakcert.top&type=ws&host=platform108.halalkhor.info&path=%2Fplatform108#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=none&type=tcp&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&type=tcp&headerType=none&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-top
