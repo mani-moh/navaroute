@@ -1,13 +1,13 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T08:56:59.645794+00:00
+# snapshot-time: 2026-11-22T17:28:12.252975+00:00
 
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&encryption=none&insecure=0&headerType=none&fp=firefox&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Aalirewa-config
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?encryption=none&security=tls&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Abarry-far-all
-vless://7955bf18-35c4-412d-aabd-c0b36c793063@91.185.83.43:443?encryption=none&host=pssdwynorv.newwl.pro&path=%2Fservice%2Ftelemetry%2F0294da469190%2F&security=tls&sni=pssdwynorv.newwl.pro&type=ws&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-ws%20%7C%20src%3Aewecrow78-whitelist1
+vless://7955bf18-35c4-412d-aabd-c0b36c793063@91.185.83.43:443?encryption=none&fp=firefox&host=pssdwynorv.newwl.pro&path=%2Fservice%2Ftelemetry%2F0294da469190%2F&security=tls&sni=pssdwynorv.newwl.pro&type=ws#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-ws%20%7C%20src%3Aewecrow78-whitelist1
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@base.hosamobenl.co.uk:443?encryption=none&security=tls&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 vless://7955bf18-35c4-412d-aabd-c0b36c793063@46.243.233.194:443?alpn=http%2F1.1&encryption=none&fp=ios&host=pssdwynorv.newwl.pro&path=%2Fservice%2Ftelemetry%2F0294da469190%2F&security=tls&sni=pssdwynorv.newwl.pro&type=ws#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-ws%20%7C%20src%3Aewecrow78-whitelist1
 vless://7955bf18-35c4-412d-aabd-c0b36c793063@46.243.233.194:443?alpn=http%2F1.1&encryption=none&fp=safari&host=pssdwynorv.newwl.pro&path=%2Fservice%2Ftelemetry%2F0294da469190%2F&security=tls&sni=pssdwynorv.newwl.pro&type=ws#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-ws%20%7C%20src%3Aewecrow78-whitelist1

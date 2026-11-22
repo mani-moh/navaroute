@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T08:56:59.645794+00:00
+# snapshot-time: 2026-11-22T17:28:12.252975+00:00
 
 vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&alpn=http%2F1.1&encryption=none&insecure=0&host=subgift.gcorecdn.com&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Abarry-far-all
 vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
