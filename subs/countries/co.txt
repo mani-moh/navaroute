@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-22T11:21:24.684827+00:00
+# snapshot-time: 2026-11-22T14:16:15.775549+00:00
 
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.226.194:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.208.150:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
@@ -16,5 +16,6 @@ vless://db80088c-32a1-4cb8-a907-0f3cb7844152@gb1.japancase.site:443?encryption=n
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@181.119.30.20:990#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpudjJ5YTlCSGt2TnJ3NXp4WG45WEFR@103.57.250.210:443#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://6df66cb9-34e6-4287-9660-5dda0f79239b@103.252.91.140:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=pqm3uwi4igGi8XbqSnlbOMb6JUgmCaF-e_YcKWvrMUM&security=reality&sid=be9ad6e06ec8e762&sni=vsaxas.puffixhosting.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Asub-757c8dc370
+vless://6df66cb9-34e6-4287-9660-5dda0f79239b@103.252.91.140:443?encryption=none&flow=xtls-rprx-vision&type=raw&headerType=none&security=reality&fp=firefox&pbk=pqm3uwi4igGi8XbqSnlbOMb6JUgmCaF-e_YcKWvrMUM&sni=vsaxas.puffixhosting.com&sid=be9ad6e06ec8e762#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
 trojan://sI0wl1bvYlSXu2RsMSAtAIMM@starlink-co.251313.xyz:14443?sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vless://329e13e4-ee7c-4802-ac72-5fcab79c2402@45.148.119.127:443?type=tcp&headerType=none&security=reality&encryption=none&sni=cloudflare.com&fp=firefox&pbk=pOHbbyo_PlUwH4DjC6bKvC3jB8RPnCdu-nL8trAP8CI&sid=50&flow=xtls-rprx-vision#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
