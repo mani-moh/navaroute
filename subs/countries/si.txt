@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNJIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-22T14:16:15.775549+00:00
+# snapshot-time: 2026-11-22T23:42:46.928493+00:00
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZb25Hd21ZSkZlUw@192.99.158.243:80#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://71c8f2a2-1ad6-4cb7-82f1-88a3de503ab5@86.104.39.105:8443?encryption=none&security=reality&sni=laaagv.bidvkzv.sbs&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=laaagv.bidvkzv.sbs&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
@@ -49,7 +49,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@192.71.244.150:989#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtcG9seTEzMDU6cWxLVWJleVhFZnpFWFZsTEE@185.143.233.46:443#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiIiwgInBhdGgiOiAiTHZPLmxkSFpPVldLRi5jb20iLCAidGxzIjogInRscyIsICJzbmkiOiAiTHZPLmxkSFpPVldLRi5jb20iLCAiYWxwbiI6ICIiLCAicHMiOiAiW/Cfh7jwn4euIFNJXSBWTWVzcy1ncnBjIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIxODUuOTguMTEzLjE2MiIsICJwb3J0IjogNDQzLCAiaWQiOiAiNmIyMjc0NTEtNTllMy00MDM3LWI5NDktNWYwNGU0MTQ4ZWVhIn0=
-vless://d0c8aa8d-a535-432a-b521-21f0e561f643@92.42.201.107:443?allowInsecure=0&sni=node-slo02.rkitman.ru&flow=xtls-rprx-vision-udp443&fp=firefox&security=tls#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS%20%7C%20src%3Aheliataromi-confighub-mixed
 vless://56b314ca-8b6c-49fd-898e-ce08fece1f57@164.215.61.117:2053?encryption=none&security=tls&sni=www.bki.ir&alpn=h2%2Chttp%2F1.1&fp=ios&type=ws&host=www.bki.ir&path=hpnek#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
 vless://a817eda0-209d-4ae6-9732-268ccff25bff@185.126.18.75:2087?encryption=none&flow=xtls-rprx-vision&security=reality&sni=mail.pishgaman.net&fp=edge&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://a60da2ca-0abf-49f8-9dcb-156989d76ad2@92.42.201.160:14443?security=reality&encryption=none&pbk=fmZQYGYXw4xYtiuMFvH4Dgse1DBoGazt-vWM7LOdchY&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=node-slo05.rkitman.ru&sid=e013fa99a81badcc#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged

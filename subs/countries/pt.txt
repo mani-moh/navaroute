@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFBUIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-20T19:44:07.033539+00:00
+# snapshot-time: 2026-11-22T23:42:46.928493+00:00
 
 ss://YWVzLTEyOC1nY206MzBlOWM3YWEtZDg2ZC00ZjBkLWEwZDYtOWQwZGRmM2Y1ZTQy@ruot.ayucloudservices.nl:35014#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://ba1fc4fe-c5a5-4ad3-b4e2-f02ecffd992e@141.227.176.48:10227?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=ZEDMODEON-ZEDMODEON-ZEDMODEON-bia-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
@@ -12,5 +12,4 @@ trojan://e1c12e6f-a555-4ff8-b071-1e09dd5d91e6@94.23.78.106:443?type=tcp&security
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpHVElaWEdvZTB3a3Q@31.129.22.32:443#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@185.231.233.112:989#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://98a24806-141a-43d3-b094-bd66c4eb93b8@198.16.113.218:8443?security=reality&type=tcp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=69984b9e02545831&pbk=8NkTRxC5Q7bptx-8ADobkuhPK-ZN0kEEbzv6tCFGMzE#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
-vless://bf14dc50-e9f2-49fd-8642-620446edeafb@195.133.92.228:443?type=ws&security=tls&fp=chrome&host=v1-24z.pages.dev#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20VLESS-ws%20%7C%20src%3Acollector-ui-configs
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@185.231.233.173:990#%5B%F0%9F%87%B5%F0%9F%87%B9%20PT%5D%20SS%20%7C%20src%3Aelf2017spring-configshub

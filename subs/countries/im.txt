@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIElNIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-22T11:21:24.684827+00:00
+# snapshot-time: 2026-11-22T23:42:46.928493+00:00
 
 vless://3f432179-166b-438a-8e4e-c39bf63f39aa@185.143.233.225:80?encryption=none&security=reality&sni=UKCfSHmcH.coytbayjp.fun&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=rfjgl&mode=gun#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://4f576fe0-6f35-4894-90c3-260b76adbdd0@162.159.136.232:2087?encryption=none&security=tls&sni=microsoft.com.zula.ir.tk&alpn=h2%2Chttp%2F1.1&fp=android&type=grpc&serviceName=axpcc&mode=gun#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
@@ -19,7 +19,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0
 vless://ee86d143-e884-4403-865b-c1873ddaa871@104.21.60.134:80?encryption=none&security=tls&sni=xje.nufoyqzsl.com&alpn=h2%2Chttp%2F1.1&fp=android&type=grpc&serviceName=xje.nufoyqzsl.com&mode=gun#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMRUtieGpqUHBBUGl1RHNT@185.199.108.153:2087#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20SS%20%7C%20src%3Asub-f66beda748
 ss://Y2hhY2hhMjAtcG9seTEzMDU6RmNiTWZreXRnSmthempZWlVLQw@5.106.4.50:2083#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20SS%20%7C%20src%3Asub-f66beda748
-trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@185.162.229.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://2f2cecf6-bc9c-49b4-b002-870bf182d1a7@35.201.113.109:8080?encryption=none&security=reality&sni=eshop.eset.com&fp=chrome&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=eshop.eset.com&mode=gun#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://2f667563-95e6-4b57-aa39-fb1693e7ddaf@92.119.57.115:8443?encryption=none&security=reality&sni=popcxhanw.cafebazaar.ir.ir&fp=safari&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=vUDYWgpfotc&mode=gun#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://c3d9ff97-6602-486b-97c0-5bf2d8ff20f7@188.0.240.210:2083?encryption=none&flow=xtls-rprx-vision&security=reality&sni=juweponev.ljxpeac.ir&fp=edge&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B2%20IM%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
