@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEFaIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-21T15:20:03.493030+00:00
+# snapshot-time: 2026-11-22T05:37:20.114991+00:00
 
 ss://YWVzLTI1Ni1nY206WXlDQmVEZFlYNGNhZEhwQ2trbWRKTHE4@62.212.239.45:43893#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 trojan://3723507166611775488@109.61.16.83:443?sni=profound-elk.boa152.lol&allowInsecure=0#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Trojan%20%7C%20src%3Acoldwater-all
@@ -12,7 +12,6 @@ vless://33751cb1-43ea-458c-8dc5-0b8993746bce@188.114.98.0:443?pcs=cd6e838b9bfe31
 vless://0b1e5f46-fd9b-4010-9975-5d6f9dd7692e@193.8.139.199:443?encryption=none&security=tls&sni=JuDzdKTaCmX.xuywjgwd.site&alpn=h2%2Chttp%2F1.1&fp=safari&type=grpc&serviceName=JuDzdKTaCmX.xuywjgwd.site&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 ss://YWVzLTI1Ni1jZmI6MzEzNTc3MTYxOQ@94.20.154.38:50000#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogImdycGMiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiIiwgInBhdGgiOiAic2VydmljZS5kc2FjLnNicyIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJzZXJ2aWNlLmRzYWMuc2JzIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4em8J+HvyBBWl0gVk1lc3MtZ3JwYyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiMTA0LjE4LjE1NS40MiIsICJwb3J0IjogODQ0MywgImlkIjogIjBjOWM5YzZhLWNmZDktNDQ4MS04ZTY1LTM2MWQ0OGViMGRmZiJ9
-vless://3536e1fa-0850-44d1-b123-925ce12476cf@dey.lnmarketplace.net:443?mode=stream-one&path=%2Fkavir&security=tls&alpn=h2&encryption=none&extra=%7B%22noGRPCHeader%22%3Atrue%2C%22xmux%22%3A%7B%22maxConcurrency%22%3A%226%22%2C%22hKeepAlivePeriod%22%3A12%7D%2C%22headers%22%3A%7B%22User-Agent%22%3A%22Mozilla%2F5.0%28WindowsNT10.0%3BWin64%3Bx64%29AppleWebKit%2F537.36%28KHTML%2ClikeGecko%29Chrome%2F101.0.4951.67Safari%2F537.36%22%7D%7D&insecure=0&host=dey.lnmarketplace.net&fp=firefox&type=xhttp&allowInsecure=0&sni=dey.lnmarketplace.net#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-xhttp%20%7C%20src%3Ashabane-merged
 vless://67a04d72-b47e-4146-9d48-8e8cb2ef2cc8@77.104.65.120:443?encryption=none&security=tls&sni=sKxUY.chrome.ir&alpn=h2%2Chttp%2F1.1&fp=chrome&type=ws&host=sKxUY.chrome.ir&path=ieybyonrlqla#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
 vless://afe0591a-7afd-4023-9d05-bb175005d9fe@85.15.17.13:2053?encryption=none&security=tls&sni=ftp.shatel.ir&alpn=h2%2Chttp%2F1.1&fp=ios&type=grpc&serviceName=sqvm&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 vless://be0fa2b7-fcf9-4636-8a89-b2a245fc4e02@qzc6tbpu04c4.dop69.com:10962?security=none&encryption=mlkem768x25519plus.native.0rtt.X89bst5pyjkexho_hHA5hJhmor55v0lFu-avO03xo3k&headerType=none&type=tcp#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
