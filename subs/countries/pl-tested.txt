@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1BsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vless://352a250d-080b-47b5-b7db-f9f8fa31c551@45.194.66.177:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=31tawwo0.virtual-network.lol&type=tcp#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-verified
 vless://a35c508f-4d5d-4531-842e-6e9d43c762c0@179.254.191.251:4443?security=tls&type=xhttp&path=%2Fapi%2Fv1%2Fsync%2F&packetEncoding=xudp&sni=bl1.nexfile.net&fp=chrome&mode=auto&encryption=none#%5B%F0%9F%87%B5%F0%9F%87%B1%20PL%5D%20VLESS-xhttp%20%7C%20src%3Abarabama-merged

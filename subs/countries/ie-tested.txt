@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0llLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 trojan://UO36402987@34.251.228.118:443?security=tls&sni=definite-ladybird.rooster465.autos&type=tcp&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJzY3kiOiAiYXV0byIsICJ0bHMiOiAiIiwgInR5cGUiOiAiaHR0cCIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh67wn4eqIElFXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiNTQuMjI5LjE1MS45NyIsICJwb3J0IjogNTkyMzYsICJpZCI6ICIyMzg3YmZiYy0xMGE2LTRiZDctZGM1NS03Y2JhOTU0Y2U2ZTgifQ==

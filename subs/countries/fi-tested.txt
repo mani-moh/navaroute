@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0ZpLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vless://88a558b1-9645-42f3-89e5-341570d8486d@157.180.98.124:49659?security=reality&type=tcp&allowInsecure=1&sni=apple.com&fp=chrome&flow=xtls-rprx-vision&sid=81959fce&pbk=bBVqro8tG6swTNoAkjwUzcu4Ew4N4VcyDHzADcGviCs#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20119ms
 vless://88a558b1-9645-42f3-89e5-341570d8486d@157.180.98.124:49659?security=reality&type=tcp&packetEncoding=xudp&sni=apple.com&fp=chrome&flow=xtls-rprx-vision&sid=81959fce&pbk=bBVqro8tG6swTNoAkjwUzcu4Ew4N4VcyDHzADcGviCs&encryption=none#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
@@ -27,6 +27,7 @@ vless://88a558b1-9645-42f3-89e5-341570d8486d@157.180.98.124:49659?security=reali
 vless://d3eeebec-d7ba-4695-a1ea-2f2407c86582@177.3.209.122:54443?encryption=none&flow=xtls-rprx-vision&pbk=31cs626rRccv4rdooh0uUN9JSM8MSjCxYBZhpVseGUY&security=reality&sid=c37b62fae177eec8&sni=snobvpn.online&type=tcp&fp=firefox#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
 vless://2b696acb-1311-4ab7-b832-b376d29dca27@65.109.252.58:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&security=tls&sni=static.170.55.238.62.clients.your-server.de&type=tcp#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://59b0d30e-9b29-4fda-a35c-b2901ec32db7@45.144.234.157:14430?encryption=none&type=ws&path=%2Fvless%23Farah_VPN-178&sni=45.144.234.157#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all%20%7C%20100ms
+vless://75113671-63e3-452d-87d3-261a37e8b472@webdisk.jaggyslawa.org:443?security=reality&type=raw&packetEncoding=xudp&sni=www.mozilla.org&fp=chrome&flow=xtls-rprx-vision&sid=baf023e1026a&pbk=zfsjt2A8ur0qHWIuCG7F9W4wZN3VTuL6fkTljC-9R0s&encryption=none#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://7d63243c-983e-44db-a1b8-13dc3fd6f7a2@swe1.baterium.space:443?encryption=none&flow=xtls-rprx-vision&type=raw&headerType=none&security=reality&fp=qq&pbk=mg2MoLpb8B51aZiko_nW2SBRoaudv-O6HLHx8VYP7Do&sni=cdnjs.com#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
 vless://e9958027-03be-4eb5-bcec-70415b2e4844@107.150.93.43:443?encryption=none&security=tls&sni=e9958027.ferrin.uk&type=xhttp&fp=ios#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-xhttp%20%7C%20src%3Aewecrow78-whitelist1
 vless://e9958027-03be-4eb5-bcec-70415b2e4844@107.150.93.43:443?security=tls&sni=e9958027.ferrin.uk&alpn=h2&type=xhttp&path=%2F&mode=auto&fp=safari#%5B%F0%9F%87%AB%F0%9F%87%AE%20FI%5D%20VLESS-xhttp%20%7C%20src%3Aewecrow78-whitelist1

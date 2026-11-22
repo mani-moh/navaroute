@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list

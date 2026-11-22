@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgUHJvdG9jb2xzL0h5c3RlcmlhMi1UZXN0ZWQgKFBhdHRuIFJlYWxwaW5nKQ==
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 hysteria2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1&sni=hy2.123266.xyz#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://HPzKAhFXV5XgEmRSTM33DRuTHeFcB5ON@89.117.172.45:443?obfs=salamander&obfs-password=0dRexOATy4t9J1ckKOLpPy9HrNoU5FmN&sni=eth.todsm.com#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Abarabama-merged

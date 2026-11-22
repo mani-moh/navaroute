@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgT25saW5lLVdlZWstVGVzdGVkIChQYXR0biBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJzY3kiOiAibm9uZSIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HuvCfh7ggVVNdIFZNZXNzLXRjcCB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxNjkuMTk3LjE0Mi4yMiIsICJwb3J0IjogMTgwMDAsICJpZCI6ICJmOGM4ZGMzZC0wZDM3LTQ2YjAtOGIzNC1hNzIzMjg4MmZjZmUifQ==
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.20:443?security=tls&sni=api.browseseniorrolesandenhanceyourcareertoday.com&type=tcp&headerType=none&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all

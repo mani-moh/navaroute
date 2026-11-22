@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgRmFzdGVzdC0xMDAtVGVzdGVkIChQYXR0biBSZWFscGluZyk=
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.89:443?alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&flow=xtls-rprx-vision&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%8C%90%20XX%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%207ms
 vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiIiwgInNjeSI6ICJhdXRvIiwgInNuaSI6ICJjb21tdW5pdHkuZmFzdGx5LnN0ZWFtc3RhdGljLmNvbSIsICJ0bHMiOiAiIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAicHMiOiAiW3NvdXJjZS1jbGFpbWVkXSBbc29ja2V0OnBhc3NlZF0gW/Cfh7rwn4e4IFVTXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCB8IDdtcyIsICJhZGQiOiAiNjcuMjIwLjg1LjQ2IiwgInBvcnQiOiAxODAwMCwgImlkIjogImY4YzhkYzNkLTBkMzctNDZiMC04YjM0LWE3MjMyODgyZmNmZSJ9

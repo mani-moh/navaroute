@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0N6LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAibXFCLmp4YXZtcmhjd3UuZnVuIiwgInBhdGgiOiAia2hvenEiLCAidGxzIjogIiIsICJzbmkiOiAiIiwgImFscG4iOiAiIiwgImZwIjogIiIsICJwcyI6ICJb8J+HqPCfh78gQ1pdIFZNZXNzLXRjcCB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiNS4xNDUuMTE4LjMxIiwgInBvcnQiOiA4NDQzLCAiaWQiOiAiZjI0ZWQwNjUtMTViZC00NTg4LTk0MzQtMTRiMjg1YWFiNTJlIn0=
 vless://7c053ca8-38cc-45e2-930c-eda1fd66f903@195.123.245.241:443?security=reality&type=tcp&packetEncoding=xudp&sni=gateway.icloud.com&fp=chrome&flow=xtls-rprx-vision&sid=23d0950d60bc0d5b&pbk=hlY5ce1UsVIgE46y5PlEZhUsSaXUnCtoDLLaGrhInjw#%5B%F0%9F%87%A8%F0%9F%87%BF%20CZ%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all

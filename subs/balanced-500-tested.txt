@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQmFsYW5jZWQtNTAwLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAiIiwgInRscyI6ICIiLCAicGF0aCI6ICIvY2N0djEzLm0zdTgiLCAiaG9zdCI6ICIxMjkuMTQ2Ljc3LjI0OCIsICJwcyI6ICJbc291cmNlLWNsYWltZWRdIFtzb2NrZXQ6cGFzc2VkXSBb8J+HuvCfh7ggVVNdIFZNZXNzLXdzIHwgc3JjOjB4cmFkaWthbC1hbGwgfCA1NG1zIiwgImFkZCI6ICIxMjkuMTQ2Ljc3LjI0OCIsICJwb3J0IjogMzk0OTUsICJpZCI6ICJmODM2YzczNi04N2ZjLTRmZGUtYWFiYy0wMDg1N2VjZGZmM2UifQ==
 vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.89:443?alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&flow=xtls-rprx-vision&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%8C%90%20XX%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%207ms

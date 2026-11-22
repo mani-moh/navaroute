@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0l0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T17:28:12.252975+00:00
+# snapshot-time: 2026-11-22T22:53:48.552223+00:00
 
 vless://352a250d-080b-47b5-b7db-f9f8fa31c551@132.243.212.204:443?security=tls&encryption=none&insecure=0&headerType=none&fp=firefox&type=tcp&allowInsecure=0&flow=xtls-rprx-vision&sni=10w0wjw.virtual-network.lol#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-tcp%20%7C%20src%3Afarid-karimi-vless-iran
 vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&security=reality&sid=cd6065902eea7a02&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
