@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T01:44:10.930812+00:00
+# snapshot-time: 2026-11-22T08:56:59.645794+00:00
 
-vless://c50eae6b-18de-4bdc-a22f-9edda40a57ed@91.207.183.48:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=pPGE5Uacj1AGAB_WLOXB_UUnVBOmuJGH0vTSfmRBKzM&security=reality&sid=2e40144ddc07e8e1&sni=al09.tunnely.space&type=tcp#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7

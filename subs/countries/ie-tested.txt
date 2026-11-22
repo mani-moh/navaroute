@@ -1,10 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0llLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T01:44:10.930812+00:00
+# snapshot-time: 2026-11-22T08:56:59.645794+00:00
 
-vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogImh0dHAiLCAidGxzIjogIiIsICJhbHBuIjogIiIsICJwYXRoIjogIi8iLCAicHMiOiAiW3NvdXJjZS1jbGFpbWVkXSBb8J+HrvCfh6ogSUVdIFZNZXNzLXRjcCB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICI1NC4yMjkuMTUxLjk3IiwgInBvcnQiOiA1OTIzNiwgImlkIjogIjIzODdiZmJjLTEwYTYtNGJkNy1kYzU1LTdjYmE5NTRjZTZlOCJ9
-vless://608172ed-68e4-0001-85dc-f92c25d0eb92@168.113.253.178:443?type=tcp&headerType=none&security=tls&encryption=none&sni=uzndiuvzvqqljdyhzs.fcloudservices.site&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-tcp%20%7C%20src%3Aewecrow78-whitelist1
-vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&security=reality&sid=7a7d19880a9ee786&sni=sladovna.russianpiwo.fun&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-top
+vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogImh0dHAiLCAidGxzIjogIiIsICJhbHBuIjogIiIsICJwYXRoIjogIi8iLCAicHMiOiAiW/Cfh67wn4eqIElFXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiNTQuMjI5LjE1MS45NyIsICJwb3J0IjogNTkyMzYsICJpZCI6ICIyMzg3YmZiYy0xMGE2LTRiZDctZGM1NS03Y2JhOTU0Y2U2ZTgifQ==
+vless://608172ed-68e4-0001-85dc-f92c25d0eb92@168.113.253.178:443?security=tls&sni=uzndiuvzvqqljdyhzs.fcloudservices.site#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS%20%7C%20src%3Asub-42245810b7
 vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&type=tcp&sni=sladovna.russianpiwo.fun&flow=xtls-rprx-vision&fp=chrome&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&sid=7a7d19880a9ee786#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
-vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&encryption=none&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&headerType=none&fp=chrome&type=tcp&sni=sladovna.russianpiwo.fun&sid=7a7d19880a9ee786&insecure=0&flow=xtls-rprx-vision#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&encryption=none&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=sladovna.russianpiwo.fun&sid=7a7d19880a9ee786#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-mixed-iran

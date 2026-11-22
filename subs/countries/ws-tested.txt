@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1dzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T01:44:10.930812+00:00
+# snapshot-time: 2026-11-22T08:56:59.645794+00:00
 
-vless://c762af05-2e92-4133-bc30-8cf45dd40a28@suh.cryptofront.uk:80?encryption=none&type=ws&security=none&host=suh.cryptofront.uk&headers=User-Agent%7CMozilla%2F5.0+%28Windows+NT+6.3%3B+WOW64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F41.0.2272.76+Safari%2F537.36&mux=false#%5B%F0%9F%87%BC%F0%9F%87%B8%20WS%5D%20VLESS-ws%20%7C%20src%3Atg-shadowsocksm
