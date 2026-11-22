@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL010LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T20:17:32.258008+00:00
+# snapshot-time: 2026-11-22T01:44:10.930812+00:00
 
-vless://7e89c315-6436-4800-e287-c16d26d407a8@pro2.hx9.ir:2053?sni=mind.esmahdi9.com&alpn=h3%2Ch2%2Chttp%2F1.1&fp=chrome&security=tls#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20VLESS%20%7C%20src%3Aleon406-subcrawler-vless
-trojan://521314@193.227.99.27:443?host=hhtj.hhllfly.kdns.fr&path=%2Fpyip%3DTelegram-WangCai2&security=tls&sni=hhtj.hhllfly.kdns.fr&type=ws#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan

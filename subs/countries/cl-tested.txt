@@ -1,8 +1,11 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T20:17:32.258008+00:00
+# snapshot-time: 2026-11-22T01:44:10.930812+00:00
 
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20119ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Abarry-far-all
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&type=tcp&fp=chrome#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Abarabama-merged
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20158ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@leviko-cl0640.shopingggg.ir:443?allowInsecure=1&security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Akahrobas-bot
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan%20%7C%20src%3Afastnodes-verified
+vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform106.golnamakcert.top:80?type=ws&headerType=none&host=platform106.halalkhor.info&path=%2Fplatform106#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Avestranet-mix-b64
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=none&type=tcp&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@64.176.7.205:443?security=tls&sni=advanceyouremploymentskillsandcareerdevelopmenthub.com&type=tcp&headerType=none&path=%2F#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-top

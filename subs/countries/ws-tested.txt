@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1dzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T20:17:32.258008+00:00
+# snapshot-time: 2026-11-22T01:44:10.930812+00:00
 
-trojan://jcTG9WSWMJAmR4rv10xpww@199.232.78.159:443?type=ws&security=tls&path=%2FTELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER-TELEGRAM-%40NUFiLTER&host=copy_az_channel_NUFiLTER_7i.global.ssl.fastly.net.&sni=cdn.akamai.steamstatic.com&pinSHA256=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e#%5B%F0%9F%87%BC%F0%9F%87%B8%20WS%5D%20Trojan-ws%20%7C%20src%3Abarry-far-all
+vless://c762af05-2e92-4133-bc30-8cf45dd40a28@suh.cryptofront.uk:80?encryption=none&type=ws&security=none&host=suh.cryptofront.uk&headers=User-Agent%7CMozilla%2F5.0+%28Windows+NT+6.3%3B+WOW64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F41.0.2272.76+Safari%2F537.36&mux=false#%5B%F0%9F%87%BC%F0%9F%87%B8%20WS%5D%20VLESS-ws%20%7C%20src%3Atg-shadowsocksm

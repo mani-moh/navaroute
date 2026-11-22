@@ -1,10 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-21T20:17:32.258008+00:00
+# snapshot-time: 2026-11-22T01:44:10.930812+00:00
 
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&fp=chrome&host=www.apple.com&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.apple.com&fp=firefox&security=reality&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&sid=a3a578ab&path=%2F#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.apple.com&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&sid=a3a578ab&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Ablueknight-sub
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?security=reality&encryption=none&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.apple.com&sid=a3a578ab#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?security=reality&type=tcp&sni=www.apple.com&flow=xtls-rprx-vision&fp=chrome&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&sid=a3a578ab#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Aau1rxx-v2ray-b64
-vless://4fabeed0-790e-9724-8f12-138ed31ac60e@178.20.28.5:8443?type=grpc&security=reality&fp=firefox&pbk=4g8R0-Acc1LjppgvUopldH0Wg3JA2tPXvYB96aJnigo&sni=res.cdn.office.net&mode=gun&serviceName=TunService#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20108ms
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@79.182.70.81:443?encryption=none&fp=firefox&path=%2Fd610f026b146&pbk=jhVdP7NFUaEXGfrmOqJlMCHTvqn3fymbzPfPT6NO4i0&security=reality&sid=f72d4a2c7cbbacb1&sni=80cb66x.nl13.h1clayd.click&type=xhttp#%5B%F0%9F%87%AE%F0%9F%87%B1%20IL%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
