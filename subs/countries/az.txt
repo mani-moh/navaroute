@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEFaIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-22T11:21:24.684827+00:00
+# snapshot-time: 2026-11-23T06:17:48.920501+00:00
 
 ss://YWVzLTI1Ni1nY206WXlDQmVEZFlYNGNhZEhwQ2trbWRKTHE4@62.212.239.45:43893#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 trojan://3723507166611775488@109.61.16.83:443?sni=profound-elk.boa152.lol&allowInsecure=0#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Trojan%20%7C%20src%3Acoldwater-all
@@ -53,6 +53,7 @@ vless://33751cb1-43ea-458c-8dc5-0b8993746bce@104.18.41.190:443?pcs=cd6e838b9bfe3
 ss://YWVzLTI1Ni1jZmI6OTM0NDY2NTA3Nw@94.20.154.38:50006#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@104.20.6.134:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MTM0NDk0MDI3Njg5YmJi@92.223.62.214:11201#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Asub-07d2577deb
+vless://d86e6fda-e519-46ab-98eb-9ff9a9da5984@95.129.234.108:8443?type=grpc&security=tls&sni=rowan-quay.cdn.cachefleet.com&serviceName=01ef4cdceb3b3439&fp=android#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Aewecrow78-whitelist1
 hysteria2://ew9_M93_6a31Qd45_hUX3984F_jNZ83x_Nz1l_f@94.20.88.13:8443?sni=azer-tea-grape.bumbleshrimp.com#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 vless://0567d990-d862-4bca-9cd8-982169a98055@185.192.9.1:2083?encryption=none&security=reality&sni=kyxcbemqptqj.cdmyoyykuzr.fun&fp=ios&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=jbpdguixvf&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@180.149.44.120:989#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -75,6 +76,7 @@ ss://YWVzLTI1Ni1nY206SjlZMm5jcmRQRUMzOGd3eWRORkZHQm5h@62.212.239.51:35294#%5B%F0
 trojan://izDRYdwymMsPNyubLs@92.119.57.115:2053?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=yifdthz.admin.space#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
 vless://3557f773-6f3e-4492-9223-ebd3d4cff9bc@77.104.65.120:2087?encryption=none&security=tls&sni=mail.jamejamonline.ir&alpn=h2%2Chttp%2F1.1&fp=safari&type=grpc&serviceName=lwbWOf&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 vless://19636da6-ddaf-483c-8aa0-d32cc3feeae0@89.39.105.26:2083?encryption=none&security=tls&sni=pvz.gCWQUCOprZMQ.sbs&alpn=h2%2Chttp%2F1.1&fp=edge&type=grpc&serviceName=pvz.gCWQUCOprZMQ.sbs&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
+vless://d86e6fda-e519-46ab-98eb-9ff9a9da5984@95.129.234.108:8443?type=grpc&security=tls&sni=rowan-quay.cdn.cachefleet.com&serviceName=01ef4cdceb3b3439&fp=firefox#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-grpc%20%7C%20src%3Aewecrow78-whitelist1
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@188.114.99.0:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@172.67.66.177:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn
 vless://33751cb1-43ea-458c-8dc5-0b8993746bce@172.64.146.66:443?pcs=cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e&path=%2F%3FTelegram%E2%80%94%E2%80%94%E2%80%94%E2%80%94#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS%20%7C%20src%3Aitsyebekhe-psg-cdn

@@ -1,0 +1,9 @@
+#profile-title: base64:TmF2YVJvdXRlIEJMIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
+#profile-update-interval: 6
+# snapshot-time: 2026-11-23T06:17:48.920501+00:00
+
+vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@1.168.191.235:8443?security=tls&fp=chrome&sni=1-jk1.pages.dev&type=ws&headerType=none&host=1-jk1.pages.dev&path=%2Fproxyip%3DProxyIP.DE.owg.dpdns.org#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Acollector-ui-configs
+vmess://eyJhaWQiOiAiMCIsICJob3N0IjogIiIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvd3M/ZWQ9MjA0OCIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAidm1lc3MubGJ3NjY2LmRwZG5zLm9yZyIsICJ0bHMiOiAidGxzIiwgInR5cGUiOiAibm9uZSIsICJ2IjogIjIiLCAiYWxwbiI6ICIiLCAiZnAiOiAiIiwgInBzIjogIlvwn4en8J+HsSBCTF0gVk1lc3Mtd3MgfCBzcmM6aWdhcmVjay1zcy1hbGwiLCAiYWRkIjogImNmLjg3Nzc3MS54eXoiLCAicG9ydCI6IDQ0MywgImlkIjogIjBjZjZkOTcwLTNmMWQtNGFhZS1hOTg5LTkyYThmNzZhZTNkYiJ9
+trojan://trojan@152.53.200.167:8444?security=tls&sni=jflsjlaf.pages.dev&fp=chrome&insecure=0&allowInsecure=0&type=ws&host=jflsjlaf.pages.dev&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs
+trojan://trojan@152.53.45.251:8888?security=tls&sni=jflsjlaf.pages.dev&type=ws&path=%25252F&Host=jflsjlaf.pages.dev#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs
+vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJ2bWVzcy5sYnc2NjYuZHBkbnMub3JnIiwgImZwIjogImNocm9tZSIsICJwYXRoIjogIi93cz9lZD0yMDQ4IiwgImhvc3QiOiAiIiwgInNjeSI6ICJhdXRvIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4en8J+HsSBCTF0gVk1lc3Mtd3MgfCBzcmM6aWdhcmVjay1zcy1hbGwiLCAiYWRkIjogImNmLjA5MDIyNy54eXoiLCAicG9ydCI6IDQ0MywgImlkIjogIjBjZjZkOTcwLTNmMWQtNGFhZS1hOTg5LTkyYThmNzZhZTNkYiJ9
