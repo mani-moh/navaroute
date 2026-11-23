@@ -2271,21 +2271,6 @@
       "origin": "discovered"
     },
     {
-      "id": "konatask-sub",
-      "name": "Konatask Sub",
-      "url": "https://raw.githubusercontent.com/konatask/nodepool/main/sub.txt",
-      "verified_upstream": false,
-      "format": "auto",
-      "tags": [
-        "auto-discovered",
-        "github",
-        "speed-tested"
-      ],
-      "enabled": true,
-      "description": "Auto-discovered public subscription from raw.githubusercontent.com. Hourly-updated list of tested working nodes; 67 parsed nodes (44 SS, 21 VLESS, 2 Trojan).",
-      "origin": "discovered"
-    },
-    {
       "id": "andrejewild-sub",
       "name": "Andrejewild Sub",
       "url": "https://raw.githubusercontent.com/Andrejewild/happ-v2rayng-configs/main/sub.txt",
@@ -3636,6 +3621,20 @@
       "id": "sub-830dac5285",
       "name": "Discovered public subscription",
       "url": "https://raw.githubusercontent.com/VOID-Anonymity/V.O.I.D-VPN_Bypass/refs/heads/main/url_work.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-cc1aaf24f2",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/Mosifree/-FREE2CONFIG/refs/heads/main/Reality",
       "verified_upstream": false,
       "format": "auto",
       "tags": [

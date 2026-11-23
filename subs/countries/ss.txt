@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNTIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-23T06:17:48.920501+00:00
+# snapshot-time: 2026-11-23T11:53:35.181278+00:00
 
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naW1ubXkycnVtczV6eXc1bXp3NWp6ZzQ1bG1udmJzaXNpY2p3YjNqMGlqb2dtamExbWl3Z2ltbGtpam9naWpjNHl6cXdtdGMzbHdtem5qcXRuZGd3emMxaXpkYzNsdGMyenRsa29kbG1uamxpbmNpc2ljamhhd3Fpb2lhd2xjYWljMm41aWpvZ2ltZjFkZzhpbGNhaWJtdjBpam9naW5kemlpd2dpbWh2YzNxaW9pYWlkaGN4eWxmcHYxbmZuaGd1em5waWN3enljMnV1ZWhsNmlpd2dpbmJoZGdnaW9pYWlsM3pwemd2dmwwZHJtbmZmbnZ2em93Y2lsY2FpZGd4emlqb2dpaWlzaWNqd2N5aTZpY2phc2c5d3p2OW96eHF0YW05cGJpMTFjeTF2YmkxdXp3eGx6M2poYnNqOTxici8-PGJyLz52bGVzczovLzQzNWJkYTRjLWZlNWUtNDJjOS1hM2FkLTE1MzM0OTQzYjM4YQ@104.17.197.127:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmMTg2NWU1MC0yNTEwLTQ2ZDEtYmNiMi1lMDBiNGI2NTYzMDU@shouer4jia24.209966.xyz:23338#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -50,7 +50,6 @@ vless://a5db5ab5-8d28-49c0-ad55-0ad4724e4c0d@sdcdethyerft.localip.ir:2087?path=%
 trojan://4ea1d07c-41c2-42b5-954d-414fee051856@df.xiguajiasu.xyz:46002#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 ss://2022-blake3-aes-256-gcm:YmQ5Y2E3MGRlNmU1NDVkZTNhZGIyMmIyZDJjZjM3NGI%3D%3AOWU4M2Q3NzctNWMyYy00MDNlLWIxYTYtMmE3ODRmOTM%3D@cccct.284.pics:65032#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://eyJ2IjogIjIiLCAicHMiOiAiQEhvcGVfTmV0LWpvaW4tdXMtb24tVGVsZWdyYW0iLCAiYWRkIjogImpwLTEuZHVndXNpdGUzLnRvcCIsICJwb3J0IjogIjUwNjEiLCAidHlwZSI6ICJub25lIiwgImlkIjogIjQ4NjMwZTE0LTU5OTctM2RhZi1iZDVhLTZiMWE5YmNhYWU3YyIsICJhaWQiOiAiMCIsICJuZXQiOiAidGNwIiwgInBhdGgiOiAiLyIsICJob3N0IjogImpwLTEuZHVndXNpdGUzLnRvcCIsICJ0bHMiOiAidGxzIn0@108.162.195.157:443#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpUMGZJMEVkbVNYcXBkckZkc3VXNjQzeUdPNE13bFVCZ1FMZmpoZFJZV2Q0PQ@[2a12:5940:1527::2]:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
 ss://cmM0LW1kNTpSZW56aGVDbG91ZFNT@pr1.jymzffbquawl.com:3600?plugin=simple-obfs%3Bobfs%3Dhttp%3Bobfs-host%3Dc7ea4198729.microsoft.com#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://ZXlqMmlqb2dpamlpbGNhaXl3cmtpam9naWpleW1jNHlteml1bWpxd2xqdTJpaXdnaW5idmNucWlvaWFpbXR5NW1qZ2lsY2FpYXdxaW9pYWlud3kyeWpuam0yeXR5amJob2Mwem0yeTFsdGsxeXp5dG16Y3h6amhqbm1mbW90Y3ppaXdnaW1mcHpjaTZpY2l3aWl3Z2lubmplc2k2aWNqaGR4cnZpaXdnaW01bGRjaTZpY2ozY3lpc2ljajBleGJsaWpvZ2ltNXZibXVpbGNhaWFnOXpkY2k2aWNpbG4waWxtamppYjNuMGp0aXlvaXV5bWplNW15NHluczR5bXR1dW10eXdqdGl5anRkZWlpd2dpbmJoZGdnaW9pYWlsM3l5Y21mNWlpd2dpbnJzY3lpNmljaWlsY2FpYzI1cGlqb2dpaWlzaWNqaGJoYnVpam9naWlpc2ljandjeWk2aWNqYXNnOXd6djlvenhxdGFtOXBiaTExY3kxdmJpMXV6d3hsejNqaGJzajk8YnIvPjxici8-dmxlc3M6Ly80MzViZGE0Yy1mZTVlLTQyYzktYTNhZC0xNTMzNDk0M2IzOGE@104.17.109.240:80#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNmE2ZDcyNC1jMWFkLTRjMTgtYWEwNy1iNzg0YjM0NDkxYTk@n24.emovpn.xyz:1274#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -87,6 +86,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZ
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMDM2ZTQ4Ny05MTAyLTRlMDktODFmZC0wMWIwZjgzMmI5NzI@camy3aydjwpettcn.psuddd789.com:51141#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowdTQ3eEp2cDJfcEdiQTVjMTNBU0hLODdEeER3azV6bQ@coco2.farajet.net:2020#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Ashabane-merged
 ss://YWVzLTI1Ni1nY206WTJVNThTOTBFM0dTVDFBUQ@ti3hyra4.slashdevslashnetslashtun.net:21001#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTprdnJvdjR2ZDRpc3piM2F3@koviraaa.kovira2.ir:25026#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://YWVzLTEyOC1nY206YTlhMmEwYTUtNzM0MC00NWYyLTljYWQtNDM1MWE0MjMxNmUx@ftp.cn.debian.cdnet.in:8060#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1nY206ZDFmYTJmNGI5OGEzOGJjOA@it2.levikogjgfdd.ir:10901#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTEyOC1nY206NjNkYzg3ZTAtOGVjMy00NDAxLWJlYmQtNGQ0OTk3NDNmODcz@eu3.dns-node.top:46311#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -148,7 +148,6 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZ
 ss://2022-blake3-aes-128-gcm:Yzg1YmEyOWM5YjgyODg1Yg%3D%3D%3AMGJmNTg4OWQtN2ZjMi00Yw%3D%3D@zz.xn--mes91t7ofgnw.com:8081#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3MDc0NzUxNC1mYjE0LTRmMzEtODM5MC1lMWYwNDUzZWZmNmQ@jp5.mhw7e2.online:20029#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://4a640781-f5c8-4d17-80db-a6b0a091ba05@de01-vlr01.tcp-reset-club.net:443?security=reality&amp%3Bencryption=none&amp%3Bpbk=mLmBhbVFfNuo2eUgBh6r9-5Koz9mUCn3aSzlR6IejUg&amp%3BheaderType=none&amp%3Bfp=chrome&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=hls-svod.itunes.apple.com&amp%3Bsid=31#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-Reality%20%7C%20src%3Agfpcom-ss
-ss://eyJhZGQiOiI5NC4xMDMuMTY3LjExNiIsImFpZCI6IjAiLCJhbHBuIjoiIiwiZnAiOiIiLCJob3N0IjoiIiwiaWQiOiJkMWIwYzEwMy1hN2ZmLTRiZDYtODg3ZC1hNzNkNmViZjFmNTAiLCJpbnNlY3VyZSI6IjAiLCJuZXQiOiJ0Y3AiLCJwYXRoIjoiIiwicG9ydCI6IjgwIiwicHMiOiJ0ZWxlZ3JhbSBAbXRtdnBuIiwic2N5IjoiYXV0byIsInNuaSI6IiIsInRscyI6IiIsInR5cGUiOiJub25lIiwidiI6IjIifQ@104.254.90.218:1080#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxMDM2ZTQ4Ny05MTAyLTRlMDktODFmZC0wMWIwZjgzMmI5NzI@camy3aydjwpettcn.psuddd789.com:51152#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://5e2ce79c-170e-484a-8802-40584a1a3a12@naiu-us.05vr9nyqg5.download:13020?security=tls&sni=cloudflare.node-ssl.cdn-alibaba.com&type=tcp&headerType=none#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20Trojan-tcp%20%7C%20src%3Ashabane-merged
 trojan://nodes-b211f28a@node-fr-1.v2sv.top:2083?type=tcp&headerType=none&security=tls&sni=node-fr-1.v2sv.top#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20Trojan-tcp%20%7C%20src%3Ashabane-merged
