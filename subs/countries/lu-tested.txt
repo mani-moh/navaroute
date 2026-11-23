@@ -1,7 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T04:17:08.087974+00:00
+# snapshot-time: 2026-11-23T16:38:10.265554+00:00
 
-vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&alpn=http%2F1.1&encryption=none&insecure=0&host=subgift.gcorecdn.com&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Afastnodes-top
+vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&alpn=http%2F1.1&encryption=none&insecure=0&host=subgift.gcorecdn.com&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
 vless://740b2630-b42d-425c-bacd-37e7e30d78f1@subgift.gcorecdn.com:443?path=%2Ft.me-SubGift&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=subgift.gcorecdn.com#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
-vless://740b2630-b42d-425c-bacd-37e7e30d78f1@92.223.84.254:443?encryption=none&security=tls&sni=subgift.gcorecdn.com&fp=firefox&type=ws&host=subgift.gcorecdn.com&path=%2Ft.me-SubGift#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Aalirewa-config
+vless://63242a2a-7bdb-4775-bc3f-65c2f260f224@subgift.gcorecdn.com:443?encryption=none&security=tls&sni=subgift.gcorecdn.com&alpn=http%2F1.1&type=ws&host=subgift.gcorecdn.com&path=%2Ft.me-SubGift#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
+vless://63242a2a-7bdb-4775-bc3f-65c2f260f224@subgift.gcorecdn.com:443?security=tls&type=ws&path=%2Ft.me-SubGift&host=subgift.gcorecdn.com&alpn=http%2F1.1&sni=subgift.gcorecdn.com&fp=chrome&encryption=none#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Asub-876a3f766a
+vless://740b2630-b42d-425c-bacd-37e7e30d78f1@92.223.84.254:443?encryption=none&fp=firefox&host=subgift.gcorecdn.com&path=%2Ft.me-SubGift&security=tls&sni=subgift.gcorecdn.com&type=ws#%5B%F0%9F%87%B1%F0%9F%87%BA%20LU%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
