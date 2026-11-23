@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-22T22:53:48.552223+00:00
+# snapshot-time: 2026-11-23T04:17:08.087974+00:00
 
 vless://4f9f03f9-39e9-4879-8f10-0eccf859aafd@gold.jafarghasemiturkk.ir:8080?path=%2F&security=none&encryption=mlkem768x25519plus.native.0rtt.EITKrLrLFdNlWVc2lGL0531SnyJBnQ7NwAOFsSxdY0w&type=ws&flow=xtls-rprx-vision#%5B%F0%9F%87%B8%F0%9F%87%B8%20SS%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
