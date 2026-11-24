@@ -3644,6 +3644,62 @@
       "enabled": true,
       "description": "Auto-discovered public subscription found by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "sub-974e350c73",
+      "name": "Discovered public subscription",
+      "url": "https://gitverse.ru/api/repos/ru-wbl/wl/raw/branch/master/KvRuVPN%2FKvRuVPN.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-9f14b5869a",
+      "name": "Discovered public subscription",
+      "url": "https://gitverse.ru/api/repos/MishaLan/MishaLan/raw/branch/master/MishaLan.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-f6cc2c0692",
+      "name": "Discovered public subscription",
+      "url": "https://frogv2raybot.shortsfootiyt-d47.workers.dev/sub/11fd43a693a0f8e4d0c59b78fb457320a8e5d12a",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-frog_v2ray",
+      "name": "Telegram @frog_v2ray (public configs retained)",
+      "url": "https://t.me/s/frog_v2ray",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @frog_v2ray whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }

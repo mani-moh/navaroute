@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIE1YIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-24T08:53:52.126774+00:00
+# snapshot-time: 2026-11-24T13:34:38.563087+00:00
 
+vless://b4d03a4c-3e34-4cbc-b0c9-05957748552a@38.95.76.93:443?type=raw&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=rsEOeimpWDYomTH1LDjPTMktj39p7yjPPZ1eG16yFRM&sid=d78582da98f963c8&sni=www.amazon.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%2087ms
 trojan://MiTiVPN@151.101.194.172:80?type=ws&path=%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2Fgb---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN%2F---%40MiTiVPN---%40MiTiVPN&host=s1-mitivpn--mitivpn--mitivpn-mitivpn---mitivpn.global.ssl.fastly.net#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICIiLCAidiI6ICIyIiwgInBzIjogIlvwn4ey8J+HvSBNWF0gVk1lc3MtdGNwIHwgc3JjOmNvbGR3YXRlci1hbGwiLCAiYWRkIjogIjc5LjEyNy4yMjkuNTQiLCAicG9ydCI6IDE4MDAwLCAiaWQiOiAiZmExODk3ZGItMTkyNS00Yzg2LWE0OTUtOTM5YTk1OWFmOTAwIn0=
 ss://YWVzLTI1Ni1nY206Qld5UFBUdXNGS2hHZ3pLaA@64.177.90.30:8388#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Agfpcom-ss
@@ -29,7 +30,6 @@ trojan://bMJKkQZ1xHhlBjVo_wSiPUmCGRvEn@216.238.69.216:25121?security=none&type=t
 vless://b1c31d36-c6b5-414b-88d2-9e24e7bfcca3@131.196.252.97:443?security=tls&fp=chrome&sni=www.nihaoyun.top&type=ws&headerType=none&host=www.nihaoyun.top&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all
 vless://4699142d-557d-4a01-8656-e6fa5c0db23e@89.35.154.62:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.gmx.com&alpn=h2&fp=chrome&security=reality&pbk=V_RWGX3SOMQfUeGow6fYH5-ondlRL0Iitg5YRbOvkE4&sid=d8&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 trojan://5t6i121em5lkmsmk@149.104.87.125:15083?allowInsecure=1&sni=mx001.zestapp778.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan%20%7C%20src%3Ashabane-merged
-vless://04bcfbb8-06d1-4922-ad5a-54ab28b1afda@40.233.1.77:61503?security=reality&type=tcp&allowInsecure=1&sni=www.cloudflare.com&fp=chrome&flow=xtls-rprx-vision&sid=1f2519bb96e5589c&pbk=U7t4RFE9MSMtC-o1DoJ8pYzKMfgVpTg6ZhTTknBrVkU#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Asub-876a3f766a
 trojan://5t6i121em5lkmsmk@mx001.zestapp778.com:15083?type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
 hysteria2://v2meowmeowmeow@103.68.108.25:443?insecure=1&sni=google.com&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2NTFkZjVkYzhmZDA4ZDBj@38.60.224.37:11201#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Asub-07d2577deb
@@ -42,7 +42,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5
 hysteria2://v2meowmeowmeow@103.68.108.25:443?insecure=1&sni=www.bing.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Hysteria2%20%7C%20src%3Afastnodes-hysteria2
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICJub25lIiwgInYiOiAiMiIsICJwcyI6ICJb8J+HsvCfh70gTVhdIFZNZXNzLXRjcCB8IHNyYzpjb2xkd2F0ZXItYWxsIiwgImFkZCI6ICI3OS4xMjcuMjI5LjU0IiwgInBvcnQiOiAxODAwMCwgImlkIjogImZhMTg5N2RiLTE5MjUtNGM4Ni1hNDk1LTkzOWE5NTlhZjkwMCJ9
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3YzMxYTY3YjQxYjE4YzI2@89.223.88.33:11201?note=%40FreeOnlineVPN#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://04bcfbb8-06d1-4922-ad5a-54ab28b1afda@40.233.1.77:61503?flow=xtls-rprx-vision&security=reality&sni=www.cloudflare.com&fp=firefox&pbk=U7t4RFE9MSMtC-o1DoJ8pYzKMfgVpTg6ZhTTknBrVkU&sid=1f2519bb96e5589c&encryption=none&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20VLESS-Reality%20%7C%20src%3Asub-876a3f766a
 trojan://bMJKkQZ1xHhlBjVo_wSiPUmCGRvEn@216.238.79.82:25121?security=none&type=tcp&sni=ya.ru&allowInsecure=1#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIiIsICJwYXRoIjogIi8iLCAidGxzIjogIm5vbmUiLCAic25pIjogIiIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAibmFtZSI6ICJNWCDwn4ey8J+HvSB8IEBSYXlkaWthbHggfCA2M0M3MDkiLCAicHMiOiAiW/Cfh7Lwn4e9IE1YXSBWTWVzcy13cyB8IHNyYzoweHJhZGlrYWwtYWxsIiwgImFkZCI6ICIxMzEuMTk2LjI1Mi41OSIsICJwb3J0IjogMjA1MjEsICJpZCI6ICI1ODA5OTExYS1hMTZlLTQzZDMtOTBiMC0yYzk0Y2ZjMjAzNWUifQ==
 hysteria2://2b195c17-5ff5-4b0d-a809-210b92212394@gy6.nezhasu.com:443?insecure=1&sni=gy6.nezhasu.com#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Hysteria2%20%7C%20src%3Amatinghanbari-hysteria2

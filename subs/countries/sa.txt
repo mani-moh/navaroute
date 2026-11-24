@@ -1,13 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFNBIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-24T08:53:52.126774+00:00
+# snapshot-time: 2026-11-24T13:34:38.563087+00:00
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24851#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29463#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
-trojan://1vkFHbQX_gN1U8V8jVc@91.209.253.54:443?security=tls&sni=mhpanel.kigaping.com&type=ws&host=mhpanel.kigaping.com&path=%2Ftrojan-ws#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2OTFlYWZkZmZkOWE4MWUw@154.205.134.155:11651#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29464#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.119:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Afarid-karimi-vless-iran
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.119:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24854#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://humanity@185.246.217.148:443?sni=www.cordweave.com&type=ws&path=%2Fassignment#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@91.209.253.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
