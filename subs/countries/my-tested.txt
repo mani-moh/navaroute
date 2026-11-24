@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL015LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T03:34:05.899401+00:00
 
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogInRjcCIsICJwYXRoIjogIiIsICJzY3kiOiAiYXV0byIsICJza2lwLWNlcnQtdmVyaWZ5IjogdHJ1ZSwgInNuaSI6ICIiLCAidGxzIjogIiIsICJ0eXBlIjogIiIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh7Lwn4e+IE1ZXSBWTWVzcy10Y3AgfCBzcmM6dmVzdHJhbmV0LW1peC1iNjQiLCAiYWRkIjogIjQ3LjI1MC4xMzUuMjQ0IiwgInBvcnQiOiAxMDAwMCwgImlkIjogImFlZGM2NmI4LTk5ZDctNGEyMS04MzEwLTYxODcwZTdmODcwZCJ9
+vless://33d67a80-909e-4cec-aa8f-601f6019a8f0@23.27.199.148:24378?security=reality&pbk=neyQkmBRy_PQjVEN1c6a9UqGyTf-UePx1HNoRCmgFkw&fp=chrome&type=raw&sni=shield.nvidia.hk&sid=31a5fe51#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B2%F0%9F%87%BE%20MY%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20229ms

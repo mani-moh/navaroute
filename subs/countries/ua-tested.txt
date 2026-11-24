@@ -1,12 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1VhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T03:34:05.899401+00:00
 
-vless://c34a41b6-598f-46ac-bea3-8b39a906f922@87.76.154.28:57231?encryption=none&security=none&type=tcp#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
-vless://9a597d68-6688-4046-bf24-a5a541e115e0@194.54.80.37:8443?security=reality&type=tcp&packetEncoding=none&allowInsecure=1&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://c34a41b6-598f-46ac-bea3-8b39a906f922@87.76.154.28:57231?encryption=none&security=none&type=tcp#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-tcp%20%7C%20src%3Afarid-karimi-vless-iran
 vless://d8b58872-cc25-4bb2-badb-b86399c075fa@31.222.235.81:443?security=reality&type=tcp&packetEncoding=xudp&sni=www.cloudflare.com&fp=chrome&sid=d8b58872&pbk=L9IllZt5vcjYVY_6rmCJ_9ypmJsBK8dSWkNVCStrZjk#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://9a597d68-6688-4046-bf24-a5a541e115e0@194.54.80.37:8443?security=reality&type=tcp&packetEncoding=xudp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
-vless://9a597d68-6688-4046-bf24-a5a541e115e0@194.54.80.37:8443?security=reality&type=tcp&allowInsecure=1&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20143ms
-vless://d8b58872-cc25-4bb2-badb-b86399c075fa@netx.smrtai.top:443?type=tcp&security=reality&fp=chrome&pbk=L9IllZt5vcjYVY_6rmCJ_9ypmJsBK8dSWkNVCStrZjk&sid=d8b58872&sni=www.cloudflare.com#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
-vless://9a597d68-6688-4046-bf24-a5a541e115e0@194.54.80.37:8443?security=reality&type=tcp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
-vless://9a597d68-6688-4046-bf24-a5a541e115e0@leviko-ua4801.shopingggg.ir:8443?security=reality&encryption=none&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=www.apple.com&sid=f8d0271b4b5f9efc#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+vless://9a597d68-6688-4046-bf24-a5a541e115e0@194.54.80.37:8443?security=reality&type=tcp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&encryption=none#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20VLESS-Reality%20%7C%20src%3Akahrobas-bot

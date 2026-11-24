@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T03:34:05.899401+00:00
 
 vless://d2e36a39-6b84-427f-9ed4-0688c96eb480@46.8.210.37:443?type=grpc&encryption=none&flow=&serviceName=grpc&sni=cdnc.storage-f4a1.com&fp=firefox&security=reality&pbk=K_8CkSWnFAydSmPUwLnU0KtuByoTKpLLJq3fyo7mSlg&sid=6cb1cc990844be02&path=%2F#%5B%F0%9F%87%A7%F0%9F%87%AA%20BE%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran

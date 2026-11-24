@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lkLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T03:34:05.899401+00:00
 
-trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?allowInsecure=1#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
-trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=none&type=tcp&sni=i1tr.mateflora.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified
+trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=none&type=tcp&sni=i1tr.mateflora.com&allowInsecure=1#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-top
+trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=none&type=tcp&sni=i1tr.mateflora.com#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-top
 trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=tls&sni=i1tr.mateflora.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Afree18-v
-trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=tls&sni=i1tr.mateflora.com&type=tcp#%5Bsource-claimed%5D%20%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3A0xradikal-all
+trojan://57beeeb0-03fc-4fc9-94da-7604488a7134@i1tr.mateflora.com:443?security=tls&sni=i1tr.mateflora.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%A9%20ID%5D%20Trojan-tcp%20%7C%20src%3Afastnodes-verified

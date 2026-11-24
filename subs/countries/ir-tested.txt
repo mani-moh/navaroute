@@ -1,10 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T03:34:05.899401+00:00
 
+vless://b4192dfb-f458-4303-b877-29a41a6d8416@94.183.164.176:443?encryption=none&type=grpc&serviceName=ebl&mode=multi&security=reality&sni=optim.tildacdn.pub&fp=chrome&pbk=_KeOS5u_irk1547CMVB3RdwQzz1SzrQZk-IV-btF7TU&fm=#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Asub-f4dfaba9eb
+vless://3063c63d-acde-41c7-2305-720cdb761a9e@s11.celvixo.ir:2087?alpn=h2%2Chttp%2F1.1%2Ch3&encryption=none&extra=%7B%22mode%22%3A%22auto%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D&fp=chrome&host=s11.celvixo.ir&mode=auto&path=%2FBetForward&pcs=f7bffa0daddce2e57adf8cff747b3abb5933846e855ecc79f580d07bfd78a305&security=tls&sni=s11.celvixo.ir&type=xhttp&x_padding_bytes=100-1000#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-xhttp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
+vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?type=tcp&security=tls&fp=chrome&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afastnodes-top
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&encryption=none&insecure=0&headerType=none&fp=firefox&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afarid-karimi-vless-iran
-vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?encryption=none&security=tls&sni=base.hosamobenl.co.uk&fp=chrome&alpn=http%2F1.1&type=tcp&headerType=none#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
+vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&alpn=http%2F1.1&encryption=none&headerType=none&fp=chrome&type=tcp&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@base.hosamobenl.co.uk:443?encryption=none&security=tls&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
-vless://49fe1f7b-e6f6-43dc-a67d-caade85128ba@englandddtun.whooisthebest.ir:9632?security=reality&encryption=none&pbk=BECatGFyR4lUoLv4-w-qOzPPDkAQt_P8yGB4cP3nE0k&headerType=none&fp=chrome&type=tcp&sni=aparat.com&sid=e9b64ca7d55f2672#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
