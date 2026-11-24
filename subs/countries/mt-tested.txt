@@ -1,4 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL010LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T03:34:05.899401+00:00
+# snapshot-time: 2026-11-24T14:23:39.363947+00:00
 
+trojan://521314@193.227.99.27:443?host=hhtj.hhllfly.kdns.fr&path=%2Fpyip%3DTelegram-WangCai2&security=tls&sni=hhtj.hhllfly.kdns.fr&type=ws#%5B%F0%9F%87%B2%F0%9F%87%B9%20MT%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan

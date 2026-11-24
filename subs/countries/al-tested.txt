@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T03:34:05.899401+00:00
+# snapshot-time: 2026-11-24T14:23:39.363947+00:00
 
-vless://9a597d68-6688-4046-bf24-a5a541e115e0@31.171.152.222:8443?encryption=none&flow=xtls-rprx-vision&fp=firefox&headerType=none&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&security=reality&sid=f8d0271b4b5f9efc&sni=www.apple.com&type=tcp#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
-vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@79.182.70.220:443?encryption=none&type=grpc&security=reality&serviceName=5b79e8a94241&sni=15b171g.nl7.h1clayd.click&fp=firefox&pbk=zbz--PMjcIC4Ggr3j-ibDf0fzXRTj0lM_HzjPJyMkVE&sid=50a749f0eccb628c#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-f4dfaba9eb

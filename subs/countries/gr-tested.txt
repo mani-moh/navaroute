@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0dyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T03:34:05.899401+00:00
+# snapshot-time: 2026-11-24T14:23:39.363947+00:00
 
 vless://4777d90d-265b-4927-a0d1-63f36ed1421c@94.241.172.107:443?encryption=none&type=xhttp&security=tls&path=%2Fassets%2Fnl02%2F&mode=packet-up&sni=94.241.172.107&alpn=h2%2Chttp%2F1.1&fp=chrome&pinSHA256=67fa1e374feaeb232157317d6ace682475cb1a826e0cf8657151a254681aed62&pcs=67fa1e374feaeb232157317d6ace682475cb1a826e0cf8657151a254681aed62#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-xhttp%20%7C%20src%3Ashabane-merged
-vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20123ms
+vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&security=reality&sid=94acb54627612d43&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1

@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-23T16:38:10.265554+00:00
+# snapshot-time: 2026-11-24T14:23:39.363947+00:00
 
-vless://531f2275-df96-46a1-be70-e654f0ed402f@185.18.250.2:443?security=tls&type=ws&path=%2F&host=worker3.hemip3575.workers.dev&packetEncoding=xudp&sni=worker3.hemip3575.workers.dev&fp=firefox#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
+vless://ead3595f-4020-4e76-a3ec-c248e1a2f2f7@free.fugui.lol:47396?encryption=none&security=reality&flow=xtls-rprx-vision&type=tcp&sni=swdist.apple.com&serverName=swdist.apple.com&fp=chrome&alpn=&allowInsecure=0&pbk=IjWYbHNrZb3UCQxsTJyekEOA3tHq42L6Jw3O8MmLYVQ&sid=fa514b83#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full

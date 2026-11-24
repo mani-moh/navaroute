@@ -1,11 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZuLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T03:34:05.899401+00:00
+# snapshot-time: 2026-11-24T14:23:39.363947+00:00
 
-vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-raw%20%7C%20src%3A0xradikal-all%20%7C%20230ms
-vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Awhitedns-base64
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=raw#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-raw%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Aheliataromi-confighub-mixed
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
-vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3Abarry-far-all
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5Bsource-claimed%5D%20%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3A0xradikal-all
+vless://c74a51bc-0e10-43e5-b6a8-9395c40f3f54@hsaia.connainho.lol:46074?security=reality&flow=xtls-rprx-vision&pbk=Zpe4RNze71UGv-T9y55k31k9BtY7gS7uvRV5aA7eiWQ&sid=367e3031&fp=chrome&packet-encoding=xudp&sni=www.apple.com&type=raw&host=www.apple.com&path=%2F#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20100ms
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=xudp&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
-vless://a1f0cbb8-c74a-4c27-b881-7b14d96aece1@kir3.crackerbinam.org:56026?type=tcp&security=reality&sni=www.cloudflare.com&fp=chrome&pbk=gjOKbmRb5cGDPbdz3x8xkBFL43pn3xqL-I6sALHO7ls&sid=99676967e6867063#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
+vless://a1f0cbb8-c74a-4c27-b881-7b14d96aece1@kir3.crackerbinam.org:56026?security=reality&type=tcp&sni=www.cloudflare.com&fp=chrome&pbk=gjOKbmRb5cGDPbdz3x8xkBFL43pn3xqL-I6sALHO7ls&sid=99676967e6867063#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
 vless://f592a058-bfb6-447e-b849-fd169b65b301@kir4.crackerbinam.org:25272?encryption=none&fp=chrome&headerType=http&host=technolife.com&packetEncoding=xudp&path=%2F&pbk=G5fbtso9OktJfpHqg7demmUt8zfjnnEAL_QDRqvOzEU&security=reality&sid=f3a10622fe&sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
