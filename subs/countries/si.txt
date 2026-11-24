@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNJIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-24T08:53:52.126774+00:00
+# snapshot-time: 2026-11-24T22:03:02.342799+00:00
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZb25Hd21ZSkZlUw@192.99.158.243:80#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://71c8f2a2-1ad6-4cb7-82f1-88a3de503ab5@86.104.39.105:8443?encryption=none&security=reality&sni=laaagv.bidvkzv.sbs&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=laaagv.bidvkzv.sbs&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
@@ -68,9 +68,7 @@ ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@91.132.94.200:989#%5B%F0%9F%87%B8%F0
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpSV0x1R1JQUk5mcA@185.143.234.81:8080#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 ss://Y2hhY2hhMjAtcG9seTEzMDU6anlEWGdnUXJTTWk@86.104.39.105:443#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInloZmtkaHJwZmQubG5rb3Fhd2lhaXouc2l0ZSIsICJwYXRoIjogImxyYmFoa3h4ZHVnIiwgInRscyI6ICJ0bHMiLCAic25pIjogInloZmtkaHJwZmQubG5rb3Fhd2lhaXouc2l0ZSIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HuPCfh64gU0ldIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIzNy4xNTYuMTQ2LjE0MyIsICJwb3J0IjogMjA4MywgImlkIjogIjQ2OGVkYzdjLWFkNDUtNDI5Yy05Y2ZkLTQyNWY5ZWRjNTE1MyJ9
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTp0ZUk0enJxOTRpYzVIZTczYllWNk53@92.60.70.162:1090#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Agfpcom-ss
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0Y3AiLCAidHlwZSI6ICJodHRwIiwgImhvc3QiOiAic2FpcGFjb3JwLmNvbSIsICJwYXRoIjogInV1Y2lwdXVrc2RuIiwgInRscyI6ICIiLCAic25pIjogIiIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAicHMiOiAiW/Cfh7jwn4euIFNJXSBWTWVzcy10Y3AgfCBzcmM6c3ViLWY2NmJlZGE3NDgiLCAiYWRkIjogIjE4NS4zMi4xMjguMTEwIiwgInBvcnQiOiA4NDQzLCAiaWQiOiAiMWNkZWFiMGYtMGZhYS00NDFiLTgyYTQtYzNiMzFhNDNjZmFjIn0=
-trojan://d6b8011a-c725-435a-9fec-bf6d3530392c@92.60.74.178:2096?sni=vle.amclubdns.dpdns.org#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://59ec0195-28a7-4eb8-803d-4accaf5b860b@34.120.189.78:2083?encryption=none&flow=xtls-rprx-vision&security=reality&sni=cafebazaar.ir.ipskeyiteat.ddns.net&fp=ios&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInd3dy5qYW1lamFtb25saW5lLmlyIiwgInBhdGgiOiAiaWJnaHhpa21uZiIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJ3d3cuamFtZWphbW9ubGluZS5pciIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HuPCfh64gU0ldIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIxOTQuNDEuNDkuNDciLCAicG9ydCI6IDIwODMsICJpZCI6ICI0MWViOGY1MC0zOGMwLTRlNGEtODE3ZS05MTlmYjkyMmVmNjYifQ==
 trojan://KhAOwcovxnHvoQLLoThl@77.36.163.40:80?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=old.jjtvn.ir#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748

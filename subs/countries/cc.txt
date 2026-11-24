@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENDIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-24T13:34:38.563087+00:00
+# snapshot-time: 2026-11-24T22:03:02.342799+00:00
 
 vless://50ed9601-ebd4-4ba7-a234-ffe642d351cd@95.85.250.72:443?security=reality&encryption=none&pbk=tqzNNOthkpzu0bg04SU07u4t0eO5XGNeXiTjifSeS2k&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=static.freepeople2025.cc&sid=71fcf6101e9803bc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 trojan://tunnel-astrovpn_official-ee@ee-1.stunnel.cc:8441?security=tls&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev&alpn=http%2F1.1&allowInsecure=1&type=tcp&headerType=none&host=ee-1.stunnel.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
@@ -8,6 +8,7 @@ trojan://tunnel-astrovpn_official-gb@gb-1.stunnel.cc:8441?security=tls&sni=zula.
 vless://dfe50e18-28ce-459e-a6b9-0f2585bcc3b6@nl.point.cookie-line.cc:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=tls&sni=nl.point.cookie-line.cc&fp=firefox#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-tcp%20%7C%20src%3Amorpheus-iran
 trojan://tunnel-astrovpn_official_pl@pl-1.stunnel.cc:8441?security=tls&alpn=http%2F1.1&host=pl-1.stunnel.cc&headerType=none&type=tcp&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
 vless://dfe50e18-28ce-459e-a6b9-0f2585bcc3b6@48.102.209.126:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=tls&sni=ee.point.cookie-line.cc&fp=firefox#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-tcp%20%7C%20src%3Amorpheus-iran
+trojan://tunnel-astrovpn_official_ae@ae-1.stunnel.cc:8441?security=tls&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev&alpn=http%2F1.1&allowInsecure=1&type=tcp&headerType=none&host=ae-1.stunnel.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
 trojan://tunnel-astrovpn_official-us@us-3.stunnel.cc:8441?security=tls&alpn=http%2F1.1&host=us-3.stunnel.cc&headerType=none&type=tcp&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs
 vless://dfe50e18-28ce-459e-a6b9-0f2585bcc3b6@ee.point.cookie-line.cc:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=tls&sni=ee.point.cookie-line.cc&fp=firefox#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20VLESS-tcp%20%7C%20src%3Amorpheus-iran
 trojan://tunnel-astrovpn_official-us@us-4.stunnel.cc:8441?security=tls&sni=zula.ir.AstroVPN-official.AstroVPN-official.workers.dev&alpn=http%2F1.1&allowInsecure=1&type=tcp&headerType=none&host=us-4.stunnel.cc#%5B%F0%9F%87%A8%F0%9F%87%A8%20CC%5D%20Trojan-tcp%20%7C%20src%3Acollector-ui-configs

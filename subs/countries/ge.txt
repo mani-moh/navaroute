@@ -1,8 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIEdFIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-24T13:34:38.563087+00:00
+# snapshot-time: 2026-11-24T22:03:02.342799+00:00
 
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.59.177:22231?encryption=none&type=tcp&security=tls&headerType=none&sni=r1.mizulina.top&alpn=h3%2Ch2%2Chttp%2F1.1&fp=chrome&allowInsecure=1&flow=xtls-rprx-vision-udp443#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-tcp%20%7C%20src%3Avestranet-mix-b64
+vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.59.223:22231?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=r1.mizulina.top&flow=xtls-rprx-vision#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-tcp%20%7C%20src%3Avestranet-mix-b64
 trojan://SrELvzRC7y7gMcypgQ8VSSSxzj354XEf@dc-74-ge.netzrun.at:5222?security=tls&sni=dc-74-ge.netzrun.at&fp=firefox#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20Trojan%20%7C%20src%3Agfpcom-trojan
 vless://f8cb3c89-32af-4255-bebc-d90aad175069@206.53.48.69:443?mode=gun&security=reality&encryption=none&pbk=pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ&fp=firefox&type=grpc&serviceName=neurex&sni=gea.kosmosapp.net&sid=27350908de933e09#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 trojan://zhs000666@94.43.238.112:2053?security=tls&sni=666-4sd.pages.dev&insecure=1&allowInsecure=1&type=ws&host=666-4sd.pages.dev&path=%2F#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20Trojan-ws%20%7C%20src%3Afree18-v
@@ -10,9 +10,7 @@ trojan://zhs000666@94.43.238.112:2053?security=tls&sni=666-4sd.pages.dev&insecur
 vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@194.135.119.135:443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=fVo5hYUD3VkxEetcXSMVWp7hjvz4YrKLNHDhGhn-d3M&security=reality&sid=0640a12b&sni=ge1.gofizzin.com&type=tcp#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://8197b9b9-8945-460f-99c9-325ef8a8a7c3@194.135.119.135:443?security=reality&encryption=none&pbk=fVo5hYUD3VkxEetcXSMVWp7hjvz4YrKLNHDhGhn-d3M&host=ge1.gofizzin.com%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=ge1.gofizzin.com&sid=0640a12b#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpad3dCYlE2MnJqR1BIeXJEMXo2clNt@185.143.179.164:8443#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@r1.mizulina.top:22231?encryption=none&flow=xtls-rprx-vision&security=tls&fp=chrome&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-tcp%20%7C%20src%3Avestranet-mix-b64
-vless://2141d7d6-f123-5cc3-afa5-8f3baf938099@finland.claudpath.com:8443?encryption=none&security=reality&sni=cdn8-68.cachemesh.top&fp=chrome&pbk=wKtWduFeuLfED3gUZo3KE4_EKlBTK7sNk3DXgRF7HSk&sid=172066e9&type=xhttp&mode=stream-one&path=%2Fxhttp#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
-trojan://f426d3c9-fb43-43c0-868b-898dfa451a74@94.43.238.112:2053?sni=likejennie.pages.dev&type=ws&host=likejennie.pages.dev&path=%2F#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
-vless://9be92f6b-cb2b-408b-9dfb-c0e6b4b53578@93.190.8.44:3090?encryption=none&security=none&type=grpc&serviceName=vless&mode=multi#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
-vless://9be92f6b-cb2b-408b-9dfb-c0e6b4b53578@93.190.8.50:3090?encryption=none&security=none&type=grpc&serviceName=vless&mode=multi#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-grpc%20%7C%20src%3A0xradikal-all
+vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@85.234.114.53:443?sni=r1.mizulina.top&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS%20%7C%20src%3Avestranet-mix-b64
+vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.59.177:443?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=r1.mizulina.top&fp=chrome&flow=xtls-rprx-vision#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-tcp%20%7C%20src%3Avestranet-mix-b64
+vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@72.56.59.177:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&security=tls&sni=r1.mizulina.top&type=tcp#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-tcp%20%7C%20src%3Asub-f66beda748
 vless://f8cb3c89-32af-4255-bebc-d90aad175069@206.53.48.69:443?security=reality&encryption=none&pbk=pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ&fp=firefox&type=grpc&serviceName=neurex&sni=gea.kosmosapp.net&sid=27350908de933e09#%5B%F0%9F%87%AC%F0%9F%87%AA%20GE%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
