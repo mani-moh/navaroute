@@ -1,9 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIEFaIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-25T07:28:59.369357+00:00
+# snapshot-time: 2026-11-25T22:21:51.055025+00:00
 
 ss://YWVzLTI1Ni1nY206WXlDQmVEZFlYNGNhZEhwQ2trbWRKTHE4@62.212.239.45:43893#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
-trojan://3723507166611775488@109.61.16.83:443?sni=profound-elk.boa152.lol&allowInsecure=0#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20Trojan%20%7C%20src%3Acoldwater-all
 vless://11e1b258-57db-4987-b227-e746e68725cb@94.182.177.67:443?encryption=none&security=reality&sni=vnrbpnh.udu.in&fp=ios&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=vnrbpnh.udu.in&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://6010ad7d-7152-4a2c-9534-52f7c584faa5@86.104.40.185:2083?encryption=none&security=reality&sni=hmi.yKK.ddns.net&fp=chrome&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=ttbrbeqn&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://1383ce84-2a9c-4bfb-97a8-3ba567a53d88@185.143.234.81:8080?encryption=none&security=reality&sni=yahoo.com.leYL.site&fp=edge&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=yahoo.com.leYL.site&mode=gun#%5B%F0%9F%87%A6%F0%9F%87%BF%20AZ%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
