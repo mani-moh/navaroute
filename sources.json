@@ -3700,6 +3700,20 @@
       "enabled": true,
       "description": "Public Telegram channel @frog_v2ray whose configs were retained by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "tg-vpnine1",
+      "name": "Telegram @vpnine1 (public configs retained)",
+      "url": "https://t.me/s/vpnine1",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @vpnine1 whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }
