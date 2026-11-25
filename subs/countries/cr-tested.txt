@@ -1,6 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T14:23:39.363947+00:00
+# snapshot-time: 2026-11-25T00:12:26.828114+00:00
 
-trojan://GanNiNiangJiBai-Gun@190.93.246.83:443?allowInsecure=1&sni=ganniniang-hahaha.pages.dev&type=ws&path=%2F&host=ganniniang-hahaha.pages.dev#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20Trojan-ws%20%7C%20src%3Asub-1924222fbd
 vless://9443badf-414f-4b12-b19a-7cc2c7431163@190.93.247.95:8443?path=%2Fman&security=tls&encryption=none&insecure=0&host=moz.ar-marz.fun&fp=chrome&type=ws&allowInsecure=0&sni=moz.ar-marz.fun#%5B%F0%9F%87%A8%F0%9F%87%B7%20CR%5D%20VLESS-ws%20%7C%20src%3A0xradikal-all

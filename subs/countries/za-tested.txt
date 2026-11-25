@@ -1,7 +1,8 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1phLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-24T14:23:39.363947+00:00
+# snapshot-time: 2026-11-25T00:12:26.828114+00:00
 
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
-trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?allowInsecure=0&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20277ms
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?allowInsecure=0&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3A0xradikal-all%20%7C%20222ms
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&type=tcp&fp=chrome&allowInsecure=0#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
