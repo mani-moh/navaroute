@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL014LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-25T00:12:26.828114+00:00
+# snapshot-time: 2026-11-25T10:36:16.334011+00:00
 
-trojan://5t6i121em5lkmsmk@149.104.87.125:15083?type=tcp&security=tls&sni=mx001.zestapp778.com&allowInsecure=1&path=%2F#%5B%F0%9F%87%B2%F0%9F%87%BD%20MX%5D%20Trojan-tcp%20%7C%20src%3Ashabane-merged

@@ -1,12 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0lyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-25T00:12:26.828114+00:00
+# snapshot-time: 2026-11-25T10:36:16.334011+00:00
 
-vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&encryption=none&headerType=none&fp=chrome&type=tcp&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24403?sni=docs.blog-forme.ru&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24403?fp=chrome&sni=docs.blog-forme.ru#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@87.248.149.50:443?security=tls&encryption=none&insecure=0&headerType=none&fp=firefox&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Afarid-karimi-vless-iran
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&alpn=http%2F1.1&encryption=none&headerType=none&fp=chrome&type=tcp&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@194.60.228.97:443?security=tls&encryption=none&insecure=0&host=%2F%3FTELEGRAM---MARAMBASHI---MARAMBASHI---MARAMBASHI---MARAMBASHI&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=base.hosamobenl.co.uk#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
-vless://667016ca-f02e-4b5f-bfc3-3d8ed81e9bec@base.hosamobenl.co.uk:443?encryption=none&security=tls&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
+vless://00bd3a26-fe52-42c9-82ec-833b86a12b3e@mojtun.mlbaz.ir:666?mode=auto&path=%2F&security=reality&encryption=none&extra=%7B%22mode%22%3A%22auto%22%2C%22xPaddingBytes%22%3A%22100-1000%22%7D&pbk=D2MOyedVJ-3Qvw1Knw54eZYMA6lS03UcVMlaUSEPF2Y&type=xhttp&sni=www.aparat.com&sid=ed1ed72a8e#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
