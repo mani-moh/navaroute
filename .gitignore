@@ -18,6 +18,8 @@ data/*
 !data/healthcheck_history.json
 !data/tier1_state.json
 !data/tier1_results.json
+!data/speed_state.json
+!data/speed_results.json
 !data/github_blocked.json
 !data/iran_results.json
 .*.navaroute-*/
