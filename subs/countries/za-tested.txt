@@ -1,6 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1phLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-25T20:46:09.243108+00:00
+# snapshot-time: 2026-11-26T03:50:57.219105+00:00
 
+vless://7d1a74fd-8a38-4a29-863f-5da53a9e557e@196.240.6.115:443?mode=stream-one&path=%2Fes%2F%3FTELEGRAM--B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub--TELEGRAM%3Fed%3D2048&security=tls&alpn=h2&encryption=none&extra=%7B%22xmux%22%3A%7B%22hMaxReusableSecs%22%3A%221140-1260%22%2C%22maxConnections%22%3A%223%22%7D%7D&insecure=0&fp=android&type=xhttp&allowInsecure=0&sni=7d1a74fd.ferrin.uk#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20VLESS-xhttp%20%7C%20src%3Asub-07d2577deb
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&fp=chrome&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan%20%7C%20src%3Alalatinahub-mineral
 trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Afree18-v
+trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@139.84.231.142:443?security=tls&sni=explorecareerpathsandunlockprofessionalsuccesstoday.com&type=tcp&fp=chrome&allowInsecure=0#%5B%F0%9F%87%BF%F0%9F%87%A6%20ZA%5D%20Trojan-tcp%20%7C%20src%3Alalatinahub-mineral

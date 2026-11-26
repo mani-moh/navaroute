@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0llLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-25T20:46:09.243108+00:00
+# snapshot-time: 2026-11-26T03:50:57.219105+00:00
 
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogInRjcCIsICJ0eXBlIjogImh0dHAiLCAidGxzIjogIiIsICJhbHBuIjogIiIsICJwYXRoIjogIi8iLCAicHMiOiAiW/Cfh67wn4eqIElFXSBWTWVzcy10Y3AgfCBzcmM6MHhyYWRpa2FsLWFsbCIsICJhZGQiOiAiNTQuMjI5LjE1MS45NyIsICJwb3J0IjogNTkyMzYsICJpZCI6ICIyMzg3YmZiYy0xMGE2LTRiZDctZGM1NS03Y2JhOTU0Y2U2ZTgifQ==
-vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&type=tcp&sni=sladovna.russianpiwo.fun&flow=xtls-rprx-vision&fp=chrome&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&sid=7a7d19880a9ee786#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Afastnodes-verified
+vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&encryption=none&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&headerType=none&fp=chrome&spx=%2F%3FTELEGRAM--B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub-B2Hub--TELEGRAM&type=tcp&flow=xtls-rprx-vision&sni=sladovna.russianpiwo.fun&sid=7a7d19880a9ee786#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20186ms
 vless://62995b2a-8f82-41f8-ac80-dfdfc1253e76@83.141.76.73:25035?type=xhttp&security=reality&fp=firefox&pbk=m7pPQqgE5q8qOjHhn9AjNA9sWhBFQ-gXzyGcZTNihUU&sid=eb63581de991f8c8&sni=96f799r.ch5.h1clayd.click&path=%2Fastral-edge-h1&mode=auto#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
-vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?security=reality&encryption=none&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=sladovna.russianpiwo.fun&sid=7a7d19880a9ee786#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
