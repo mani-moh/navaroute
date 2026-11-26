@@ -24,6 +24,7 @@ Plain `.txt` feeds contain comment headers followed by one proxy URI per line. T
 | [online.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online.txt) | Successful dated socket observations from that generation, not end-to-end tests. Empty if checks did not run or none succeeded. |
 | [online-week.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/online-week.txt) | Configs with a successful socket observation in the last 7 days, from the committed reachability history. Socket reachability only, not end-to-end or Iran-tested working. |
 | [fastest-100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/fastest-100.txt) | Up to 100 from the online pool, measured connection latency first, with deterministic ties; not throughput or streaming performance. |
+| [speed-100.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/speed-100.txt) | Up to 100 configs ranked by measured HTTPS download throughput (Mbps, then latency, then fingerprint) from GitHub runners; not a guarantee of end-user or Iran performance. |
 | [balanced-500.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/balanced-500.txt) | Up to 500 connections, sampled across protocol buckets. |
 | [tested.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tested.txt) | Configs that passed a full-connection Realping test on GitHub runners. The global tested feed. |
 | [tested-iran.txt](https://raw.githubusercontent.com/mani-moh/navaroute/master/subs/tested-iran.txt) | Configs that passed the same Realping test from inside Iran (owner PC). Appears once the owner runs the tier-2 test. |
@@ -33,6 +34,7 @@ Plain `.txt` feeds contain comment headers followed by one proxy URI per line. T
 - **I am in Iran and I just want configs that work** → `tested-iran`
 - **I just want configs that work (anywhere)** → `tested`
 - **I want the fastest, and a short list** → `fastest-100` (or `fastest-100-tested-iran` in Iran)
+- **I want the highest measured download speed** → `speed-100` (measured from GitHub runners)
 - **I want a small list that covers every protocol** → `balanced-500`
 - **I want configs that are up right now** → `online`
 - **I want configs that worked at least once this week** → `online-week`
@@ -324,6 +326,10 @@ Socket reachability is not proof a config works end to end, so the feeds above a
 
 - **Tier 1 — GitHub, every 2 hours** (`0 */2 * * *`): the `tier1-pattn-test` workflow runs the PattN WebAPI (pinned P40 release) on `windows-latest` and Realping-tests up to 8,000 due configs per run — an end-to-end HTTPS GET through the proxy, twice 100 ms apart, 5 s connect timeout, minimum recorded. It tests in batches of 100 across 4 servers side by side as a filling system (about 19 minutes for 8,000 configs, down from ~90). Results publish `subs/tested.txt` (plus `online-tested.txt`, `online-week-tested.txt`, `fastest-100-tested.txt`, `balanced-500-tested.txt` and a `-tested` variant for every slice feed) and `data/tier1_results.json`. Configs that consistently fail on GitHub but pass from Iran are force-included via `data/github_blocked.json` and counted separately.
 - **Tier 2 — owner PC, owner-triggered**: a single Windows executable (`NavaRouteTier2.exe`, built by the `build-tier2` workflow) drives PattN on the owner's PC with the Iran regional preset, tests the tier-1 passers or all configs, and publishes `subs/tested-iran.txt` variants (plus `online-tested-iran.txt`, `online-week-tested-iran.txt`, `fastest-100-tested-iran.txt`, `balanced-500-tested-iran.txt` and a `-tested-iran` variant for every slice feed) plus an updated `data/github_blocked.json` through a branch and PR. No scheduled tier-2 job exists; Iran testing is owner-only.
+
+### Download speed ranking — every 4 hours
+
+The `speedtest-feeds` workflow (`30 */4 * * *`) runs `scripts/speedtest_feeds.py` on `ubuntu-latest` with a pinned Xray-core binary (checksum-verified). It samples up to 400 candidates from `tested.txt`, `fastest-100.txt`, and `online.txt`, tests up to 200 due configs per run with bounded concurrency and a 900 s soft runtime budget using a fixed-size HTTPS download (`speed.cloudflare.com`), persists pruned incremental state in `data/speed_state.json`, and publishes `subs/speed-100.txt` (+ `_base64.txt`) and `data/speed_results.json`. Throughput reflects GitHub runner locations, not end-user or Iran performance.
 
 ### Nightly snapshot check — 03:00 UTC
 

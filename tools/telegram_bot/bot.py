@@ -67,8 +67,10 @@ FEED_FILES = (
     ("working", "tested_base64.txt"),
     ("online", "online_base64.txt"),
     ("top 100", "fastest-100_base64.txt"),
+    ("top speed 100", "speed-100_base64.txt"),
     ("lite", "balanced-500_base64.txt"),
     ("working · top 100", "fastest-100-tested_base64.txt"),
+    ("working · top speed 100", "speed-100-tested_base64.txt"),
     ("working · lite", "balanced-500-tested_base64.txt"),
     ("working · online", "online-tested_base64.txt"),
     # Blackout Kit special feeds (encrypted; see docs/BLACKOUT-KIT.md).

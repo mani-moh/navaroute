@@ -134,14 +134,21 @@ on your PC: it opens a dashboard at http://127.0.0.1:8765.
 Your `PattN.exe` stays for everyday use; the tester drives the headless
 engine behind it.
 
+## Download speed ranking — GitHub (every 4 hours)
+
+`.github/workflows/speedtest-feeds.yml` runs `scripts/speedtest_feeds.py` on `ubuntu-latest` with a checksum-verified Xray-core binary. It selects up to 400 candidates from `subs/tested.txt`, `subs/fastest-100.txt`, and `subs/online.txt`, measures fixed-size HTTPS download throughput (Mbps) through each proxy with bounded concurrency and failure backoff, persists pruned state in `data/speed_state.json`, and publishes `subs/speed-100.txt` (+ `_base64.txt`) ranked deterministically by `(-speed_mbps, latency_ms, fingerprint)` plus `data/speed_results.json`. Measurements are from GitHub runner locations, not Iran.
+
 ## Files
 
 | File | What it is |
 |---|---|
 | `src/pattn_client.py` | WebAPI client + launcher (shared by both tiers) |
 | `src/tier1.py` | Backoff, state, variants, results (pure, tested) |
+| `src/speedtest.py` | Download throughput testing, state pruning, top-100 ranking |
 | `scripts/tier1_pattn.py` | Tier-1 driver (GitHub runner) |
+| `scripts/speedtest_feeds.py` | Download speedtest driver (`subs/speed-100.txt`) |
 | `tools/tier2/tier2_pattn.py` | Tier-2 owner-PC app + browser UI |
 | `tools/tier2/tier2_pattn.spec` | PyInstaller spec for the .exe |
 | `.github/workflows/tier1-pattn-test.yml` | Tier-1 schedule (every 2 h) |
+| `.github/workflows/speedtest-feeds.yml` | Download speedtest schedule (every 4 h) |
 | `.github/workflows/build-tier2.yml` | Builds the tier-2 .exe |

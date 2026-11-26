@@ -34,7 +34,7 @@ EXPLORER_URL = "https://mani-moh.github.io/navaroute/explorer/"
 # Core feeds, in "start here" order: the tested feeds first, then the
 # socket-level pools, then everything. These are the cards at the top.
 MAIN_FEEDS = ("tested", "tested-iran", "online", "online-week",
-              "fastest-100", "balanced-500", "all")
+              "fastest-100", "speed-100", "balanced-500", "all")
 MAIN_DESCRIPTIONS = {
     "tested": "configs that passed a real end-to-end connection test on GitHub, re-tested every 2 hours",
     "tested-iran": "configs that passed the same end-to-end test from inside Iran (owner's PC)",
@@ -42,6 +42,7 @@ MAIN_DESCRIPTIONS = {
     "online": "configs that answered a socket check in the latest run",
     "online-week": "configs that answered a socket check at least once in the last 7 days",
     "fastest-100": "up to 100 of the online pool, fastest socket latency first",
+    "speed-100": "up to 100 configs ranked by measured HTTPS download throughput (Mbps) from GitHub runners",
     "balanced-500": "up to 500 configs sampled across protocol groups",
 }
 

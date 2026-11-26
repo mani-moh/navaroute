@@ -34,7 +34,7 @@ SITE_URL = "https://mani-moh.github.io/navaroute/"
 
 # Core feeds, in "start here" order (same as the public site).
 MAIN_FEEDS = ("tested", "tested-iran", "online", "online-week",
-              "fastest-100", "balanced-500", "all")
+              "fastest-100", "speed-100", "balanced-500", "all")
 
 # Meanings for the core feeds (en, fa). Longer than the public site's
 # card blurbs: the explorer explains what each feed is and is not.
@@ -63,6 +63,12 @@ CORE_MEANINGS = {
         "first; not throughput or streaming performance.",
         "تا ۱۰۰ مورد از استخر online، بر اساس کمترین تأخیر اتصال؛ نه توان "
         "عملیاتی و نه عملکرد استریم.",
+    ),
+    "speed-100": (
+        "Up to 100 configs ranked by measured HTTPS download speed (Mbps) "
+        "from GitHub runners; not a guarantee of end-user or Iran speed.",
+        "تا ۱۰۰ کانفیگ بر اساس سرعت دانلود HTTPS اندازه‌گیری‌شده (مگابیت بر ثانیه) "
+        "از سرورهای GitHub؛ تضمینی برای سرعت کاربر نهایی یا داخل ایران نیست.",
     ),
     "balanced-500": (
         "Up to 500 connections, sampled across protocol buckets.",
