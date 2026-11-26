@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEhVIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:22:04.283720+00:00
+# snapshot-time: 2026-11-26T21:05:37.257370+00:00
 
 vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICJjZG4uemlmZnN0YXRpYy5jb20iLCAibmV0IjogInRjcCIsICJwYXRoIjogIi8iLCAic2N5IjogImF1dG8iLCAic25pIjogIiIsICJ0bHMiOiAiIiwgInR5cGUiOiAiaHR0cCIsICJ2IjogIjIiLCAicHMiOiAiW/Cfh63wn4e6IEhVXSBWTWVzcy10Y3AgfCBzcmM6ZWxmMjAxN3NwcmluZy1jb25maWdzaHViIiwgImFkZCI6ICI1LjE4Mi4zOC4xMjQiLCAicG9ydCI6IDgwMDAsICJpZCI6ICI1YzFiYjBmOS1hYWJlLTRlMmQtOWE1Zi0wM2M2MDBlYjI2MDcifQ==
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@194.71.130.160:989#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
@@ -33,5 +33,5 @@ trojan://c5691b8f-d833-41e4-9295-769f3edb4cd2@77.91.72.197:443?type=tcp&security
 vless://1c7fcc38-e6be-43c5-875f-b8de2516b9f2@5.182.38.91:17267?type=raw&encryption=none&flow=&sni=yahoo.com&fp=chrome&security=reality&pbk=SnWZg6ORcQepuWLI1EVCTTVc4KyfDiGWR4o_CXCMhgk&sid=4ae260&path=%2F#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 trojan://87961f9d-bee1-4377-826b-e169e7891c4f@162.159.82.246:80?type=ws&path=%2F%3Fed%3D2048&host=yks-dd9.pages.dev#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 trojan://3723507166611775488@profound-elk.boa152.lol:443?sni=profound-elk.boa152.lol#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20Trojan%20%7C%20src%3Acoldwater-all
-vmess://eyJhaWQiOiAiMCIsICJhbHBuIjogIiIsICJmcCI6ICIiLCAiaG9zdCI6ICIiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3ZtZXNzLyIsICJzY3kiOiAiYXV0byIsICJzbmkiOiAiIiwgInRscyI6ICIiLCAidHlwZSI6ICIiLCAidiI6ICIyIiwgInNraXAtY2VydC12ZXJpZnkiOiB0cnVlLCAicHMiOiAiW/Cfh63wn4e6IEhVXSBWTWVzcy13cyB8IHNyYzpzdWItOTA1YzQyZjY3MiIsICJhZGQiOiAicHEtaHVuZ2FyeTEuMDl2cG4uY29tIiwgInBvcnQiOiA4MCwgImlkIjogIjcwM2Y3MjJhLTRiZGYtNGU5ZC05YWZkLWE2ODFmZGY4N2M3NCJ9
 vless://c065e1bb-cb56-41e5-b043-9dfd15b67565@152.233.41.30:16923?mode=gun&security=reality&encryption=none&pbk=_QeslG3rHGM7DoM99pYC8-jpc16pM2MbNZ6NRMoxmHA&type=grpc&serviceName=neurex&sni=api-maps.yandex.ru&sid=10ffb85da1c2d986#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.137:8443?encryption=none&type=tcp&security=tls&headerType=none&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&allowInsecure=0#%5B%F0%9F%87%AD%F0%9F%87%BA%20HU%5D%20VLESS-tcp%20%7C%20src%3Asub-3d14def1fc

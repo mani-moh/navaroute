@@ -1,25 +1,25 @@
 # NavaRoute Upstream Sources Status
 
-Snapshot time: 2026-11-26T20:22:04.283720+00:00
-Socket healthcheck ran: true; reachable: 936 (not credential verified).
+Snapshot time: 2026-11-26T21:05:37.257370+00:00
+Socket healthcheck ran: true; reachable: 932 (not credential verified).
 
 | Metric | Count |
 |---|---:|
 | Configured Sources | 283 |
 | Fetch-successful Sources | 264 |
 | Sources Yielding Usable Nodes | 242 |
-| Raw Extracted Nodes | 284558 |
-| Accepted Public Nodes | 143662 |
-| Socket Reachable Nodes | 936 |
+| Raw Extracted Nodes | 285503 |
+| Accepted Public Nodes | 143849 |
+| Socket Reachable Nodes | 932 |
 
 | Source | Fetch | Raw | Unique | Error |
 |---|---|---:|---:|---|
-| 0xradikal-all | OK | 9503 | 9483 | - |
-| 0xradikal-top100 | OK | 98 | 98 | - |
-| 0xradikal-verified | OK | 816 | 816 | - |
-| 0xradikal-verified-b64 | OK | 816 | 816 | - |
-| 4n0nymou3-all | OK | 400 | 400 | - |
-| 4n0nymou3-tested | OK | 400 | 400 | - |
+| 0xradikal-all | OK | 9420 | 9399 | - |
+| 0xradikal-top100 | OK | 95 | 95 | - |
+| 0xradikal-verified | OK | 859 | 859 | - |
+| 0xradikal-verified-b64 | OK | 859 | 859 | - |
+| 4n0nymou3-all | OK | 414 | 414 | - |
+| 4n0nymou3-tested | OK | 414 | 414 | - |
 | alirewa-config | OK | 1402 | 1398 | - |
 | alirewa-sub1-b64 | OK | 100 | 100 | - |
 | alirzza9-configshub-all | OK | 50 | 50 | - |
@@ -31,8 +31,8 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | automergepublicnodes-list | OK | 304 | 304 | - |
 | awesome-vpn-all | OK | 32 | 32 | - |
 | barabama-merged | OK | 1890 | 1856 | - |
-| barry-far-all | OK | 8733 | 5187 | - |
-| barry-far-all-b64 | OK | 8733 | 5187 | - |
+| barry-far-all | OK | 8885 | 5184 | - |
+| barry-far-all-b64 | OK | 8885 | 5184 | - |
 | blueknight-sub | OK | 508 | 495 | - |
 | coldwater-all | OK | 28801 | 16998 | - |
 | collector-ui-configs | OK | 5195 | 4944 | - |
@@ -69,12 +69,12 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | itsyebekhe-psg-cdn | OK | 4884 | 4320 | - |
 | itsyebekhe-psg-mix | OK | 303 | 301 | - |
 | kahrobas-bot | OK | 140 | 140 | - |
-| lalatinahub-mineral | OK | 14120 | 14100 | - |
+| lalatinahub-mineral | OK | 14221 | 14201 | - |
 | leon406-subcrawler-vless | OK | 19465 | 19464 | - |
 | lorenzazy7kenyon-v2ray-base64 | OK | 513 | 509 | - |
 | luxxuria-speed-tested | OK | 24 | 24 | - |
 | mahankenway-freedom | OK | 666 | 650 | - |
-| mahdi0024-proxycollector | OK | 35 | 35 | - |
+| mahdi0024-proxycollector | OK | 2 | 2 | - |
 | mahdibland-eternity | OK | 183 | 183 | - |
 | mahsanet-frag-json | OK | 0 | 0 | - |
 | mahsanet-mci | OK | 2 | 1 | - |
@@ -101,28 +101,28 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | pasimand-config | OK | 385 | 384 | - |
 | patterniha-free | OK | 129 | 129 | - |
 | patterniha-serverless | OK | 0 | 0 | - |
-| pawdroid-free-servers | OK | 10 | 10 | - |
-| pawdroid-sub-en | OK | 18 | 18 | - |
-| peasoft-nomorewalls | OK | 304 | 304 | - |
+| pawdroid-free-servers | OK | 14 | 14 | - |
+| pawdroid-sub-en | OK | 19 | 19 | - |
+| peasoft-nomorewalls | OK | 299 | 299 | - |
 | peweza-publicsub | OK | 58 | 49 | - |
 | prominbro-212 | OK | 50 | 28 | - |
 | pulseconfigs-top5-iran | OK | 0 | 0 | - |
 | pulseconfigs-verified-b64 | OK | 166 | 166 | - |
 | ripaojiedian-freenode | OK | 13 | 13 | - |
-| roosterkid-openproxylist | OK | 102 | 98 | - |
+| roosterkid-openproxylist | OK | 115 | 109 | - |
 | sbornik-trojan-001 | OK | 751 | 751 | - |
 | shabane-merged | OK | 22795 | 13835 | - |
 | shadowexception-vpn | OK | 141 | 134 | - |
 | shima800-alwaysconnected | OK | 68 | 66 | - |
 | snakem982-v2ray | OK | 57 | 57 | - |
 | snsub-best59-b64 | OK | 59 | 50 | - |
-| solispirit-all | OK | 11305 | 10845 | - |
+| solispirit-all | OK | 11304 | 10844 | - |
 | sub-0630c03a02 | OK | 332 | 332 | - |
 | sub-07d2577deb | OK | 1694 | 1607 | - |
 | sub-1393bfcd5a | OK | 177 | 177 | - |
 | sub-178543dc36 | OK | 11 | 11 | - |
 | sub-18bd828ed3 | OK | 429 | 403 | - |
-| sub-1924222fbd | OK | 199 | 199 | - |
+| sub-1924222fbd | OK | 192 | 192 | - |
 | sub-1ab4d0e74a | OK | 3045 | 2530 | - |
 | sub-21971ef1c8 | OK | 86 | 86 | - |
 | sub-274986a7cd | FAIL | 0 | 0 | Fetch failed |
@@ -132,18 +132,18 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | sub-2d96c803f2 | OK | 1 | 1 | - |
 | sub-35e01e956f | OK | 381 | 381 | - |
 | sub-37df18ba4d | OK | 2 | 2 | - |
-| sub-3d14def1fc | OK | 1750 | 1557 | - |
+| sub-3d14def1fc | OK | 1565 | 1421 | - |
 | sub-3d9f4dd5d5 | OK | 64 | 64 | - |
 | sub-42245810b7 | OK | 1142 | 1135 | - |
 | sub-42814a7c1e | OK | 21 | 21 | - |
 | sub-4437d1843b | OK | 199 | 184 | - |
-| sub-44501fb22e | OK | 199 | 199 | - |
+| sub-44501fb22e | OK | 192 | 192 | - |
 | sub-44b9f6e67e | FAIL | 0 | 0 | Fetch failed |
 | sub-4afe05d07a | OK | 331 | 330 | - |
 | sub-4c90398a42 | FAIL | 0 | 0 | Fetch failed |
 | sub-4cb8b7a891 | FAIL | 0 | 0 | Fetch failed |
 | sub-4e6407a342 | OK | 811 | 809 | - |
-| sub-51b7406fd4 | OK | 24 | 24 | - |
+| sub-51b7406fd4 | OK | 23 | 23 | - |
 | sub-5383469830 | OK | 365 | 350 | - |
 | sub-53ae369f81 | OK | 289 | 285 | - |
 | sub-56c010bfa2 | FAIL | 0 | 0 | Fetch failed |
@@ -155,12 +155,12 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | sub-74666033c8 | OK | 199 | 184 | - |
 | sub-757c8dc370 | OK | 1103 | 957 | - |
 | sub-7d81eb5a60 | FAIL | 0 | 0 | Fetch failed |
-| sub-8128633604 | OK | 157 | 82 | - |
+| sub-8128633604 | OK | 134 | 78 | - |
 | sub-82b4531fa0 | OK | 315 | 287 | - |
 | sub-830dac5285 | OK | 543 | 371 | - |
-| sub-876a3f766a | OK | 196 | 196 | - |
+| sub-876a3f766a | OK | 199 | 199 | - |
 | sub-88996eae66 | OK | 329 | 317 | - |
-| sub-905c42f672 | OK | 2993 | 1944 | - |
+| sub-905c42f672 | OK | 3282 | 2197 | - |
 | sub-974e350c73 | FAIL | 0 | 0 | Fetch failed |
 | sub-98da3ccf9a | OK | 431 | 431 | - |
 | sub-9f14b5869a | FAIL | 0 | 0 | Fetch failed |
@@ -171,60 +171,60 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | sub-a91b4e54af | OK | 20 | 18 | - |
 | sub-aeb605f678 | OK | 172 | 150 | - |
 | sub-b578457bcd | OK | 452 | 452 | - |
-| sub-b6a7f0a318 | OK | 199 | 199 | - |
+| sub-b6a7f0a318 | OK | 192 | 192 | - |
 | sub-b7d7a978ff | OK | 74 | 73 | - |
 | sub-b89814e6b1 | OK | 40 | 40 | - |
 | sub-b95b7cbe76 | OK | 128 | 128 | - |
-| sub-baeb5ddf00 | OK | 24 | 24 | - |
+| sub-baeb5ddf00 | OK | 23 | 23 | - |
 | sub-bd860a1115 | FAIL | 0 | 0 | Fetch failed |
 | sub-bf7e5fb885 | OK | 192 | 141 | - |
 | sub-c5924ffe90 | OK | 233 | 166 | - |
-| sub-c951fa49f5 | OK | 199 | 199 | - |
+| sub-c951fa49f5 | OK | 192 | 192 | - |
 | sub-cc1aaf24f2 | OK | 197 | 75 | - |
-| sub-cd1827dedc | OK | 184 | 182 | - |
+| sub-cd1827dedc | OK | 238 | 234 | - |
 | sub-d5229dbce7 | OK | 2 | 2 | - |
 | sub-df72bf9aec | OK | 498 | 498 | - |
 | sub-df7d38ecf1 | OK | 200 | 200 | - |
 | sub-f244f71c66 | OK | 26 | 20 | - |
 | sub-f2dad2649c | OK | 40 | 40 | - |
-| sub-f4dfaba9eb | OK | 2035 | 2034 | - |
+| sub-f4dfaba9eb | OK | 2323 | 2320 | - |
 | sub-f612f877e3 | OK | 5 | 5 | - |
 | sub-f66beda748 | OK | 10190 | 10185 | - |
-| sub-f6cc2c0692 | OK | 216 | 210 | - |
+| sub-f6cc2c0692 | OK | 261 | 252 | - |
 | sub-f9f6bdd1a3 | OK | 329 | 317 | - |
 | sub-fabe484a01 | OK | 42 | 42 | - |
 | sub-fefad9d43b | FAIL | 0 | 0 | Fetch failed |
 | telegavpn-all-b64 | FAIL | 0 | 0 | Fetch failed |
 | tepo80-trojan | OK | 25 | 18 | - |
 | tg-an0nymousteam | OK | 124 | 124 | - |
-| tg-anty_filter | OK | 36 | 21 | - |
+| tg-anty_filter | OK | 30 | 20 | - |
 | tg-arsalanvpn | OK | 10 | 4 | - |
 | tg-azarandoozvpn | OK | 8 | 8 | - |
 | tg-baraye_azadi_info | OK | 3 | 3 | - |
-| tg-beshkan | OK | 6 | 5 | - |
+| tg-beshkan | OK | 7 | 5 | - |
 | tg-bestvpn32 | OK | 10 | 10 | - |
 | tg-blueknight_net | OK | 0 | 0 | - |
 | tg-bored_vpn | OK | 77 | 74 | - |
 | tg-break_the_barriers | OK | 0 | 0 | - |
 | tg-cntcafe | OK | 20 | 20 | - |
 | tg-configshub-2 | OK | 0 | 0 | - |
-| tg-configshub-main | OK | 28 | 25 | - |
+| tg-configshub-main | OK | 40 | 37 | - |
 | tg-configshub-plus | OK | 0 | 0 | - |
 | tg-configwireguard | OK | 0 | 0 | - |
 | tg-configyab_free | OK | 0 | 0 | - |
-| tg-configyab_free2 | OK | 131 | 117 | - |
+| tg-configyab_free2 | OK | 156 | 124 | - |
 | tg-connectbash | OK | 1 | 1 | - |
-| tg-farazv2ray | OK | 282 | 174 | - |
+| tg-farazv2ray | OK | 261 | 162 | - |
 | tg-father_vpn | OK | 218 | 182 | - |
-| tg-ffreecoffee | OK | 182 | 169 | - |
+| tg-ffreecoffee | OK | 181 | 168 | - |
 | tg-filter_breaker | OK | 29 | 27 | - |
 | tg-filtershekan_channel | OK | 83 | 63 | - |
 | tg-flyv2ray | OK | 130 | 111 | - |
-| tg-free1_vpn | OK | 284 | 179 | - |
+| tg-free1_vpn | OK | 258 | 171 | - |
 | tg-free2config | OK | 41 | 41 | - |
 | tg-freev2rays | OK | 40 | 21 | - |
 | tg-freevpnbazaar | OK | 6 | 6 | - |
-| tg-frog_v2ray | OK | 13 | 13 | - |
+| tg-frog_v2ray | OK | 20 | 20 | - |
 | tg-givevpn | OK | 151 | 130 | - |
 | tg-gozarnetir | OK | 0 | 0 | - |
 | tg-hamedvpns | OK | 7 | 7 | - |
@@ -240,7 +240,7 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | tg-mamad1vpn | OK | 7 | 7 | - |
 | tg-meliproxyy | OK | 422 | 340 | - |
 | tg-meoow_vpn | OK | 21 | 21 | - |
-| tg-mtproxy22_v2ray | OK | 284 | 29 | - |
+| tg-mtproxy22_v2ray | OK | 304 | 31 | - |
 | tg-namiraconfigs | OK | 0 | 0 | - |
 | tg-netfreedom0 | OK | 76 | 74 | - |
 | tg-outlinereleasedkey | OK | 104 | 104 | - |
@@ -248,7 +248,7 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | tg-privatevpns | OK | 34 | 33 | - |
 | tg-proxy_shadowsocks | OK | 3 | 3 | - |
 | tg-proxyarc | OK | 0 | 0 | - |
-| tg-proxymelimon | OK | 23 | 21 | - |
+| tg-proxymelimon | OK | 20 | 18 | - |
 | tg-proxymtprotoir | OK | 1 | 1 | - |
 | tg-proxyshub | OK | 0 | 0 | - |
 | tg-server01012 | OK | 0 | 0 | - |
@@ -256,14 +256,14 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | tg-shadowsocksm | OK | 226 | 207 | - |
 | tg-shh_proxy | OK | 219 | 209 | - |
 | tg-sparrk_vpn | OK | 56 | 53 | - |
-| tg-surfboardv2ray | OK | 100 | 100 | - |
+| tg-surfboardv2ray | OK | 99 | 99 | - |
 | tg-tradenets | OK | 17 | 15 | - |
 | tg-uciranir | OK | 18 | 17 | - |
 | tg-v2box | OK | 76 | 56 | - |
 | tg-v2cnf | OK | 316 | 304 | - |
 | tg-v2freehub | OK | 18 | 18 | - |
 | tg-v2lessir | OK | 5 | 4 | - |
-| tg-v2ray1_ng | OK | 275 | 178 | - |
+| tg-v2ray1_ng | OK | 258 | 171 | - |
 | tg-v2ray_collector | OK | 103 | 103 | - |
 | tg-v2ray_official | OK | 866 | 466 | - |
 | tg-v2ray_outlineir | OK | 38 | 32 | - |
@@ -271,14 +271,14 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | tg-v2raybaaz | OK | 172 | 90 | - |
 | tg-v2rayng_config | OK | 2 | 1 | - |
 | tg-v2rayng_fast | OK | 50 | 31 | - |
-| tg-v2rayngvpn | OK | 131 | 69 | - |
+| tg-v2rayngvpn | OK | 123 | 63 | - |
 | tg-v2rei | OK | 38 | 33 | - |
 | tg-vlessconfig | OK | 34 | 33 | - |
 | tg-vpn_ceenter | OK | 24 | 21 | - |
 | tg-vpn_click | OK | 151 | 130 | - |
 | tg-vpn_m2s | OK | 7 | 6 | - |
-| tg-vpnbaz | OK | 36 | 21 | - |
-| tg-vpnine1 | OK | 264 | 254 | - |
+| tg-vpnbaz | OK | 30 | 20 | - |
+| tg-vpnine1 | OK | 270 | 263 | - |
 | tg-vpnmaan | OK | 18 | 18 | - |
 | tg-wolf_vpn00 | OK | 14 | 14 | - |
 | tg-xoox_vpn | OK | 0 | 0 | - |
@@ -292,8 +292,8 @@ Socket healthcheck ran: true; reachable: 936 (not credential verified).
 | v2raycollector-speed-cloudzy | OK | 250 | 250 | - |
 | v2raycollector-tcp-cloudzy | OK | 2704 | 2702 | - |
 | v2raycollector-url-shatel | OK | 114 | 114 | - |
-| vestranet-mix-b64 | OK | 5591 | 4229 | - |
-| whitedns-base64 | OK | 134 | 129 | - |
+| vestranet-mix-b64 | OK | 5734 | 4410 | - |
+| whitedns-base64 | OK | 106 | 104 | - |
 | whitedns-cf | OK | 3 | 3 | - |
-| zieng2-wl | OK | 114 | 114 | - |
+| zieng2-wl | OK | 109 | 109 | - |
 | zikko-all | OK | 1460 | 1156 | - |

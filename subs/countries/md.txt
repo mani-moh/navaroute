@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIE1EIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:22:04.283720+00:00
+# snapshot-time: 2026-11-26T21:05:37.257370+00:00
 
 vless://838f5273-5d2d-4630-a0f5-9cc8e4aef4d6@91.225.219.71:2198?security=&encryption=none&headerType=&type=tcp#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-tcp%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpMSTRvYk9FSURMekRqZDd4WWxoaFRK@86.104.75.103:49264#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Acoldwater-all
@@ -85,6 +85,5 @@ vless://2f35965a-9a9b-45fd-ba32-987296dfb6be@89.35.14.32:443?mode=gun&security=r
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@185.153.197.5:989#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://telegram-id-ArV2ray@185.234.65.143:4423?mode=gun&security=reality&encryption=none&pbk=uXUe3HEy4MjZ2nqFa8eMxxB24AxQEbxGdEAbdjxEMgQ&fp=ios&type=grpc&serviceName=telegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2ray%2Ctelegram-ArV2rayy&sni=tgju.org&sid=7a0bea4731381dda#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://904704c1-b571-47e5-e57f-a3b97017f4b9@94.131.13.47:43407?encryption=none&security=none&type=tcp&headerType=http&host=telewebion.com#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
-vless://1b43419a-b711-40d4-a0ee-eb5c73e60c92@pl.prostosetup.org:443?security=reality&encryption=none&pbk=ps7eCLLKAqgSGPFRQl1-R1PhzUeO1Z1EwNl02Ac63UA&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=pl.prostosetup.org&sid=514d02a2addd6476#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Asub-3d14def1fc
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpwTnFuWWYza0hlc09wQ2NoUnZVWnhmd1RhZlJzT2o3Zw@213.159.76.21:443#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@192.121.87.89:989#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
