@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL01kLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-26T03:50:57.219105+00:00
+# snapshot-time: 2026-11-26T13:18:51.865106+00:00
 
-vless://f8cb3c89-32af-4255-bebc-d90aad175069@217.156.123.246:443?type=grpc&security=reality&fp=firefox&pbk=pR39Vv5qhk8r6akOicoy6mMs4-ppSWUez8MyAXG7wwQ&sid=27350908de933e09&sni=mda.899themes.pro&mode=gun&serviceName=neurex#%5B%F0%9F%87%B2%F0%9F%87%A9%20MD%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
