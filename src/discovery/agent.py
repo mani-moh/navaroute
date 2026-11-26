@@ -640,8 +640,8 @@ class DiscoveryAgent:
                     return False
                 oldest = 1
                 break
-        if self.nemotron.is_available() and images and (not refs or extended):
-            for image in images[:3 if extended else 2]:
+        if self.nemotron.is_available() and images and not refs and not result.sub_urls:
+            for image in images[:2]:
                 if not self._can_work():
                     return False
                 text = self.nemotron.analyze_image(image)
@@ -810,7 +810,8 @@ class DiscoveryAgent:
                 if count is not None:
                     self.state_manager.record_external_source(key, key, count, source["url"])
             while checked < max_channels and self._can_work():
-                batch = self.state_manager.pop_next_candidates(min(5, max_channels - checked), exclude=attempted)
+                batch_limit = 20 if extended else 5
+                batch = self.state_manager.pop_next_candidates(min(batch_limit, max_channels - checked), exclude=attempted)
                 if not batch:
                     # Queue dry mid-cycle: ask for fresh queries of our
                     # own instead of only re-checking old channels, so

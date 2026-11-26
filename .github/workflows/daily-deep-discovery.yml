@@ -70,7 +70,8 @@ jobs:
         shell: bash
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DISCOVERY_PROVIDER: "nvidia"
+          NVIDIA_MODEL: "nvidia/nemotron-3.5-super-vl-120b-a12b"
           MAX_REQS: ${{ inputs.max_api_requests }}
           MAX_TIME: ${{ inputs.max_time_seconds }}
           MAX_CHANS: ${{ inputs.max_channels }}

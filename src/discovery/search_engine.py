@@ -215,9 +215,40 @@ class WebSearchScraper:
         self._github_cache[query] = repos
         return repos
 
+    def _github_repo_sub_files(self, name: str, branch: str, max_files: int = 8) -> list[str]:
+        raw = self._read(f"https://api.github.com/repos/{name}/git/trees/{branch}?recursive=1", 2 * 1024 * 1024)
+        try:
+            data = json.loads(raw)
+        except (ValueError, RecursionError):
+            return []
+        tree = data.get("tree") if isinstance(data, dict) else None
+        if not isinstance(tree, list):
+            return []
+        matches = []
+        for item in tree:
+            if not isinstance(item, dict) or item.get("type") != "blob":
+                continue
+            path = item.get("path")
+            if not isinstance(path, str) or ".." in path or path.startswith("/"):
+                continue
+            if re.search(r"(?:^|/)(?:sub|subs|config|configs|node|nodes|mix|merged|vless|vmess|trojan|hysteria|all|base64)[^/]*\.(?:txt|json)$|(?:^|/)sub$", path, re.I):
+                matches.append(f"https://raw.githubusercontent.com/{name}/{branch}/{path}")
+                if len(matches) >= max_files:
+                    break
+        return matches
+
     def search_github(self, query: str, max_results: int = 10) -> list[str]:
-        return [f"https://raw.githubusercontent.com/{name}/{branch}/{file}" for name, branch in self._github_repositories(query, max_results)
-                for file in ("sub.txt", "configs.txt", "All_Configs_Sub.txt", "sub")]
+        urls = []
+        for name, branch in self._github_repositories(query, max_results):
+            found = self._github_repo_sub_files(name, branch)
+            if found:
+                urls.extend(found)
+            else:
+                urls.extend(
+                    f"https://raw.githubusercontent.com/{name}/{branch}/{file}"
+                    for file in ("sub.txt", "configs.txt", "All_Configs_Sub.txt", "sub")
+                )
+        return urls
 
     def fetch_text_snippet(self, url: str, max_chars: int = 4500) -> str:
         url = approved_public_url(url)
