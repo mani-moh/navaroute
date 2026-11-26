@@ -1,0 +1,143 @@
+# Speedtest Feeds: measure HTTPS download throughput (Mbps) every 4 hours
+# and publish subs/speed-100.txt (+ _base64.txt twin).
+#
+# Runs on ubuntu-latest using a pinned Xray-core binary, bounded concurrency,
+# per-test timeouts, and pruned incremental state in data/speed_state.json.
+name: Speedtest Top 100 Feeds
+
+on:
+  schedule:
+    - cron: "30 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      candidate_cap:
+        description: "Maximum candidate configs to consider from tested/fastest/online pools"
+        required: false
+        default: "400"
+      per_run_cap:
+        description: "Maximum due configs to speed-test this run"
+        required: false
+        default: "200"
+      max_runtime:
+        description: "Soft runtime budget in seconds before publishing partial results"
+        required: false
+        default: "900"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: navaroute-git-writer
+  cancel-in-progress: false
+
+jobs:
+  speedtest:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified action-pins.md
+        with:
+          ref: master
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Capture run start SHA
+        shell: bash
+        run: echo "RUN_START_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, verified action-pins.md
+        with:
+          python-version: "3.12"
+
+      - name: Tracked privacy gate
+        run: python scripts/public_git.py check
+
+      - name: Download pinned Xray-core
+        shell: bash
+        run: |
+          set -euo pipefail
+          XRAY_VER="v26.11.9"
+          mkdir -p /tmp/xray
+          curl -fsSL "https://github.com/XTLS/Xray-core/releases/download/${XRAY_VER}/Xray-linux-64.zip" -o /tmp/xray/xray.zip
+          curl -fsSL "https://github.com/XTLS/Xray-core/releases/download/${XRAY_VER}/Xray-linux-64.zip.dgst" -o /tmp/xray/xray.zip.dgst
+          EXPECTED_SHA=$(awk -F'= ' '/^SHA2-256=/{print $2}' /tmp/xray/xray.zip.dgst | tr -d '\r')
+          ACTUAL_SHA=$(sha256sum /tmp/xray/xray.zip | awk '{print $1}')
+          if [ -z "$EXPECTED_SHA" ] || [ "$EXPECTED_SHA" != "$ACTUAL_SHA" ]; then
+            echo "Xray checksum mismatch" >&2
+            exit 1
+          fi
+          unzip -q /tmp/xray/xray.zip -d /tmp/xray/bin
+          chmod +x /tmp/xray/bin/xray
+
+      - name: Run throughput speedtest
+        shell: bash
+        env:
+          CANDIDATE_CAP: ${{ inputs.candidate_cap || '400' }}
+          PER_RUN_CAP: ${{ inputs.per_run_cap || '200' }}
+          MAX_RUNTIME: ${{ inputs.max_runtime || '900' }}
+        run: |
+          set -euo pipefail
+          python scripts/speedtest_feeds.py \
+            --xray-bin /tmp/xray/bin/xray \
+            --candidate-cap "${CANDIDATE_CAP}" \
+            --per-run-cap "${PER_RUN_CAP}" \
+            --max-runtime "${MAX_RUNTIME}"
+
+      - name: Stage, audit and publish speed-100 outputs
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -- data/speed_state.json data/speed_results.json subs/speed-100.txt subs/speed-100_base64.txt
+          python scripts/public_git.py check --staged
+          if git diff --staged --quiet; then
+            echo "No speedtest updates to commit"
+            echo "RUN_PUBLICATION=no-changes" >> "$GITHUB_ENV"
+          else
+            git commit -m "chore(auto): refresh top-100 download speed feed"
+            if python scripts/public_git.py push; then
+              echo "RUN_PUBLICATION=pushed" >> "$GITHUB_ENV"
+            else
+              echo "RUN_PUBLICATION=failed" >> "$GITHUB_ENV"
+              exit 1
+            fi
+          fi
+
+      - name: Workflow run summary
+        if: always()
+        shell: bash
+        env:
+          RUN_STATUS: ${{ job.status }}
+        run: |
+          set +e
+          PY=""
+          if command -v python3 >/dev/null 2>&1; then
+            PY=python3
+          elif command -v python >/dev/null 2>&1; then
+            PY=python
+          fi
+          if [ -n "$PY" ] && [ -f scripts/workflow_summary.py ]; then
+            "$PY" scripts/workflow_summary.py
+          else
+            print_fallback() {
+              echo "## NavaRoute workflow run summary"
+              echo ""
+              echo "- Job result: $(printf '%s' "${RUN_STATUS:-unknown}" | tr -cd '[:alpha:]-')"
+              echo "- Checkout or setup did not complete, or the summary script is unavailable; no repository details were collected."
+              echo "- Publication outcome: $(printf '%s' "${RUN_PUBLICATION:-not recorded}" | tr -cd '[:alpha:]-')"
+            }
+            if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+              print_fallback | tee -a "$GITHUB_STEP_SUMMARY"
+            else
+              print_fallback
+            fi
+          fi
+          exit 0
