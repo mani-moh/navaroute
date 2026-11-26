@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": 1795720943,
+  "last_updated": 1795723374,
   "queries_executed": [
     "site:t.me \"vless://\" reality",
     "site:t.me \"vmess://\" OR \"trojan://\" iran",
@@ -5344,7 +5344,31 @@
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/promo-proxy-mobile.svg",
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-verified.svg",
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/divider.svg",
-    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/promo-proxy.svg"
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/promo-proxy.svg",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml",
+    "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/top100.txt",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs_base64.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/resilient/tme.txt",
+    "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/index.json",
+    "https://raw.githubusercontent.com/0xAKIRAVX/DNC-VPN/main/sub.txt",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/main/configs/clash/config.yaml",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md",
+    "https://raw.githubusercontent.com/NakuTenshi/v2forge/main/README.md",
+    "https://raw.githubusercontent.com/baradaran-h/configs/main/all-clean-5500.txt",
+    "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/README.md",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs_base64.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/singbox.json)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/clash.yaml)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/clash.yaml)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt)"
   ],
   "sources_metadata": {
     "gh-731be4b5c4": {
@@ -5358,11 +5382,11 @@
       "is_telegram": false
     },
     "gh-c964add1d0": {
-      "handle": "gh:0xAKIRAVX/DNC-VPN",
-      "last_checked": 1794289339,
+      "handle": "gh-c964add1d0",
+      "last_checked": 1795723309,
       "last_nodes_yield": 243,
-      "total_nodes_yield": 243,
-      "checks_count": 1,
+      "total_nodes_yield": 486,
+      "checks_count": 2,
       "is_active": true,
       "sub_url": "https://raw.githubusercontent.com/0xAKIRAVX/DNC-VPN/main/sub.txt",
       "is_telegram": false
@@ -19854,8 +19878,8 @@
       "is_telegram": false
     }
   },
-  "last_run_api_requests": 23,
-  "total_api_requests": 1854,
+  "last_run_api_requests": 4,
+  "total_api_requests": 1858,
   "pending_queries": [
     "gh:topic:v2ray-configs",
     "gh:xray reality subscription"
@@ -19960,45 +19984,7 @@
     "gh:topic:v2ray-configs": [
       {
         "kind": "page",
-        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md"
-      }
-    ],
-    "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md": [
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/main/configs/clash/config.yaml"
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/README.md"
       }
     ],
     "gh:xray reality subscription": [
@@ -20008,46 +19994,6 @@
       }
     ],
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md": [
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/index.json"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/top100.txt"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/resilient/tme.txt"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs_base64.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/clash.yaml)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/singbox.json)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs_base64.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/clash.yaml)"
-      },
       {
         "kind": "subscription",
         "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/singbox.json)"
@@ -20348,6 +20294,196 @@
         "kind": "subscription",
         "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-donate-ton.svg"
       }
+    ],
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/README.md": [
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/tester/Tester.exe"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/tester/Tester.exe)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/all_configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/new_configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/old_configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/1.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/2.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/3.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/4.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://limilco.github.io/v2r/sub](https://limilco.github.io/v2r/sub/)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/vmess.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/vless.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/trojan.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/ss.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/ssr.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/pro/hysteria.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/ALIILAPRO/v2rayNG-Config/main/sub.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mfuu/v2ray/master/v2ray"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/ts-sf/fly/main/v2"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mci/sub_2.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mci/sub_3.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mci/sub_4.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/app/sub.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mtn/sub_2.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mtn/sub_3.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/mahsanet/MahsaFreeConfig/refs/heads/main/mtn/sub_4.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/yebekhe/vpn-fail/refs/heads/main/sub-link"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/Surfboardv2ray/TGParse/main/splitted/mixed"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/itsyebekhe/PSG/main/lite/subscriptions/xray/normal/mix"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/HosseinKoofi/GO_V2rayCollector/main/mixed_iran.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/Rayan-Config/C-Sub/refs/heads/main/configs/proxy.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/MahsaNetConfigTopic/config/refs/heads/main/xray_final.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/Joker-funland/V2ray-configs/main/config.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RayRoot/V2RayConfig/main/Config/vless.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RayRoot/V2RayConfig/main/Config/vmess.txt](https://raw.githubusercontent.com/yebekhe/vpn-fail/main/sub-link"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/ebrasha/free-v2ray-public-list/refs/heads/main/V2Ray-Config-By-EbraSha.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RayRoot/V2RayConfig/main/Config/vmess.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/F0rc3Run/F0rc3Run/refs/heads/main/Best-Results/proxies.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RAYCONFIGSPOOL/V2RAY_SUB/refs/heads/main/v2ray_configs_no1.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RAYCONFIGSPOOL/V2RAY_SUB/refs/heads/main/v2ray_configs_no2.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RAYCONFIGSPOOL/V2RAY_SUB/refs/heads/main/v2ray_configs_no3.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/V2RAYCONFIGSPOOL/V2RAY_SUB/refs/heads/main/v2ray_configs_no4.txt)"
+      }
     ]
   },
   "pending_pages": [
@@ -20363,8 +20499,8 @@
     "https://t.me/s/tehranlug",
     "https://t.me/s/wolf_vpn00",
     "https://t.me/s/mamad1vpn",
-    "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md",
-    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md"
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/README.md"
   ],
   "external_attempt_order": {
     "sub-07d2577deb": 1,
@@ -20438,7 +20574,12 @@
     "nodefree-37": 71,
     "sbornik-trojan-001": 72,
     "argh73-sub475": 73,
-    "nikita-13": 74
+    "nikita-13": 74,
+    "gh-c964add1d0": 75,
+    "sub-bd860a1115": 76,
+    "sub-4c90398a42": 77,
+    "sub-44b9f6e67e": 78,
+    "sub-fefad9d43b": 79
   },
   "image_results": {
     "a41ed3b1679f97739bbea4c85488a8bbc413eaa8cd512965d0d8c90f215376c4": "",
