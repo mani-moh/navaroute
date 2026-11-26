@@ -237,10 +237,14 @@ class WebSearchScraper:
                     break
         return matches
 
-    def search_github(self, query: str, max_results: int = 10, discover_trees: bool = False) -> list[str]:
+    def search_github(self, query: str, max_results: int = 10, discover_trees: bool = False,
+                      known_repos: set[str] | frozenset[str] = frozenset()) -> list[str]:
         urls = []
         for name, branch in self._github_repositories(query, max_results):
-            found = self._github_repo_sub_files(name, branch) if discover_trees else []
+            if discover_trees and name.lower() not in known_repos:
+                found = self._github_repo_sub_files(name, branch)
+            else:
+                found = []
             if found:
                 urls.extend(found)
             else:

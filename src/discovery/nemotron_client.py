@@ -7,6 +7,7 @@ import logging
 import math
 import os
 import re
+import threading
 import time
 from typing import Any, Optional
 
@@ -293,6 +294,7 @@ class NemotronClient:
         self._max_attempts = 500
         self.deadline: float | None = None
         self.image_results: dict[str, str] = {}
+        self._lock = threading.Lock()
         self.last_image_outcome = "retryable"
 
     def configure_cycle(self, *, max_attempts: int, deadline: float) -> None:
@@ -303,9 +305,13 @@ class NemotronClient:
         self.deadline = deadline
         self._last_request_ts = None
 
-    def budget_remaining(self) -> bool:
+    def _budget_remaining_unlocked(self) -> bool:
         return (self.api_requests_count - self._cycle_start_requests < self._max_attempts
                 and (self.deadline is None or time.monotonic() < self.deadline))
+
+    def budget_remaining(self) -> bool:
+        with self._lock:
+            return self._budget_remaining_unlocked()
 
     def _wait(self, seconds: float) -> None:
         if not self.budget_remaining() or (self.deadline is not None and seconds >= self.deadline - time.monotonic()):
@@ -395,8 +401,10 @@ class NemotronClient:
                 cur_payload.pop("response_format", None)
             data = json.dumps(cur_payload).encode("utf-8")
             for attempt in range(1, max_retries + 1):
+                with self._lock:
+                    wait_s = max(0, self.min_request_interval - (time.monotonic() - self._last_request_ts)) if self._last_request_ts is not None else 0
                 try:
-                    self._wait(max(0, self.min_request_interval - (time.monotonic() - self._last_request_ts)) if self._last_request_ts is not None else 0)
+                    self._wait(wait_s)
                 except DiscoveryBudgetExceeded:
                     if attempted:
                         raise DiscoveryAPIError("Discovery API attempts failed within budget") from None
@@ -406,8 +414,9 @@ class NemotronClient:
                     if attempted:
                         raise DiscoveryAPIError("Discovery API attempts failed within budget")
                     raise DiscoveryBudgetExceeded("Discovery budget exhausted")
-                self._last_request_ts = time.monotonic()
-                self.api_requests_count += 1
+                with self._lock:
+                    self._last_request_ts = time.monotonic()
+                    self.api_requests_count += 1
                 attempted = True
                 request_started = time.monotonic()
                 try:

@@ -41,6 +41,20 @@ class TestDiscoveryParallelAndYield(unittest.TestCase):
             "https://raw.githubusercontent.com/owner/repo/main/lists/vless.txt",
         ])
 
+    def test_search_github_skips_tree_for_known_repos(self) -> None:
+        scraper = WebSearchScraper()
+        called = []
+
+        def fake_read(url: str, max_bytes: int = 0) -> str:
+            called.append(url)
+            if "search/repositories" in url:
+                return json.dumps({"items": [{"full_name": "owner/repo", "default_branch": "main"}]})
+            return ""
+
+        with patch.object(scraper, "_read", side_effect=fake_read):
+            scraper.search_github("vless", discover_trees=True, known_repos={"owner/repo"})
+        self.assertFalse(any("git/trees/" in u for u in called))
+
     def test_get_oldest_active_channels_respects_cooldown(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             mgr = DiscoveryStateManager(state_file=str(Path(tmp) / "state.json"))

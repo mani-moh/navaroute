@@ -8,7 +8,7 @@ on:
       max_api_requests:
         description: "Maximum actual NVIDIA API requests (includes retries and fallbacks)"
         type: string
-        default: "1500"
+        default: "1000"
       max_time_seconds:
         description: "Discovery network time budget in seconds"
         type: string
@@ -16,11 +16,11 @@ on:
       max_channels:
         description: "Maximum Telegram channels to crawl"
         type: string
-        default: "2000"
+        default: "3000"
       discovery_workers:
         description: "Concurrent workers for channel and subscription probing"
         type: string
-        default: "8"
+        default: "10"
 
 permissions:
   contents: read
@@ -82,7 +82,7 @@ jobs:
           WORKERS: ${{ inputs.discovery_workers }}
         run: |
           set -euo pipefail
-          python -m src.main --discover-only --discovery-api-requests "${MAX_REQS:-1500}" --discovery-time "${MAX_TIME:-2400}" --discovery-channels "${MAX_CHANS:-2000}" --discovery-workers "${WORKERS:-8}"
+          python -m src.main --discover-only --discovery-api-requests "${MAX_REQS:-1000}" --discovery-time "${MAX_TIME:-2400}" --discovery-channels "${MAX_CHANS:-3000}" --discovery-workers "${WORKERS:-10}"
       - name: Aggregate newly discovered public sources
         run: python -m src.main --healthcheck --max-test-nodes 1000
       - name: Stage, audit and publish only public roles
