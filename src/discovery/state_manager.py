@@ -336,14 +336,16 @@ class DiscoveryStateManager:
         active.sort(key=lambda s: s.get("total_nodes_yield", 0), reverse=True)
         return [str(s["handle"]) for s in active[:limit] if "handle" in s]
 
-    def get_oldest_active_channels(self, limit: int = 5) -> list[str]:
+    def get_oldest_active_channels(self, limit: int = 5, min_age_seconds: int = 0) -> list[str]:
         """Returns previously active Telegram channels sorted by oldest last_checked."""
         meta = self.state.get("sources_metadata", {})
         rejected = set(self.state.get("rejected_channels", []))
+        cutoff = (time.time() - min_age_seconds) if min_age_seconds > 0 else None
         active_tg = [
             info for info in meta.values()
             if info.get("is_active") and info.get("handle") not in rejected
             and info.get("is_telegram", True) and info.get("sub_url", "").startswith("https://t.me/")
+            and (cutoff is None or info.get("last_checked", 0) <= cutoff)
         ]
         active_tg.sort(key=lambda s: s.get("last_checked", 0))
         return [s["handle"] for s in active_tg[:limit] if "handle" in s]

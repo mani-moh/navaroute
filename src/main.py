@@ -110,6 +110,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         default=0,
         help="Target NVIDIA API requests for extended discovery runs (e.g. 500)",
     )
+    parser.add_argument(
+        "--discovery-workers",
+        type=int,
+        default=1,
+        help="Concurrent workers for discovery channel/URL fetching (default: 1)",
+    )
     return parser
 
 
@@ -141,6 +147,7 @@ def _run(args: argparse.Namespace) -> int:
             max_channels=args.discovery_channels,
             max_time_seconds=args.discovery_time,
             max_api_requests=args.discovery_api_requests,
+            workers=args.discovery_workers,
         )
         safe_print(f"Discovery finished: {len(discovered)} active discovered sources.")
 

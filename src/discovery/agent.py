@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import copy
 import hashlib
 import json
 import os
 import re
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Any, Optional
@@ -34,10 +36,11 @@ CURATED_SEEDS = [
 FALLBACK_DORKS = [
     'site:t.me "vless://" reality', 'site:t.me "vmess://" OR "trojan://" iran',
     'site:t.me "sub" "v2ray" "hysteria2"', 'site:telegra.ph "vless://" OR "vmess://"',
+    'site:t.me "xhttp" OR "reality" "vless://"', 'site:github.com "v2ray" "All_Configs_Sub.txt"',
 ]
 FALLBACK_GITHUB_QUERIES = [
     "v2ray-configs sub", "vless-configs subscription", "iran proxy configs sub.txt",
-    "hysteria2 vless reality sub",
+    "hysteria2 vless reality sub", "topic:v2ray-configs", "xray reality subscription",
 ]
 RETAINED_CACHE_URL = "data/discovered_ocr_configs.txt"
 CHECKPOINT_JOURNAL = "data/discovery_checkpoint.json"
@@ -48,7 +51,7 @@ CHECKPOINT_JOURNAL = "data/discovery_checkpoint.json"
 KNOWN_SOURCES_COMPACT_LIMIT = 120
 # Maximum extra query-expansion passes per cycle when the candidate
 # queue runs dry mid-cycle.
-MAX_QUERY_REEXPANSIONS = 3
+MAX_QUERY_REEXPANSIONS = 8
 
 
 def _known_source_token(url: str) -> str:
@@ -95,7 +98,8 @@ class DiscoveryAgent:
                  discovered_sources_file: str = DEFAULT_DISCOVERY_SOURCES_FILE,
                  leaderboard_file: str = DEFAULT_LEADERBOARD_FILE,
                  initial_seeds: Optional[list[str]] = None,
-                 nemotron_client: Optional[NemotronClient] = None, timeout: int = 15) -> None:
+                 nemotron_client: Optional[NemotronClient] = None, timeout: int = 15,
+                 workers: int = 1) -> None:
         self.discovered_sources_file = Path(discovered_sources_file)
         self.leaderboard_file = Path(leaderboard_file)
         self.ocr_configs_file = Path(RETAINED_CACHE_URL)
@@ -107,6 +111,9 @@ class DiscoveryAgent:
         self.nemotron = nemotron_client or NemotronClient()
         self.tg_scraper = TelegramChannelScraper(timeout=timeout)
         self.web_scraper = WebSearchScraper(timeout=timeout)
+        self.workers = max(1, int(workers))
+        self._probe_lock = threading.Lock()
+        self._prefetched_pages: dict[tuple[str, int | None], tuple[str | None, str]] = {}
         self.deadline: float | None = None
         self._retained: dict[str, str] = {}
         self._cycle_probed_urls: dict[str, int | None] = {}
@@ -300,17 +307,19 @@ class DiscoveryAgent:
             raise ValueError("Subscription probe requires public HTTP(S)")
         if not self._can_work():
             return None
-        if url in self._cycle_probed_urls:
-            return self._cycle_probed_urls[url]
-        self._cycle_probed_urls[url] = None
+        with self._probe_lock:
+            if url in self._cycle_probed_urls:
+                return self._cycle_probed_urls[url]
+            self._cycle_probed_urls[url] = None
         try:
             status, raw = fetch_bytes(url, timeout=10, max_bytes=32 * 1024 * 1024,
                                      deadline=self.deadline, headers={"User-Agent": "NavaRoute-Discovery"})
             if not self._can_work():
                 return None
             if status in (404, 410):
-                self.state_manager.record_visited_url(url)
-                self._cycle_probed_urls[url] = 0
+                with self._probe_lock:
+                    self.state_manager.record_visited_url(url)
+                    self._cycle_probed_urls[url] = 0
                 return 0
             if not 200 <= status < 300:
                 return None
@@ -318,9 +327,10 @@ class DiscoveryAgent:
             nodes, _ = extract_nodes_from_content(content, SourceConfig("probe", "Public probe", url))
             if not self._can_work():
                 return None
-            self.state_manager.record_visited_url(url)
             count = len({n.semantic_fingerprint() for n in nodes})
-            self._cycle_probed_urls[url] = count
+            with self._probe_lock:
+                self.state_manager.record_visited_url(url)
+                self._cycle_probed_urls[url] = count
             return count
         except (NetworkError, UnicodeError):
             return None
@@ -385,9 +395,61 @@ class DiscoveryAgent:
         if work:
             children[parent] = work
 
+    def _prefetch_sub_urls(self, urls: list[str]) -> None:
+        if self.workers <= 1 or len(urls) <= 1 or not self._can_work():
+            return
+        to_probe = []
+        for raw_url in urls:
+            try:
+                url = approved_public_url(raw_url)
+            except ValueError:
+                continue
+            if not url.startswith(("http://", "https://")):
+                continue
+            with self._probe_lock:
+                if url in self._cycle_probed_urls or self.state_manager.is_url_visited(url):
+                    continue
+            to_probe.append(url)
+        if len(to_probe) <= 1:
+            return
+        with concurrent.futures.ThreadPoolExecutor(max_workers=min(self.workers, len(to_probe))) as pool:
+            futures = [pool.submit(self.probe_sub_url, u) for u in to_probe]
+            for fut in futures:
+                try:
+                    fut.result()
+                except Exception:
+                    pass
+
+    def _prefetch_channels(self, handles: list[str]) -> None:
+        if self.workers <= 1 or len(handles) <= 1 or not self._can_work():
+            return
+        jobs: list[tuple[str, int | None]] = []
+        for h in handles:
+            before_id = self.state_manager.get_channel_oldest_post_id(h)
+            key = (h, before_id)
+            if key not in self._prefetched_pages:
+                jobs.append(key)
+        if len(jobs) <= 1:
+            return
+
+        def _fetch_one(item: tuple[str, int | None]) -> tuple[tuple[str, int | None], str | None, str]:
+            scraper = TelegramChannelScraper(timeout=self.tg_scraper.timeout)
+            scraper.deadline = self.deadline
+            page = scraper.fetch_channel_page(item[0], before_id=item[1])
+            return item, page, scraper.last_outcome
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=min(self.workers, len(jobs))) as pool:
+            for key, page, outcome in pool.map(_fetch_one, jobs):
+                self._prefetched_pages[key] = (page, outcome)
+
     def _replay_children(self, parent: str, discovered: dict[str, dict[str, Any]], existing: set[str],
                          limit: int, probe_limit: int | None = None) -> bool:
         work = self.state_manager.state.get("pending_children", {}).get(parent, [])
+        if self.workers > 1:
+            sub_slice = [c["url"] for c in list(work)[:limit] if c["kind"] == "subscription"]
+            if probe_limit is not None:
+                sub_slice = sub_slice[:max(0, probe_limit)]
+            self._prefetch_sub_urls(sub_slice)
         probes = 0
         for child in list(work)[:limit]:
             if not self._can_work():
@@ -523,21 +585,24 @@ class DiscoveryAgent:
         past = self.state_manager.state["queries_executed"]
         res = None
         if self.nemotron.is_available() and not self.state_manager.state.get("pending_children"):
-            prompt = ('Suggest public proxy discovery search queries. Return JSON {"web_queries": [], '
-                      '"github_queries": []}. Avoid: ' + str(past[-25:]))
+            prompt = ('Suggest public proxy/v2ray subscription discovery search queries and Telegram channel handles. '
+                      'Return JSON {"web_queries": [], "github_queries": [], "telegram_handles": []}. Avoid: ' + str(past[-25:]))
             known = self._compact_known_sources(discovered_sources, existing)
             if known:
-                prompt += ' Already known — prefer queries likely to find sources NOT in this list: ' + known
+                prompt += ' Already known — prefer queries/handles likely to find sources NOT in this list: ' + known
             res = self.nemotron.complete_json(prompt)
         web, github = [], []
         if isinstance(res, dict):
             web = res.get("web_queries", res.get("queries", []))
             github = res.get("github_queries", [])
+            tg_handles = res.get("telegram_handles", [])
+            if isinstance(tg_handles, list):
+                self.state_manager.add_candidates([h for h in tg_handles if isinstance(h, str)])
         def queries(values: Any, fallback: list[str], prefix: str = "") -> list[str]:
             values = values if isinstance(values, list) and values else fallback
             waiting = [q[len(prefix):] for q in self.state_manager.state.get("pending_queries", []) if q.startswith("gh:") == bool(prefix)]
             return list(dict.fromkeys(q for q in waiting + values if isinstance(q, str) and q.strip() == q and 0 < len(prefix + q) <= 500 and prefix + q not in past and "http" not in q and not any(ord(c) < 32 for c in q)))
-        for query in queries(web, FALLBACK_DORKS)[:5 if extended_mode else 2]:
+        for query in queries(web, FALLBACK_DORKS)[:8 if extended_mode else 2]:
             if not self._can_work():
                 return
             waiting = self.state_manager.state.setdefault("pending_queries", [])
@@ -560,7 +625,7 @@ class DiscoveryAgent:
             if self._replay_children(query, discovered_sources, existing, 6) and complete:
                 self.state_manager.record_query(query)
         probes = 0
-        for query in queries(github, FALLBACK_GITHUB_QUERIES, "gh:")[:3 if extended_mode else 2]:
+        for query in queries(github, FALLBACK_GITHUB_QUERIES, "gh:")[:6 if extended_mode else 2]:
             if not self._can_work():
                 return
             waiting = self.state_manager.state.setdefault("pending_queries", [])
@@ -596,7 +661,12 @@ class DiscoveryAgent:
         before_probes = len(self._cycle_probed_urls)
         if not self._replay_children(url, discovered, existing, 5, 5):
             return False
-        page = self.tg_scraper.fetch_channel_page(handle, before_id=self.state_manager.get_channel_oldest_post_id(handle))
+        before_id = self.state_manager.get_channel_oldest_post_id(handle)
+        prefetched = self._prefetched_pages.pop((handle, before_id), None)
+        if prefetched is not None:
+            page, self.tg_scraper.last_outcome = prefetched
+        else:
+            page = self.tg_scraper.fetch_channel_page(handle, before_id=before_id)
         if not self._can_work():
             return False
         if not page:
@@ -735,10 +805,13 @@ class DiscoveryAgent:
         return active
 
     def run_cycle(self, max_channels: int = 100, max_time_seconds: int = 360,
-                  max_api_requests: int = 0) -> list[dict[str, Any]]:
+                  max_api_requests: int = 0, workers: int | None = None) -> list[dict[str, Any]]:
         for value in (max_channels, max_time_seconds, max_api_requests):
             if type(value) is not int or value < 0:
                 raise ValueError("Discovery limits must be nonnegative integers")
+        if workers is not None:
+            self.workers = max(1, int(workers))
+        self._prefetched_pages = {}
         if self._recover_checkpoint():
             self.state_manager = DiscoveryStateManager(str(self._checkpoint_paths["state"]))
         self.deadline = time.monotonic() + max_time_seconds
@@ -822,9 +895,11 @@ class DiscoveryAgent:
                         reexpansions += 1
                         if len(self.state_manager.state.get("candidate_queue", [])) > before:
                             continue
-                    refresh = self.state_manager.get_oldest_active_channels(limit=max_channels)
-                    refresh += [normalize_channel_handle(s["url"]) for s in discovered.values() if normalize_channel_handle(s["url"])]
-                    batch = list(dict.fromkeys(h for h in refresh if h not in attempted))[:min(5, max_channels - checked)]
+                    refresh_age = 12 * 3600 if self.workers > 1 else 0
+                    refresh = self.state_manager.get_oldest_active_channels(limit=max_channels, min_age_seconds=refresh_age)
+                    if refresh_age == 0:
+                        refresh += [normalize_channel_handle(s["url"]) for s in discovered.values() if normalize_channel_handle(s["url"])]
+                    batch = list(dict.fromkeys(h for h in refresh if h not in attempted))[:min(batch_limit, max_channels - checked)]
                 if not batch:
                     break
                 pending = list(batch)
@@ -835,6 +910,7 @@ class DiscoveryAgent:
                     # persistent rejected list) made pending.remove()
                     # raise ValueError for a handle the batch kept.
                     pending = list(batch)
+                self._prefetch_channels(batch)
                 for handle in batch:
                     if not self._can_work() or checked >= max_channels:
                         break
