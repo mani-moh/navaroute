@@ -1,9 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIENPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-25T22:21:51.055025+00:00
+# snapshot-time: 2026-11-26T07:18:23.112858+00:00
 
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.226.194:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.208.150:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
+vless://605dea9b-b485-45c9-af9b-cc2b0195023c@91.242.228.29:443?encryption=none&flow=xtls-rprx-vision&pbk=Su5ULcRQKF-0DJIHZeTNEnXHBpyQtizmUrcNIYhZI0E&security=reality&sid=afee962d&sni=se1.mycloud1.org&type=tcp&fp=qq#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.209.179:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.235.147:62145?security=none&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 ss://YWVzLTI1Ni1nY206UENubkg2U1FTbmZvUzI3@149.104.107.41:8090#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3A0xradikal-all
