@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": 1795723374,
+  "last_updated": 1795724489,
   "queries_executed": [
     "site:t.me \"vless://\" reality",
     "site:t.me \"vmess://\" OR \"trojan://\" iran",
@@ -5368,15 +5368,37 @@
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/singbox.json)",
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/clash.yaml)",
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/clash.yaml)",
-    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt)"
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/all_configs.txt)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/tester/Tester.exe)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs_base64.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/singbox.json)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/singbox.json)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/clash.yaml)",
+    "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/main/configs.txt",
+    "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.txt",
+    "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.b64.txt",
+    "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/configs.txt",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/new_configs.txt)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/configs.txt)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/old_configs.txt)",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/1.txt",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/singbox.json)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs_base64.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs.txt)",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/clash.yaml)"
   ],
   "sources_metadata": {
     "gh-731be4b5c4": {
-      "handle": "gh:cyrusalbert/ArashOnline",
-      "last_checked": 1794291547,
-      "last_nodes_yield": 470,
-      "total_nodes_yield": 1410,
-      "checks_count": 3,
+      "handle": "gh-731be4b5c4",
+      "last_checked": 1795724465,
+      "last_nodes_yield": 468,
+      "total_nodes_yield": 1878,
+      "checks_count": 4,
       "is_active": true,
       "sub_url": "https://raw.githubusercontent.com/cyrusalbert/ArashOnline/main/configs.txt",
       "is_telegram": false
@@ -6274,31 +6296,31 @@
       "sub_url": "https://t.me/s/smartvpn"
     },
     "sub-88996eae66": {
-      "handle": "web:https://raw.githubusercontent.co",
-      "last_checked": 1794291558,
-      "last_nodes_yield": 366,
-      "total_nodes_yield": 732,
-      "checks_count": 2,
+      "handle": "sub-88996eae66",
+      "last_checked": 1795724466,
+      "last_nodes_yield": 317,
+      "total_nodes_yield": 1049,
+      "checks_count": 3,
       "is_active": true,
       "sub_url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.txt",
       "is_telegram": false
     },
     "sub-660b258b53": {
-      "handle": "web:https://raw.githubusercontent.co",
-      "last_checked": 1794291558,
-      "last_nodes_yield": 366,
-      "total_nodes_yield": 732,
-      "checks_count": 2,
+      "handle": "sub-660b258b53",
+      "last_checked": 1795724466,
+      "last_nodes_yield": 317,
+      "total_nodes_yield": 1049,
+      "checks_count": 3,
       "is_active": true,
       "sub_url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/sub.b64.txt",
       "is_telegram": false
     },
     "sub-f9f6bdd1a3": {
-      "handle": "web:https://raw.githubusercontent.co",
-      "last_checked": 1794291558,
-      "last_nodes_yield": 366,
-      "total_nodes_yield": 732,
-      "checks_count": 2,
+      "handle": "sub-f9f6bdd1a3",
+      "last_checked": 1795724466,
+      "last_nodes_yield": 317,
+      "total_nodes_yield": 1049,
+      "checks_count": 3,
       "is_active": true,
       "sub_url": "https://raw.githubusercontent.com/Ashollii/SubHarvest/main/output/configs.txt",
       "is_telegram": false
@@ -19876,9 +19898,29 @@
       "is_active": true,
       "sub_url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt",
       "is_telegram": false
+    },
+    "sub-b95b7cbe76": {
+      "handle": "sub-b95b7cbe76",
+      "last_checked": 1795724465,
+      "last_nodes_yield": 128,
+      "total_nodes_yield": 128,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt",
+      "is_telegram": false
+    },
+    "sub-18bd828ed3": {
+      "handle": "sub-18bd828ed3",
+      "last_checked": 1795724489,
+      "last_nodes_yield": 403,
+      "total_nodes_yield": 403,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/1.txt",
+      "is_telegram": false
     }
   },
-  "last_run_api_requests": 4,
+  "last_run_api_requests": 0,
   "total_api_requests": 1858,
   "pending_queries": [
     "gh:topic:v2ray-configs",
@@ -19994,46 +20036,6 @@
       }
     ],
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md": [
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/singbox.json)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs_base64.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/clash.yaml)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/singbox.json)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs_base64.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/clash.yaml)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/singbox.json)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt)"
-      },
       {
         "kind": "subscription",
         "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs_base64.txt)"
@@ -20298,39 +20300,7 @@
     "https://raw.githubusercontent.com/liMilCo/v2r/main/README.md": [
       {
         "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt"
-      },
-      {
-        "kind": "subscription",
         "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/tester/Tester.exe"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/tester/Tester.exe)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/all_configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/new_configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/old_configs.txt)"
-      },
-      {
-        "kind": "subscription",
-        "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/1.txt"
       },
       {
         "kind": "subscription",
@@ -20579,7 +20549,12 @@
     "sub-bd860a1115": 76,
     "sub-4c90398a42": 77,
     "sub-44b9f6e67e": 78,
-    "sub-fefad9d43b": 79
+    "sub-fefad9d43b": 79,
+    "sub-7d81eb5a60": 80,
+    "gh-731be4b5c4": 81,
+    "sub-88996eae66": 82,
+    "sub-660b258b53": 83,
+    "sub-f9f6bdd1a3": 84
   },
   "image_results": {
     "a41ed3b1679f97739bbea4c85488a8bbc413eaa8cd512965d0d8c90f215376c4": "",

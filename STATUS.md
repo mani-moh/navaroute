@@ -1,23 +1,23 @@
 # NavaRoute Upstream Sources Status
 
-Snapshot time: 2026-11-26T20:03:39.647006+00:00
-Socket healthcheck ran: true; reachable: 930 (not credential verified).
+Snapshot time: 2026-11-26T20:22:04.283720+00:00
+Socket healthcheck ran: true; reachable: 936 (not credential verified).
 
 | Metric | Count |
 |---|---:|
-| Configured Sources | 281 |
-| Fetch-successful Sources | 262 |
-| Sources Yielding Usable Nodes | 240 |
-| Raw Extracted Nodes | 284949 |
-| Accepted Public Nodes | 144484 |
-| Socket Reachable Nodes | 930 |
+| Configured Sources | 283 |
+| Fetch-successful Sources | 264 |
+| Sources Yielding Usable Nodes | 242 |
+| Raw Extracted Nodes | 284558 |
+| Accepted Public Nodes | 143662 |
+| Socket Reachable Nodes | 936 |
 
 | Source | Fetch | Raw | Unique | Error |
 |---|---|---:|---:|---|
-| 0xradikal-all | OK | 9441 | 9421 | - |
-| 0xradikal-top100 | OK | 97 | 97 | - |
-| 0xradikal-verified | OK | 785 | 785 | - |
-| 0xradikal-verified-b64 | OK | 785 | 785 | - |
+| 0xradikal-all | OK | 9503 | 9483 | - |
+| 0xradikal-top100 | OK | 98 | 98 | - |
+| 0xradikal-verified | OK | 816 | 816 | - |
+| 0xradikal-verified-b64 | OK | 816 | 816 | - |
 | 4n0nymou3-all | OK | 400 | 400 | - |
 | 4n0nymou3-tested | OK | 400 | 400 | - |
 | alirewa-config | OK | 1402 | 1398 | - |
@@ -58,14 +58,14 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | gh-731be4b5c4 | OK | 468 | 468 | - |
 | gh-c964add1d0 | OK | 243 | 243 | - |
 | hakurouken-public | OK | 177 | 94 | - |
-| heliataromi-confighub-mixed | OK | 2760 | 2760 | - |
+| heliataromi-confighub-mixed | OK | 2802 | 2800 | - |
 | hidashimora-11 | OK | 130 | 129 | - |
 | hidashimora-20 | OK | 281 | 279 | - |
 | hidashimora-22 | OK | 120 | 117 | - |
 | hncgs-homayoun | OK | 86 | 86 | - |
-| igareck-ss-all | OK | 61 | 61 | - |
-| igareck-vless-full | OK | 216 | 216 | - |
-| igareck-vless-rus | OK | 144 | 144 | - |
+| igareck-ss-all | OK | 82 | 82 | - |
+| igareck-vless-full | OK | 148 | 148 | - |
+| igareck-vless-rus | OK | 134 | 134 | - |
 | itsyebekhe-psg-cdn | OK | 4884 | 4320 | - |
 | itsyebekhe-psg-mix | OK | 303 | 301 | - |
 | kahrobas-bot | OK | 140 | 140 | - |
@@ -99,10 +99,10 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | owenlee3-shadowrocket | OK | 149 | 149 | - |
 | page-8b8b14efd8 | OK | 20 | 18 | - |
 | pasimand-config | OK | 385 | 384 | - |
-| patterniha-free | OK | 123 | 123 | - |
+| patterniha-free | OK | 129 | 129 | - |
 | patterniha-serverless | OK | 0 | 0 | - |
 | pawdroid-free-servers | OK | 10 | 10 | - |
-| pawdroid-sub-en | OK | 20 | 20 | - |
+| pawdroid-sub-en | OK | 18 | 18 | - |
 | peasoft-nomorewalls | OK | 304 | 304 | - |
 | peweza-publicsub | OK | 58 | 49 | - |
 | prominbro-212 | OK | 50 | 28 | - |
@@ -121,6 +121,7 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | sub-07d2577deb | OK | 1694 | 1607 | - |
 | sub-1393bfcd5a | OK | 177 | 177 | - |
 | sub-178543dc36 | OK | 11 | 11 | - |
+| sub-18bd828ed3 | OK | 429 | 403 | - |
 | sub-1924222fbd | OK | 199 | 199 | - |
 | sub-1ab4d0e74a | OK | 3045 | 2530 | - |
 | sub-21971ef1c8 | OK | 86 | 86 | - |
@@ -131,7 +132,7 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | sub-2d96c803f2 | OK | 1 | 1 | - |
 | sub-35e01e956f | OK | 381 | 381 | - |
 | sub-37df18ba4d | OK | 2 | 2 | - |
-| sub-3d14def1fc | OK | 1512 | 1330 | - |
+| sub-3d14def1fc | OK | 1750 | 1557 | - |
 | sub-3d9f4dd5d5 | OK | 64 | 64 | - |
 | sub-42245810b7 | OK | 1142 | 1135 | - |
 | sub-42814a7c1e | OK | 21 | 21 | - |
@@ -154,13 +155,13 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | sub-74666033c8 | OK | 199 | 184 | - |
 | sub-757c8dc370 | OK | 1103 | 957 | - |
 | sub-7d81eb5a60 | FAIL | 0 | 0 | Fetch failed |
-| sub-8128633604 | OK | 143 | 66 | - |
+| sub-8128633604 | OK | 157 | 82 | - |
 | sub-82b4531fa0 | OK | 315 | 287 | - |
 | sub-830dac5285 | OK | 543 | 371 | - |
 | sub-876a3f766a | OK | 196 | 196 | - |
 | sub-88996eae66 | OK | 329 | 317 | - |
-| sub-905c42f672 | OK | 3313 | 2128 | - |
-| sub-974e350c73 | OK | 929 | 874 | - |
+| sub-905c42f672 | OK | 2993 | 1944 | - |
+| sub-974e350c73 | FAIL | 0 | 0 | Fetch failed |
 | sub-98da3ccf9a | OK | 431 | 431 | - |
 | sub-9f14b5869a | FAIL | 0 | 0 | Fetch failed |
 | sub-a05451667d | FAIL | 0 | 0 | Fetch failed |
@@ -170,16 +171,17 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | sub-a91b4e54af | OK | 20 | 18 | - |
 | sub-aeb605f678 | OK | 172 | 150 | - |
 | sub-b578457bcd | OK | 452 | 452 | - |
-| sub-b6a7f0a318 | FAIL | 0 | 0 | Fetch failed |
+| sub-b6a7f0a318 | OK | 199 | 199 | - |
 | sub-b7d7a978ff | OK | 74 | 73 | - |
 | sub-b89814e6b1 | OK | 40 | 40 | - |
+| sub-b95b7cbe76 | OK | 128 | 128 | - |
 | sub-baeb5ddf00 | OK | 24 | 24 | - |
 | sub-bd860a1115 | FAIL | 0 | 0 | Fetch failed |
 | sub-bf7e5fb885 | OK | 192 | 141 | - |
 | sub-c5924ffe90 | OK | 233 | 166 | - |
 | sub-c951fa49f5 | OK | 199 | 199 | - |
 | sub-cc1aaf24f2 | OK | 197 | 75 | - |
-| sub-cd1827dedc | OK | 283 | 270 | - |
+| sub-cd1827dedc | OK | 184 | 182 | - |
 | sub-d5229dbce7 | OK | 2 | 2 | - |
 | sub-df72bf9aec | OK | 498 | 498 | - |
 | sub-df7d38ecf1 | OK | 200 | 200 | - |
@@ -206,18 +208,18 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | tg-break_the_barriers | OK | 0 | 0 | - |
 | tg-cntcafe | OK | 20 | 20 | - |
 | tg-configshub-2 | OK | 0 | 0 | - |
-| tg-configshub-main | OK | 37 | 36 | - |
+| tg-configshub-main | OK | 28 | 25 | - |
 | tg-configshub-plus | OK | 0 | 0 | - |
 | tg-configwireguard | OK | 0 | 0 | - |
 | tg-configyab_free | OK | 0 | 0 | - |
-| tg-configyab_free2 | OK | 129 | 115 | - |
+| tg-configyab_free2 | OK | 131 | 117 | - |
 | tg-connectbash | OK | 1 | 1 | - |
 | tg-farazv2ray | OK | 282 | 174 | - |
 | tg-father_vpn | OK | 218 | 182 | - |
 | tg-ffreecoffee | OK | 182 | 169 | - |
 | tg-filter_breaker | OK | 29 | 27 | - |
 | tg-filtershekan_channel | OK | 83 | 63 | - |
-| tg-flyv2ray | OK | 126 | 111 | - |
+| tg-flyv2ray | OK | 130 | 111 | - |
 | tg-free1_vpn | OK | 284 | 179 | - |
 | tg-free2config | OK | 41 | 41 | - |
 | tg-freev2rays | OK | 40 | 21 | - |
@@ -243,10 +245,10 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | tg-netfreedom0 | OK | 76 | 74 | - |
 | tg-outlinereleasedkey | OK | 104 | 104 | - |
 | tg-persianvpnhub | OK | 28 | 28 | - |
-| tg-privatevpns | OK | 36 | 35 | - |
+| tg-privatevpns | OK | 34 | 33 | - |
 | tg-proxy_shadowsocks | OK | 3 | 3 | - |
 | tg-proxyarc | OK | 0 | 0 | - |
-| tg-proxymelimon | OK | 21 | 19 | - |
+| tg-proxymelimon | OK | 23 | 21 | - |
 | tg-proxymtprotoir | OK | 1 | 1 | - |
 | tg-proxyshub | OK | 0 | 0 | - |
 | tg-server01012 | OK | 0 | 0 | - |
@@ -268,12 +270,12 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | tg-v2ray_vpn_ir | OK | 0 | 0 | - |
 | tg-v2raybaaz | OK | 172 | 90 | - |
 | tg-v2rayng_config | OK | 2 | 1 | - |
-| tg-v2rayng_fast | OK | 46 | 30 | - |
+| tg-v2rayng_fast | OK | 50 | 31 | - |
 | tg-v2rayngvpn | OK | 131 | 69 | - |
 | tg-v2rei | OK | 38 | 33 | - |
-| tg-vlessconfig | OK | 36 | 35 | - |
+| tg-vlessconfig | OK | 34 | 33 | - |
 | tg-vpn_ceenter | OK | 24 | 21 | - |
-| tg-vpn_click | OK | 159 | 134 | - |
+| tg-vpn_click | OK | 151 | 130 | - |
 | tg-vpn_m2s | OK | 7 | 6 | - |
 | tg-vpnbaz | OK | 36 | 21 | - |
 | tg-vpnine1 | OK | 264 | 254 | - |
@@ -290,7 +292,7 @@ Socket healthcheck ran: true; reachable: 930 (not credential verified).
 | v2raycollector-speed-cloudzy | OK | 250 | 250 | - |
 | v2raycollector-tcp-cloudzy | OK | 2704 | 2702 | - |
 | v2raycollector-url-shatel | OK | 114 | 114 | - |
-| vestranet-mix-b64 | OK | 5747 | 4258 | - |
+| vestranet-mix-b64 | OK | 5591 | 4229 | - |
 | whitedns-base64 | OK | 134 | 129 | - |
 | whitedns-cf | OK | 3 | 3 | - |
 | zieng2-wl | OK | 114 | 114 | - |

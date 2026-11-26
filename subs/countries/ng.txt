@@ -1,10 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIE5HIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:03:39.647006+00:00
+# snapshot-time: 2026-11-26T20:22:04.283720+00:00
 
-vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@51.158.206.103:23576?security=reality&encryption=none&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&headerType=none#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Aalirzza9-configshub-all%20%7C%20144ms
+vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@51.158.206.103:23576?security=reality&encryption=none&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&headerType=none#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Aalirzza9-configshub-all%20%7C%20132ms
 vless://c33275fd-a4fa-470d-90e4-55da39d849a8@104.26.6.35:80?type=ws&encryption=none&flow=&host=de.tawana.cf.panbehpanel.ir&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-ws%20%7C%20src%3Alalatinahub-mineral
-trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-b1.catcat321.com:20051?allowInsecure=1&sni=hk.catxstar.com#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20Trojan%20%7C%20src%3Asub-cd1827dedc
 vless://8fd063ca-c234-474e-84a0-11999a8b6f6a@10.230.15.233:2053?encryption=none&flow=xtls-rprx-vision&security=reality&sni=saiwoyturo.yootowuyf.fun&fp=android&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 trojan://d7563108-615c-4338-a7bd-77f359869a4a@sclass-b1.catcat321.com:20051?security=tls&sni=hk.catxstar.com&insecure=1&allowInsecure=1&type=tcp&headerType=none#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20Trojan-tcp%20%7C%20src%3Akahrobas-bot
 vless://dcaab1fc-3078-4447-b0c7-63b98909f5b8@13.107.246.45:2087?encryption=none&security=tls&sni=admin.zula.ir.in&alpn=h2%2Chttp%2F1.1&fp=edge&type=ws&host=admin.zula.ir.in&path=iidp#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
@@ -39,6 +38,7 @@ vless://d15b55ac-08cb-4fb4-b4ff-40ecb49baa0c@188.121.103.158:80?encryption=none&
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpKV1ZSQ25ZV2lIcUd6dDBkNm5SR1paN0NiejcvQndpa2N2cDBVeFB4dXFVPQ@18.157.81.23:8080#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20SS%20%7C%20src%3Agfpcom-ss
 trojan://ZxdVJgscqkqHvC@195.209.117.15:8443?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=nwelrcthodpk.rewkbi.site#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpGU251OFRqODN2enkwSzFoUmxZbGIxcTVWamNUT0pieTNhTFRzckJOK2tNPQ@[::ffff:10ab:b670]:8080#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20SS%20%7C%20src%3Agfpcom-ss
+vless://ad356e93-cc14-417d-9f4e-32376d03f5b7@ip.feywebsite.ir:2096?path=%2Fws%3Fed%3D2560&security=tls&encryption=none&insecure=0&host=greattehran.hozheen.ir&type=ws&allowInsecure=0&sni=07e357aa7e747ca4.hOzHeEn.Ir#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-ws%20%7C%20src%3Asub-3d14def1fc
 vless://124990c7-7b66-4251-a6e2-6aa47b793345@185.166.104.4:2096?encryption=none&security=reality&sni=apps.azkivam.com&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=SkoJOxKdb&mode=gun#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.196.149.81:443?type=grpc&security=reality&sni=b3cd32g.es1.h1clayd.click&fp=firefox&pbk=7efBhLzPwoTtEC1GlukCdiTllobUfa2_XuAKNSLJx30&sid=e7cffac9f8cfb434#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20VLESS-Reality%20%7C%20src%3Asub-876a3f766a
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpwZUk0K09FY0l6SkM3UHpueE1iNG42NHMxTC9qNUdBNDZieXZDM0M3UEZrPQ@3.77.145.63:2096#%5B%F0%9F%87%B3%F0%9F%87%AC%20NG%5D%20SS%20%7C%20src%3Agfpcom-ss

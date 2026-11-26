@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIEFMIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:03:39.647006+00:00
+# snapshot-time: 2026-11-26T20:22:04.283720+00:00
 
 vless://6beee13a-f356-4a51-8e65-75f776508e8f@78.159.131.5:443?security=reality&encryption=none&pbk=su3dq3BDLDkX-jIjq3GyVUXwqzD7CNVYzKtOcO4HQ24&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=al.cdn.stun.su&sid=8051d89749e0d400#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 vless://ae852d97-85f5-45cf-82a4-254eba345480@cdn.cdnjst.org:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=cdn.cdnjst.org&fp=chrome&security=reality&pbk=djH9iD2QV748ocK-wPH7HvDd03lu88zHhS4G-61w6Dc&sid=a120&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
@@ -20,8 +20,6 @@ trojan://humanity@91.239.6.47:443?sni=www.cordweave.com&type=ws&path=%2Fassignme
 vless://517a34f4-bc72-4ac6-adac-cb8268a72372@play.fontstorage.online:443?encryption=none&type=ws&path=%2Fs%2Fonest%2Fv9%2Fblack.woff2&host=play.fontstorage.online&security=tls&sni=play.fontstorage.online&fp=firefox&alpn=http%2F1.1#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-ws%20%7C%20src%3Asub-660b258b53
 vless://20486037-c2ae-4c07-a459-f58ca83cf08a@mcicloudnnnn.belzema.ir:10005?security=reality&encryption=none&pbk=7aICTN0hv6bhd8bYOjNZniDYSXgD20LunZ3BW6_Zyk4&headerType=none&fp=chrome&type=tcp&sni=play.googleapis.com#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpKR3Y2MTZoTVdkamZ1WjAwallmcTdYa0JISlpyT0JyZw@87.121.162.249:443#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Agfpcom-ss
-vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.196.148.85:443?security=reality&pbk=l-GzBDuNuhnjxoRlZqKvT7jAt_sbVAxhGFsAttO5kXs&sid=361d0dd59c70516f&fp=chrome&sni=5d0319t.nl7.h1clayd.click&type=tcp&headerType=none&host=5d0319t.nl7.h1clayd.click&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-3d14def1fc
-hysteria2://8bd04756-3beb-4348-82c9-d35453df50ce@alb1337.zaebalsanoproxyklinus.lol:28152#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpQTDRhaFNvTE5xcko4bVFaMXVLRkxHOG84VzRUY1lEVUlXMGdsZHA5R3JzPQ@130.49.189.158:43558#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Alalatinahub-mineral
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@31.171.153.181:989#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Acoldwater-all
 vless://a571b94c-a9f3-407a-a8ef-da608dab5472@kurd-fr.tawana.online:46248?type=tcp&encryption=none&flow=&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-tcp%20%7C%20src%3Alalatinahub-mineral
@@ -40,8 +38,10 @@ hysteria2://NxiqWfMY5A@193.108.112.6:50163?security=tls&obfs=salamander&obfs-pas
 vless://8d7a09ce-7285-4713-babf-b3ac9ad58605@103.167.234.97:443?security=reality&flow=xtls-rprx-vision&sni=spirako.com&type=tcp&fp=chrome&pbk=0hH6R90pSxwm7nZPGtJJcJFhwCXU3Rvf-wcEHE7hczo#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Acoldwater-all
 trojan://MeaDiUmPlkWbZJ2BON8tz@78.159.131.12:28259?security=tls&sni=%F0%9F%94%92#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20Trojan%20%7C%20src%3Aalirewa-config
 vless://e7b5bf92-1d74-48d4-862f-668ba9fe01d1@dl.clouding-erfan.ir:2605?security=reality&encryption=none&pbk=RdhlZ8FX6D8znsqujb8fJ29mGJocrN2m8DEbdULkV0w&headerType=none&fp=firefox&type=tcp&sni=www.notion.so&sid=3a622700e73c6642#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Atg-wolf_vpn00
+hysteria2://zvxywxoorgqk3fzb@giftcard.gateway-stream.com:52000?sni=giftcard.gateway-stream.com&obfs=salamander&obfs-password=fuw2k1ddrouwxr3u#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
 vless://b24ad12f-f6ce-4f0b-a264-d58a76104026@151.123.187.198:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=al2.magazinnarubeva.ru&pbk=trN5x0amt2YuVzF2vZnK294YBAuh_zl5QkZjPyWz-TI&sid=8718c58d3d51db59&type=tcp&headerType=none#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTowU3hMWEZ0b21ZOXlwTzRvOHJyTldFcE5TWkVGenNNbmZoQkVUVWQzb093PQ@leviko-al2299.shopingggg.ir:43558#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3VUVDbXo4T29jNUhseGhkdTNoNWJ3@103.167.234.75:8443#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
 ss://YWVzLTEyOC1nY206YjFhMWY4OWItNjNlZC00YjViLTgxYTEtOTFhN2M1Yjc2Y2E5@ruot.ayucloudservices.nl:35190#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20SS%20%7C%20src%3Agfpcom-ss
 vless://0822b3b0-4c52-47c0-aed6-be7bf6f54aba@eu124.cdn77.icu:20002?security=reality&encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&headerType=&fp=firefox&type=tcp&sni=eu124.cdn77.icu&sid=1ed136481e0ede74#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
+vless://dabb9a19-03ab-4cdf-8963-d3c45eb0f80d@45.89.60.235:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=wTITbZ7gXSeLOTMLOVC4ePziVIyELIgQeaPihXrbqAk&sid=946b7ff3ebdd350c&sni=alblack.vodniki.monster#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-3d14def1fc

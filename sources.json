@@ -3994,6 +3994,34 @@
       "enabled": true,
       "description": "Auto-discovered public subscription found by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "sub-b95b7cbe76",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/best.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "sub-18bd828ed3",
+      "name": "Discovered public subscription",
+      "url": "https://raw.githubusercontent.com/liMilCo/v2r/main/sub/1.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }
