@@ -3714,6 +3714,34 @@
       "enabled": true,
       "description": "Public Telegram channel @vpnine1 whose configs were retained by the discovery run.",
       "origin": "discovered"
+    },
+    {
+      "id": "sub-a05451667d",
+      "name": "Discovered public subscription",
+      "url": "https://gitverse.ru/api/repos/flaafix/AetrisVPN_Black_list/raw/branch/master/configs.txt",
+      "verified_upstream": false,
+      "format": "auto",
+      "tags": [
+        "auto-discovered",
+        "subscription"
+      ],
+      "enabled": true,
+      "description": "Auto-discovered public subscription found by the discovery run.",
+      "origin": "discovered"
+    },
+    {
+      "id": "tg-hope_net",
+      "name": "Telegram @hope_net (public configs retained)",
+      "url": "https://t.me/s/hope_net",
+      "verified_upstream": false,
+      "format": "telegram_web",
+      "tags": [
+        "auto-discovered",
+        "telegram"
+      ],
+      "enabled": true,
+      "description": "Public Telegram channel @hope_net whose configs were retained by the discovery run.",
+      "origin": "discovered"
     }
   ]
 }

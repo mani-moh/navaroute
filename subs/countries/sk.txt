@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNLIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T07:18:23.112858+00:00
+# snapshot-time: 2026-11-26T12:01:32.055534+00:00
 
 ss://Y2hhY2hhMjAtcG9seTEzMDU6VEp1a1ZGUGhoTWl1UFhaZGI@146.75.122.219:8080#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://f8d38e09-c654-5045-9816-27cf78cc93fa@5.252.23.173:80?mode=gun&security=none&encryption=none&type=grpc&serviceName=vless-grpc#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-grpc%20%7C%20src%3Acoldwater-all
@@ -18,7 +18,6 @@ vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImFlcy0xMjgtZ2NtIiwgIm5ldCI6ICJ0
 vless://45829f4b-1a77-40d2-a71d-607588070441@162.159.136.232:443?encryption=none&security=tls&sni=xpz.xjx.in&alpn=h2%2Chttp%2F1.1&fp=edge&type=grpc&serviceName=xpz.xjx.in&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-grpc%20%7C%20src%3Asub-f66beda748
 ss://Y2hhY2hhMjAtcG9seTEzMDU6Tm1VcktGd0xJQ3dhb1V0RXBYdXg@104.126.37.145:8443#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://5f0d9e00-88a2-4236-9070-2985e3edb2f7@178.215.8.107:8443?encryption=none&security=tls&sni=PtEmE.khrdortzw.sbs&alpn=h2%2Chttp%2F1.1&fp=chrome&type=ws&host=PtEmE.khrdortzw.sbs&path=qmmkqmm#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
-vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.111:443?encryption=none&security=reality&type=tcp&sni=76574ct.nl8.h1clayd.click&fp=firefox&pbk=9zW5lTDbs9svY-lzlPp-pq0j2Sr6g031SY0E-3xSHDc&sid=2ca59bdc5121f921#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Avestranet-mix-b64
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpoekZDVVFaZVVLYk9TY0JNbA@130.211.9.172:2096#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://9a597d68-6688-4046-bf24-a5a541e115e0@156.146.40.84:8443?security=reality&type=tcp&packetEncoding=xudp&sni=www.apple.com&fp=chrome&flow=xtls-rprx-vision&sid=f8d0271b4b5f9efc&pbk=6FI4VM9WlQEGVjyCvLDQLz1jOkrzzhtfGl9eQTBn6HU&encryption=none#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 trojan://ojLjYTstQXodyfcLl@130.211.9.172:2083?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=JiHn.hrdwriAkVHg.in#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
@@ -64,7 +63,6 @@ trojan://QlOSpuxbQYLOHDguW@192.99.158.243:8443?security=tls&alpn=http%2F1.1&head
 trojan://mueioKmtdQGWxz@185.166.104.3:8443?security=tls&alpn=http%2F1.1&headerType=none&type=tcp&sni=dmpv.juzgmwmybmf.in#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20Trojan-tcp%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImliLmJraS5pciIsICJwYXRoIjogImRpZ2lrYWxhLmNvbSIsICJ0bHMiOiAidGxzIiwgInNuaSI6ICJpYi5ia2kuaXIiLCAiYWxwbiI6ICIiLCAicHMiOiAiW/Cfh7jwn4ewIFNLXSBWTWVzcy13cyB8IHNyYzpzdWItZjY2YmVkYTc0OCIsICJhZGQiOiAiMTY0LjIxNS42MS4xMTQiLCAicG9ydCI6IDQ0MywgImlkIjogImFmNmE5OTY1LTRlNzItNGFlMi05ZjdlLTkwYzA1ZjY5ZDg5ZCJ9
 vless://5f2b5919-43cd-4248-8728-136b7ebd6e7d@198.54.122.136:8443?encryption=none&security=reality&sni=fdwh.tbrfwlz.space&fp=safari&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=dahwrqotgrp&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
-vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.245.153.114:443?path=%2F&security=reality&encryption=none&pbk=4mgkA2kT_Im0rkGi-fVSUU5CyF5xvMVcjA6MXBSEDAA&host=196.245.153.114&fp=qq&type=xhttp&sni=38917fx.es9.h1clayd.click&sid=d5501b156391e01d#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
 vless://ff84032d-8ace-4038-b5c6-3ca283a88f5b@185.8.175.158:2083?encryption=none&flow=xtls-rprx-vision&security=reality&sni=bwdq.nqewod.tk&fp=safari&pbk=7KU9RAppo9b-I3CQdQhBqXQ8eaKPxgF0A67MA4OY7w4&sid=b57c9c13&spx=%2F&type=tcp&headerType=none#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
 vless://842eb582-6ab1-4309-a7ab-8fe7bac59fe2@15.197.140.28:8443?encryption=none&security=tls&sni=xwimhm.oMywMt.sbs&alpn=h2%2Chttp%2F1.1&fp=firefox&type=ws&host=xwimhm.oMywMt.sbs&path=bNxB#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImFjY291bnRzLmJraS5pciIsICJwYXRoIjogInd6eHV5IiwgInRscyI6ICJ0bHMiLCAic25pIjogImFjY291bnRzLmJraS5pciIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HuPCfh7AgU0tdIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICIxNjQuMjE1LjYxLjExOCIsICJwb3J0IjogODAsICJpZCI6ICI1YTgzOGFjOC04Yzg1LTQyZDktOTM3MS01YjQxODU1YmU1NTkifQ==
