@@ -51,7 +51,7 @@ CHECKPOINT_JOURNAL = "data/discovery_checkpoint.json"
 KNOWN_SOURCES_COMPACT_LIMIT = 120
 # Maximum extra query-expansion passes per cycle when the candidate
 # queue runs dry mid-cycle.
-MAX_QUERY_REEXPANSIONS = 8
+MAX_QUERY_REEXPANSIONS = 3
 
 
 def _known_source_token(url: str) -> str:
@@ -641,7 +641,7 @@ class DiscoveryAgent:
                 if not self._can_work():
                     return
                 # Completed children do not prove the parent's extraction phases finished.
-            urls = self.web_scraper.search_github(query, max_results=8)
+            urls = self.web_scraper.search_github(query, max_results=8, discover_trees=self.workers > 1)
             self._queue_children(parent, urls, "subscription", discovered_sources, existing)
             if not self._can_work():
                 return
@@ -889,7 +889,8 @@ class DiscoveryAgent:
                     # Queue dry mid-cycle: ask for fresh queries of our
                     # own instead of only re-checking old channels, so
                     # the remaining budget goes to finding new sources.
-                    if extended and reexpansions < MAX_QUERY_REEXPANSIONS and self._can_work():
+                    reexpansion_limit = 8 if self.workers > 1 else MAX_QUERY_REEXPANSIONS
+                    if extended and reexpansions < reexpansion_limit and self._can_work():
                         before = len(self.state_manager.state.get("candidate_queue", []))
                         self._expand_queries_via_nemotron(discovered, existing, extended_mode=extended)
                         reexpansions += 1

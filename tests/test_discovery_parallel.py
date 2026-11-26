@@ -35,7 +35,7 @@ class TestDiscoveryParallelAndYield(unittest.TestCase):
             return ""
 
         with patch.object(scraper, "_read", side_effect=fake_read):
-            urls = scraper.search_github("vless")
+            urls = scraper.search_github("vless", discover_trees=True)
         self.assertEqual(urls, [
             "https://raw.githubusercontent.com/owner/repo/main/hub/merged.txt",
             "https://raw.githubusercontent.com/owner/repo/main/lists/vless.txt",
