@@ -25,6 +25,12 @@ from pathlib import Path
 # (file stem, label, few-word description). Order is the page order.
 # Deliberately neutral wording: no product, protocol or purpose words.
 FEEDS = (
+    # Iran-tested feeds: verified working from inside Iran.
+    ("tested-iran_base64", "working · iran", "tested in Iran, working"),
+    ("online-tested-iran_base64", "working · online · iran", "tested in Iran, responding now"),
+    ("online-week-tested-iran_base64", "working · recent · iran", "tested in Iran, worked this week"),
+    ("fastest-100-tested-iran_base64", "working · top 100 · iran", "tested in Iran, fastest 100"),
+    ("balanced-500-tested-iran_base64", "working · lite · iran", "tested in Iran, small list"),
     ("tested_base64", "working", "tested, working"),
     ("online_base64", "online", "responding now"),
     ("online-week_base64", "recent", "worked this week"),
