@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFNJIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-25T07:28:59.369357+00:00
+# snapshot-time: 2026-11-26T19:23:18.148766+00:00
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpZb25Hd21ZSkZlUw@192.99.158.243:80#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Asub-f66beda748
 vless://71c8f2a2-1ad6-4cb7-82f1-88a3de503ab5@86.104.39.105:8443?encryption=none&security=reality&sni=laaagv.bidvkzv.sbs&fp=firefox&pbk=r9xqYf3TXGXiuUiWewGsA2uMGgqC_WVZOn9WLojL10Q&sid=9d307375&spx=%2F&type=grpc&serviceName=laaagv.bidvkzv.sbs&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-f66beda748
@@ -23,6 +23,7 @@ ss://Y2hhY2hhMjAtcG9seTEzMDU6ZVhYY1h6dkVORm1pbVRMeGxQTg@217.144.104.39:2096#%5B%
 vless://5d0870bd-b83b-4c19-9489-af045829e699@109.94.166.240:2096?encryption=none&security=tls&sni=login.emofid.com&alpn=h2%2Chttp%2F1.1&fp=firefox&type=ws&host=login.emofid.com&path=pthpaqn#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInF1YnlvcG9zenEuTWZzV2x4SHN3WUZDLmxpbmsiLCAicGF0aCI6ICJtcHJicGUiLCAidGxzIjogInRscyIsICJzbmkiOiAicXVieW9wb3N6cS5NZnNXbHhIc3dZRkMubGluayIsICJhbHBuIjogIiIsICJwcyI6ICJb8J+HuPCfh64gU0ldIFZNZXNzLXdzIHwgc3JjOnN1Yi1mNjZiZWRhNzQ4IiwgImFkZCI6ICI1LjkuNTQuMTIiLCAicG9ydCI6IDgwODAsICJpZCI6ICJmOGU4MmY3OS1mN2I2LTQzOGUtODI2OC0xYTIzYWE4ZmE0ZDIifQ==
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogInFnZ29pLnBod0NiVVEuZnVuIiwgInBhdGgiOiAid2ViIiwgInRscyI6ICJ0bHMiLCAic25pIjogInFnZ29pLnBod0NiVVEuZnVuIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4e48J+HriBTSV0gVk1lc3Mtd3MgfCBzcmM6c3ViLWY2NmJlZGE3NDgiLCAiYWRkIjogIjE4OC4wLjI0MC4yMTEiLCAicG9ydCI6IDIwOTYsICJpZCI6ICJkNGNhNjViYi03YzU4LTRlMjMtYWIxNC02MTkzMjQwNWY2NTUifQ==
+vless://0822b3b0-4c52-47c0-aed6-be7bf6f54aba@eu124.cdn77.icu:20084?security=reality&encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&headerType=&fp=firefox&type=tcp&sni=eu122.cdn77.icu&sid=1ed136481e0ede74#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
 vless://ce921765-d1f3-4340-b6d0-6f97f785912a@89.235.68.28:2083?encryption=none&security=tls&sni=txh.kvHbMb.fun&alpn=h2%2Chttp%2F1.1&fp=ios&type=ws&host=txh.kvHbMb.fun&path=jgujxrqyu#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20VLESS-ws%20%7C%20src%3Asub-f66beda748
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@192.71.244.49:989#%5B%F0%9F%87%B8%F0%9F%87%AE%20SI%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
 vmess://eyJ2IjogIjIiLCAiYWlkIjogIjAiLCAic2N5IjogImF1dG8iLCAibmV0IjogIndzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogImliYW5rLmlyZW5leC5pciIsICJwYXRoIjogImRqeWl4YXphanAiLCAidGxzIjogInRscyIsICJzbmkiOiAiaWJhbmsuaXJlbmV4LmlyIiwgImFscG4iOiAiIiwgInBzIjogIlvwn4e48J+HriBTSV0gVk1lc3Mtd3MgfCBzcmM6c3ViLWY2NmJlZGE3NDgiLCAiYWRkIjogIjk0LjE4Mi4xODQuMjMxIiwgInBvcnQiOiAyMDg3LCAiaWQiOiAiNTNkMzA4MjYtMjllNC00ODVjLWJlYmQtYWRlMDYwNzIzM2Q3In0=

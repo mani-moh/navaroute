@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": 1795694448,
+  "last_updated": 1795720943,
   "queries_executed": [
     "site:t.me \"vless://\" reality",
     "site:t.me \"vmess://\" OR \"trojan://\" iran",
@@ -41,7 +41,8 @@
     "gh:gh:proxy-pool",
     "gh:gh:free-proxy",
     "gh:iran proxy configs sub.txt",
-    "gh:hysteria2 vless reality sub"
+    "gh:hysteria2 vless reality sub",
+    "site:github.com \"v2ray\" \"All_Configs_Sub.txt\""
   ],
   "candidate_queue": [
     "xsfilterrnet",
@@ -2120,7 +2121,23 @@
     "pirozi_argap": 1,
     "p141": 1,
     "xxxxxx": 1,
-    "unlimiteddev": 1
+    "unlimiteddev": 1,
+    "vless_bounty_bot": 6,
+    "bounty_configs": 6,
+    "mbountyvpn_bot": 7,
+    "cntcafe": 1,
+    "freeconfigbyzikko1": 6,
+    "vpnbyzikko": 6,
+    "zikkovpnbot": 10,
+    "cntcafebot": 2,
+    "paglu_shopp_bot": 1,
+    "elite_tools_store_bot": 2,
+    "byzikko": 4,
+    "uttweet": 1,
+    "megav_vpn": 7,
+    "vpnsmegabot": 6,
+    "vpnsmega": 6,
+    "sxpki": 1
   },
   "visited_channels": [
     "configshub",
@@ -3219,7 +3236,18 @@
     "siezry",
     "rijkmrz",
     "horro6",
-    "hope_net"
+    "hope_net",
+    "vless_bounty_bot",
+    "bounty_configs",
+    "mbountyvpn_bot",
+    "cntcafe",
+    "freeconfigbyzikko1",
+    "vpnbyzikko",
+    "zikkovpnbot",
+    "byzikko",
+    "megav_vpn",
+    "vpnsmegabot",
+    "vpnsmega"
   ],
   "rejected_channels": [
     "lava",
@@ -4060,7 +4088,12 @@
     "pirozi_argap",
     "p141",
     "xxxxxx",
-    "unlimiteddev"
+    "unlimiteddev",
+    "cntcafebot",
+    "paglu_shopp_bot",
+    "elite_tools_store_bot",
+    "uttweet",
+    "sxpki"
   ],
   "visited_urls": [
     "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/sub.txt",
@@ -5195,7 +5228,123 @@
     "https://t.me/s/siezry",
     "https://t.me/s/rijkmrz",
     "https://t.me/s/horro6",
-    "https://t.me/s/hope_net"
+    "https://t.me/s/hope_net",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/configs.txt",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/sub",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/sub",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/sub.txt",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/sub.txt",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/configs.txt",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/sub.txt",
+    "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/sub",
+    "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/configs.txt",
+    "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub.txt",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/sub.txt",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/configs.txt",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/sub",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/sub.txt",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/configs.txt",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/liMilCo/v2r/main/sub",
+    "https://raw.githubusercontent.com/NakuTenshi/v2forge/main/sub.txt",
+    "https://raw.githubusercontent.com/NakuTenshi/v2forge/main/configs.txt",
+    "https://raw.githubusercontent.com/NakuTenshi/v2forge/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/NakuTenshi/v2forge/main/sub",
+    "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/sub.txt",
+    "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/configs.txt",
+    "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/sub",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/sub_base64.txt",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/keys.txt)",
+    "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/README.md",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/%E2%9C%A7%20Public%20Configs",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/README.md",
+    "https://raw.githubusercontent.com/Z-ikko/ZikkO-Vpn-configs/main/README.md",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/vmess.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/ss.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/vless.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/trojan.txt",
+    "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/README.md",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/config.yaml)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/config.json)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml)",
+    "https://raw.githubusercontent.com/tepo80/tepo80/main/trojan.txt",
+    "https://raw.githubusercontent.com/peacefish/nodefree/main/sub/list/37.txt",
+    "https://raw.githubusercontent.com/kort0881/sbornik-vless/main/trojan_001.txt",
+    "https://raw.githubusercontent.com/Argh73/VpnConfigCollector/main/Sub475.txt",
+    "https://raw.githubusercontent.com/nikita29a/FreeProxyList/main/mirror/13.txt",
+    "https://t.me/s/vless_bounty_bot",
+    "https://t.me/s/bounty_configs",
+    "https://t.me/s/mbountyvpn_bot",
+    "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/refs/heads/main/%E2%9C%A7%20Public%20Configs",
+    "https://t.me/s/cntcafe",
+    "https://t.me/s/freeconfigbyzikko1",
+    "https://t.me/s/vpnbyzikko",
+    "https://t.me/s/zikkovpnbot",
+    "https://t.me/s/byzikko",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml)（不含",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml)",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml)",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/config.yaml",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/configs.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/sub.txt",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/configs.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/sub",
+    "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/configs.txt",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/sub",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/sub.txt",
+    "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/sub.txt",
+    "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/sub",
+    "https://raw.githubusercontent.com/Andrejewild/happ-v2rayng-configs/main/configs.txt",
+    "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/Andrejewild/happ-v2rayng-configs/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/Andrejewild/happ-v2rayng-configs/main/sub",
+    "https://raw.githubusercontent.com/HakunaMaruna/XreyStudioServer/main/sub.txt",
+    "https://raw.githubusercontent.com/HakunaMaruna/XreyStudioServer/main/configs.txt",
+    "https://raw.githubusercontent.com/HakunaMaruna/XreyStudioServer/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/HakunaMaruna/XreyStudioServer/main/sub",
+    "https://raw.githubusercontent.com/A-z-exe/SchnellVPN/main/sub.txt",
+    "https://raw.githubusercontent.com/A-z-exe/SchnellVPN/main/configs.txt",
+    "https://raw.githubusercontent.com/A-z-exe/SchnellVPN/main/All_Configs_Sub.txt",
+    "https://raw.githubusercontent.com/A-z-exe/SchnellVPN/main/sub",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-top100.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/cta-star.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/cta-links.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/cta-telegram.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/hero.svg",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/mtproto.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/trojan.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/shadowsocks.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/vless.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/vmess.txt",
+    "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/README.md",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/README.md",
+    "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/README.md",
+    "https://raw.githubusercontent.com/Romaxa55/MegaV_Public/main/subs/all.txt",
+    "https://t.me/s/megav_vpn",
+    "https://t.me/s/vpnsmegabot",
+    "https://t.me/s/vpnsmega",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/config.json",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/config.yaml",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/config.json",
+    "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-telegram.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/promo-proxy-mobile.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-verified.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/divider.svg",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/promo-proxy.svg"
   ],
   "sources_metadata": {
     "gh-731be4b5c4": {
@@ -9280,16 +9429,14 @@
     "meliproxyy": {
       "handle": "meliproxyy",
       "last_checked": 1795689097,
-      "last_nodes_yield": 1,
+      "last_nodes_yield": 0,
       "total_nodes_yield": 2098,
       "checks_count": 12,
-      "is_active": true,
+      "is_active": false,
       "sub_url": "https://t.me/s/meliproxyy",
       "is_telegram": true,
       "oldest_post_id": 38022,
-      "retained_fingerprints": [
-        "9945e642ed04e60fcc003c3f70dc2d528429edddede65358871f3ae0556bf7a1"
-      ]
+      "retained_fingerprints": []
     },
     "vpnarta_bot": {
       "handle": "vpnarta_bot",
@@ -19048,7 +19195,7 @@
     "vpnine1": {
       "handle": "vpnine1",
       "last_checked": 1795689248,
-      "last_nodes_yield": 71,
+      "last_nodes_yield": 34,
       "total_nodes_yield": 233,
       "checks_count": 2,
       "is_active": true,
@@ -19058,75 +19205,38 @@
       "retained_fingerprints": [
         "02453fa8a067ee54d9df10a181e20de123050a77349c0f78fc0a9e8bd20539d6",
         "0443561c82f271ae884482ba21d60659c07ee60b83ff882ff63a7b2bd336f6b7",
-        "060c470922a21361cb2d5a2bd06a8bdcbfa13b96a7d1987b881eb78e28d8691d",
         "079db87f536c303fbd6de946ff8476b20f57e15ed2b51332dd5ec97f3a4e2603",
         "0b57fa9ca37ced2603db12230cdbdee2976be3a1885136cf8a1bafd52ae1b0c6",
-        "0d4116007f22dc10510b4d76b2db1b4c6d644d5c3e34ffa7b363692d8e0ffa02",
         "0d5446e8af97043de925d84883951ddda1ecfc8ab36005bf41a8a180349f3142",
-        "0e3e1a3ea6d54e207d6c3e670c82fa6a5f76eb4478b977c9c755afadb7030a90",
-        "13661ab6736d464333628dc45399832f90ea6f5ad927e406a1e7d5e9ca6f911e",
-        "147d5fdc522bf0a0e354f77b3bd3efea33c30c334a252994c1f9a81b9c650f59",
-        "166ccb701962c009ac25a91022ef2bf9f87b6a893c54ef7b4da5205578d3a076",
-        "17e0c694de676b1a8590d2afdcba4385c645352f652e609b484f1b76e6474a54",
         "1830e026a664a57123045841cd485ba3662b5081269ae6fdea23b922a6f47795",
         "1d5d97b396ee64158f242a8b52e8b055644ac2823ffa9911ecfa3517abcfbf79",
-        "3039c42a7cc82aa3ee1a553f02929d784e54f6910b644923a0f95b3dbff0f090",
-        "319ee07dfd6b56a627bc91d99fd45658f0b9ebd32ca341f56b44379ac7266e7d",
         "33569ace6c6edc4935382cba1329f5dee8be67fa9b951137a4aaffae523e566e",
-        "3491041f4b4554068c6193aa4eb4e5155a1b53075545306360cbd86b7c293510",
         "3d7a0385a5ed349c90ddc0d49fb6b1277674fdc071bea8a478b4e5195f64090a",
-        "45edda4e12428dd46f6ed7043c6f37205066b63057d405043649180f68fd6fc8",
-        "47a021902f1a336e5b6334bd29c56d2e7ef445d1b09c7af2a3b75b8d1b043fe2",
         "4d01614a620e29531c3ccb94e414f555083ee91aa64d72a312b93a60fcee881b",
-        "5251c16e4b20ec3e10f47ec23ea992bf3bad7f08962af6d5b7450e9a3c11fd46",
-        "52b6c3485b7a65789ad5f12a3f7e84383cc07503e58b55eec75f8a7e7cabb865",
         "53b4d51534d544ec38b42813f4d97c3a84a8922dc9371386ef945c6503fb3c55",
         "53ea9982cc365806c51a117be3880a623aca86edd353586904e17ca6f5e19865",
         "5a38779f5ae37617ba912883d70baf246583a41a6b56437a866519ed18e6d3a5",
-        "5f9eddd3fa54ce183998bf7c068d2b45290c0cdd9f2ad4cf89321a68a7102ce2",
         "5ffc640d4306bccd5414a08936bc1b37a34cb8f45ebdfe0da514b4ca85080675",
-        "6056ee25e30b741e4745268bd8a13fd15cf9b2340d1a08358a401628facaad86",
         "60792ea814057033970818056cc5cdd90b4dbfb64b3a9bf14c70ded08690bf09",
         "61dbd631c8acf299cbe485999123e33de73eac8c352dda6b8bccae960262f6e8",
         "6540e352993d0924bf0cae640cfcbf261caef7228f248600e9be6777f7e6c562",
-        "686728d0f60945ac18d3e119c225d195bbda15ea9ac3b2e446547be1149d9652",
         "69a3b7057f9f395f25878fffc46ab1f5d42abd30a625331621caa894cbed5f33",
-        "6aeb8e3dd42e34864c297c7620e5d0415a255f3b674fa9994c55b266954756e5",
-        "6b59446b85761e9c3e1b867acfe91668078f9cbb9be835d3f22e1ffd4890de05",
         "6d7f101f7386f5f30dfca615d5cef197eb741174f4acdd6a3553232a10798efc",
         "6e98c7ce0ba31cb0c52065008e1c82c35ae46e7a0d63b3319d36f3518e43132b",
         "7a998f5a7391f2433fc5418e904315dbeaf9a12818a65f82539977b7c47c296d",
-        "827025bf592529843ccb1ce28c0660cf1e48cfa84b1a59320904be218549eabd",
         "86b540b996aafd9587c8918da59436b21a6937fe78397bce3c074b55efac9eba",
         "880d7f938fec998ccdea2dea19041698b9975d5ed4cca410a535f5f460e29319",
         "894f3e4ffc7c92338d15bc2c763ce0695063d9bec99d837290be1dad173b0934",
         "8a45e66c1f4471d7e6c9aea73bf6b2594e437833127ab995286625141a8cae47",
-        "9093aa6d4715550fe93674ec4141233866e0fcdf6cce59005b35084450e356d7",
-        "9945e642ed04e60fcc003c3f70dc2d528429edddede65358871f3ae0556bf7a1",
-        "9c130c56a72456ee7c634ea647568822073c5154fafec91e1193f0e4a016234a",
-        "9c1f2efa1a2a964e869f7b2f61120745e6e4a1e2eef7172bac9d995dd3792982",
-        "9cbe12f531a08b96391156f43e3b95477fc955122af7e316058b42eb79b0bc67",
-        "9e27a1a1fe018a610518f534c47f5dc1393a7575bc6f5eebf0d1150f6ed5ea5a",
-        "a09a3838060d0428c7133bef43554f911088d4836c95cd85af4564bb5cb27404",
         "a46b3839bb638450a13849411df9806b7e0e5c31db71f579cd84deb2cbf7e3e9",
         "ab000849a5fcca46971214b9b878293d806495265b43840e27366bf29ddd7313",
-        "af03e8cee241399bd39440ce16d9cb441eb9b7a0cef25c859e50274d17afd1e2",
         "b28d0d79d4320555727842dcbbd99c24bb060ab25aff11b2567d281af6942d17",
-        "b6c158b7f92d434635448c9d2a685cd3c8aa0f72c2315186e0950244ced5193f",
-        "bf41a1923a24255df2601bd82a05b1d8cf906a50469fcaf244eae599c1b1b228",
-        "ca4013a38a258cce773de3585d1d2e764870bfe7ed49b74e51aaaef353708e98",
         "cdf20b0071b4b9fc60077b75bb0e6b88abedd45d6334c94fbd53a69036080e73",
-        "d5a5688bc8f5c4088198506007142d9eda3eff1ff36b37edbe77865dfda5a116",
         "daa9e90d75092afe1ccbe11afe9bc2a30440062026573f2ccd84c6ef31574e20",
         "dc3189601aac1e5cdc2a2781ad5ecdef313842493212f018d99289ccd3e661fe",
-        "df2dec9f764580d9774c3b48824652dd798b5c8f44804e27b9ff3b693295d8bc",
-        "dfea2a64208cdb3a9d6ae3aa67e41bbc360c2483660ed8fe02c9763ffc4c7d2b",
         "f1f72bddcdf0b53536d4fc87984e4768863f513fc8ad1e0b63963f9d3fb4b858",
         "f3115d6798dae0cb8624e10af33464e2019b1b9c2febb46af02beb4c48890f44",
-        "fd4f2d268a57f38c7175dec1712a83886481bbc623399342e560d56ea58067ab",
-        "fef2ec037e0731f31129492c0914642d861a9ea61aeade875053906a05fa773f",
-        "ff840302c4e40ce3b59815185c9b03f7867885b2a609a6eb605bbba1621d6bc6",
-        "ffb622cbd4384c57dace59111fb84039c3da17186cf6ba7c37b29b2df86a01f7"
+        "fd4f2d268a57f38c7175dec1712a83886481bbc623399342e560d56ea58067ab"
       ]
     },
     "freenetxbot": {
@@ -19369,11 +19479,387 @@
         "f717c8787aff5d52543954aed32ff25e73a38de6eb25b83dc1459d27888fdff4",
         "ffeb0ee8b9eeaa3514cd8c000d3c027bcae671d0d60900693e24da6b1f07a1c3"
       ]
+    },
+    "sub-baeb5ddf00": {
+      "handle": "sub-baeb5ddf00",
+      "last_checked": 1795720749,
+      "last_nodes_yield": 25,
+      "total_nodes_yield": 25,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/sub.txt",
+      "is_telegram": false
+    },
+    "sub-a49b1bb26c": {
+      "handle": "sub-a49b1bb26c",
+      "last_checked": 1795720751,
+      "last_nodes_yield": 9728,
+      "total_nodes_yield": 9728,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/liMilCo/v2r/main/configs.txt",
+      "is_telegram": false
+    },
+    "sub-28d7b76455": {
+      "handle": "sub-28d7b76455",
+      "last_checked": 1795720752,
+      "last_nodes_yield": 4,
+      "total_nodes_yield": 4,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/ramby066-pixel/v2ray-configs/main/configs.txt",
+      "is_telegram": false
+    },
+    "sub-51b7406fd4": {
+      "handle": "sub-51b7406fd4",
+      "last_checked": 1795720767,
+      "last_nodes_yield": 25,
+      "total_nodes_yield": 25,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/grisha-seleznev/free-vless-keys-russia/main/sub_base64.txt",
+      "is_telegram": false
+    },
+    "sub-74666033c8": {
+      "handle": "sub-74666033c8",
+      "last_checked": 1795720774,
+      "last_nodes_yield": 184,
+      "total_nodes_yield": 184,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/main/%E2%9C%A7%20Public%20Configs",
+      "is_telegram": false
+    },
+    "sub-0630c03a02": {
+      "handle": "sub-0630c03a02",
+      "last_checked": 1795720782,
+      "last_nodes_yield": 332,
+      "total_nodes_yield": 332,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/vless.txt",
+      "is_telegram": false
+    },
+    "sub-fabe484a01": {
+      "handle": "sub-fabe484a01",
+      "last_checked": 1795720782,
+      "last_nodes_yield": 42,
+      "total_nodes_yield": 42,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/vmess.txt",
+      "is_telegram": false
+    },
+    "sub-6ec6cf0042": {
+      "handle": "sub-6ec6cf0042",
+      "last_checked": 1795720782,
+      "last_nodes_yield": 42,
+      "total_nodes_yield": 42,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/mohammadaz2/v2rayConfigsForYou/main/sub/trojan.txt",
+      "is_telegram": false
+    },
+    "tepo80-trojan": {
+      "handle": "tepo80-trojan",
+      "last_checked": 1795720795,
+      "last_nodes_yield": 18,
+      "total_nodes_yield": 18,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/tepo80/tepo80/main/trojan.txt",
+      "is_telegram": false
+    },
+    "nodefree-37": {
+      "handle": "nodefree-37",
+      "last_checked": 1795720795,
+      "last_nodes_yield": 2752,
+      "total_nodes_yield": 2752,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/peacefish/nodefree/main/sub/list/37.txt",
+      "is_telegram": false
+    },
+    "sbornik-trojan-001": {
+      "handle": "sbornik-trojan-001",
+      "last_checked": 1795720796,
+      "last_nodes_yield": 751,
+      "total_nodes_yield": 751,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/kort0881/sbornik-vless/main/trojan_001.txt",
+      "is_telegram": false
+    },
+    "argh73-sub475": {
+      "handle": "argh73-sub475",
+      "last_checked": 1795720796,
+      "last_nodes_yield": 208,
+      "total_nodes_yield": 208,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/Argh73/VpnConfigCollector/main/Sub475.txt",
+      "is_telegram": false
+    },
+    "nikita-13": {
+      "handle": "nikita-13",
+      "last_checked": 1795720796,
+      "last_nodes_yield": 76,
+      "total_nodes_yield": 76,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/nikita29a/FreeProxyList/main/mirror/13.txt",
+      "is_telegram": false
+    },
+    "vless_bounty_bot": {
+      "handle": "vless_bounty_bot",
+      "last_checked": 1795720825,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/vless_bounty_bot",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "bounty_configs": {
+      "handle": "bounty_configs",
+      "last_checked": 1795720830,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/bounty_configs",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "mbountyvpn_bot": {
+      "handle": "mbountyvpn_bot",
+      "last_checked": 1795720844,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/mbountyvpn_bot",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "sub-4437d1843b": {
+      "handle": "sub-4437d1843b",
+      "last_checked": 1795720845,
+      "last_nodes_yield": 184,
+      "total_nodes_yield": 184,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/CNT-Cafe/Public-Configs/refs/heads/main/%E2%9C%A7%20Public%20Configs",
+      "is_telegram": false
+    },
+    "cntcafe": {
+      "handle": "cntcafe",
+      "last_checked": 1795720845,
+      "last_nodes_yield": 20,
+      "total_nodes_yield": 20,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://t.me/s/cntcafe",
+      "is_telegram": true,
+      "oldest_post_id": 183,
+      "retained_fingerprints": [
+        "250a6a6b29ecfe28bde9bd3ec71d3b598c971dd8fa73f6c879b2a567742d39f4",
+        "37c338829ea508c0bfce70613ac8c001a514b825adcf003038fa5d9ec41e2726",
+        "5d51728bb3c64a9d48ea05fd9aeb1c0ef2410b4c9b5bfa67a5787ab943e460b5",
+        "63e185edd0f9216ef46c14e8e317b3795dc9036d7a8d0f326a93e76cdb3309d6",
+        "68d735d1c47eb7546d1f04261fdc1072de3c44e34d741d415d97ae66b1bcd45e",
+        "7b4c203bde3e668f90ada403d0f6bd010a4254fc7b42004c6fb1725d79bc16bc",
+        "7be49cf3996a8c4ab52ba9ef20f55d07804fbb0c90de229c1108a712e41b58d0",
+        "7ea7058c08932ee491666a345b891e75f0f5c56aa223f369c7ef9331a4229aae",
+        "80a7f5012dcb673336a45cff8ef37cfbc6302510e4e863cc2f5ebf3987ba3028",
+        "81ebb98a4f23239c566bd5bc35cef55f74e27776ef02076ce8e3ae452a0d527e",
+        "865f3df55d177d90ff38d5515a5fb8d0653d8e8e048113cc8f2d373131321fb8",
+        "95c952c9d34789959c61941c4353ae01178f8e256766d7db68fa000004455e6b",
+        "95d2522a930225ba4e6cd64d5dc1863183bcc94fb98f09f5aeca974838df570d",
+        "ab1772c1750a52e9fc145666ecff0e3ebb62644f54ab2b5784dce9fc0c03c0a3",
+        "c4d6c35825c9fc10711f102b510b1c6654b8e10ee0bda218056f772de5f00a1d",
+        "cf19f5b31aa321d435fccae22cb878b124abdc6bcd4bb81e5b0ce1acfa1ef9d9",
+        "cfb673c33f623b5d69519be870f2936f2ea0b5186d539289849185fef63211e6",
+        "efdde36cdca9c7e5365e42ccfec7510974c1180387f66b15452a6c86af4e7471",
+        "f439413cccdac9cc9e527fae8c5696351b04960477bf518ea3ce6ca81eb12429",
+        "fba424bcfdd23e28af00dd7f8d43a9663adf9cca4f7a0ebc8299388d9d641118"
+      ]
+    },
+    "freeconfigbyzikko1": {
+      "handle": "freeconfigbyzikko1",
+      "last_checked": 1795720849,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/freeconfigbyzikko1",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "vpnbyzikko": {
+      "handle": "vpnbyzikko",
+      "last_checked": 1795720860,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/vpnbyzikko",
+      "is_telegram": true,
+      "oldest_post_id": 88,
+      "retained_fingerprints": []
+    },
+    "zikkovpnbot": {
+      "handle": "zikkovpnbot",
+      "last_checked": 1795720865,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/zikkovpnbot",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "byzikko": {
+      "handle": "byzikko",
+      "last_checked": 1795720876,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/byzikko",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "sub-a91b4e54af": {
+      "handle": "sub-a91b4e54af",
+      "last_checked": 1795720877,
+      "last_nodes_yield": 18,
+      "total_nodes_yield": 18,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/sub.txt",
+      "is_telegram": false
+    },
+    "sub-3d14def1fc": {
+      "handle": "sub-3d14def1fc",
+      "last_checked": 1795720888,
+      "last_nodes_yield": 1492,
+      "total_nodes_yield": 1492,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/vless.txt",
+      "is_telegram": false
+    },
+    "sub-905c42f672": {
+      "handle": "sub-905c42f672",
+      "last_checked": 1795720888,
+      "last_nodes_yield": 2059,
+      "total_nodes_yield": 2059,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/vmess.txt",
+      "is_telegram": false
+    },
+    "sub-cd1827dedc": {
+      "handle": "sub-cd1827dedc",
+      "last_checked": 1795720888,
+      "last_nodes_yield": 225,
+      "total_nodes_yield": 225,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/trojan.txt",
+      "is_telegram": false
+    },
+    "sub-8128633604": {
+      "handle": "sub-8128633604",
+      "last_checked": 1795720888,
+      "last_nodes_yield": 75,
+      "total_nodes_yield": 75,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/MustafaBaqer/VestraNet-Nodes/main/protocols/shadowsocks.txt",
+      "is_telegram": false
+    },
+    "page-8b8b14efd8": {
+      "handle": "page-8b8b14efd8",
+      "last_checked": 1795720894,
+      "last_nodes_yield": 18,
+      "total_nodes_yield": 18,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/Andrejewild/hiddify-singbox-configs-ru/main/README.md",
+      "is_telegram": false
+    },
+    "megav_vpn": {
+      "handle": "megav_vpn",
+      "last_checked": 1795720911,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/megav_vpn",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "vpnsmegabot": {
+      "handle": "vpnsmegabot",
+      "last_checked": 1795720913,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/vpnsmegabot",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "vpnsmega": {
+      "handle": "vpnsmega",
+      "last_checked": 1795720941,
+      "last_nodes_yield": 0,
+      "total_nodes_yield": 0,
+      "checks_count": 1,
+      "is_active": false,
+      "sub_url": "https://t.me/s/vpnsmega",
+      "is_telegram": true,
+      "oldest_post_id": 1,
+      "retained_fingerprints": []
+    },
+    "sub-61159f253e": {
+      "handle": "sub-61159f253e",
+      "last_checked": 1795720942,
+      "last_nodes_yield": 2530,
+      "total_nodes_yield": 2530,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt",
+      "is_telegram": false
+    },
+    "sub-1ab4d0e74a": {
+      "handle": "sub-1ab4d0e74a",
+      "last_checked": 1795720942,
+      "last_nodes_yield": 2530,
+      "total_nodes_yield": 2530,
+      "checks_count": 1,
+      "is_active": true,
+      "sub_url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/protocols/AllProtocols.txt",
+      "is_telegram": false
     }
   },
-  "last_run_api_requests": 43,
-  "total_api_requests": 1831,
-  "pending_queries": [],
+  "last_run_api_requests": 23,
+  "total_api_requests": 1854,
+  "pending_queries": [
+    "gh:topic:v2ray-configs",
+    "gh:xray reality subscription"
+  ],
   "pending_children": {
     "https://t.me/s/cheshmehoghabapp": [
       {
@@ -19470,6 +19956,398 @@
         "kind": "subscription",
         "url": "https://sub.darvaze-mamad.ir/sub/djMsNCwxNzkwNzYxMjA1.ee9oKcxX0U_rvE4DqDpP4eOH2b-qLZcsK6lqy46qiHQ"
       }
+    ],
+    "gh:topic:v2ray-configs": [
+      {
+        "kind": "page",
+        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md"
+      }
+    ],
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md": [
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/light.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/light.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/clash/proxies.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/refs/heads/main/configs/singbox/outbounds.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://gh-proxy.com/https://raw.githubusercontent.com/looomix/Node-Configs/main/configs/clash/config.yaml"
+      }
+    ],
+    "gh:xray reality subscription": [
+      {
+        "kind": "page",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md"
+      }
+    ],
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md": [
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/index.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/top100.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-Telegram-Proxy/main/resilient/tme.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/configs.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/configs_base64.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/clash.yaml)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/singbox.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/verified/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/fast/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/secure/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/google/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/all/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/configs.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/heavy/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/configs.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/clash.yaml"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/light/singbox.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/vless.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/vless_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/vmess.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/vmess_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/trojan.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/trojan_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/shadowsocks.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/shadowsocks_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/shadowsocksr.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/shadowsocksr_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/hysteria2.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/hysteria2_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/tuic.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/tuic_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/socks.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/protocols/socks_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/index.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/health.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/state.json)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/top100.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/archive/all_broken.txt)"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://cdn.jsdelivr.net/gh/0xRadikal/Free-v2ray-Configs@main/verified/configs_base64.txt"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/pipeline.svg"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/index.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/health.json"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-donate-trc20.svg"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-donate-evm.svg"
+      },
+      {
+        "kind": "subscription",
+        "url": "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/assets/qr-donate-ton.svg"
+      }
     ]
   },
   "pending_pages": [
@@ -19484,7 +20362,9 @@
     "https://t.me/s/wgmate",
     "https://t.me/s/tehranlug",
     "https://t.me/s/wolf_vpn00",
-    "https://t.me/s/mamad1vpn"
+    "https://t.me/s/mamad1vpn",
+    "https://raw.githubusercontent.com/looomix/Node-Configs/main/README.md",
+    "https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/main/README.md"
   ],
   "external_attempt_order": {
     "sub-07d2577deb": 1,
@@ -19553,37 +20433,14 @@
     "mrvcoder-vless-iran": 66,
     "mrvcoder-ss-iran": 67,
     "hidashimora-22": 68,
-    "hidashimora-20": 69
+    "hidashimora-20": 69,
+    "tepo80-trojan": 70,
+    "nodefree-37": 71,
+    "sbornik-trojan-001": 72,
+    "argh73-sub475": 73,
+    "nikita-13": 74
   },
   "image_results": {
-    "45a7f135a916d5cb43acc134715c7b6d5926dceaab286a4f3db485eb27b51470": "",
-    "21761a90ed7985174876611c52c298359ce14d05d09280549f84440b3f8f4319": "",
-    "7b370cebb4b90c7aeadec1392b0b53a5d706ea602c7cc14eabbb532ebcf7112b": "",
-    "b239af11ba088faa5cc2784f6b3aefb0464938af983998351b952143579e4d69": "",
-    "c87a43dcebe5aa331ab4fe11f14c1f14206f5913235fc77719dd1f58cbef680c": "",
-    "4bb08bd226fb7ece53da11da60179ad8954a246759e779ded97b99540f3ec918": "",
-    "61b23659566d14407c76a8afa0d229adbcfb06f4dc364802487cd3fc524c6860": "",
-    "979119393c9454f14c68ea7bada967a1fca7f3d18561027ef425a6056a77e408": "",
-    "5937d770d5f751dee0e32a38e57409783f8fd520eb1f8a53622f3cfa7a80e8cf": "",
-    "a4436e5bd35964243bb0a235c3216587a7652e6ce2802f904b7f20df81d8bbb2": "",
-    "7dd8779f55826b38000d0327fb65c11685e62e24ea1212e8d8da04041ea56da8": "",
-    "0754876cc27a432106f55e7ce578120e2d028c8c7494a9b3faa242636c6f2f17": "",
-    "409723393336aabde11cb7b662cac1ea4d88b287e4cd94afcadbf4702507f52b": "",
-    "de5520b1c17e7e48c656859d3b6a7815f2e1c5119e851550100050fc64752c5f": "",
-    "6618e20571a84427082d37d4fbf7dd1fdf99529fbd903ecb18b77b9e072e20cf": "",
-    "131216969100e3a50a2001fd1f7000d25c2a6af7a4e911215c7a01bc55057db2": "",
-    "552f63b4eb12f93762ef1265fc0c53e1f2b7c547dd2ebde8b8d3635414c43f45": "",
-    "355a192b9b0a07d284693803c8fc17ac7ee67d1f6bf37415d2af748eda88de28": "",
-    "a5787ff1696b9530e427f086aa7a11b9359c02765ae17042af84ea6323f445d1": "",
-    "104061f7b930ae1d6c92d1306cafeb523774215d4e45e225f037750052fee344": "",
-    "1f62125a7c38c90a255bcdf447648d5315e44d030a4d81addd756fe98e2615ca": "",
-    "fae9c7c9d9c481dfe9c12adab4c7d7df4650907b4fd9fbc0b525942b5190e7bf": "",
-    "e7f98dfee9f5d4ef9142200abe6dbd573e78a8c9ec7e52d150e6c56d1e458a1c": "",
-    "7ac09a7fa45f0e01d61f6569e59164a7a5a78adc00e3c0b2aae0ce97f0e6ca5f": "",
-    "eee79f6705ad3bf92f136255d92cee9718d84e51e1189de114a2093bd4da7051": "",
-    "03be91d185d661994572afd2426453a9c1a205010fbee570d97efd1f856c32fe": "",
-    "a58ba5cbec8c1ffd4983e83a9ddf670bf8ea2fe5fa0a489bf39f62467184c8b5": "",
-    "667bffb9da9bab2d580cfa90af09a024dc747b2ee3a72d531c277a6ac9cb5678": "",
     "a41ed3b1679f97739bbea4c85488a8bbc413eaa8cd512965d0d8c90f215376c4": "",
     "2520e1d002dfd4cfbecad7282871921d017d33a9b4ed34a79b415658c8a7dc06": "",
     "dd911b591a229a679818daeab93764ab37b7706c8f0eeeda1f8220f8109a570a": "",
@@ -19955,6 +20812,34 @@
     "506e1b79466e5371cc44d89051ee2f8a4650c747e7629dccddeb3008b24b4b2d": "",
     "df0da23f527bad1c1f9a559345f817b34db498a7797bec3c6d5abf858ea59e48": "",
     "ef6f171294a0751d8957cf5e84d1a0b3f5a613d8722241da112dd581de70f438": "",
-    "058eec2f480e87cab522a3b3db12a9ba4c743ba89bb58d3d0b3ab5b13d3d2c9a": ""
+    "058eec2f480e87cab522a3b3db12a9ba4c743ba89bb58d3d0b3ab5b13d3d2c9a": "",
+    "360695379d5b8950bbc63302cd94165bfecd08069a64bb301c497185bcea7c67": "",
+    "ee2365caf9d838c0b32402822159e6930e9c8368e92f85ecb83c1e42d1ecb630": "",
+    "61992f3f2262149c2b79119d5e4c3e174273e03094fd72958f4d98f27e3b7f37": "",
+    "6d95a89a3ac34c950bfbffc86e2ce2279103ae88664f98e60ed0c9a0e3520c51": "",
+    "4386a6a0b32af9f8b76f5900921b6733243420f0c19b7a90e0d3da2a02761fcf": "",
+    "a8c601ffedefdc0319e1e2562e442ca8ba5cbce2b4d0253b40070b50008c069a": "",
+    "1264eba011abc2184820d2e4bb4f2dc74db66816c448434997919b51f850b373": "",
+    "06816ef687a52c715c70061162a11f7eeb4bd897c9d51fe71c437d53d422b544": "",
+    "dfd36e9516eb3322175ac0c2d012d71437208ec899af9ffe001b60ec540eaca0": "",
+    "4749238a76439417aea691c83823eb64dd373cf9720ee800d265df8087aded1b": "",
+    "045698aa08d2b9cda02e7c3ff7bb9639fa3adbfdd60b6dee6655519407478d59": "",
+    "15d38c2185efbd15749214ddd68aa1a36d69bbabd20e22975d9443fa196cf72e": "",
+    "2e539f2cc03dc1f3629f6dc766e23b0c7d428222d283f3bd210a7a35e491e3de": "",
+    "7c9d9d0ae15937758edc7dbd6ba2ab41e6a28e736fa66d1c390e999f00f06df4": "",
+    "495435c1e4e1ae264196cfce3339dfe0dd065ff87332e2074723cadcdf87b850": "",
+    "827fae204badb6059d3de69065c579d352718fce9a77f8b60dbde3b5f44317bf": "",
+    "6363ff230d6dd86f08ecd551c7df8cc51808361c04e15840e7432660af5ecf84": "",
+    "6ccdbd5eb2257ee34cb52ee366461793761f3b82e90fffb088f9beeeb6bce0ef": "",
+    "48074c7dc3e4e7303a14446dd42571486a94389d97d231e36275d03ca6238cf1": "",
+    "d681293f592852ba7264be7ebbd1e1ad593ce6629c69113b1f78b78b0c612cc8": "",
+    "82b7650688930a985ade7bea670250011986eebd01c3e08123bd2a01187b6e0f": "",
+    "6e862722be80ee461da1c67617d6f1c1cc5daeb4d55a099406697faf090f2727": "",
+    "1b0e853e2b841343563edb7b24f670321a1481b69dee1d4fecf64fad7d1332e8": "",
+    "6264d05470a2343cdbf6933f628a6e146afc680b54e9661c2834a812448601b7": "",
+    "a346423793eb1b248085207195c0e3a66bafdd5a358c406e395e14a6d58d734f": "",
+    "297937668cb1cfd39dbcd0baa9e20015ca7841c7fb733c86a54bcd592c0fc92b": "",
+    "2bbd59fd5b15ad0068b2dc69e215e54db3e59be110958fee3767a13f52f68cce": "",
+    "97eb69cd23c4273cd96662e7cf264bf6038d6740040c5be3189d97c71c3de14f": ""
   }
 }

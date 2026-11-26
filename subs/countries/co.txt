@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIENPIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T07:18:23.112858+00:00
+# snapshot-time: 2026-11-26T19:23:18.148766+00:00
 
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.226.194:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.208.150:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
@@ -9,6 +9,7 @@ vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.209.179:62145?security=&enc
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@157.137.235.147:62145?security=none&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Ashabane-merged
 ss://YWVzLTI1Ni1nY206UENubkg2U1FTbmZvUzI3@149.104.107.41:8090#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3A0xradikal-all
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@131.255.4.219:989#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3Afarid-karimi-mixed-iran
+vless://0822b3b0-4c52-47c0-aed6-be7bf6f54aba@eu124.cdn77.icu:20019?security=reality&encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&headerType=&fp=firefox&type=tcp&sni=eu124.cdn77.icu&sid=1ed136481e0ede74#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
 vless://8fb65472-5957-4f64-ba2d-b5812b2f155a@149.130.191.105:62145?security=&encryption=none&headerType=none&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-tcp%20%7C%20src%3Afree1zona-keyfreetee
 vless://db80088c-32a1-4cb8-a907-0f3cb7844152@gb1.japancase.site:443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=QFYzek1TNFeZxhHP3gH-42RUYDGw0ZiigeDcUOFL2Vs&security=reality&sid=bd44ae7c721b8252&sni=gb1.japancase.site&type=tcp#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpmOGY3YUN6Y1BLYnNGOHAz@181.119.30.20:990#%5B%F0%9F%87%A8%F0%9F%87%B4%20CO%5D%20SS%20%7C%20src%3Aelf2017spring-configshub
