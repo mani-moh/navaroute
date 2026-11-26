@@ -188,6 +188,45 @@ class TestSpeedtestStateAndRanking(unittest.TestCase):
         self.assertEqual(report["passed"], 0)
         self.assertIsNone(report["top_speed_mbps"])
 
+    def test_measure_download_handles_closed_conn_sock(self) -> None:
+        from src.speedtest import measure_download_via_local_proxy
+
+        class FakeResp:
+            status = 200
+            def __init__(self, conn):
+                self._conn = conn
+                self._reads = 0
+            def read(self, n):
+                self._reads += 1
+                if self._reads == 1:
+                    self._conn.sock = None
+                    return b"x" * 70000
+                return b""
+            def close(self):
+                pass
+
+        class FakeConn:
+            def __init__(self, *args, **kwargs):
+                self.sock = self
+                self.timer = None
+                self.proxy_request_started = True
+            def connect(self):
+                pass
+            def settimeout(self, t):
+                pass
+            def request(self, *args, **kwargs):
+                pass
+            def getresponse(self):
+                return FakeResp(self)
+            def close(self):
+                pass
+
+        with patch("src.speedtest._ProbeConnection", FakeConn):
+            mbps, lat = measure_download_via_local_proxy(1080)
+        self.assertIsNotNone(mbps)
+        self.assertGreater(mbps, 0)
+        self.assertIsNotNone(lat)
+
 
 if __name__ == "__main__":
     unittest.main()

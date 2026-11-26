@@ -348,7 +348,8 @@ def measure_download_via_local_proxy(
             rem = deadline - time.monotonic()
             if rem <= 0:
                 break
-            conn.sock.settimeout(rem)
+            if conn.sock is not None:
+                conn.sock.settimeout(rem)
             chunk = response.read(min(65536, max_bytes - total_bytes))
             if not chunk:
                 break
