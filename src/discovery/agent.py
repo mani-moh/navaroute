@@ -585,7 +585,7 @@ class DiscoveryAgent:
             self._analyze_webpage_via_nemotron(page, discovered_sources, existing)
         past = self.state_manager.state["queries_executed"]
         res = None
-        if self.nemotron.is_available() and not self.state_manager.state.get("pending_children"):
+        if self.nemotron.is_available() and (self.workers > 1 or not self.state_manager.state.get("pending_children")):
             prompt = ('Suggest public proxy/v2ray subscription discovery search queries and Telegram channel handles. '
                       'Return JSON {"web_queries": [], "github_queries": [], "telegram_handles": []}. Avoid: ' + str(past[-25:]))
             known = self._compact_known_sources(discovered_sources, existing)
@@ -921,9 +921,11 @@ class DiscoveryAgent:
                     reexpansion_limit = 25 if self.workers > 1 else MAX_QUERY_REEXPANSIONS
                     if extended and reexpansions < reexpansion_limit and self._can_work():
                         before = len(self.state_manager.state.get("candidate_queue", []))
+                        before_probed = len(self._cycle_probed_urls)
                         self._expand_queries_via_nemotron(discovered, existing, extended_mode=extended)
                         reexpansions += 1
-                        if len(self.state_manager.state.get("candidate_queue", [])) > before:
+                        if (len(self.state_manager.state.get("candidate_queue", [])) > before
+                                or (self.workers > 1 and len(self._cycle_probed_urls) > before_probed)):
                             continue
                     refresh_age = 12 * 3600 if self.workers > 1 else 0
                     refresh = self.state_manager.get_oldest_active_channels(limit=max_channels, min_age_seconds=refresh_age)
