@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import time
 import unittest
@@ -55,17 +56,16 @@ class TestDiscoveryParallelAndYield(unittest.TestCase):
 
     def test_parallel_prefetch_channels_populates_cache(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            agent = DiscoveryAgent(
-                state_file=str(root / "state.json"),
-                discovered_sources_file=str(root / "sources.json"),
-                leaderboard_file=str(root / "DISCOVERY.md"),
-                workers=4,
-            )
-            with patch("src.discovery.agent.TelegramChannelScraper.fetch_channel_page", return_value="<html>ok</html>") as mock_fetch:
-                agent._prefetch_channels(["chan1", "chan2", "chan3"])
-            self.assertEqual(mock_fetch.call_count, 3)
-            self.assertEqual(len(agent._prefetched_pages), 3)
+            old_cwd = Path.cwd()
+            try:
+                os.chdir(tmp)
+                agent = DiscoveryAgent(workers=4)
+                with patch("src.discovery.agent.TelegramChannelScraper.fetch_channel_page", return_value="<html>ok</html>") as mock_fetch:
+                    agent._prefetch_channels(["chan1", "chan2", "chan3"])
+                self.assertEqual(mock_fetch.call_count, 3)
+                self.assertEqual(len(agent._prefetched_pages), 3)
+            finally:
+                os.chdir(old_cwd)
 
 
 if __name__ == "__main__":
