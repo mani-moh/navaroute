@@ -48,7 +48,7 @@ CHECKPOINT_JOURNAL = "data/discovery_checkpoint.json"
 # agent may show the model so it steers queries at gaps instead of
 # re-finding what is already known. Tokens are handles/domains, never
 # full URLs, so the list stays small as the registry grows.
-KNOWN_SOURCES_COMPACT_LIMIT = 400
+KNOWN_SOURCES_COMPACT_LIMIT = 120
 # Maximum extra query-expansion passes per cycle when the candidate
 # queue runs dry mid-cycle.
 MAX_QUERY_REEXPANSIONS = 3
@@ -541,9 +541,10 @@ class DiscoveryAgent:
             if token:
                 tokens.add(token)
         ordered = sorted(tokens)
-        if len(ordered) > KNOWN_SOURCES_COMPACT_LIMIT:
-            shown = ordered[:KNOWN_SOURCES_COMPACT_LIMIT]
-            return ", ".join(shown) + f", …+{len(ordered) - KNOWN_SOURCES_COMPACT_LIMIT} more"
+        limit = 400 if self.workers > 1 else KNOWN_SOURCES_COMPACT_LIMIT
+        if len(ordered) > limit:
+            shown = ordered[:limit]
+            return ", ".join(shown) + f", …+{len(ordered) - limit} more"
         return ", ".join(ordered)
 
     def _filter_candidates_via_nemotron(self, handles: list[str], max_api_requests: int = 0,
