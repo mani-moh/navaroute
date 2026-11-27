@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-26T22:40:06.203794+00:00
+# snapshot-time: 2026-11-27T05:32:19.144362+00:00
 
 vless://517a34f4-bc72-4ac6-adac-cb8268a72372@157.228.66.66:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=157.228.66.66&fp=safari&pbk=cZ-oj84L5vfpD_kkybVOPtwMKSXn6lvY1QNyfvJBxEo&sid=ad640859b60c3cdf&spx=%2F&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22delay%22%3A%220%22%2C%22length%22%3A%2210-20%22%2C%22packets%22%3A%22tlshello%22%7D%7D%5D%7D#%5B%F0%9F%87%A6%F0%9F%87%B1%20AL%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
