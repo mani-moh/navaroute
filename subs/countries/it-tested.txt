@@ -1,10 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0l0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T05:32:19.144362+00:00
+# snapshot-time: 2026-11-27T15:43:06.482444+00:00
 
-vless://f8048a98-b85a-4d1f-926f-2e1908b8e0da@it.geconnecction.com:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=it.geconnecction.com&fp=edge&pbk=AFTJFoYhjhTiZSrW5v6L0FR6riLbuXwm1pTrHSG073I&sid=c5e512a8#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Atg-ffreecoffee
+vless://f8048a98-b85a-4d1f-926f-2e1908b8e0da@it.geconnecction.com:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=it.geconnecction.com&fp=edge&pbk=AFTJFoYhjhTiZSrW5v6L0FR6riLbuXwm1pTrHSG073I&sid=c5e512a8#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
 vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&security=reality&sid=cd6065902eea7a02&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
-vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&security=reality&sid=cd6065902eea7a02&sni=www.cloudflare.com&type=raw#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
-vless://73287568-abd1-46d5-bf66-8203af317379@172.235.237.9:58887?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=U7t4RFE9MSMtC-o1DoJ8pYzKMfgVpTg6ZhTTknBrVkU&security=reality&sid=1f2519bb96e5589c&sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
-vless://201d6c87-5de6-4bda-973c-024129b228fb@freev2.cloudflare.182682.xyz:443?security=tls&fp=random&sni=it-mil.862400.xyz&type=ws&headerType=none&host=it-mil.862400.xyz&path=%2Fannouncement%3Fed%3D2048#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-ws%20%7C%20src%3Aermaozi-get-subscribe
-vless://201d6c87-5de6-4bda-973c-024129b228fb@freev2.cloudflare.182682.xyz:443?sni=it-mil.862400.xyz&type=ws&host=it-mil.862400.xyz&path=%2Fannouncement%3Fed%3D2048fp%3Drandom&security=tls#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-ws%20%7C%20src%3Aermaozi-get-subscribe

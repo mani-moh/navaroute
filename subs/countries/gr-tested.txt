@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0dyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T05:32:19.144362+00:00
+# snapshot-time: 2026-11-27T15:43:06.482444+00:00
 
-vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?security=reality&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&sid=94acb54627612d43&fp=chrome&sni=www.cloudflare.com&flow=xtls-rprx-vision#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
-vless://8f704ed6-9a1a-4d04-94dd-1bff501716de@85.90.197.220:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&fp=chrome&security=reality&pbk=biNcdU5mywtNw-KyPpLHindBxdEyAolT1WJ26N0b7y4&sid=94acb54627612d43&path=%2F#%5B%F0%9F%87%AC%F0%9F%87%B7%20GR%5D%20VLESS-Reality%20%7C%20src%3Asub-1924222fbd

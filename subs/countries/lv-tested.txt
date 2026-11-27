@@ -1,9 +1,10 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x2LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T05:32:19.144362+00:00
+# snapshot-time: 2026-11-27T15:43:06.482444+00:00
 
-vless://eb62cabf-5901-403a-aa0c-b1d9ed1b346d@213.183.45.23:8450?encryption=none&path=%2Fws&security=tls&sni=fonts.plumstatic.com&type=ws&fp=firefox#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3Asub-42245810b7
 vless://eb62cabf-5901-403a-aa0c-b1d9ed1b346d@213.183.45.23:8450?security=tls&type=ws&path=%2Fws&sni=fonts.plumstatic.com&fp=chrome#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3Awhitedns-base64
-vless://eb62cabf-5901-403a-aa0c-b1d9ed1b346d@213.183.45.23:8450?security=tls&fp=firefox&sni=fonts.plumstatic.com&type=ws&headerType=none&path=%2Fws#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3Aalirewa-config
+vless://eb62cabf-5901-403a-aa0c-b1d9ed1b346d@213.183.45.23:8450?security=tls&fp=firefox&sni=fonts.plumstatic.com&type=ws&headerType=none&path=%2Fws#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3Aermaozi-get-subscribe
 vless://eb62cabf-5901-403a-aa0c-b1d9ed1b346d@213.183.45.23:8450?type=ws&path=%2Fws&security=tls&sni=fonts.plumstatic.com&fp=firefox#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-ws%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
-vless://cebc5f19-18d9-48e6-9029-fb4b04caf393@45.38.143.210:30584?security=reality&type=tcp&packetEncoding=xudp&sni=m.vk.com&fp=chrome&sid=67ece882d65d0f1a&pbk=2hV4TY2ygvQ7ISa5o4u_FUKXzlIhLgbsScE8M1h0m3Y#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
+vless://bfce4086-02f9-4006-b579-472210753a63@83.166.254.97:11443?flow=xtls-rprx-vision&security=reality&sni=83.166.254.97&pbk=gaSpyUW0U3qs3kXSR8i_cpOKfl_vM6CdsEsUfSCJ9y4&sid=1280c0a31e883774&fp=safari#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://bfce4086-02f9-4006-b579-472210753a63@83.166.254.97:11443?security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=gaSpyUW0U3qs3kXSR8i_cpOKfl_vM6CdsEsUfSCJ9y4&sid=1280c0a31e883774&sni=83.166.254.97#%5Bsource-claimed%5D%20%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://8bc3af32-c6bb-4a57-8da1-9a662fd79e3c@api.ferrin.uk:443?encryption=none&security=tls&sni=8bc3af32.ferrin.uk&alpn=h2&fp=firefox&type=xhttp&host=&path=%2Flv&mode=stream-one#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-xhttp%20%7C%20src%3Asub-1ab4d0e74a

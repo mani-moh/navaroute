@@ -1,9 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1ZuLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T05:32:19.144362+00:00
+# snapshot-time: 2026-11-27T15:43:06.482444+00:00
 
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=raw#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-raw%20%7C%20src%3Awhitedns-base64
+vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS%20%7C%20src%3Aautomergepublicnodes-list
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=raw&packetEncoding=xudp#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-raw%20%7C%20src%3Abarabama-merged
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
 vless://b83faafc-cbb7-4655-99d4-2c4c39a49d1b@150.95.109.109:2086?security=none&type=tcp&packetEncoding=xudp&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-tcp%20%7C%20src%3Abarabama-merged
 vless://a1f0cbb8-c74a-4c27-b881-7b14d96aece1@103.163.24.22:56026?security=reality&type=tcp&packetEncoding=xudp&sni=www.cloudflare.com&fp=firefox&sid=99676967e6867063&pbk=gjOKbmRb5cGDPbdz3x8xkBFL43pn3xqL-I6sALHO7ls&encryption=none#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
+vless://a1f0cbb8-c74a-4c27-b881-7b14d96aece1@103.163.24.22:56026?security=reality&sni=www.cloudflare.com&type=tcp&fp=chrome&pbk=gjOKbmRb5cGDPbdz3x8xkBFL43pn3xqL-I6sALHO7ls&sid=99676967e6867063#%5B%F0%9F%87%BB%F0%9F%87%B3%20VN%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
