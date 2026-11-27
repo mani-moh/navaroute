@@ -2,35 +2,35 @@
   "feeds": {
     "all": {
       "github_blocked": 0,
-      "passed": 7399,
+      "passed": 7786,
       "tested": 8000
     },
     "balanced-500": {
       "github_blocked": 0,
-      "passed": 157,
-      "tested": 36
+      "passed": 178,
+      "tested": 53
     },
     "fastest-100": {
       "github_blocked": 0,
-      "passed": 32,
-      "tested": 5
+      "passed": 37,
+      "tested": 13
     },
     "online": {
       "github_blocked": 0,
-      "passed": 498,
-      "tested": 95
+      "passed": 513,
+      "tested": 134
     },
     "online-week": {
       "github_blocked": 0,
-      "passed": 1565,
-      "tested": 201
+      "passed": 1694,
+      "tested": 237
     }
   },
-  "generated": "2026-11-26T13:18:51.865106+00:00",
+  "generated": "2026-11-26T22:40:06.203794+00:00",
   "totals": {
     "github_blocked": 0,
-    "passed": 9651,
-    "tested": 8337
+    "passed": 10208,
+    "tested": 8437
   },
   "version": 1
 }

@@ -1,4 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NrLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-26T13:18:51.865106+00:00
+# snapshot-time: 2026-11-26T22:40:06.203794+00:00
 
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.156:443?encryption=none&fp=&pbk=kkCGiCQCKnkozJR1KKCRNtmdBECmThCgI9VSv7iDcWI&security=reality&sid=8956c57cb4c4f8d2&sni=f0d7aft.nl17.h1clayd.click&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.156:443?encryption=none&fp=&host=80cb66x.nl17.h1clayd.click&mode=auto&path=%2Fd610f026b146&pbk=jhVdP7NFUaEXGfrmOqJlMCHTvqn3fymbzPfPT6NO4i0&security=reality&sid=f72d4a2c7cbbacb1&sni=80cb66x.nl17.h1clayd.click&type=xhttp#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20126ms
+vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@196.245.153.156:443?encryption=none&pbk=xn7KVKS5MOnsFrYrEeRS04JssBCOxh12rxegaDFyGkA&security=reality&serviceName=7d5abcd7d8a1&sid=6d289ff0f47c0aac&sni=961ec0g.nl17.h1clayd.click&type=grpc#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%B0%20SK%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20127ms
