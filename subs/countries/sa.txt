@@ -1,20 +1,24 @@
 #profile-title: base64:TmF2YVJvdXRlIFNBIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:03:39.647006+00:00
+# snapshot-time: 2026-11-27T07:14:22.129322+00:00
 
+vless://6972bdba-42a2-14b4-8250-ef75f01a933d@94.183.195.206:20059?security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=as22.cdn77.icu#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1%20%7C%20128ms
+vless://6972bdba-42a2-4b5c-8250-ef75f01a933d@94.183.195.206:20059?security=reality&fp=firefox&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=as22.cdn77.icu#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1%20%7C%20128ms
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24851#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Agfpcom-ss
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29463#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2OTFlYWZkZmZkOWE4MWUw@154.205.134.155:11651#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-vless://0822b3b0-4c52-14b4-aed6-be7bf6f54aba@eu124.cdn77.icu:20059?security=reality&encryption=none&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&headerType=&fp=firefox&type=tcp&sni=as22.cdn77.icu&sid=1ed136481e0ede74#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.25:443?security=tls&sni=nb.lovecf.ggff.net&type=ws&path=%2Fproxyip%3Dus.xiabibi.cf&host=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Asub-3d14def1fc
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29464#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.119:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.119:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Afarid-karimi-vless-iran
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24854#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 trojan://humanity@185.246.217.148:443?sni=www.cordweave.com&type=ws&path=%2Fassignment#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-ws%20%7C%20src%3Agfpcom-trojan
 vless://e1515371-c33f-4c14-aece-ac0b474e97d7@213.165.59.116:443?encryption=none&flow=xtls-rprx-vision&type=tcp&security=reality&sni=cdn-fl.ai-apiroute.cc&fp=chrome&pbk=iyAFguTr9QbujzhulD2DxbIDCcj1La-0ku1z-oQmnjg&sid=b512d49930874a31&spx=%2F#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
+vless://e332f028-d343-5b44-8016-b3130f39e133@81.208.170.142:1500?security=reality&encryption=none&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&fp=random&type=grpc&sni=www.ebay.com&sid=775eb6408888248e#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Asub-757c8dc370
 trojan://sI0wl1bvYlSXu2RsMSAtAIMM@starlink-sa.251313.xyz:443?sni=www.cloudflare.com&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Trojan-tcp%20%7C%20src%3Agfpcom-trojan
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3YmM4ZWVmZmQwMzI1MTQx@154.205.134.251:11201#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://sGLzG6kUwBpZd73sW0nq@81.208.170.142:1500?type=grpc&encryption=none&sni=www.ebay.com&fp=chrome&security=reality&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2MzhiYjA1ZWFiMzVhZGVj@163.171.207.11:19688#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
+vless://e332f028-d343-5b44-8016-b3130f39e133@81.208.170.142:1500?encryption=none&security=reality&sni=www.ebay.com&fp=chrome&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&type=grpc&mode=gun#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all
 hysteria2://8d320b07-26fc-4a58-9ef8-e443fbd1f056@jd1.mangshe.xyz:2056?security=tls&insecure=1&sni=jd1.mangshe.xyz#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24852#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 vless://sGLzG6kUwBpZd73sW0nq@81.208.170.142:1500?type=grpc&encryption=none&flow=&sni=www.ebay.com&fp=chrome&security=reality&pbk=VQxVgczORkbSNdDrkNOYs6zMBINpViztTKDuWCeQsVE&sid=775eb6408888248e&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Alalatinahub-mineral
@@ -22,4 +26,6 @@ vless://6338c01a-310e-42c3-bf4f-2a20e161054b@213.165.56.102:443?security=reality
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToyOTE2MTUwZWZlZGQyZDE3@154.205.134.155:24853#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29462#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpjYjQyNThkYzFiNTM2MTNj@163.171.207.11:29461#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20SS%20%7C%20src%3Asub-07d2577deb
-vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.229:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Ashabane-merged
+vless://b09dfed1-90fa-4353-8bdf-de1edb2e2d79@91.209.253.229:443?path=%2Fproxyip%3Dus.xiabibi.cf&security=tls&encryption=none&insecure=0&host=nb.lovecf.ggff.net&fp=chrome&type=ws&allowInsecure=0&sni=nb.lovecf.ggff.net#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-ws%20%7C%20src%3Afarid-karimi-vless-iran
+vless://6972bdba-42a2-4b5c-8250-ef75f01a933d@94.183.195.206:20059?security=reality&sni=as22.cdn77.icu&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&fp=edge#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://6972bdba-42a2-14b4-8250-ef75f01a933d@94.183.195.206:20059?security=reality&sni=as22.cdn77.icu&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&fp=safari#%5B%F0%9F%87%B8%F0%9F%87%A6%20SA%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1

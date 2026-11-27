@@ -1,0 +1,10 @@
+#profile-title: base64:TmF2YVJvdXRlIExJIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
+#profile-update-interval: 6
+# snapshot-time: 2026-11-27T07:14:22.129322+00:00
+
+vless://6972bdba-42a2-1b5d-8250-ef75f01a933d@94.183.195.206:443?security=reality&fp=edge&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&sni=eu124.cdn77.icu#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1%20%7C%20128ms
+vless://1lpxy6haqm@45.15.167.13:443?type=tcp&encryption=none&flow=xtls-rprx-vision&security=tls&sni=1lpxy6haqm-451516713-direct.zamam.co&alpn=h2%2Chttp%2F1.1&fp=chrome&path=%2F#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3Alalatinahub-mineral
+vless://6972bdba-42a2-1b5d-8250-ef75f01a933d@94.183.195.206:443?security=reality&sni=eu124.cdn77.icu&pbk=EltWI8AOqkN8lMjRycweRRoFRah5hu6xiKtgBmQOdE8&sid=1ed136481e0ede74&fp=safari#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-Reality%20%7C%20src%3Aewecrow78-whitelist1
+vless://1lpxy6haqm@45.15.167.13:443?note=---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---&type=tcp&encryption=none&flow=xtls-rprx-vision&security=tls&sni=1lpxy6haqm-451516713-direct.zamam.co&alpn=h2%2Chttp%2F1.1&fp=chrome#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3Aelf2017spring-configshub
+vless://1lpxy6haqm@1lpxy6haqm-451516713-direct.zamam.co:443?security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=1lpxy6haqm-451516713-direct.zamam.co#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
+vless://1lpxy6haqm@45.15.167.13:443?security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=1lpxy6haqm-451516713-direct.zamam.co#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
