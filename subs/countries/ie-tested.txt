@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0llLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-28T05:08:38.984296+00:00
+# snapshot-time: 2026-11-28T14:38:44.713495+00:00
 
-vless://a7595994-695d-484e-bfcb-e9fbb73cfa39@83.141.92.168:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=firefox&pbk=kpQWnVk3fEJXfPGFsMerUoPV_ZqUJUJFRnF1FvKyhRY&sid=7a7d19880a9ee786&sni=sladovna.russianpiwo.fun#%5B%F0%9F%87%AE%F0%9F%87%AA%20IE%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a

@@ -1,4 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-28T05:08:38.984296+00:00
+# snapshot-time: 2026-11-28T14:38:44.713495+00:00
 
+vless://53bbdad4-2f4e-45db-8df4-fa491a6a7227@104.26.13.31:443?path=%2F%3FTelegram---PLANB_NET---PLANB_NET---PLANB_NET---PLANB_NET&security=tls&alpn=http%2F1.1&encryption=none&host=freeceshi6.frii.site&type=ws&sni=freeceshi6.frii.site#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
+vless://03fcc618-b93d-6796-6aed-8a38c975d581@kuruish.org:443?type=tcp&security=tls&fp=chrome#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-tcp%20%7C%20src%3Aigareck-vless-full

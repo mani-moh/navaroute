@@ -1,4 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL05vLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-28T05:08:38.984296+00:00
+# snapshot-time: 2026-11-28T14:38:44.713495+00:00
 
+vless://e57ce64d-5a1a-4a90-96df-9e1bd3ad26e4@138.124.125.193:10444?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ads.x5.ru&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff&fp=chrome&type=tcp#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
+vless://e57ce64d-5a1a-4a90-96df-9e1bd3ad26e4@138.124.125.193:10444?security=reality&encryption=none&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=firefox&pbk=0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo&sid=8debcf36f1cc69ff#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
+vless://4e73a85c-21fb-4caf-97aa-af9f835d439c@31.56.179.171:11443?encryption=none&fp=chrome&pbk=8eZPZsnGzCBNP9PRkPZ34UZ_rwyhwisJAcXg4K6Zlyg&security=reality&sid=2a389877&sni=www.ebay.com&spx=%2F6dd3df22436d883&support-x25519mlkem768=true&type=tcp#%5B%F0%9F%87%B3%F0%9F%87%B4%20NO%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
