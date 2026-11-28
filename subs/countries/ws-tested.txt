@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1dzLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
 vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.111.195:443?path=%2Ftyxyws&security=tls&encryption=none&insecure=0&host=jp3.yohototo.top&type=ws&allowInsecure=0&sni=jp3.yohototo.top#%5B%F0%9F%87%BC%F0%9F%87%B8%20WS%5D%20VLESS-ws%20%7C%20src%3Asub-3d14def1fc

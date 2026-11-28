@@ -1,7 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1RyLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
-vless://6aeabeb9-00e9-4bc4-9fd6-42ab5b0b5a13@tr.subscriptionservice.ir:8443?encryption=mlkem768x25519plus.native.0rtt.i-mCIgozdUXjdnvwa_1h7C1tM-A4lq45e1XfJTCQawk&security=none&type=tcp&headerType=http&path=%2F&host=play.googleapis.com#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20VLESS-tcp%20%7C%20src%3Amohammadaz2-configs
 vless://cda0862a-0f87-4be9-8ed8-1d0c9e382839@153.56.231.73:443?type=xhttp&security=reality&fp=firefox&pbk=dtO7khFLUkpFDQOtNzo4Th4hJKLoPSY2VtD_9k4Hgiw&sid=7b2b1a14a6e0630d&sni=fc82dfx.nl8.h1clayd.click&path=%2F0616f2d729aa#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
-vless://e1eaef08-e4ff-4843-9926-c0c84a034bad@185.71.216.94:2089?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.apple.com&fp=chrome&pbk=oRmj7gTi5H2oIClNYxxgOjqp8-j5kFYtGFU8CNuMj34&sid=deccc6fac1ddb0ff&type=tcp#%5B%F0%9F%87%B9%F0%9F%87%B7%20TR%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7

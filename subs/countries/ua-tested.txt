@@ -1,5 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1VhLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
-trojan://963A4918-A630-29DA-A873-093CDF8AD784@bitter-math-4364.vpnetwork3567.workers.dev:443?type=ws&security=tls&host=bitter-math-4364.vpnetwork3567.workers.dev&alpn=http%2F1.1&fp=safari#%5B%F0%9F%87%BA%F0%9F%87%A6%20UA%5D%20Trojan-ws%20%7C%20src%3Acollector-ui-configs

@@ -1,7 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0l0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
-vless://29f178f7-f96f-46ba-8fc0-bbcd690ba788@82.118.16.189:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&security=reality&pbk=zmo2VkZkfjh2kWjaRghXUs39ImQo87LmPhjvzbX3yB4&sid=1e9a49dd374c1191#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20133ms
 vless://dc2259c4-388e-4285-ba18-df619b6672b6@82.118.16.187:443?security=reality&pbk=R5ycsjJ-v024902dMSqTsSdqxUwCFEXMebdBEWFt9VU&sid=cd6065902eea7a02&fp=chrome&sni=www.cloudflare.com&flow=xtls-rprx-vision#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
-vless://f4b08bf1-d9bd-4755-aa88-ba922282c608@94.103.83.173:443?type=tcp&security=reality&flow=xtls-rprx-vision&sni=ruitaliamicro1.gangplatform.com&pbk=X99zq7QEhnb9l3JsdyrL8Jt6yDZTcL3QzNbTZrUmJEM&sid=dbd5efbe0fd57f71&fp=qq&encryption=none#%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3Asub-42245810b7
+vless://29f178f7-f96f-46ba-8fc0-bbcd690ba788@82.118.16.189:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=www.cloudflare.com&security=reality&pbk=zmo2VkZkfjh2kWjaRghXUs39ImQo87LmPhjvzbX3yB4&sid=1e9a49dd374c1191#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%AE%F0%9F%87%B9%20IT%5D%20VLESS-Reality%20%7C%20src%3A0xradikal-all%20%7C%20133ms

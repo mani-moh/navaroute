@@ -1,37 +1,30 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgUHJvdG9jb2xzL0h5c3RlcmlhMi1UZXN0ZWQgKFBhdHRuIFJlYWxwaW5nKQ==
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
 hysteria2://216c50f9-37dc-457d-b3f5-90732791d10d@45.86.74.193:443?sni=media.embrofree.org#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Asub-1924222fbd
+hysteria2://6ac6d17d-040c-4fab-940e-8f5d72c3fed6@135.126.21.106:443?headerType=none&encryption=none&sni=de1-balance.rezproffx.ru#%5B%F0%9F%87%A9%F0%9F%87%AA%20DE%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 hysteria2://NL2026hy@147.45.149.88:8443?obfs=salamander&obfs-password=SalamanderNL2026&sni=nl.nobelchat.ru&path=%2F#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Aheliataromi-confighub-mixed
 hysteria2://NL2026hy@147.45.149.88:8443?security=tls&obfs=salamander&obfs-password=SalamanderNL2026&insecure=0&sni=nl.nobelchat.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Asub-f4dfaba9eb
 hysteria2://NL2026hy@147.45.149.88:8443?sni=nl.nobelchat.ru&obfs=salamander&obfs-password=SalamanderNL2026#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
-hysteria2://6ac6d17d-040c-4fab-940e-8f5d72c3fed6@135.126.21.107:443?sni=de2-balance.rezproffx.ru&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-f4dfaba9eb
-hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.163:13337?sni=mother-earth.fyi#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Asub-1924222fbd
-hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.163:13337?sni=mother-earth.fyi&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Aheliataromi-confighub-mixed
-hysteria2://VPNJey@179.61.138.145:36264?sni=de2.jey.cc.cd&obfs=salamander&obfs-password=Telegram%40vpnjey#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
-hysteria2://VpNJEy@179.61.138.145:36264?sni=de2.jey.cc.cd&obfs=salamander&obfs-password=Telegram%40vpnjey#%5B%F0%9F%87%A9%F0%9F%87%AA%20DE%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
-hysteria2://vpNJEy@179.61.138.145:36264?insecure=1&obfs=salamander&obfs-password=Telegram%40vpnjey&sni=de2.jey.cc.cd&path=%2F#%5B%F0%9F%87%A9%F0%9F%87%AA%20DE%5D%20Hysteria2%20%7C%20src%3Aheliataromi-confighub-mixed
-hysteria2://vpNJEy@179.61.138.145:36264?sni=de2.jey.cc.cd&obfs=salamander&obfs-password=Telegram%40vpnjey#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Avestranet-mix-b64
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?insecure=1&sni=promo.betust.net&path=%2F#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?security=tls&sni=promo.betust.net#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?sni=promo.betust.net&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?sni=promo.betust.net&path=%2F&allow_insecure=1#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?alpn=h3&insecure=1&security=tls&sni=shorts.blog-forme.ru#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?insecure=0&security=tls&sni=shorts.blog-forme.ru#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Av2freehub-sub
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?insecure=0&sni=shorts.blog-forme.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?insecure=1&alpn=h3&sni=shorts.blog-forme.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@212.34.137.105:443?insecure=1&security=tls&sni=shorts.blog-forme.ru#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?insecure=1&sni=promo.betust.net&path=%2F#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?security=tls&sni=promo.betust.net#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?sni=promo.betust.net&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://d4ca9415f0eac7897472e1e5b86d2e96@50.7.38.243:443?sni=promo.betust.net&path=%2F&allow_insecure=1#%5B%F0%9F%87%B8%F0%9F%87%AA%20SE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@uk-tube-01.stre4m.net:13337?insecure=1&sni=mother-earth.fyi&security=tls#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
-hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24433?sni=lakes.blog-forme.ru#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
-hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24433?sni=lakes.blog-forme.ru&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 hysteria2://6ac6d17d-040c-4fab-940e-8f5d72c3fed6@135.126.21.107:443?headerType=none&encryption=none&sni=de2-balance.rezproffx.ru#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
-hysteria2://87bb2ac4-b7a1-0001-b11d-2107709ea6cb@136.148.83.69:443?insecure=1&sni=szqbx-ru-77dc.my-fade.cloud#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Atg-outlinereleasedkey
-hysteria2://b42d90fa667942aebc734d60@159.13.55.48:20000?mport=20000%2C20000-30000&obfs=salamander&obfs-password=b42d90fa667942aebc734d60&sni=hy2-au2.whuiy.xyz#%5B%F0%9F%87%A6%F0%9F%87%BA%20AU%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+hysteria2://6ac6d17d-040c-4fab-940e-8f5d72c3fed6@135.126.21.107:443?sni=de2-balance.rezproffx.ru&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B8%20US%5D%20Hysteria2%20%7C%20src%3Asub-f4dfaba9eb
 hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.213:13337?sni=mother-earth.fyi#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
-hysteria2://CyG0RFxMjzs41uQD4OLuHQ%3D%3D@150.230.229.100:20000?sni=hy2-br2.whuiy.xyz&obfs=salamander&obfs-password=CyG0RFxMjzs41uQD4OLuHQ%3D%3D&mport=20000-30000#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
-hysteria2://6ac6d17d-040c-4fab-940e-8f5d72c3fed6@135.126.21.106:443?headerType=none&encryption=none&sni=de1-balance.rezproffx.ru#%5B%F0%9F%87%A9%F0%9F%87%AA%20DE%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@uk-tube-01.stre4m.net:13337?insecure=1&sni=mother-earth.fyi&security=tls#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
 hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.57:13337?insecure=1&sni=mother-earth.fyi#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
 hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.57:13337?insecure=1&sni=mother-earth.fyi&path=%2F#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3A0xradikal-all
 hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.57:13337?sni=mother-earth.fyi#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
-hysteria2://162be7b9-eb38-4f74-b836-96afc49ae452@194.93.61.148:443?sni=nether.cxhub.su#%5B%F0%9F%87%B3%F0%9F%87%B1%20NL%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+hysteria2://CyG0RFxMjzs41uQD4OLuHQ%3D%3D@150.230.229.100:20000?sni=hy2-br2.whuiy.xyz&obfs=salamander&obfs-password=CyG0RFxMjzs41uQD4OLuHQ%3D%3D&mport=20000-30000#%5B%F0%9F%87%A7%F0%9F%87%B7%20BR%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
+hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24433?sni=lakes.blog-forme.ru#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
+hysteria2://549766c3-fa5f-471e-8031-ffc1f8d5064f@94.183.164.119:24433?sni=lakes.blog-forme.ru&fp=firefox#%5B%F0%9F%87%AE%F0%9F%87%B7%20IR%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+hysteria2://87bb2ac4-b7a1-0001-b11d-2107709ea6cb@136.148.83.69:443?insecure=1&sni=szqbx-ru-77dc.my-fade.cloud#%5B%F0%9F%8C%90%20XX%5D%20Hysteria2%20%7C%20src%3Atg-outlinereleasedkey
+hysteria2://b42d90fa667942aebc734d60@159.13.55.48:20000?mport=20000%2C20000-30000&obfs=salamander&obfs-password=b42d90fa667942aebc734d60&sni=hy2-au2.whuiy.xyz#%5B%F0%9F%87%A6%F0%9F%87%BA%20AU%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2

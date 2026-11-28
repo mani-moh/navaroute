@@ -1,15 +1,12 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0FlLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
-hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.163:13337?sni=mother-earth.fyi&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Aheliataromi-confighub-mixed
 hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@uk-tube-01.stre4m.net:13337?insecure=1&sni=mother-earth.fyi&security=tls#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Abarabama-merged
-vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?security=none&type=ws&path=%2Fvless&host=95.174.68.188&packetEncoding=xudp#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Abarabama-merged
-vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?sni=95.174.68.188&type=ws&host=95.174.68.188&path=%2Fvless#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Aautomergepublicnodes-list
+hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.57:13337?sni=mother-earth.fyi#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?encryption=none&security=&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
-vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?encryption=none&security=none&type=ws&path=%2F&host=uae.unixzone.us&sni=uae.unixzone.us#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
-vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?type=ws&path=%2F&host=uae.unixzone.us#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-1ab4d0e74a
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=chrome&host=uae.unixzone.us&path=%2F&security=false&type=ws#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?security=false&fp=chrome&type=ws&headerType=none&host=uae.unixzone.us&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
 vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?sni=uae.unixzone.us&type=ws&host=uae.unixzone.us&path=%2F#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Asub-757c8dc370
-hysteria2://900c8c92-1979-4c7c-8f2f-63e87d53d8fe@128.254.186.57:13337?sni=mother-earth.fyi#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20Hysteria2%20%7C%20src%3Alalatinahub-mineral
+vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?security=none&type=ws&path=%2Fvless&host=95.174.68.188&packetEncoding=xudp#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Abarabama-merged
+vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?sni=95.174.68.188&type=ws&host=95.174.68.188&path=%2Fvless#%5B%F0%9F%87%A6%F0%9F%87%AA%20AE%5D%20VLESS-ws%20%7C%20src%3Aautomergepublicnodes-list

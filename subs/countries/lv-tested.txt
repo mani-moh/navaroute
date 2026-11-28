@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x2LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
-vless://bfce4086-02f9-4006-b579-472210753a63@83.166.254.97:11443?flow=xtls-rprx-vision&security=reality&sni=83.166.254.97&pbk=gaSpyUW0U3qs3kXSR8i_cpOKfl_vM6CdsEsUfSCJ9y4&sid=1280c0a31e883774&fp=safari#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
-vless://8bc3af32-c6bb-4a57-8da1-9a662fd79e3c@api.ferrin.uk:443?encryption=none&security=tls&sni=8bc3af32.ferrin.uk&alpn=h2&fp=firefox&type=xhttp&host=&path=%2Flv&mode=stream-one#%5B%F0%9F%87%B1%F0%9F%87%BB%20LV%5D%20VLESS-xhttp%20%7C%20src%3Asub-42245810b7

@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0F1LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
 hysteria2://b42d90fa667942aebc734d60@159.13.55.48:20000?mport=20000%2C20000-30000&obfs=salamander&obfs-password=b42d90fa667942aebc734d60&sni=hy2-au2.whuiy.xyz#%5B%F0%9F%87%A6%F0%9F%87%BA%20AU%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2

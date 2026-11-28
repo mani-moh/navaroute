@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1R3LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T23:48:28.710246+00:00
+# snapshot-time: 2026-11-28T05:08:38.984296+00:00
 
 vless://4689205f-d6a9-6526-a300-5f7900000000@188.114.98.0:443?type=ws&sni=panel45.ayhandevlopper245.kdns.fr&host=panel45.ayhandevlopper245.kdns.fr&security=tls&fp=unsafe&cs=TLS_AES_128_GCM_SHA256%3ATLS_AES_256_GCM_SHA384%3ATLS_CHACHA20_POLY1305_SHA256%3AECDHE-ECDSA-AES128-GCM-SHA256%3AECDHE-RSA-AES128-GCM-SHA256&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%22tlshello%22%2C%22length%22%3A%2210-20%22%2C%22delay%22%3A%2210-20%22%7D%7D%2C%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22packets%22%3A%221-1%22%2C%22length%22%3A%221-3%22%2C%22delay%22%3A%225%22%7D%7D%5D%7D#%5B%F0%9F%87%B9%F0%9F%87%BC%20TW%5D%20VLESS-ws%20%7C%20src%3Asub-42245810b7
