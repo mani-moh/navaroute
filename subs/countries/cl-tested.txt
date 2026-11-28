@@ -1,5 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0NsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform118.golnamakcert.top:80?type=ws&host=platform118.halalkhor.info&path=%2Fplatform118#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Asub-3d14def1fc
+vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@platform107.golnamakcert.top:80?sni=platform107.halalkhor.info&type=ws&headerType=none&host=platform107.halalkhor.info&path=%2Fplatform107#%5B%F0%9F%87%A8%F0%9F%87%B1%20CL%5D%20VLESS-ws%20%7C%20src%3Asub-3d14def1fc

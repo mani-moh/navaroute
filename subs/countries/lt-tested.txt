@@ -1,7 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0x0LVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://c0742f77-5495-43bf-b007-88d368774d7c@88.119.176.64:443?encryption=none&flow=xtls-rprx-vision&fp=firefox&pbk=I_-Mb_q3_4-ZdzrzB6SKh-Zla1kKI4M_0OMjWDYXVxg&security=reality&sid=13d8fbd7fd9e1ce8&sni=wwrtq.lerogrenta.shop&type=tcp#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
-vless://c0742f77-5495-43bf-b007-88d368774d7c@88.119.176.64:443?flow=xtls-rprx-vision&fp=firefox&pbk=I_-Mb_q3_4-ZdzrzB6SKh-Zla1kKI4M_0OMjWDYXVxg&security=reality&sid=13d8fbd7fd9e1ce8&sni=wwrtq.lerogrenta.shop&type=raw#%5Bsource-claimed%5D%20%5Bsocket%3Apassed%5D%20%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20VLESS-Reality%20%7C%20src%3Aluxxuria-speed-tested%20%7C%20134ms
-hysteria2://c0742f77-5495-43bf-b007-88d368774d7c@88.119.176.49:443?sni=litual3.harcho.shop#%5B%F0%9F%87%B1%F0%9F%87%B9%20LT%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2

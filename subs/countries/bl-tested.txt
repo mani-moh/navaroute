@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JsLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://963A4918-A630-29DA-A873-093CDF8AD784@still-bar-5702.vpnetwork3567.workers.dev:443?type=ws&security=tls&fp=chrome&host=still-bar-5702.vpnetwork3567.workers.dev#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-ws%20%7C%20src%3Aigareck-vless-full
-vless://f8d52ece-fad4-478d-875d-df6eed3befa7@r9.pythonmakemigreat.wiki:8443?type=xhttp&security=reality&sni=stream.study.golangwikito.cfd&fp=firefox&pbk=QrNs0ew7snHqLfpVXS9RAhlRzgAzzGZK9fXmDcx9xHI&spx=%2F&path=%2F&mode=packet-up&extra=%7B%22xmux%22%3A%7B%22maxConnections%22%3A3%7D%2C%22xPaddingBytes%22%3A%22100-500%22%2C%22scMaxBufferedPosts%22%3A10%2C%22scMaxEachPostBytes%22%3A%22500000-1000000%22%2C%22scMinPostsIntervalMs%22%3A%2220-40%22%7D#%5B%F0%9F%87%A7%F0%9F%87%B1%20BL%5D%20VLESS-Reality%20%7C%20src%3Aigareck-vless-full

@@ -1,6 +1,4 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL01rLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://e5544327-834c-455a-9db5-2454c788fa17@217.60.55.103:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=m904i3ti1GCWnFAkmb67LqEktV0dOZtkkmaG3I14djU&sid=c2b6208fdd8c783d&sni=mk1.static-s3.org#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20VLESS-Reality%20%7C%20src%3Amorpheus-iran
-vless://7803bad0-403e-4ccc-bd7c-47db51eb674e@31.59.83.169:3733?encryption=none&flow=xtls-rprx-vision&type=tcp&headerType=none&security=reality&sni=mk33.static-s3.org&fp=firefox&pbk=veP90lsgoCpsTh5CaTDd1JiddLomQRXH2zLAvxbCQCE&sid=f278e27b06a2fd1c&spx=%2F&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22delays%22%3A%5B%220%22%2C%220%22%5D%2C%22length%22%3A%22256%22%2C%22packets%22%3A%22tlshello%22%2C%22maxSplit%22%3A%222%22%7D%7D%5D%7D#%5B%F0%9F%87%B2%F0%9F%87%B0%20MK%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53

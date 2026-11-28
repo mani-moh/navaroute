@@ -1,7 +1,5 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL0JnLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://6589c320-db68-43cd-a273-b46299bab355@195.123.226.21:443?security=reality&pbk=rabtI-ymNXBUvYYRwAw8DiR-1pdP7U0WPIaCBHEkgzo&sid=77bb0d07bddbc832&fp=chrome&sni=gateway.icloud.com&flow=xtls-rprx-vision#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
-vless://7803bad0-403e-4ccc-bd7c-47db51eb674e@217.60.52.163:3733?encryption=none&flow=xtls-rprx-vision&type=tcp&headerType=none&security=reality&sni=bg33.static-s3.org&fp=firefox&pbk=FPzIkpvZ_WzoO2Do-Imx6vS6G4wgTQ5Jq8VMIPd0HTs&sid=c7ee498cd7679cf9&spx=%2F&fm=%7B%22tcp%22%3A%5B%7B%22type%22%3A%22fragment%22%2C%22settings%22%3A%7B%22delays%22%3A%5B%220%22%2C%220%22%5D%2C%22length%22%3A%22256%22%2C%22packets%22%3A%22tlshello%22%2C%22maxSplit%22%3A%222%22%7D%7D%5D%7D#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-Reality%20%7C%20src%3Asub-660b258b53
-vless://37af0181-5598-4aad-a040-d926bcb65757@46.243.234.248:8443?encryption=none&extra=null&fp=firefox&path=%2Fapi%2Fv1%2Fupload&security=tls&sni=plaindune.com&type=xhttp#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-xhttp%20%7C%20src%3Asub-1ab4d0e74a
+vless://549766c3-fa5f-471e-8031-ffc1f8d5064f@87.120.92.186:2087?encryption=none&type=xhttp&mode=auto&path=%2Fv2%2Fsync%2F6e9367&extra=%7B%22xm%E2%80%A6%3C%2Fdiv%3E#%5B%F0%9F%87%A7%F0%9F%87%AC%20BG%5D%20VLESS-xhttp%20%7C%20src%3Aitsyebekhe-psg-mix

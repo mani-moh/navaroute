@@ -1,8 +1,7 @@
 #profile-title: base64:TmF2YVJvdXRlIFRpZXIgMSDigJQgQ291bnRyaWVzL1NjLVRlc3RlZCAoUGF0dG4gUmVhbHBpbmcp
 #profile-update-interval: 2
-# snapshot-time: 2026-11-27T15:43:06.482444+00:00
+# snapshot-time: 2026-11-27T23:48:28.710246+00:00
 
-vless://30572b57-f5ab-4eb8-82d4-a24d399b99f6@46.29.255.123:59539?encryption=none&flow=xtls-rprx-vision&fp=&pbk=R6mPqCsjZMWauci4LHw7Qp1LGKmBd-sxMXplyOn9bSQ&security=reality&sni=cloudflare-dns.com&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
-vless://30572b57-f5ab-4eb8-82d4-a24d399b99f6@46.29.255.123:59539?security=reality&amp%3Bencryption=none&amp%3Bpbk=R6mPqCsjZMWauci4LHw7Qp1LGKmBd-sxMXplyOn9bSQ&amp%3BheaderType=none&amp%3Btype=tcp&amp%3Bflow=xtls-rprx-vision&amp%3Bsni=cloudflare-dns.com#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Aheliataromi-confighub-mixed
+vless://30572b57-f5ab-4eb8-82d4-a24d399b99f6@46.29.255.123:59539?encryption=none&flow=xtls-rprx-vision&fp=&pbk=R6mPqCsjZMWauci4LHw7Qp1LGKmBd-sxMXplyOn9bSQ&security=reality&sni=cloudflare-dns.com&type=tcp#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Afarid-karimi-vless-iran
 vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.196.149.81:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=7aa271t.es1.h1clayd.click&fp=firefox&pbk=ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE&sid=42426c882c5fcd41&type=tcp&headerType=none&host=7aa271t.es1.h1clayd.click&path=%2F#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Abarabama-merged
 vless://4201786b-d99b-4147-a5f0-20d47acddb81@196.196.149.81:443?security=reality&type=tcp&packetEncoding=xudp&sni=7aa271t.es1.h1clayd.click&fp=chrome&flow=xtls-rprx-vision&sid=42426c882c5fcd41&pbk=ZSmetD4e9QG5CiXhniHg5HJB68L4kwbgAkJmMHtVwEE&encryption=none#%5B%F0%9F%87%B8%F0%9F%87%A8%20SC%5D%20VLESS-Reality%20%7C%20src%3Ashabane-merged
