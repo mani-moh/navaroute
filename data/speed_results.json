@@ -1,11 +1,11 @@
 {
   "candidate_pool": 400,
-  "generated": "2026-11-27T14:14:53.721414+00:00",
+  "generated": "2026-11-28T00:12:31.047719+00:00",
   "measurement_location": "github-runner",
-  "median_speed_mbps": 32.23,
-  "passed": 37,
+  "median_speed_mbps": 31.55,
+  "passed": 47,
   "tested": 200,
-  "top_feed_count": 37,
-  "top_speed_mbps": 206.92,
+  "top_feed_count": 47,
+  "top_speed_mbps": 142.3,
   "version": 1
 }
