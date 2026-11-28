@@ -1,6 +1,6 @@
 #profile-title: base64:TmF2YVJvdXRlIFVNIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-26T20:03:39.647006+00:00
+# snapshot-time: 2026-11-28T06:47:23.866411+00:00
 
 tuic://731a0ca6-ed14-4775-a6ac-acbcb324d572:Mashroote_Liberal2024@tuic7us2.cpionline.us:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20TUIC%20%7C%20src%3Acoldwater-all
 hysteria2://af7911e7-fb22-41b0-8006-a5f2be3495f1@193.233.206.176:2052?insecure=1&sni=us3.eyujichang.xyz&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
@@ -25,6 +25,7 @@ vless://e4824193-4f54-453b-d037-88368e85ef0e@pqh28v5.vetrkot.com:8880?mode=gun&s
 vless://401374e6-df77-41fb-f638-dad8184f175b@all.tellmethetrue.shop:443?mode=gun&security=tls&alpn=h2&encryption=none&type=grpc&sni=pqh24v6.hiddendom.shop#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub
 vless://3f9c8463-8610-3ed8-86c8-a26713067825@dabaius2.sylu.net:443?path=%2Fdb10240eb751d6ab&security=tls&alpn=h3%2Ch2&encryption=none&host=dabaius2.sylu.net&fp=chrome&type=ws&sni=dabaius2.sylu.net#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-ws%20%7C%20src%3Aelf2017spring-configshub
 vless://d6637de9-6df6-4e14-b6c2-9f32df6d5c79@fly.dlc-bazigame.ir:80?type=xhttp&encryption=none&flow=&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-xhttp%20%7C%20src%3Alalatinahub-mineral
+vless://ea759639-a58c-4c46-8e0b-4cc834bf6658@us-tube-01.funky-monkey.app:443?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=steam-videos.cc&fp=firefox&security=reality&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&sid=&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-Reality%20%7C%20src%3Asub-1ab4d0e74a
 hysteria2://f6e4b19a3110d19d@66.135.28.59:443?insecure=1&sni=ELiV2RAY.eliv2.top%0A&obfs=salamander&obfs-password=8c3ce17b&path=%2F#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20Hysteria2%20%7C%20src%3Acoldwater-all
 trojan://CZC2eFReAwaON4nzF3zY7XC9nB3IqIaT3Eaa8S7D3B5Y3XuSEp8Z0ygl08S3SSxy6wDRC@blender.appagent.net:28332?security=tls&headerType=none&fp=chrome&type=tcp&sni=blender.appagent.net#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20Trojan-tcp%20%7C%20src%3Aelf2017spring-configshub
 vless://401374e6-df77-41fb-f638-dad8184f175b@104.26.3.186:443?mode=gun&security=tls&encryption=none&type=grpc&sni=vp39.hiddendom.shop#%5B%F0%9F%87%BA%F0%9F%87%B2%20UM%5D%20VLESS-grpc%20%7C%20src%3Aelf2017spring-configshub

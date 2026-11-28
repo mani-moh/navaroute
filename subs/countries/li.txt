@@ -1,11 +1,9 @@
 #profile-title: base64:TmF2YVJvdXRlIExJIFVwc3RyZWFtIENvdW50cnkgQ2xhaW1z
 #profile-update-interval: 6
-# snapshot-time: 2026-11-27T20:50:10.531031+00:00
+# snapshot-time: 2026-11-28T06:47:23.866411+00:00
 
 vless://1lpxy6haqm@45.15.167.13:443?type=tcp&encryption=none&flow=xtls-rprx-vision&security=tls&sni=1lpxy6haqm-451516713-direct.zamam.co&alpn=h2%2Chttp%2F1.1&fp=chrome&path=%2F#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3Alalatinahub-mineral
-hysteria2://AIbXqmbagi8c_pPQF8UkyQRgAlGbk5aT@nemazu.grandserver8.ir:8445?insecure=1&alpn=h3&sni=donige.grandserver8.ir&obfs=salamander&obfs-password=5wnhum8v8a5f8m9z#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
-hysteria2://AIbXqmbagi8c_pPQF8UkyQRgAlGbk5aT@nemazu.grandserver8.ir:8445?sni=donige.grandserver8.ir&insecure=1#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20Hysteria2%20%7C%20src%3Alorenzazy7kenyon-v2ray-base64
-hysteria2://AIbXqmbagi8c_pPQF8UkyQRgAlGbk5aT@nemazu.grandserver8.ir:8445?insecure=1&obfs=salamander&obfs-password=salamander&sni=donige.grandserver8.ir#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20Hysteria2%20%7C%20src%3Aautomergepublicnodes-list
+hysteria2://AIbXqmbagi8c_pPQF8UkyQRgAlGbk5aT@nemazu.grandserver8.ir:8445?sni=donige.grandserver8.ir&insecure=0&obfs=salamander#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20Hysteria2%20%7C%20src%3Amorpheus-hysteria2
 vless://1lpxy6haqm@45.15.167.13:443?note=---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---Telegram---%40NetifyVPN---&type=tcp&encryption=none&flow=xtls-rprx-vision&security=tls&sni=1lpxy6haqm-451516713-direct.zamam.co&alpn=h2%2Chttp%2F1.1&fp=chrome#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3Aelf2017spring-configshub
 vless://1lpxy6haqm@1lpxy6haqm-451516713-direct.zamam.co:443?security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&headerType=none&fp=randomized&type=tcp&flow=xtls-rprx-vision&sni=1lpxy6haqm-451516713-direct.zamam.co#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
 vless://1lpxy6haqm@45.15.167.13:443?security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=1lpxy6haqm-451516713-direct.zamam.co#%5B%F0%9F%87%B1%F0%9F%87%AE%20LI%5D%20VLESS-tcp%20%7C%20src%3A0xradikal-all
